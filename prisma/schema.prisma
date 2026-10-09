@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admission {
+  id                    String   @id @default(cuid())
+  sNo                   Int?
+  name                  String
+  email                 String
+  mobile                String
+  courseName            String
+  courseSlug            String?
+  admissionDate         DateTime @default(now())
+  status                String   @default("Enrolled") // Enrolled, Pending, Verified, Completed, Dropped
+  academicCounselor     String?
+  dob                   String?
+  age                   Int?
+  gender                String?
+  maritalStatus         String?
+  nationality           String?  @default("Indian")
+  aadharNumber          String?
+  panNumber             String?
+  category              String?  @default("General")
+  fatherName            String?
+  fatherMobile          String?
+  permanentAddress      String?
+  correspondenceAddress String?
+  city                  String?
+  state                 String?
+  pincode               String?
+  courseExpectations    String?  // JSON string
+  educationHistory      String?  // JSON string
+  feeAmount             Float?   @default(0)
+  paymentStatus         String?  @default("Paid") // Paid, Partial, Pending
+  batchName             String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Course {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  coverImage     String?
+  duration       String?
+  enrolmentSeats String?
+  description    String?
+  badgeText      String?
+  badgeBg        String?
+  rating         Float?    @default(5.0)
+  price          Float?    @default(0)
+  category       String?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Counselor {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String?
+  email          String?
+  mobile         String?
+  designation    String?
+  experience     String?
+  languages      String?
+  fees           String?
+  location       String?
+  status         String    @default("Verified")
+  rating         Float?    @default(5.0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
