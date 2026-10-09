@@ -129,7 +129,7 @@ export default function AlumniDetailModal({
               </div>
             </div>
             <a
-              href={`${process.env.NEXT_PUBLIC_WEBSITE_URL || "http://localhost:3000"}/learners-network?search=${encodeURIComponent(alumni.name)}`}
+              href={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/learners-network?search=${encodeURIComponent(alumni.name)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-emerald-300 text-[#09A64A] hover:bg-emerald-100/50 text-xs font-bold transition-all shadow-2xs"

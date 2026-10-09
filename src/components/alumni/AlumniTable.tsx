@@ -10,8 +10,10 @@ export interface AlumniItem {
   name: string;
   email: string;
   mobile: string;
+  image?: string | null;
   programName: string;
   certificateNumber?: string;
+  certificateUrl?: string | null;
   profession?: string;
   skills?: string;
   isOnline: boolean;

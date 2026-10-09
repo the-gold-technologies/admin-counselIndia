@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const corsHeaders: Record<string, string> = {
+  "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_WEBSITE_URL ?? "",
+  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
+}
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -35,7 +44,7 @@ export async function GET(request: Request) {
       success: true,
       count: alumni.length,
       data: alumni,
-    });
+    }, { headers: corsHeaders });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
