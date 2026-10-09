@@ -50,7 +50,7 @@ export function AdminRightSidebar({
       {/* Dark Promo Banner Card matching signature CMS layout */}
       <div className="bg-[#0a192f] rounded-[2rem] p-7 text-white relative overflow-hidden shadow-xl">
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#07a64b]/20 rounded-full blur-xl translate-y-1/2 -translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#09A64A]/20 rounded-full blur-xl translate-y-1/2 -translate-x-1/2"></div>
 
         <div className="flex items-center gap-2 font-bold tracking-tight text-white/90 mb-5">
           <div className="w-6 h-6 rounded-full bg-white text-[#0a192f] flex items-center justify-center font-extrabold text-xs">
@@ -70,7 +70,7 @@ export function AdminRightSidebar({
         {onOpenAddModal && (
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#07a64b] hover:bg-[#069543] text-white text-xs font-bold shadow-md shadow-[#07a64b]/30 transition-all cursor-pointer group"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#09A64A] hover:bg-[#069543] text-white text-xs font-bold shadow-md shadow-[#09A64A]/30 transition-all cursor-pointer group"
           >
             <span>+ New Admission</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

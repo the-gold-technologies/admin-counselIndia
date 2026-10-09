@@ -70,7 +70,7 @@ export default function LearnerDetailPage() {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-3 border-[#07a64b] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-3 border-[#09A64A] border-t-transparent rounded-full animate-spin" />
           <p className="text-sm text-gray-500 font-medium">Loading learner details...</p>
         </div>
       </div>
@@ -142,7 +142,7 @@ export default function LearnerDetailPage() {
           <button
             onClick={handleDownload}
             disabled={downloading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#07a64b] hover:bg-[#068f40] disabled:opacity-60 text-white rounded-xl text-sm font-bold shadow-xs transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#09A64A] hover:bg-[#089341] disabled:opacity-60 text-white rounded-xl text-sm font-bold shadow-xs transition-all cursor-pointer"
           >
             <Download className="w-4 h-4" />
             <span>{downloading ? "Generating PDF..." : "Download as PDF"}</span>
@@ -164,7 +164,7 @@ export default function LearnerDetailPage() {
               <h2 className="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight">
                 Full Name: {learner.name}
               </h2>
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-[#07a64b] border border-emerald-200">
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-[#09A64A] border border-emerald-200">
                 {learner.status || "Enrolled"}
               </span>
             </div>
@@ -187,11 +187,11 @@ export default function LearnerDetailPage() {
             {/* Contact Information */}
             <div className="flex flex-wrap items-center gap-6 pt-1 text-sm text-gray-600">
               <span className="flex items-center gap-2 font-medium">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#07a64b]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#09A64A]" />
                 Mobile: <strong className="text-gray-900 font-semibold">{learner.mobile}</strong>
               </span>
               <span className="flex items-center gap-2 font-medium">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#07a64b]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#09A64A]" />
                 Email: <strong className="text-gray-900 font-semibold">{learner.email}</strong>
               </span>
             </div>
@@ -205,7 +205,7 @@ export default function LearnerDetailPage() {
               onClick={() => setActiveTab("personal")}
               className={`pb-3 text-[14px] font-bold transition-all cursor-pointer shrink-0 border-b-2 relative ${
                 activeTab === "personal"
-                  ? "text-[#07a64b] border-[#07a64b]"
+                  ? "text-[#09A64A] border-[#09A64A]"
                   : "text-gray-500 hover:text-gray-900 border-transparent"
               }`}
             >
@@ -216,7 +216,7 @@ export default function LearnerDetailPage() {
               onClick={() => setActiveTab("address")}
               className={`pb-3 text-[14px] font-bold transition-all cursor-pointer shrink-0 border-b-2 relative ${
                 activeTab === "address"
-                  ? "text-[#07a64b] border-[#07a64b]"
+                  ? "text-[#09A64A] border-[#09A64A]"
                   : "text-gray-500 hover:text-gray-900 border-transparent"
               }`}
             >
@@ -227,7 +227,7 @@ export default function LearnerDetailPage() {
               onClick={() => setActiveTab("expectations")}
               className={`pb-3 text-[14px] font-bold transition-all cursor-pointer shrink-0 border-b-2 relative ${
                 activeTab === "expectations"
-                  ? "text-[#07a64b] border-[#07a64b]"
+                  ? "text-[#09A64A] border-[#09A64A]"
                   : "text-gray-500 hover:text-gray-900 border-transparent"
               }`}
             >
@@ -238,7 +238,7 @@ export default function LearnerDetailPage() {
               onClick={() => setActiveTab("academic")}
               className={`pb-3 text-[14px] font-bold transition-all cursor-pointer shrink-0 border-b-2 relative ${
                 activeTab === "academic"
-                  ? "text-[#07a64b] border-[#07a64b]"
+                  ? "text-[#09A64A] border-[#09A64A]"
                   : "text-gray-500 hover:text-gray-900 border-transparent"
               }`}
             >
@@ -278,7 +278,7 @@ export default function LearnerDetailPage() {
               <span className="font-bold text-gray-500 text-[13px] uppercase tracking-wide">
                 Academic Counselor Name :
               </span>
-              <span className="font-bold text-[#07a64b] text-[14.5px]">
+              <span className="font-bold text-[#09A64A] text-[14.5px]">
                 {learner.academicCounselor || "Anand Prakash"}
               </span>
             </div>
@@ -364,7 +364,7 @@ export default function LearnerDetailPage() {
           {/* Permanent Address */}
           <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-7 sm:p-9">
             <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-[#07a64b]" />
+              <MapPin className="w-5 h-5 text-[#09A64A]" />
               Permanent Address
             </h3>
             <div className="space-y-4">
@@ -396,7 +396,7 @@ export default function LearnerDetailPage() {
           {/* Correspondence Address */}
           <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-7 sm:p-9">
             <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-2">
-              <Building className="w-5 h-5 text-[#07a64b]" />
+              <Building className="w-5 h-5 text-[#09A64A]" />
               Correspondence Address
             </h3>
             <div className="space-y-4">
@@ -431,7 +431,7 @@ export default function LearnerDetailPage() {
       {activeTab === "expectations" && (
         <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-7 sm:p-9">
           <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-2">
-            <Target className="w-5 h-5 text-[#07a64b]" />
+            <Target className="w-5 h-5 text-[#09A64A]" />
             Expectations from the Course
           </h3>
 
@@ -442,7 +442,7 @@ export default function LearnerDetailPage() {
                   key={idx}
                   className="flex items-start gap-3.5 p-4 rounded-xl bg-gray-50 border border-gray-100"
                 >
-                  <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 text-[#07a64b] flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 text-[#09A64A] flex items-center justify-center shrink-0 mt-0.5">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <span className="text-sm font-semibold text-gray-800 leading-relaxed">
@@ -463,7 +463,7 @@ export default function LearnerDetailPage() {
       {activeTab === "academic" && (
         <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-7 sm:p-9">
           <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-2">
-            <GraduationCap className="w-4 h-4 text-[#07a64b]" />
+            <GraduationCap className="w-4 h-4 text-[#09A64A]" />
             Academic Details
           </h3>
 
@@ -498,7 +498,7 @@ export default function LearnerDetailPage() {
                       <td className="py-4 px-5 text-center font-medium text-gray-600 text-sm">
                         {edu.yearOfPassing || "-"}
                       </td>
-                      <td className="py-4 px-5 text-center font-bold text-[#07a64b] text-sm">
+                      <td className="py-4 px-5 text-center font-bold text-[#09A64A] text-sm">
                         {edu.scoreOrPercentage || "-"}
                       </td>
                     </tr>

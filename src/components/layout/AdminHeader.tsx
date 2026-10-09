@@ -28,7 +28,7 @@ export function AdminHeader({
       <header className="flex justify-between items-center w-full">
         <div>
           <h1 className="text-[28px] font-bold tracking-tight text-[#0B0F29] flex items-center gap-2">
-            Welcome back <span className="text-[#07a64b]">Superadmin</span>
+            Welcome back <span className="text-[#09A64A]">Superadmin</span>
             <span className="text-2xl animate-bounce origin-bottom-right delay-700">👋</span>
           </h1>
           <p className="text-xs font-semibold text-gray-500 mt-1">

@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   GraduationCap,
   Users,
-  UserCheck,
   TrendingUp,
   BookOpen,
   MailQuestion,
@@ -18,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface SidebarLinkItem {
+interface SidebarItem {
   title: string;
   href?: string;
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
@@ -26,7 +25,7 @@ interface SidebarLinkItem {
   sublinks?: { title: string; href: string }[];
 }
 
-const sidebarLinks: SidebarLinkItem[] = [
+const sidebarLinks: SidebarItem[] = [
   {
     title: "Dashboard",
     href: "/",
@@ -44,9 +43,9 @@ const sidebarLinks: SidebarLinkItem[] = [
   },
   {
     title: "Counsellors",
-    icon: UserCheck,
+    icon: Users,
     sublinks: [
-      { title: "Verified Counsellors", href: "/counsellors" },
+      { title: "Counsellor List", href: "/counsellors" },
       { title: "Pending Counsellors", href: "/counsellors/pending" },
       { title: "All Counsellors", href: "/counsellors/all" },
     ],
@@ -127,21 +126,21 @@ export function AdminSidebar() {
   };
 
   return (
-    <div className="flex h-full w-[280px] flex-col bg-[#0a192f] text-white overflow-hidden rounded-l-[2.5rem] border-l border-white/5 shrink-0">
+    <div className="flex h-full w-[280px] flex-col bg-[#0c1424] text-white overflow-hidden rounded-l-[2.5rem] border-l border-white/5 shrink-0 shadow-2xl">
       {/* Logo Area */}
       <div className="flex h-24 items-center px-8 border-b border-white/5">
         <Link
           href="/"
-          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-3 hover:opacity-90 transition-opacity"
         >
-          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0a192f] font-black italic shadow-sm text-lg">
+          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#09A64A] font-black italic shadow-md text-lg">
             CI
           </div>
           <div>
             <span className="font-extrabold text-base tracking-tight block text-white leading-tight">
               Counsel India
             </span>
-            <span className="text-[12px] font-bold text-[#07a64b] tracking-wider uppercase block mt-0.5">
+            <span className="text-[12px] font-bold text-[#09A64A] tracking-wider uppercase block mt-0.5">
               Admin Panel
             </span>
           </div>
@@ -167,19 +166,19 @@ export function AdminSidebar() {
                     className="flex items-center justify-between cursor-pointer group mb-1.5 px-4 py-1"
                     onClick={() => toggleGroup(item.title)}
                   >
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-2.5 group-hover:text-gray-300 transition-colors whitespace-nowrap">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2.5 group-hover:text-gray-200 transition-colors whitespace-nowrap">
                       <item.icon className="w-3.5 h-3.5 shrink-0" />
                       <span>{item.title}</span>
                     </div>
                     <ChevronDown
                       className={cn(
-                        "w-3.5 h-3.5 text-gray-500 transition-transform group-hover:text-gray-300 shrink-0",
+                        "w-3.5 h-3.5 text-gray-500 transition-transform group-hover:text-gray-200 shrink-0",
                         isOpen ? "rotate-180" : ""
                       )}
                     />
                   </div>
                   {isOpen && (
-                    <div className="space-y-1 pl-4 ml-2 border-l border-gray-800 py-1">
+                    <div className="space-y-1 pl-4 ml-2 border-l border-white/10 py-1">
                       {item.sublinks.map((sublink, subIndex) => {
                         const isSubActive = pathname === sublink.href;
                         return (
@@ -189,7 +188,7 @@ export function AdminSidebar() {
                             className={cn(
                               "block px-4 py-2.5 rounded-2xl text-[13px] font-medium transition-all duration-200 whitespace-nowrap",
                               isSubActive
-                                ? "bg-[#07a64b] text-white shadow-sm shadow-[#07a64b]/20 transform scale-[1.02]"
+                                ? "bg-[#09A64A] text-white font-bold shadow-md shadow-[#09A64A]/30 transform scale-[1.02]"
                                 : "text-gray-400 hover:bg-white/5 hover:text-white"
                             )}
                           >
@@ -210,7 +209,7 @@ export function AdminSidebar() {
                 className={cn(
                   "flex items-center justify-between px-4 py-3 rounded-2xl text-[14px] font-medium transition-all duration-200 mt-1 whitespace-nowrap",
                   isActive
-                    ? "bg-[#07a64b] text-white shadow-sm shadow-[#07a64b]/20 transform scale-[1.02]"
+                    ? "bg-[#09A64A] text-white font-bold shadow-md shadow-[#09A64A]/30 transform scale-[1.02]"
                     : "text-gray-400 hover:bg-white/5 hover:text-white"
                 )}
               >
@@ -225,7 +224,14 @@ export function AdminSidebar() {
                   <span className="whitespace-nowrap">{item.title}</span>
                 </div>
                 {item.badge && (
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#07a64b]/80 text-white text-[10px] font-bold shrink-0">
+                  <div
+                    className={cn(
+                      "flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold shrink-0",
+                      isActive
+                        ? "bg-white text-[#09A64A]"
+                        : "bg-[#09A64A] text-white"
+                    )}
+                  >
                     {item.badge}
                   </div>
                 )}
@@ -235,23 +241,12 @@ export function AdminSidebar() {
         </nav>
       </div>
 
-      {/* Live Website & Logout Area */}
-      <div className="px-5 pb-6 border-t border-gray-800 pt-5 space-y-2">
-        <a
-          href="https://counselindia.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-[13px] font-medium text-gray-400 hover:bg-white/5 hover:text-white transition-all group whitespace-nowrap"
-        >
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[#07a64b] animate-pulse" />
-            <span>Live counselindia.com</span>
-          </div>
-          <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-white shrink-0" />
-        </a>
+      {/* Live Website & User Info Area */}
+      <div className="px-5 pb-6 border-t border-white/5 pt-5 space-y-1">
+        
 
-        <div className="flex items-center gap-3 w-full px-4 py-2.5 rounded-2xl text-[13px] font-medium text-gray-400">
-          <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px] shrink-0">
+        <div className="flex items-center gap-3 w-full px-4 py-2.5 rounded-2xl text-[13px] font-medium text-gray-400 bg-white/5">
+          <div className="w-5 h-5 rounded-full bg-[#09A64A]/20 text-[#09A64A] flex items-center justify-center font-bold text-[10px] shrink-0">
             SA
           </div>
           <span className="truncate">superadmin@counselindia.com</span>

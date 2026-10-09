@@ -47,7 +47,7 @@ export default function DashboardHomePage() {
       value: "2,676",
       subtitle: "Registered on portal",
       icon: Users,
-      color: "bg-emerald-50 text-[#07a64b] border-emerald-200/60",
+      color: "bg-emerald-50 text-[#09A64A] border-emerald-200/60",
     },
     {
       title: "Today New Users",
@@ -132,7 +132,7 @@ export default function DashboardHomePage() {
                 </h3>
                 <p className="text-xs text-gray-500">Centralized control modules for Counsel India</p>
               </div>
-              <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-[#07a64b] border border-emerald-200">
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-[#09A64A] border border-emerald-200">
                 Active Portal
               </span>
             </div>
@@ -147,7 +147,7 @@ export default function DashboardHomePage() {
                     className="p-4 rounded-2xl bg-gray-50/70 hover:bg-emerald-50/60 border border-gray-100 hover:border-emerald-200 transition-all group flex items-center justify-between"
                   >
                     <div className="flex items-center gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-white group-hover:bg-[#07a64b] group-hover:text-white text-gray-600 shadow-2xs transition-colors">
+                      <div className="p-2.5 rounded-xl bg-white group-hover:bg-[#09A64A] group-hover:text-white text-gray-600 shadow-2xs transition-colors">
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
@@ -157,7 +157,7 @@ export default function DashboardHomePage() {
                         <p className="text-[11px] text-gray-500">{m.desc}</p>
                       </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#07a64b] group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#09A64A] group-hover:translate-x-1 transition-all" />
                   </Link>
                 );
               })}
@@ -175,7 +175,7 @@ export default function DashboardHomePage() {
               </div>
               <Link
                 href="/admissions"
-                className="text-xs font-bold text-[#07a64b] hover:text-[#05823a] flex items-center gap-1 group"
+                className="text-xs font-bold text-[#09A64A] hover:text-[#05823a] flex items-center gap-1 group"
               >
                 <span>View All Admissions</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -216,7 +216,7 @@ export default function DashboardHomePage() {
                       <td className="py-3 px-3 text-right">
                         <Link
                           href="/admissions"
-                          className="p-1.5 inline-flex rounded-lg bg-emerald-50 hover:bg-emerald-100 text-[#07a64b] transition-colors"
+                          className="p-1.5 inline-flex rounded-lg bg-emerald-50 hover:bg-emerald-100 text-[#09A64A] transition-colors"
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </Link>

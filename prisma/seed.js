@@ -1,3 +1,4 @@
+const { seedAlumni } = require('./seed-alumni');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -217,6 +218,7 @@ async function seed() {
     await prisma.admission.create({ data: a });
   }
 
+  await seedAlumni();
   console.log('Successfully seeded database counselindia_cms in PostgreSQL!');
   await prisma[""]();
 }

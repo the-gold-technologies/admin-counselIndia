@@ -76,3 +76,22 @@ model Counselor {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
+
+model Alumni {
+  id                String   @id @default(cuid())
+  sNo               Int?
+  name              String
+  email             String
+  mobile            String
+  image             String?
+  programName       String
+  certificateNumber String?
+  certificateUrl    String?
+  profession        String?
+  skills            String?
+  isOnline          Boolean  @default(true)
+  status            String   @default("Active") // Active, Inactive
+  isApproved        Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
