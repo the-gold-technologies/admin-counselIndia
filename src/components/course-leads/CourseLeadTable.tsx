@@ -98,7 +98,7 @@ export default function CourseLeadTable({
               <th className="py-4.5 px-4">Course &amp; Managers</th>
               <th className="py-4.5 px-3 text-center w-28">Status</th>
               <th className="py-4.5 px-3 text-center w-32">Added On</th>
-              <th className="py-4.5 px-4 text-center w-48">Action</th>
+              <th className="py-4.5 px-3 text-center w-36">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 text-gray-700 font-medium">
@@ -222,34 +222,35 @@ export default function CourseLeadTable({
                       </div>
                     </td>
 
-                    {/* Action Buttons: Separate pages for Edit & Create Booking matching live website */}
-                    <td className="py-4 px-4 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        {/* Edit Lead Button -> Dedicated Separate Page */}
-                        <Link
-                          href={`/course-leads/${lead.id}/edit`}
-                          title="Edit Lead"
-                          className="w-8 h-8 rounded-xl bg-amber-500 hover:bg-amber-600 text-white transition-all cursor-pointer inline-flex items-center justify-center shadow-xs"
-                        >
-                          <Edit2 className="w-3.5 h-3.5" />
-                        </Link>
+                    {/* Action Buttons in 2 lines: Line 1 Edit & Delete, Line 2 Create A Booking */}
+                    <td className="py-3.5 px-3 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1.5">
+                        {/* Line 1: Edit & Delete buttons */}
+                        <div className="flex items-center justify-center gap-2">
+                          <Link
+                            href={`/course-leads/${lead.id}/edit`}
+                            title="Edit Lead"
+                            className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-600 text-white transition-all cursor-pointer inline-flex items-center justify-center shadow-xs"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </Link>
 
-                        {/* Delete Lead Button */}
-                        <button
-                          onClick={() => onDelete(lead.id)}
-                          title="Delete Lead"
-                          className="w-8 h-8 rounded-xl bg-rose-500 hover:bg-rose-600 text-white transition-all cursor-pointer inline-flex items-center justify-center shadow-xs"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                          <button
+                            onClick={() => onDelete(lead.id)}
+                            title="Delete Lead"
+                            className="w-7 h-7 rounded-lg bg-rose-500 hover:bg-rose-600 text-white transition-all cursor-pointer inline-flex items-center justify-center shadow-xs"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
 
-                        {/* Create A Booking Button -> Dedicated Separate Page */}
+                        {/* Line 2: Create A Booking button */}
                         <Link
                           href={`/course-leads/${lead.id}/booking`}
                           title="Create A Booking"
-                          className="px-3 py-1.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white transition-all cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold shadow-xs active:scale-95 whitespace-nowrap"
+                          className="px-2.5 py-1 rounded-lg bg-[#09A64A] hover:bg-[#089341] text-white transition-all cursor-pointer inline-flex items-center gap-1 text-[11px] font-bold shadow-xs active:scale-95 whitespace-nowrap"
                         >
-                          <CalendarPlus className="w-3.5 h-3.5" />
+                          <CalendarPlus className="w-3 h-3" />
                           <span>Create A Booking</span>
                         </Link>
                       </div>

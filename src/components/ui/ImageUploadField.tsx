@@ -96,7 +96,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
           <div className="flex items-center gap-3.5 min-w-0">
             <div className="w-14 h-14 rounded-xl bg-gray-100 border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center">
               <img
-                src={value}
+                src={value ? encodeURI(decodeURI(value)) : ""}
                 alt="Preview"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -116,7 +116,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
 
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href={value}
+              href={value ? encodeURI(decodeURI(value)) : "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-xl bg-gray-50 text-gray-600 hover:text-[#09A64A] hover:bg-emerald-50 transition-colors"

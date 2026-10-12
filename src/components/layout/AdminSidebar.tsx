@@ -54,11 +54,8 @@ const sidebarLinks: SidebarItem[] = [
   },
   {
     title: "Courses",
+    href: "/courses",
     icon: BookOpen,
-    sublinks: [
-      { title: "All Courses", href: "/courses" },
-      { title: "Short Courses", href: "/courses/short-courses" },
-    ],
   },
   {
     title: "Leads / Enquiries",

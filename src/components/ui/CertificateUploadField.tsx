@@ -110,7 +110,7 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
 
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href={value}
+              href={value ? encodeURI(decodeURI(value)) : "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-xl bg-gray-50 text-gray-600 hover:text-[#09A64A] hover:bg-emerald-50 transition-colors"

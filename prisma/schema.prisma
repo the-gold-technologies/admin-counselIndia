@@ -43,21 +43,62 @@ model Admission {
 }
 
 model Course {
-  id             String    @id @default(cuid())
-  name           String
-  slug           String    @unique
-  coverImage     String?
-  duration       String?
-  enrolmentSeats String?
-  description    String?
-  badgeText      String?
-  badgeBg        String?
-  rating         Float?    @default(5.0)
-  price          Float?    @default(0)
-  category       String?
-  isActive       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                      String    @id @default(cuid())
+  sNo                     Int?
+  liveId                  String?   @unique
+  name                    String
+  slug                    String    @unique
+  coverImage              String?
+  backgroundImage         String?
+  coverImageApp           String?
+  backgroundImageApp      String?
+  brochure                String?
+  scSchemePdf             String?
+  duration                String?
+  listDuration            String?
+  enrolmentSeats          String?
+  lessons                 String?
+  description             String?
+  subdescription          String?
+  aboutUs                 String?
+  whoCanJoin              String?
+  badgeText               String?
+  badgeBg                 String?
+  rating                  Float?    @default(5.0)
+  price                   Float?    @default(0)
+  totalProgramFee         String?
+  totalDiscountFee        String?
+  totalDiscountPercent    String?
+  oneTimeFee              String?
+  oneTimeDiscountFee      String?
+  oneTimeDiscountPercent  String?
+  startRange              String?
+  endRange                String?
+  mepscAbout              String?
+  universityAdvantage     String?
+  howWillBenefit          String?
+  ojt                     String?
+  mentorshipGuide         String?
+  dreamJob                String?
+  headings                Json?
+  cheadings               Json?
+  paymentLink             String?
+  nextBatchDate           String?
+  position                Int       @default(1)
+  category                String?
+  status                  String    @default("Active") // Active, Inactive
+  isActive                Boolean   @default(true)
+  addedOn                 String?
+  overviewCount           Int       @default(0)
+  learnCount              Int       @default(0)
+  credentialCount         Int       @default(0)
+  curriculumCount         Int       @default(0)
+  overviewData            Json?
+  learnData               Json?
+  credentialData          Json?
+  curriculumData          Json?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 }
 
 model Counselor {
