@@ -19,7 +19,7 @@ export async function GET(
     const { id } = await params;
     const course = await prisma.course.findFirst({
       where: {
-        OR: [{ id }, { liveId: id }],
+        OR: [{ id }, { liveId: id }, { slug: id }],
       },
     });
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { CloudUpload, X, Eye, Loader2 } from "lucide-react";
+import { CloudUpload, X, Eye, Loader2, RefreshCw } from "lucide-react";
 
 interface ImageUploadFieldProps {
   label?: string;
@@ -24,10 +24,6 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
 
   const handleFile = async (file: File) => {
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      setUploadError("Please upload an image file (PNG, JPG, WEBP)");
-      return;
-    }
 
     setUploadError(null);
     setIsUploading(true);
@@ -45,7 +41,6 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
       if (data.success && data.url) {
         onChange(data.url);
       } else {
-        // Fallback: local blob url if endpoint fails
         const localUrl = URL.createObjectURL(file);
         onChange(localUrl);
       }
@@ -70,6 +65,13 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  // Resolve display URL
+  const displayUrl = value
+    ? value.startsWith("http") || value.startsWith("/")
+      ? value
+      : `/uploads/${value}`
+    : "";
+
   return (
     <div className={`flex flex-col gap-2 ${containerClassName}`}>
       {label && (
@@ -86,56 +88,78 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             handleFile(e.target.files[0]);
           }
         }}
-        accept="image/png, image/jpeg, image/webp"
+        accept="image/png, image/jpeg, image/webp, image/x-icon, image/vnd.microsoft.icon, .ico, .png, .jpg"
         className="hidden"
       />
 
       {value ? (
-        /* Preview Card */
-        <div className="w-full border border-gray-200 rounded-2xl bg-white p-3.5 shadow-2xs flex items-center justify-between gap-4 group">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-14 h-14 rounded-xl bg-gray-100 border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center">
+        /* Prominent Preview Card matching live admin */
+        <div className="w-full border border-gray-200/90 rounded-2xl bg-white p-4 shadow-xs flex flex-col gap-3 group transition-all">
+          <div className="flex items-center gap-4">
+            {/* Visual Image Box with subtle background for transparency */}
+            <div className="w-20 h-20 rounded-xl bg-gray-50 border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center p-2 relative">
               <img
-                src={value ? encodeURI(decodeURI(value)) : ""}
-                alt="Preview"
-                className="w-full h-full object-cover"
+                src={displayUrl}
+                alt="Brand asset preview"
+                className="max-w-full max-h-full object-contain"
                 onError={(e) => {
-                  (e.target as HTMLElement).style.display = "none";
+                  // Fallback to live admin url if local fails
+                  const filename = value.split("/").pop();
+                  if (filename && !(e.target as HTMLImageElement).src.includes("adminassets")) {
+                    (e.target as HTMLImageElement).src = `https://admin.counselindia.com/project/public/adminassets/images/${filename}`;
+                  }
                 }}
               />
             </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-gray-900 font-bold text-xs truncate max-w-[220px]">
-                {value.startsWith("http") ? value.split("/").pop() || "Uploaded Image" : value.replace("/uploads/", "")}
+
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-gray-900 font-bold text-xs truncate">
+                {value.split("/").pop() || "Active asset"}
               </span>
-              <span className="text-[11px] text-[#09A64A] font-medium mt-0.5">
-                ✓ Image uploaded & active
+              <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#09A64A] inline-block" />
+                Active brand asset
               </span>
+              <p className="text-[10px] text-gray-400 mt-1">
+                Ready for browser and header display
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <a
-              href={value ? encodeURI(decodeURI(value)) : "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-gray-50 text-gray-600 hover:text-[#09A64A] hover:bg-emerald-50 transition-colors"
-              title="View full image"
-            >
-              <Eye className="w-4 h-4" />
-            </a>
+          {/* Action Row */}
+          <div className="flex items-center justify-between pt-2 border-t border-gray-100">
             <button
               type="button"
-              onClick={handleClear}
-              className="p-2 rounded-xl bg-gray-50 text-gray-400 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
-              title="Remove image"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-[#09A64A] hover:text-white text-gray-700 text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer"
             >
-              <X className="w-4 h-4" />
+              <RefreshCw className="w-3 h-3" />
+              <span>Replace File</span>
             </button>
+
+            <div className="flex items-center gap-1.5">
+              <a
+                href={displayUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg text-gray-500 hover:text-[#09A64A] hover:bg-emerald-50 transition-colors"
+                title="View full image"
+              >
+                <Eye className="w-4 h-4" />
+              </a>
+              <button
+                type="button"
+                onClick={handleClear}
+                className="p-1.5 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                title="Remove image"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       ) : (
-        /* Dropzone matching Kumar Power CMS style */
+        /* Empty Upload Dropzone */
         <div
           onDragOver={(e) => {
             e.preventDefault();
@@ -153,27 +177,27 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
           {isUploading ? (
             <div className="flex flex-col items-center gap-2 text-[#09A64A]">
               <Loader2 className="w-8 h-8 animate-spin" />
-              <span className="text-xs font-bold">Uploading image...</span>
+              <span className="text-xs font-bold">Uploading file...</span>
             </div>
           ) : (
             <>
               <div
-                className={`p-3 rounded-2xl shadow-2xs mb-3 transition-transform ${
+                className={`p-3 rounded-2xl shadow-2xs mb-2 transition-transform ${
                   isDragging
                     ? "bg-[#09A64A] text-white scale-110"
                     : "bg-white text-[#09A64A] group-hover:scale-105"
                 }`}
               >
-                <CloudUpload className="w-6 h-6" strokeWidth={2.2} />
+                <CloudUpload className="w-5 h-5" strokeWidth={2.2} />
               </div>
-              <p className="text-gray-700 text-xs font-semibold text-center mb-1">
+              <p className="text-gray-700 text-xs font-semibold text-center mb-0.5">
                 <span className="text-[#09A64A] font-bold hover:underline mr-1">
-                  Click to upload
+                  Choose file
                 </span>
-                or drag and drop
+                or drag & drop
               </p>
-              <p className="text-gray-400 text-[11px] font-medium text-center">
-                PNG, JPG or WEBP (Max 10MB)
+              <p className="text-gray-400 text-[10px] font-medium text-center">
+                PNG, ICO, JPG, WEBP (Max 10MB)
               </p>
             </>
           )}

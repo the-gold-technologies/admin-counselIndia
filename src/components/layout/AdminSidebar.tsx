@@ -80,6 +80,9 @@ const sidebarLinks: SidebarItem[] = [
     sublinks: [
       { title: "Admin Settings", href: "/settings/admin" },
       { title: "Config Settings", href: "/settings/config" },
+      { title: "Contact Us Settings", href: "/settings/contact" },
+      { title: "Content Settings", href: "/settings/content" },
+      { title: "Footer Settings", href: "/settings/footer" },
     ],
   },
 ];
