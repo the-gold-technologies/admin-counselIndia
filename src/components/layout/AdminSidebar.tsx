@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   GraduationCap,
@@ -16,6 +16,7 @@ import {
   BrainCircuit,
   Settings,
   ChevronDown,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -109,7 +110,35 @@ const sidebarLinks: SidebarItem[] = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; role: string } | null>(null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.authenticated && data?.user) {
+          setCurrentUser(data.user);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } catch (e) {
+      console.error(e);
+      window.location.href = "/login";
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   const [openGroups, setOpenGroups] = useState<string[]>(() => {
     return sidebarLinks
@@ -298,13 +327,30 @@ export function AdminSidebar() {
         </nav>
       </div>
 
-      {/* Live Website & User Info Area */}
-      <div className="px-5 pb-6 border-t border-white/5 pt-5 space-y-1">
-        <div className="flex items-center gap-3 w-full px-4 py-2.5 rounded-2xl text-[13px] font-medium text-gray-400 bg-white/5">
-          <div className="w-5 h-5 rounded-full bg-[#09A64A]/20 text-[#09A64A] flex items-center justify-center font-bold text-[10px] shrink-0">
-            SA
+      {/* Live Website & User Info Area with Sign Out */}
+      <div className="px-4 pb-6 border-t border-white/5 pt-4 space-y-1">
+        <div className="flex items-center justify-between w-full px-3 py-2 rounded-2xl text-[13px] font-medium text-gray-300 bg-white/5 border border-white/5">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-[#09A64A]/20 text-[#09A64A] flex items-center justify-center font-bold text-xs shrink-0 border border-[#09A64A]/30">
+              {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : "SA"}
+            </div>
+            <div className="min-w-0 flex flex-col">
+              <span className="text-white text-xs font-semibold truncate leading-tight">
+                {currentUser?.name || "Superadmin"}
+              </span>
+              <span className="text-[10px] text-gray-400 truncate leading-tight font-mono">
+                {currentUser?.email || "superadmin@counselindia.com"}
+              </span>
+            </div>
           </div>
-          <span className="truncate">superadmin@counselindia.com</span>
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            title="Sign Out"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer shrink-0 disabled:opacity-50"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>

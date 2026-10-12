@@ -118,7 +118,7 @@ export default function CourseLeadTable({
               </tr>
             ) : (
               leads.map((lead, index) => {
-                const sNoDisplay = lead.sNo ?? ((currentPage - 1) * pageSize + index + 1);
+                const sNoDisplay = (currentPage - 1) * pageSize + index + 1;
 
                 return (
                   <tr

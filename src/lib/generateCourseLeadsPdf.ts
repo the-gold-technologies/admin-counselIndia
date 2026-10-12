@@ -74,7 +74,7 @@ export function generateCourseLeadsPdf(leads: CourseLeadItem[]) {
     }
 
     doc.setTextColor(30, 30, 30);
-    doc.text(String(lead.sNo || index + 1), margin + 2, currentY + 4.8);
+    doc.text(String(index + 1), margin + 2, currentY + 4.8);
     doc.text((lead.name || "-").slice(0, 24), margin + 14, currentY + 4.8);
     doc.text((lead.email || "-").slice(0, 30), margin + 65, currentY + 4.8);
     doc.text(lead.mobile || "-", margin + 125, currentY + 4.8);

@@ -19,12 +19,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Please upload a valid .csv file' }, { status: 400 });
     }
 
-    const text = await file.text();
+    // Sanitize any raw null bytes or UTF-8 0x00 sequences
+    const rawText = await file.text();
+    const text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
     if (!text || text.trim() === '') {
       return NextResponse.json({ success: false, error: 'The uploaded file is empty' }, { status: 400 });
     }
 
-    // Parse the CSV
+    // Parse the CSV with smart legacy header auto-detection
     const parsed = parseCsvText(text);
     if (parsed.rows.length === 0) {
       return NextResponse.json({ success: false, error: 'No data rows found in the CSV file' }, { status: 400 });
@@ -54,11 +56,25 @@ export async function POST(request: Request) {
 
     for (let i = 0; i < leadsToInsert.length; i += CHUNK_SIZE) {
       const chunk = leadsToInsert.slice(i, i + CHUNK_SIZE);
-      const result = await prisma.inquiryLead.createMany({
-        data: chunk,
-        skipDuplicates: true,
-      });
-      insertedCount += result.count;
+      try {
+        const result = await prisma.inquiryLead.createMany({
+          data: chunk,
+          skipDuplicates: true,
+        });
+        insertedCount += result.count;
+      } catch (chunkErr: any) {
+        console.warn(`Chunk ${Math.floor(i / CHUNK_SIZE) + 1} insert error, falling back to resilient row-by-row import:`, chunkErr?.message);
+        for (const singleLead of chunk) {
+          try {
+            await prisma.inquiryLead.create({
+              data: singleLead,
+            });
+            insertedCount++;
+          } catch (rowErr: any) {
+            console.error('Skipping problematic lead record:', singleLead.liveId, rowErr?.message);
+          }
+        }
+      }
     }
 
     return NextResponse.json({

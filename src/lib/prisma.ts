@@ -4,8 +4,13 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Re-instantiate if new models (like siteSetting) were added
-if (globalForPrisma.prisma && (!(globalForPrisma.prisma as any).siteSetting || !(globalForPrisma.prisma as any).inquiryLead)) {
+// Re-instantiate if new models (like siteSetting, inquiryLead, user) were added
+if (
+  globalForPrisma.prisma &&
+  (!(globalForPrisma.prisma as any).siteSetting ||
+    !(globalForPrisma.prisma as any).inquiryLead ||
+    !(globalForPrisma.prisma as any).user)
+) {
   globalForPrisma.prisma = undefined;
 }
 

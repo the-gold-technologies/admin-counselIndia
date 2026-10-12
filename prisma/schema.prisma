@@ -295,3 +295,19 @@ model InquiryLead {
   @@index([category])
   @@index([createdAt])
 }
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("SUPERADMIN") // SUPERADMIN, ADMIN, COUNSELOR, STAFF
+  avatar        String?
+  phone         String?
+  status        String    @default("Active") // Active, Inactive
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+}

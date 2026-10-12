@@ -77,7 +77,7 @@ export function generateCounsellorPdf(counsellors: CounselorItem[]) {
   drawHeader(true);
 
   counsellors.forEach((item, index) => {
-    const sNumber = String(item.sNo || index + 1);
+    const sNumber = String(index + 1);
     const addedOn = item.addedOn || formatPdfDate(item.createdAt);
     const updatedOn = item.updatedOn || formatPdfDate(item.updatedAt);
     const isApprovedStr = item.isApproved ? "Yes" : "No";

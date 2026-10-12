@@ -144,7 +144,7 @@ export const CourseTable: React.FC<CourseTableProps> = ({
               </tr>
             ) : (
               courses.map((course, index) => {
-                const sNoDisplay = course.sNo ?? ((currentPage - 1) * pageSize + index + 1);
+                const sNoDisplay = (currentPage - 1) * pageSize + index + 1;
                 const isActive = (course.status || "").toLowerCase() === "active";
                 const feeDisplay = formatPrice(course.totalDiscountFee || course.totalProgramFee);
 

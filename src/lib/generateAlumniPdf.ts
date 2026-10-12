@@ -77,7 +77,7 @@ export function generateAlumniPdf(alumni: AlumniItem[]) {
   drawHeader(true);
 
   alumni.forEach((item, index) => {
-    const sNumber = String(item.sNo || index + 1);
+    const sNumber = String(index + 1);
     const addedOn = formatPdfDate(item.createdAt);
     const updatedOn = formatPdfDate(item.updatedAt);
     const isApprovedStr = item.isApproved ? "Yes" : "No";

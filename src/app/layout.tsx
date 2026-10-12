@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AdminSidebar } from "@/components/layout/AdminSidebar";
+import { AdminShell } from "@/components/layout/AdminShell";
 
 export const metadata: Metadata = {
   title: "Counsel India Admin Portal",
@@ -15,12 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#f8f9fa] text-slate-800">
-        <div className="flex h-screen overflow-hidden font-sans p-[5px]">
-          <AdminSidebar />
-          <main className="flex-1 overflow-y-auto">
-            <div className="px-10 py-8">{children}</div>
-          </main>
-        </div>
+        <AdminShell>{children}</AdminShell>
       </body>
     </html>
   );

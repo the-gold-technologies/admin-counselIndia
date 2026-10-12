@@ -9,19 +9,132 @@ export interface ParsedCsvResult {
   totalRows: number;
 }
 
+/**
+ * Remove NUL bytes (\0 / \u0000) and other invalid control characters
+ * that cause PostgreSQL UTF-8 encoding errors (e.g., 0x00).
+ */
+export function sanitizeString(val: any): any {
+  if (typeof val === 'string') {
+    return val.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '');
+  }
+  if (Array.isArray(val)) {
+    return val.map(sanitizeString);
+  }
+  if (val !== null && typeof val === 'object') {
+    const cleanObj: Record<string, any> = {};
+    for (const [k, v] of Object.entries(val)) {
+      const cleanKey = k.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '');
+      cleanObj[cleanKey] = sanitizeString(v);
+    }
+    return cleanObj;
+  }
+  return val;
+}
+
+function normalizeKey(str: string): string {
+  return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Automatically repairs known malformed or shifted header rows from Counsel India CSV exports.
+ */
+export function detectAndFixHeaders(rawHeaders: string[], sampleRows: string[][]): string[] {
+  if (!rawHeaders || rawHeaders.length === 0) return rawHeaders;
+  const norm = rawHeaders.map(normalizeKey);
+
+  // Determine the most common row length in sample rows
+  const lengthCounts: Record<number, number> = {};
+  for (const row of sampleRows.slice(0, 25)) {
+    if (row.length > 0) {
+      lengthCounts[row.length] = (lengthCounts[row.length] || 0) + 1;
+    }
+  }
+  let maxColCount = rawHeaders.length;
+  let maxFreq = 0;
+  for (const [lenStr, freq] of Object.entries(lengthCounts)) {
+    const len = Number(lenStr);
+    if (freq > maxFreq) {
+      maxFreq = freq;
+      maxColCount = len;
+    }
+  }
+
+  // Signature 1: Contact Us export (contact2026-...)
+  // Raw header has 5 cols: Name, Email, Message, Hear From, AddedAt
+  // Data has 6 cols: [Name, Email, Mobile, Message, Hear From, AddedAt]
+  if (
+    rawHeaders.length === 5 &&
+    maxColCount === 6 &&
+    norm[0] === 'name' &&
+    norm[1] === 'email' &&
+    norm[2] === 'message' &&
+    norm[3] === 'hearfrom' &&
+    (norm[4] === 'addedat' || norm[4] === 'addedon' || norm[4] === 'date')
+  ) {
+    return ['Name', 'Email', 'Mobile', 'Message', 'Hear From', rawHeaders[4] || 'AddedAt'];
+  }
+
+  // Signature 2: Book a Session / Counsellor Contact export (counsellorcontact2026-...)
+  // Raw header has 7 cols: Name, Email, country_code, state_id, city_id, Hear From, AddedAt
+  // Data has 8 cols: [Name, Email, Mobile, Hear From, country_code, state_id, city_id, AddedAt]
+  if (
+    rawHeaders.length === 7 &&
+    maxColCount === 8 &&
+    norm[0] === 'name' &&
+    norm[1] === 'email' &&
+    norm[2] === 'countrycode' &&
+    norm[3] === 'stateid' &&
+    norm[4] === 'cityid' &&
+    norm[5] === 'hearfrom'
+  ) {
+    return ['Name', 'Email', 'Mobile', 'Hear From', 'country_code', 'state_id', 'city_id', rawHeaders[6] || 'AddedAt'];
+  }
+
+  // Signature 3: General missing Mobile column after Email when data has 1 extra column
+  if (maxColCount === rawHeaders.length + 1 && norm[0] === 'name' && norm[1] === 'email') {
+    const looksLikePhone = sampleRows.slice(0, 10).some((r) => {
+      const val = (r[2] || '').trim();
+      return /^\+?\d{7,15}$/.test(val.replace(/[\s\-]/g, ''));
+    });
+    const header2IsPhone = [
+      'mobile', 'phone', 'phonenumber', 'mobilenumber', 'contact', 'contactnumber', 'mobileno', 'phoneno'
+    ].includes(norm[2]);
+
+    if (looksLikePhone && !header2IsPhone) {
+      const fixed = [...rawHeaders];
+      fixed.splice(2, 0, 'Mobile');
+      return fixed;
+    }
+  }
+
+  // Pad any extra columns with Extra_N so no data is dropped
+  if (maxColCount > rawHeaders.length) {
+    const fixed = [...rawHeaders];
+    for (let i = rawHeaders.length; i < maxColCount; i++) {
+      fixed.push(`Extra_${i + 1}`);
+    }
+    return fixed;
+  }
+
+  return rawHeaders;
+}
+
 export function parseCsvText(text: string): ParsedCsvResult {
+  // Strip null bytes and UTF-8 0x00 invalid sequences
+  const sanitizedText = sanitizeString(text) as string;
+
   const rows: string[][] = [];
   let row: string[] = [];
   let field = '';
   let inQuotes = false;
-  const len = text.length;
+  const len = sanitizedText.length;
 
   for (let i = 0; i < len; i++) {
-    const c = text[i];
+    const c = sanitizedText[i];
 
     if (inQuotes) {
       if (c === '"') {
-        if (i + 1 < len && text[i + 1] === '"') {
+        if (i + 1 < len && sanitizedText[i + 1] === '"') {
           field += '"';
           i++;
         } else {
@@ -36,7 +149,7 @@ export function parseCsvText(text: string): ParsedCsvResult {
       } else if (c === ',') {
         row.push(field.trim());
         field = '';
-      } else if (c === '\n' || (c === '\r' && i + 1 < len && text[i + 1] === '\n')) {
+      } else if (c === '\n' || (c === '\r' && i + 1 < len && sanitizedText[i + 1] === '\n')) {
         if (c === '\r') i++;
         row.push(field.trim());
         field = '';
@@ -72,12 +185,14 @@ export function parseCsvText(text: string): ParsedCsvResult {
     return clean;
   });
 
+  const fixedHeaders = detectAndFixHeaders(rawHeaders, rows.slice(1, 30));
+
   const parsedRows: Record<string, string>[] = [];
   for (let i = 1; i < rows.length; i++) {
     const r = rows[i];
     const rowObj: Record<string, string> = {};
-    for (let j = 0; j < rawHeaders.length; j++) {
-      const headerKey = rawHeaders[j];
+    for (let j = 0; j < fixedHeaders.length; j++) {
+      const headerKey = fixedHeaders[j];
       if (headerKey) {
         rowObj[headerKey] = r[j] ?? '';
       }
@@ -86,7 +201,7 @@ export function parseCsvText(text: string): ParsedCsvResult {
   }
 
   return {
-    headers: rawHeaders,
+    headers: fixedHeaders,
     rows: parsedRows,
     totalRows: parsedRows.length,
   };
@@ -101,7 +216,7 @@ export function mapCsvRecordToLead(
   const norm: Record<string, string> = {};
   for (const [k, v] of Object.entries(record)) {
     const cleanKey = k.toLowerCase().replace(/[^a-z0-9]/g, '');
-    norm[cleanKey] = v;
+    norm[cleanKey] = sanitizeString(v) ?? '';
   }
 
   const getVal = (...keys: string[]): string | undefined => {
@@ -127,31 +242,35 @@ export function mapCsvRecordToLead(
   // Mobile / Phone (handles Phone Number, Mobile, Contact, Phone, Contact Number, Mobile No, etc.)
   const mobile = getVal(
     'phonenumber', 'phone', 'mobile', 'mobilenumber', 'contact', 'contactnumber',
-    'mobileno', 'phoneno', 'telephone', 'cellphone'
+    'mobileno', 'phoneno', 'telephone', 'cellphone', 'cell', 'contactno', 'whatsappnumber'
   );
 
   // Country Code
-  const countryCode = getVal('countrycode', 'dialcode', 'code');
+  const countryCode = getVal('countrycode', 'country_code', 'dialcode', 'code');
 
   // Location
-  const state = getVal('state', 'province', 'region');
-  const city = getVal('city', 'district', 'location');
+  const state = getVal('state', 'stateid', 'state_id', 'statename', 'province', 'region');
+  const city = getVal('city', 'cityid', 'city_id', 'cityname', 'district', 'location', 'place');
 
   // Marketing UTM
   const medium = getVal('medium', 'utmmedium');
-  const source = getVal('source', 'utmsource');
+  const rawSource = getVal('source', 'utmsource');
   const content = getVal('content', 'utmcontent', 'campaign', 'utmcampaign');
 
   // Message / Query
   const message = getVal('message', 'query', 'feedback', 'comment', 'description', 'remarks');
-  const hearFrom = getVal('hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus');
+  const rawHearFrom = getVal('hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from', 'source');
+
+  // Harmonize source and hearFrom: if one is present, fallback to the other
+  const source = rawSource || rawHearFrom;
+  const hearFrom = rawHearFrom || rawSource;
 
   // Course
   const courseType = getVal('coursetype', 'programtype', 'type');
   const courseName = getVal('coursename', 'course', 'program', 'workshop');
 
   // Added on / Date
-  const addedOn = getVal('addedon', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate');
+  const addedOn = getVal('addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate');
 
   // Extra data fields specific to Counsel India admin tabs
   const extraData: Record<string, any> = {};
@@ -177,32 +296,49 @@ export function mapCsvRecordToLead(
   if (referByName) extraData.referByName = referByName;
   const referByEmail = getVal('referbyemail', 'referredbyemail', 'referreremail');
   if (referByEmail) extraData.referByEmail = referByEmail;
+  const referByPhone = getVal('referbyphone', 'referredbyphone', 'referrerphone');
+  if (referByPhone) extraData.referByPhone = referByPhone;
+
+  // Leadform data
+  const leadName = getVal('leadname');
+  if (leadName) extraData.leadName = leadName;
+
+  // Personality test fields
+  const gender = getVal('gender', 'sex');
+  if (gender) extraData.gender = gender;
+  const age = getVal('age');
+  if (age) extraData.age = age;
+  const proBackground = getVal('probackground', 'profession', 'background');
+  if (proBackground) extraData.proBackground = proBackground;
+  const purpose = getVal('purpose');
+  if (purpose) extraData.purpose = purpose;
 
   // Collect any remaining unknown columns
   const standardNormKeys = new Set([
     'id', 'leadid', 'sno', 'serialno', 'sn', 'srno', 'no',
     'name', 'fullname', 'username', 'userdetails', 'user', 'customername', 'studentname',
     'email', 'recipientemail', 'emailaddress', 'useremail', 'mail', 'emailid',
-    'phonenumber', 'phone', 'mobile', 'mobilenumber', 'contact', 'contactnumber', 'mobileno', 'phoneno', 'telephone', 'cellphone',
-    'countrycode', 'dialcode', 'code',
-    'state', 'province', 'region',
-    'city', 'district', 'location',
+    'phonenumber', 'phone', 'mobile', 'mobilenumber', 'contact', 'contactnumber', 'mobileno', 'phoneno', 'telephone', 'cellphone', 'cell', 'contactno', 'whatsappnumber',
+    'countrycode', 'country_code', 'dialcode', 'code',
+    'state', 'stateid', 'state_id', 'statename', 'province', 'region',
+    'city', 'cityid', 'city_id', 'cityname', 'district', 'location', 'place',
     'medium', 'utmmedium',
     'source', 'utmsource',
     'content', 'utmcontent', 'campaign', 'utmcampaign',
     'message', 'query', 'feedback', 'comment', 'description', 'remarks',
-    'hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus',
+    'hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from',
     'coursetype', 'programtype', 'type',
     'coursename', 'course', 'program', 'workshop',
-    'addedon', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate',
+    'addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate',
     'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage', 'viewpath', 'certificateurl', 'pdfpath',
-    'referbyname', 'referredbyname', 'referrername', 'referbyemail', 'referredbyemail', 'referreremail'
+    'referbyname', 'referredbyname', 'referrername', 'referbyemail', 'referredbyemail', 'referreremail', 'referbyphone', 'referredbyphone', 'referrerphone',
+    'leadname', 'gender', 'sex', 'age', 'probackground', 'profession', 'background', 'purpose'
   ]);
 
   for (const [origKey, val] of Object.entries(record)) {
     const cleanKey = origKey.toLowerCase().replace(/[^a-z0-9]/g, '');
     if (!standardNormKeys.has(cleanKey) && val && val.trim() !== '') {
-      extraData[origKey] = val.trim();
+      extraData[origKey] = sanitizeString(val.trim());
     }
   }
 
@@ -224,6 +360,6 @@ export function mapCsvRecordToLead(
     courseType: courseType || null,
     courseName: courseName || null,
     addedOn: addedOn || null,
-    extraData: Object.keys(extraData).length > 0 ? extraData : undefined,
+    extraData: Object.keys(extraData).length > 0 ? sanitizeString(extraData) : undefined,
   };
 }

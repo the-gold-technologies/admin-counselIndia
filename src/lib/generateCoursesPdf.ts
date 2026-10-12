@@ -74,7 +74,7 @@ export function generateCoursesPdf(courses: Course[]) {
     }
 
     doc.setTextColor(30, 30, 30);
-    const sNo = course.sNo || index + 1;
+    const sNo = index + 1;
     const name = (course.name || "-").slice(0, 55);
     const category = (course.category || "-").slice(0, 24);
     const duration = (course.listDuration || course.duration || "-").slice(0, 18);

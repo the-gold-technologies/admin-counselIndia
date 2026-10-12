@@ -13,6 +13,7 @@ import {
   PlusCircle,
   Eye,
 } from 'lucide-react';
+import { parseCsvText } from '@/lib/csvParser';
 
 const CATEGORIES = [
   { slug: 'subscription', label: 'Subscribe' },
@@ -91,16 +92,18 @@ export default function UploadLeadCsvModal({
     const reader = new FileReader();
     reader.onload = (e) => {
       const content = (e.target?.result as string) || '';
-      const lines = content.split(/\r?\n/).filter((l) => l.trim() !== '');
-      if (lines.length > 0) {
-        setTotalEstimatedRows(lines.length - 1);
-        const headers = lines[0].split(',').map((h) => h.replace(/^"|"$/g, '').trim());
-        setPreviewHeaders(headers);
-
-        const sample = lines.slice(1, 6).map((l) => {
-          return l.split(',').map((cell) => cell.replace(/^"|"$/g, '').trim());
-        });
-        setPreviewRows(sample);
+      try {
+        const parsed = parseCsvText(content);
+        if (parsed.headers.length > 0) {
+          setTotalEstimatedRows(parsed.totalRows);
+          setPreviewHeaders(parsed.headers);
+          const sample = parsed.rows.slice(0, 5).map((rowObj) => {
+            return parsed.headers.map((h) => rowObj[h] ?? '');
+          });
+          setPreviewRows(sample);
+        }
+      } catch (err) {
+        console.error('Failed to parse CSV preview:', err);
       }
     };
     reader.readAsText(selectedFile);

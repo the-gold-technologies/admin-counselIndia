@@ -143,7 +143,7 @@ export default function AlumniTable({
               </tr>
             ) : (
               paginatedAlumni.map((row, idx) => {
-                const sNumber = row.sNo || (startIndex + idx + 1);
+                const sNumber = startIndex + idx + 1;
                 const isActive = row.status === "Active";
 
                 return (

@@ -110,7 +110,7 @@ export default function CounsellorTable({
               </tr>
             ) : (
               counsellors.map((item, index) => {
-                const sNoDisplay = item.sNo ?? (currentPage - 1) * pageSize + index + 1;
+                const sNoDisplay = (currentPage - 1) * pageSize + index + 1;
                 const isOnline = Boolean(item.isOnline);
                 const isActive = item.status === "Active";
                 const isApproved = item.isApproved !== false;

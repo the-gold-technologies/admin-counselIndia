@@ -152,7 +152,7 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
               </tr>
             ) : (
               paginatedAdmissions.map((row, idx) => {
-                const sNumber = row.sNo || (startIndex + idx + 1);
+                const sNumber = startIndex + idx + 1;
                 const dt = splitAdmissionDateTime(row.admissionDate);
 
                 return (

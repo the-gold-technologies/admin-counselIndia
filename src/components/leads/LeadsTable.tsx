@@ -61,7 +61,7 @@ function renderCell(
   const { key } = col;
 
   if (key === 'sNo') {
-    const displayVal = lead.sNo ?? lead.liveId ?? index + 1 + (currentPage - 1) * pageSize;
+    const displayVal = (currentPage - 1) * pageSize + index + 1;
     return (
       <span className="font-semibold text-gray-500 font-mono text-[11px]">
         {displayVal}
@@ -75,9 +75,57 @@ function renderCell(
   }
 
   let value: any = lead[key];
+
+  // Specific smart fallbacks
   if (value === undefined || value === null || value === '') {
-    if (EXTRA_KEYS.includes(key)) {
+    if (key === 'source') {
+      value = lead.hearFrom;
+    } else if (key === 'hearFrom') {
+      value = lead.source;
+    } else if (key === 'ebookName') {
+      value = lead.extraData?.ebookName ?? lead.courseName ?? lead.content;
+    } else if (key === 'newsletterName') {
+      value = lead.extraData?.newsletterName ?? lead.courseName ?? lead.content;
+    } else if (key === 'courseType') {
+      value = lead.courseType ?? lead.extraData?.courseType ?? lead.extraData?.programType;
+    } else if (key === 'courseName') {
+      value = lead.courseName ?? lead.extraData?.courseName ?? lead.extraData?.program ?? lead.content;
+    } else if (key === 'referByName') {
+      value = lead.extraData?.referByName ?? lead.extraData?.referrerName ?? lead.extraData?.referredByName;
+    } else if (key === 'referByEmail') {
+      value = lead.extraData?.referByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.referredByEmail;
+    } else if (key === 'referByPhone') {
+      value = lead.extraData?.referByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.referredByPhone;
+    } else if (key === 'leadName') {
+      value = lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
+    } else if (key === 'state') {
+      value = lead.state ?? lead.extraData?.state ?? lead.extraData?.stateName;
+    } else if (key === 'city') {
+      value = lead.city ?? lead.extraData?.city ?? lead.extraData?.cityName;
+    } else if (key === 'marks') {
+      value = lead.extraData?.marks ?? lead.extraData?.score;
+    } else if (key === 'certificateType') {
+      value = lead.extraData?.certificateType;
+    } else if (key === 'viewPath') {
+      value = lead.extraData?.viewPath ?? lead.extraData?.certificateUrl;
+    } else if (EXTRA_KEYS.includes(key)) {
       value = lead.extraData?.[key];
+    }
+  }
+
+  // Universal extraData fallback
+  if (value === undefined || value === null || value === '') {
+    value = lead.extraData?.[key];
+  }
+
+  // Case/symbol insensitive match in extraData
+  if ((value === undefined || value === null || value === '') && lead.extraData && typeof lead.extraData === 'object') {
+    const normTarget = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+    for (const [k, v] of Object.entries(lead.extraData)) {
+      if (k.toLowerCase().replace(/[^a-z0-9]/g, '') === normTarget && v !== undefined && v !== null && v !== '') {
+        value = v;
+        break;
+      }
     }
   }
 
@@ -97,10 +145,15 @@ function renderCell(
   }
 
   if (key === 'mobile') {
-    const full = lead.countryCode ? `+${lead.countryCode} ${value}` : value;
+    const rawVal = String(value);
+    let full = rawVal;
+    if (lead.countryCode && !rawVal.startsWith('+') && !rawVal.startsWith(String(lead.countryCode))) {
+      const code = String(lead.countryCode).startsWith('+') ? lead.countryCode : `+${lead.countryCode}`;
+      full = `${code} ${rawVal}`;
+    }
     return (
       <a
-        href={`tel:${value}`}
+        href={`tel:${rawVal}`}
         className="text-gray-800 hover:text-emerald-600 font-mono transition-colors"
       >
         {String(full)}
@@ -189,8 +242,8 @@ export default function LeadsTable({
       const headers = ['Id', ...exportCols.map((c) => (c.key === 'mobile' ? 'Phone Number' : c.label))];
       const csvRows = [headers.join(',')];
 
-      rows.forEach((row: any) => {
-        const idVal = row.sNo ?? row.liveId ?? '';
+      rows.forEach((row: any, idx: number) => {
+        const idVal = idx + 1;
         const cells = [
           `"${String(idVal).replace(/"/g, '""')}"`,
           ...exportCols.map((col) => {
