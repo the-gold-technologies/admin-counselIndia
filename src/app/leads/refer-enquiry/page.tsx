@@ -13,7 +13,10 @@ const COLUMNS: ColDef[] = [
   { key: 'name', label: 'Name' },
   { key: 'email', label: 'Email' },
   { key: 'mobile', label: 'Mobile' },
-  { key: 'message', label: 'Refer Details' },
+  { key: 'referByName', label: 'Refer By Name' },
+  { key: 'referByEmail', label: 'Refer By Email' },
+  { key: 'referByPhone', label: 'Refer By Phone' },
+  { key: 'courseRefer', label: 'Course Refer' },
   { key: 'addedOn', label: 'Date', align: 'right' as const },
 ];
 

@@ -257,9 +257,9 @@ export function mapCsvRecordToLead(
   const rawSource = getVal('source', 'utmsource');
   const content = getVal('content', 'utmcontent', 'campaign', 'utmcampaign');
 
-  // Message / Query
-  const message = getVal('message', 'query', 'feedback', 'comment', 'description', 'remarks');
-  const rawHearFrom = getVal('hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from', 'source');
+  // Message / Query / Question
+  const message = getVal('message', 'query', 'question', 'userquestion', 'feedback', 'comment', 'description', 'remarks');
+  const rawHearFrom = getVal('hearfrom', 'herefrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from', 'here_from', 'source');
 
   // Harmonize source and hearFrom: if one is present, fallback to the other
   const source = rawSource || rawHearFrom;
@@ -267,7 +267,7 @@ export function mapCsvRecordToLead(
 
   // Course
   const courseType = getVal('coursetype', 'programtype', 'type');
-  const courseName = getVal('coursename', 'course', 'program', 'workshop');
+  const courseName = getVal('coursename', 'course', 'program', 'workshop', 'courseid', 'course_id', 'courserefer', 'course_refer');
 
   // Added on / Date
   const addedOn = getVal('addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate');
@@ -288,16 +288,29 @@ export function mapCsvRecordToLead(
   if (certificateType) extraData.certificateType = certificateType;
   const marks = getVal('marks', 'score', 'percentage');
   if (marks) extraData.marks = marks;
-  const viewPath = getVal('viewpath', 'certificateurl', 'pdfpath');
+  const viewPath = getVal('viewpath', 'view_path', 'certificateurl', 'certificate_url', 'pdfpath', 'pdf_path', 'pdfurl', 'pdf_url', 'pdf', 'url', 'filepath', 'file_path');
   if (viewPath) extraData.viewPath = viewPath;
 
   // Refer Enquiry
-  const referByName = getVal('referbyname', 'referredbyname', 'referrername');
+  const referByName = getVal('referbyname', 'referredbyname', 'referrername', 'refer_by_name');
   if (referByName) extraData.referByName = referByName;
-  const referByEmail = getVal('referbyemail', 'referredbyemail', 'referreremail');
+  const referByEmail = getVal('referbyemail', 'referredbyemail', 'referreremail', 'refer_by_email');
   if (referByEmail) extraData.referByEmail = referByEmail;
-  const referByPhone = getVal('referbyphone', 'referredbyphone', 'referrerphone');
+  const referByPhone = getVal('referbyphone', 'referredbyphone', 'referrerphone', 'refer_by_phone');
   if (referByPhone) extraData.referByPhone = referByPhone;
+  const courseRefer = getVal('courserefer', 'course_refer', 'referredcourse', 'refercourse');
+  if (courseRefer) extraData.courseRefer = courseRefer;
+
+  // Synthesize message for refer-enquiry if not explicitly given
+  let finalMessage = message;
+  if (!finalMessage && (referByName || referByEmail || referByPhone || courseRefer)) {
+    const parts: string[] = [];
+    if (referByName) parts.push(`Name: ${referByName}`);
+    if (referByEmail) parts.push(`Email: ${referByEmail}`);
+    if (referByPhone) parts.push(`Phone: ${referByPhone}`);
+    if (courseRefer) parts.push(`Course: ${courseRefer}`);
+    finalMessage = parts.join(' | ');
+  }
 
   // Leadform data
   const leadName = getVal('leadname');
@@ -325,13 +338,15 @@ export function mapCsvRecordToLead(
     'medium', 'utmmedium',
     'source', 'utmsource',
     'content', 'utmcontent', 'campaign', 'utmcampaign',
-    'message', 'query', 'feedback', 'comment', 'description', 'remarks',
-    'hearfrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from',
+    'message', 'query', 'question', 'userquestion', 'feedback', 'comment', 'description', 'remarks',
+    'hearfrom', 'herefrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from', 'here_from',
     'coursetype', 'programtype', 'type',
     'coursename', 'course', 'program', 'workshop',
     'addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate',
-    'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage', 'viewpath', 'certificateurl', 'pdfpath',
+    'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage',
+    'viewpath', 'view_path', 'certificateurl', 'certificate_url', 'pdfpath', 'pdf_path', 'pdfurl', 'pdf_url', 'pdf', 'url', 'filepath', 'file_path',
     'referbyname', 'referredbyname', 'referrername', 'referbyemail', 'referredbyemail', 'referreremail', 'referbyphone', 'referredbyphone', 'referrerphone',
+    'courserefer', 'course_refer', 'referredcourse', 'refercourse',
     'leadname', 'gender', 'sex', 'age', 'probackground', 'profession', 'background', 'purpose'
   ]);
 
@@ -355,7 +370,7 @@ export function mapCsvRecordToLead(
     medium: medium || null,
     source: source || null,
     content: content || null,
-    message: message || null,
+    message: finalMessage || null,
     hearFrom: hearFrom || null,
     courseType: courseType || null,
     courseName: courseName || null,

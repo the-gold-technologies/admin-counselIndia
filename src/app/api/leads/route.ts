@@ -16,11 +16,24 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category") || "subscription";
     const search = searchParams.get("search")?.trim() || "";
+    const nameFilter = searchParams.get("name")?.trim() || "";
+    const emailFilter = searchParams.get("email")?.trim() || "";
+    const mobileFilter = searchParams.get("mobile")?.trim() || "";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "50", 10);
     const all = searchParams.get("all") === "true";
 
     const where: any = { category };
+
+    if (nameFilter) {
+      where.name = { contains: nameFilter, mode: "insensitive" };
+    }
+    if (emailFilter) {
+      where.email = { contains: emailFilter, mode: "insensitive" };
+    }
+    if (mobileFilter) {
+      where.mobile = { contains: mobileFilter, mode: "insensitive" };
+    }
 
     if (search) {
       where.OR = [

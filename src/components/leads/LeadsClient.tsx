@@ -119,11 +119,15 @@ export function LeadsClient({ slug }: LeadsClientProps) {
           } else if (col.key === 'certificateType') {
             val = lead.extraData?.certificateType || '';
           } else if (col.key === 'viewPath') {
-            val = lead.extraData?.viewPath || '';
+            val = lead.extraData?.viewPath || lead.extraData?.certificateUrl || lead.extraData?.pdf_url || lead.extraData?.pdfUrl || lead.extraData?.pdfpath || '';
+          } else if (col.key === 'hearFrom') {
+            val = lead.hearFrom || lead.source || lead.extraData?.['Here From'] || lead.extraData?.['hereFrom'] || '';
+          } else if (col.key === 'message') {
+            val = lead.message || lead.extraData?.['Question'] || lead.extraData?.['question'] || '';
           } else if (col.key === 'referByName') {
-            val = lead.extraData?.referByName || '';
+            val = lead.extraData?.referByName || lead.extraData?.refer_by_name || '';
           } else if (col.key === 'referByEmail') {
-            val = lead.extraData?.referByEmail || '';
+            val = lead.extraData?.referByEmail || lead.extraData?.refer_by_email || '';
           } else {
             val = (lead as any)[col.key] || '';
           }
@@ -202,19 +206,33 @@ export function LeadsClient({ slug }: LeadsClientProps) {
     }
 
     if (colKey === 'hearFrom') {
-      if (!lead.hearFrom) return <span className="text-gray-400">—</span>;
+      const hf = lead.hearFrom || lead.source || lead.extraData?.['Here From'] || lead.extraData?.['hereFrom'];
+      if (!hf) return <span className="text-gray-400">—</span>;
       return (
         <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/50">
-          {lead.hearFrom}
+          {hf}
         </span>
       );
     }
 
     if (colKey === 'message') {
-      if (!lead.message) return <span className="text-gray-400">—</span>;
+      let msg = lead.message || lead.extraData?.['Question'] || lead.extraData?.['question'] || lead.extraData?.query;
+      if (!msg) {
+        const parts: string[] = [];
+        const rName = lead.extraData?.referByName || lead.extraData?.referredByName || lead.extraData?.referrerName || lead.extraData?.refer_by_name;
+        const rEmail = lead.extraData?.referByEmail || lead.extraData?.referredByEmail || lead.extraData?.referrerEmail || lead.extraData?.refer_by_email;
+        const rPhone = lead.extraData?.referByPhone || lead.extraData?.referredByPhone || lead.extraData?.referrerPhone || lead.extraData?.refer_by_phone;
+        const rCourse = lead.extraData?.courseRefer || lead.extraData?.course_refer;
+        if (rName) parts.push(`Name: ${rName}`);
+        if (rEmail) parts.push(`Email: ${rEmail}`);
+        if (rPhone) parts.push(`Phone: ${rPhone}`);
+        if (rCourse) parts.push(`Course: ${rCourse}`);
+        if (parts.length > 0) msg = parts.join(' | ');
+      }
+      if (!msg) return <span className="text-gray-400">—</span>;
       return (
-        <p className="text-xs text-gray-600 line-clamp-2 max-w-sm" title={lead.message}>
-          {lead.message}
+        <p className="text-xs text-gray-600 line-clamp-2 max-w-sm" title={msg}>
+          {msg}
         </p>
       );
     }
@@ -242,7 +260,26 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       ) : <span className="text-gray-400">—</span>;
     }
     if (colKey === 'certificateType') return <span className="text-xs">{lead.extraData?.certificateType || '—'}</span>;
-    if (colKey === 'viewPath') return <span className="text-xs text-gray-500">{lead.extraData?.viewPath || '—'}</span>;
+    if (colKey === 'viewPath') {
+      const vPath = lead.extraData?.viewPath || lead.extraData?.certificateUrl || lead.extraData?.pdf_url || lead.extraData?.pdfUrl || lead.extraData?.pdfpath || lead.extraData?.url;
+      if (!vPath) return <span className="text-gray-400">—</span>;
+      if (typeof vPath === 'string' && (vPath.startsWith('http://') || vPath.startsWith('https://'))) {
+        return (
+          <a
+            href={vPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-md transition-colors shadow-sm"
+          >
+            <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            View PDF
+          </a>
+        );
+      }
+      return <span className="text-xs text-gray-500">{vPath}</span>;
+    }
     if (colKey === 'referByName') return <span className="text-xs">{lead.extraData?.referByName || '—'}</span>;
     if (colKey === 'referByEmail') return <span className="text-xs">{lead.extraData?.referByEmail || '—'}</span>;
 

@@ -79,9 +79,23 @@ function renderCell(
   // Specific smart fallbacks
   if (value === undefined || value === null || value === '') {
     if (key === 'source') {
-      value = lead.hearFrom;
+      value = lead.hearFrom ?? lead.extraData?.['Here From'] ?? lead.extraData?.['hereFrom'];
     } else if (key === 'hearFrom') {
-      value = lead.source;
+      value = lead.source ?? lead.extraData?.['Here From'] ?? lead.extraData?.['hereFrom'] ?? lead.extraData?.['here_from'];
+    } else if (key === 'message') {
+      value = lead.message ?? lead.extraData?.['Question'] ?? lead.extraData?.['question'] ?? lead.extraData?.query;
+      if (!value) {
+        const parts: string[] = [];
+        const rName = lead.extraData?.referByName ?? lead.extraData?.referredByName ?? lead.extraData?.referrerName ?? lead.extraData?.refer_by_name;
+        const rEmail = lead.extraData?.referByEmail ?? lead.extraData?.referredByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.refer_by_email;
+        const rPhone = lead.extraData?.referByPhone ?? lead.extraData?.referredByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.refer_by_phone;
+        const rCourse = lead.extraData?.courseRefer ?? lead.extraData?.course_refer;
+        if (rName) parts.push(`Name: ${rName}`);
+        if (rEmail) parts.push(`Email: ${rEmail}`);
+        if (rPhone) parts.push(`Phone: ${rPhone}`);
+        if (rCourse) parts.push(`Course: ${rCourse}`);
+        if (parts.length > 0) value = parts.join(' | ');
+      }
     } else if (key === 'ebookName') {
       value = lead.extraData?.ebookName ?? lead.courseName ?? lead.content;
     } else if (key === 'newsletterName') {
@@ -91,11 +105,11 @@ function renderCell(
     } else if (key === 'courseName') {
       value = lead.courseName ?? lead.extraData?.courseName ?? lead.extraData?.program ?? lead.content;
     } else if (key === 'referByName') {
-      value = lead.extraData?.referByName ?? lead.extraData?.referrerName ?? lead.extraData?.referredByName;
+      value = lead.extraData?.referByName ?? lead.extraData?.referrerName ?? lead.extraData?.referredByName ?? lead.extraData?.refer_by_name;
     } else if (key === 'referByEmail') {
-      value = lead.extraData?.referByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.referredByEmail;
+      value = lead.extraData?.referByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.referredByEmail ?? lead.extraData?.refer_by_email;
     } else if (key === 'referByPhone') {
-      value = lead.extraData?.referByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.referredByPhone;
+      value = lead.extraData?.referByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.referredByPhone ?? lead.extraData?.refer_by_phone;
     } else if (key === 'leadName') {
       value = lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
     } else if (key === 'state') {
@@ -107,7 +121,7 @@ function renderCell(
     } else if (key === 'certificateType') {
       value = lead.extraData?.certificateType;
     } else if (key === 'viewPath') {
-      value = lead.extraData?.viewPath ?? lead.extraData?.certificateUrl;
+      value = lead.extraData?.viewPath ?? lead.extraData?.certificateUrl ?? lead.extraData?.pdf_url ?? lead.extraData?.pdfUrl ?? lead.extraData?.pdfpath ?? lead.extraData?.url;
     } else if (EXTRA_KEYS.includes(key)) {
       value = lead.extraData?.[key];
     }
@@ -165,6 +179,22 @@ function renderCell(
     return <span className="font-semibold text-gray-900">{String(value)}</span>;
   }
 
+  if (key === 'viewPath' || (typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://')) && key.toLowerCase().includes('path'))) {
+    return (
+      <a
+        href={String(value)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-md transition-colors shadow-sm"
+      >
+        <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        View PDF
+      </a>
+    );
+  }
+
   return <span className="text-gray-600">{String(value)}</span>;
 }
 
@@ -185,6 +215,34 @@ export default function LeadsTable({
   const [isExporting, setIsExporting] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
+  // Dedicated filter card state (matching Personality Test)
+  const [filterName, setFilterName] = useState('');
+  const [filterEmail, setFilterEmail] = useState('');
+  const [filterMobile, setFilterMobile] = useState('');
+  const [activeFilters, setActiveFilters] = useState<{ name: string; email: string; mobile: string }>({
+    name: '',
+    email: '',
+    mobile: '',
+  });
+
+  const handleFilterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setActiveFilters({
+      name: filterName.trim(),
+      email: filterEmail.trim(),
+      mobile: filterMobile.trim(),
+    });
+    setCurrentPage(1);
+  };
+
+  const handleFilterReset = () => {
+    setFilterName('');
+    setFilterEmail('');
+    setFilterMobile('');
+    setActiveFilters({ name: '', email: '', mobile: '' });
+    setCurrentPage(1);
+  };
+
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 350);
     return () => clearTimeout(t);
@@ -203,6 +261,9 @@ export default function LeadsTable({
         limit: String(pageSize),
       });
       if (debouncedSearch) params.set('search', debouncedSearch);
+      if (activeFilters.name) params.set('name', activeFilters.name);
+      if (activeFilters.email) params.set('email', activeFilters.email);
+      if (activeFilters.mobile) params.set('mobile', activeFilters.mobile);
 
       const res = await fetch(`/api/leads?${params}`);
       const json = await res.json();
@@ -215,7 +276,7 @@ export default function LeadsTable({
     } finally {
       setIsLoading(false);
     }
-  }, [category, currentPage, pageSize, debouncedSearch]);
+  }, [category, currentPage, pageSize, debouncedSearch, activeFilters]);
 
   useEffect(() => {
     fetchLeads();
@@ -230,6 +291,9 @@ export default function LeadsTable({
     try {
       const params = new URLSearchParams({ category, all: 'true' });
       if (debouncedSearch) params.set('search', debouncedSearch);
+      if (activeFilters.name) params.set('name', activeFilters.name);
+      if (activeFilters.email) params.set('email', activeFilters.email);
+      if (activeFilters.mobile) params.set('mobile', activeFilters.mobile);
 
       const res = await fetch(`/api/leads?${params}`);
       const json = await res.json();
@@ -273,14 +337,14 @@ export default function LeadsTable({
   return (
     <div className="space-y-5">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">{title}</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{description}</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{title}</h1>
+          <p className="text-xs text-gray-500 mt-0.5">{description}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className="px-3.5 py-1.5 text-xs font-bold rounded-full"
+            className="px-3 py-1 text-xs font-bold rounded-full"
             style={{ background: accentColor + '18', color: accentColor }}
           >
             {totalCount.toLocaleString()} records
@@ -288,26 +352,106 @@ export default function LeadsTable({
 
           <button
             onClick={() => setIsImportModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer transition-all shadow-sm"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer transition-all shadow-sm"
           >
             <UploadCloud className="w-4 h-4" style={{ color: accentColor }} />
             Import CSV
           </button>
 
-          <button
-            onClick={handleExport}
-            disabled={isExporting || totalCount === 0}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 cursor-pointer transition-all shadow-sm"
-          >
-            {isExporting ? (
-              <Loader2 className="w-4 h-4 animate-spin" style={{ color: accentColor }} />
-            ) : (
-              <FileSpreadsheet className="w-4 h-4" style={{ color: accentColor }} />
-            )}
-            Export CSV
-          </button>
+          {/* Export Button: styled as dark button on Personality Test, standard on other tabs */}
+          {category === 'personality-test' ? (
+            <button
+              onClick={handleExport}
+              disabled={isExporting || totalCount === 0}
+              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#272f3d] hover:bg-[#1a202c] text-white text-xs font-semibold disabled:opacity-50 cursor-pointer transition-all shadow-sm"
+            >
+              {isExporting ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <FileSpreadsheet className="w-3.5 h-3.5 text-gray-300" />
+              )}
+              Export
+            </button>
+          ) : (
+            <button
+              onClick={handleExport}
+              disabled={isExporting || totalCount === 0}
+              className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 cursor-pointer transition-all shadow-sm"
+            >
+              {isExporting ? (
+                <Loader2 className="w-4 h-4 animate-spin" style={{ color: accentColor }} />
+              ) : (
+                <FileSpreadsheet className="w-4 h-4" style={{ color: accentColor }} />
+              )}
+              Export CSV
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Filter Form Card - ONLY on Personality Test tab as requested */}
+      {category === 'personality-test' && (
+      <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm">
+        <form onSubmit={handleFilterSubmit}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Name"
+                value={filterName}
+                onChange={(e) => setFilterName(e.target.value)}
+                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                Email
+              </label>
+              <input
+                type="text"
+                placeholder="Enter email"
+                value={filterEmail}
+                onChange={(e) => setFilterEmail(e.target.value)}
+                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                Mobile
+              </label>
+              <input
+                type="text"
+                placeholder="Enter mobile number"
+                value={filterMobile}
+                onChange={(e) => setFilterMobile(e.target.value)}
+                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <button
+              type="submit"
+              className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              onClick={handleFilterReset}
+              className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+      )}
 
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3.5 rounded-3xl border border-gray-100 shadow-sm">

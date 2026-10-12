@@ -10,10 +10,11 @@ export const metadata: Metadata = {
 
 const COLUMNS: ColDef[] = [
   { key: 'sNo', label: 'S.No', align: 'center' as const },
-  { key: 'name', label: 'User Name' },
+  { key: 'courseName', label: 'Course ID' },
   { key: 'source', label: 'Source' },
   { key: 'medium', label: 'Medium' },
   { key: 'content', label: 'Content' },
+  { key: 'name', label: 'User Name' },
   { key: 'email', label: 'Email' },
   { key: 'mobile', label: 'Mobile' },
   { key: 'addedOn', label: 'Updated At', align: 'right' as const },

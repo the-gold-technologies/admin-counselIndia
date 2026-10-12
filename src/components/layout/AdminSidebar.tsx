@@ -96,6 +96,11 @@ const sidebarLinks: SidebarItem[] = [
     ],
   },
   {
+    title: "Profile",
+    href: "/profile",
+    icon: User,
+  },
+  {
     title: "Settings",
     icon: Settings,
     sublinks: [
@@ -116,7 +121,7 @@ export function AdminSidebar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetch("/api/auth/profile")
       .then((res) => res.json())
       .then((data) => {
         if (data?.authenticated && data?.user) {
@@ -327,31 +332,16 @@ export function AdminSidebar() {
         </nav>
       </div>
 
-      {/* Live Website & User Info Area with Sign Out */}
-      <div className="px-4 pb-6 border-t border-white/5 pt-4 space-y-1">
-        <div className="flex items-center justify-between w-full px-3 py-2 rounded-2xl text-[13px] font-medium text-gray-300 bg-white/5 border border-white/5">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-[#09A64A]/20 text-[#09A64A] flex items-center justify-center font-bold text-xs shrink-0 border border-[#09A64A]/30">
-              {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : "SA"}
-            </div>
-            <div className="min-w-0 flex flex-col">
-              <span className="text-white text-xs font-semibold truncate leading-tight">
-                {currentUser?.name || "Superadmin"}
-              </span>
-              <span className="text-[10px] text-gray-400 truncate leading-tight font-mono">
-                {currentUser?.email || "superadmin@counselindia.com"}
-              </span>
-            </div>
-          </div>
-          <button
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            title="Sign Out"
-            className="p-1.5 rounded-lg text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer shrink-0 disabled:opacity-50"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-        </div>
+      {/* Bottom Area: Sign Out Button Only */}
+      <div className="px-4 pb-6 border-t border-white/5 pt-4">
+        <button
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+          className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl text-[13px] font-bold text-gray-300 hover:text-white bg-white/5 hover:bg-rose-500/20 border border-white/5 hover:border-rose-500/30 transition-all cursor-pointer disabled:opacity-50 group shadow-sm"
+        >
+          <LogOut className="w-4 h-4 text-gray-400 group-hover:text-rose-400 transition-colors" />
+          <span>{isLoggingOut ? "Signing Out..." : "Sign Out"}</span>
+        </button>
       </div>
     </div>
   );
