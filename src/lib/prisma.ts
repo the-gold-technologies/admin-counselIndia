@@ -5,7 +5,7 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 // Re-instantiate if new models (like siteSetting) were added
-if (globalForPrisma.prisma && !(globalForPrisma.prisma as any).siteSetting) {
+if (globalForPrisma.prisma && (!(globalForPrisma.prisma as any).siteSetting || !(globalForPrisma.prisma as any).inquiryLead)) {
   globalForPrisma.prisma = undefined;
 }
 
