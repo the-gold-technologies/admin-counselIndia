@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   GraduationCap,
   Users,
+  UserCheck,
   TrendingUp,
   BookOpen,
   MailQuestion,
@@ -42,13 +43,9 @@ const sidebarLinks: SidebarItem[] = [
     icon: Users,
   },
   {
-    title: "Counsellors",
-    icon: Users,
-    sublinks: [
-      { title: "Counsellor List", href: "/counsellors" },
-      { title: "Pending Counsellors", href: "/counsellors/pending" },
-      { title: "All Counsellors", href: "/counsellors/all" },
-    ],
+    title: "Manage Counsellors",
+    href: "/counsellors",
+    icon: UserCheck,
   },
   {
     title: "Course Leads",

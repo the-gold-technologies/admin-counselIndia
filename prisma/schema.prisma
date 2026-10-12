@@ -61,20 +61,68 @@ model Course {
 }
 
 model Counselor {
-  id             String    @id @default(cuid())
-  name           String
-  slug           String?
-  email          String?
-  mobile         String?
-  designation    String?
-  experience     String?
-  languages      String?
-  fees           String?
-  location       String?
-  status         String    @default("Verified")
-  rating         Float?    @default(5.0)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                    String    @id @default(cuid())
+  sNo                   Int?
+  liveId                String?
+  name                  String
+  email                 String
+  mobile                String
+  password              String?
+  address               String?
+  city                  String?
+  country               String?   @default("INDIA")
+  designation           String?
+  language              String?
+  education             String?
+  experience            String?
+  specialty             String?
+  specialty2            String?
+  expertise             String?
+  rciNumber             String?
+  
+  // Media & Documents
+  image                 String?
+  identityImage         String?
+  qualificationProof    String?
+  cvUrl                 String?
+  
+  // Banking Details
+  bankName              String?
+  accountNumber         String?
+  ifscCode              String?
+  accountType           String?
+  accountHolderName     String?
+  
+  // Session Pricing & Status
+  userType              String?   @default("Counselor")
+  isApproved            Boolean   @default(true)
+  isOnline              Boolean   @default(false)
+  videoStatus           Boolean   @default(false)
+  videoPrice            Float?    @default(0)
+  audioStatus           Boolean   @default(false)
+  audioPrice            Float?    @default(0)
+  chatStatus            Boolean   @default(false)
+  chatPrice             Float?    @default(0)
+  expectedCharges       Float?    @default(0)
+  councellFees          Float?    @default(0)
+  commission            Float?    @default(0)
+  position              Int?      @default(0)
+  
+  // Rich Text Bios
+  about                 String?   @db.Text
+  achievements          String?   @db.Text
+  whatBringsYou         String?   @db.Text
+  
+  // System Flags
+  status                String    @default("Active")
+  forCourse             String?   @default("No")
+  personalCounselling   String?   @default("No")
+  
+  // Dates
+  addedOn               String?
+  updatedOn             String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 }
 
 model Alumni {
