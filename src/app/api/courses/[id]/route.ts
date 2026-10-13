@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -112,6 +113,9 @@ export async function PATCH(
       updateData.curriculumCount = Array.isArray(body.curriculumData) ? body.curriculumData.length : 0;
     }
 
+    // Clean up replaced images/PDFs on Cloudinary
+    await cleanupReplacedCloudinaryFiles(existing, updateData);
+
     const updated = await prisma.course.update({
       where: { id: existing.id },
       data: updateData,
@@ -141,6 +145,9 @@ export async function DELETE(
     if (!existing) {
       return NextResponse.json({ error: "Course not found" }, { status: 404, headers: corsHeaders });
     }
+
+    // Clean up all images/PDFs from Cloudinary on delete
+    await cleanupReplacedCloudinaryFiles(existing, null);
 
     await prisma.course.delete({
       where: { id: existing.id },

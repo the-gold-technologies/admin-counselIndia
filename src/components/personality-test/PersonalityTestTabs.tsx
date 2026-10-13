@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Award, Users, HelpCircle, Info } from "lucide-react";
+import { Info, HelpCircle, Users, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PersonalityTestTabsProps {
@@ -15,28 +15,28 @@ interface PersonalityTestTabsProps {
 
 export const TABS = [
   {
-    name: "Tab Result",
-    href: "/personality-test/tab-result",
-    icon: Award,
-    description: "Assessment outcome archetypes, scores and result profiles",
+    name: "Personality Test Info",
+    href: "/personality-test/personality-test-info",
+    icon: Info,
+    description: "Test configuration, student instructions, and live status settings",
+  },
+  {
+    name: "Questions",
+    href: "/personality-test/questions",
+    icon: HelpCircle,
+    description: "Assessment questions, answer choices, and psychological trait mappings",
   },
   {
     name: "Personality Entry",
     href: "/personality-test/personality-entry",
     icon: Users,
-    description: "Student submissions, test responses and respondent background",
+    description: "Student submissions, test responses, and respondent demographics",
   },
   {
-    name: "Question",
-    href: "/personality-test/question",
-    icon: HelpCircle,
-    description: "Assessment questions, answer choices and trait mappings",
-  },
-  {
-    name: "Personality Test Info",
-    href: "/personality-test/personality-test-info",
-    icon: Info,
-    description: "Test configuration, instructions and status settings",
+    name: "Tab Result",
+    href: "/personality-test/tab-result",
+    icon: Award,
+    description: "Assessment outcome archetypes, scores, and result profiles",
   },
 ];
 
@@ -48,7 +48,10 @@ export default function PersonalityTestTabs({
 }: PersonalityTestTabsProps) {
   const pathname = usePathname();
 
-  const currentTab = TABS.find((t) => pathname.startsWith(t.href)) || TABS[0];
+  const currentTab =
+    TABS.find((t) => pathname.startsWith(t.href)) ||
+    (pathname === "/personality-test/question" ? TABS[1] : TABS[0]);
+
   const activeTitle = title || currentTab.name;
   const activeSubtitle = subtitle || currentTab.description;
 
@@ -79,7 +82,11 @@ export default function PersonalityTestTabs({
       <div className="bg-white p-1.5 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
         {TABS.map((tab) => {
           const Icon = tab.icon;
-          const isActive = pathname === tab.href || (tab.href === "/personality-test/tab-result" && pathname === "/personality-test");
+          const isActive =
+            pathname === tab.href ||
+            (tab.href === "/personality-test/questions" && pathname === "/personality-test/question") ||
+            (tab.href === "/personality-test/personality-test-info" && pathname === "/personality-test");
+
           return (
             <Link
               key={tab.name}

@@ -1,0 +1,272 @@
+[
+  {
+    "id": "cmv69nlm30001yllxrvtxgl4v",
+    "liveId": "1",
+    "question": "How do you typically respond to stressful situations?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I stay calm and think through the situation logically."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I feel anxious but try to manage it."
+      },
+      {
+        "value": "Logical",
+        "answer": "I get very stressed and have difficulty coping."
+      },
+      {
+        "value": "Empath",
+        "answer": "I avoid dealing with the situation altogether."
+      }
+    ],
+    "position": 1,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.228Z",
+    "updatedAt": "2026-10-13T05:54:37.228Z"
+  },
+  {
+    "id": "cmv69nlm90002yllxwmorly5a",
+    "liveId": "2",
+    "question": "When working in a team, how do you usually behave?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I take the lead and make sure everyone is on track."
+      },
+      {
+        "value": "Empath",
+        "answer": "I contribute my ideas and support others."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I prefer to let others take charge and follow their lead."
+      },
+      {
+        "value": "Logical",
+        "answer": "I tend to work better alone and avoid team tasks."
+      }
+    ],
+    "position": 2,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.234Z",
+    "updatedAt": "2026-10-13T05:54:37.234Z"
+  },
+  {
+    "id": "cmv69nlme0003yllx4y795tb6",
+    "liveId": "3",
+    "question": "How do you handle criticism?",
+    "answers": [
+      {
+        "value": "Logical",
+        "answer": "I take it constructively and work on improving."
+      },
+      {
+        "value": "Empath",
+        "answer": "I feel hurt but try to use it for growth."
+      },
+      {
+        "value": "Achiever",
+        "answer": "I get defensive and justify my actions."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I ignore it and continue with what I’m doing."
+      }
+    ],
+    "position": 3,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.239Z",
+    "updatedAt": "2026-10-13T05:54:37.239Z"
+  },
+  {
+    "id": "cmv69nlmg0004yllxuzwarc4a",
+    "liveId": "4",
+    "question": "How do you describe your level of empathy?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I can easily understand and share the feelings of others."
+      },
+      {
+        "value": "Logical",
+        "answer": "I try to be understanding but sometimes struggle."
+      },
+      {
+        "value": "Initiator",
+        "answer": "I find it difficult to relate to other people’s emotions."
+      },
+      {
+        "value": "Empath",
+        "answer": "I rarely consider other people’s feelings."
+      }
+    ],
+    "position": 4,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.241Z",
+    "updatedAt": "2026-10-13T05:54:37.241Z"
+  },
+  {
+    "id": "cmv69nlmi0005yllxq5dej33f",
+    "liveId": "5",
+    "question": "What is your approach to solving problems?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I analyze the situation and find logical solutions."
+      },
+      {
+        "value": "Empath",
+        "answer": "I look for creative and innovative solutions."
+      },
+      {
+        "value": "Initiator",
+        "answer": "I rely on others to help me find a solution."
+      },
+      {
+        "value": "Logical",
+        "answer": "I often feel overwhelmed and struggle to find solutions."
+      }
+    ],
+    "position": 5,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.242Z",
+    "updatedAt": "2026-10-13T05:54:37.242Z"
+  },
+  {
+    "id": "cmv69nlmi0006yllxhguj1yx7",
+    "liveId": "6",
+    "question": "How would you describe your social interactions?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I am very outgoing and make friends easily."
+      },
+      {
+        "value": "Empath",
+        "answer": "I am friendly but prefer small groups."
+      },
+      {
+        "value": "Logical",
+        "answer": "I am reserved and have a few close friends.."
+      },
+      {
+        "value": "Initiator",
+        "answer": "I am very introverted and avoid social interactions."
+      }
+    ],
+    "position": 6,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.243Z",
+    "updatedAt": "2026-10-13T05:54:37.243Z"
+  },
+  {
+    "id": "cmv69nlmj0007yllx6a6w9wyf",
+    "liveId": "7",
+    "question": "How do you manage your emotions?",
+    "answers": [
+      {
+        "value": "Achiever",
+        "answer": "I am very aware of my emotions and manage them well."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I understand my emotions but sometimes struggle to control them."
+      },
+      {
+        "value": "Logical",
+        "answer": "I find it difficult to identify and manage my emotions."
+      },
+      {
+        "value": "Empath",
+        "answer": "I often feel overwhelmed by my emotions."
+      }
+    ],
+    "position": 7,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.244Z",
+    "updatedAt": "2026-10-13T05:54:37.244Z"
+  },
+  {
+    "id": "cmv69nlmk0008yllxkhxtflko",
+    "liveId": "8",
+    "question": "How do you view your self-confidence?",
+    "answers": [
+      {
+        "value": "Empath",
+        "answer": "I am very confident in my abilities and decisions."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I have a moderate level of self-confidence."
+      },
+      {
+        "value": "Logical",
+        "answer": "I often doubt myself and my abilities."
+      },
+      {
+        "value": "Achiever",
+        "answer": "I have very low self-esteem and confidence."
+      }
+    ],
+    "position": 8,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.244Z",
+    "updatedAt": "2026-10-13T05:54:37.244Z"
+  },
+  {
+    "id": "cmv69nlmq0009yllx30iojbri",
+    "liveId": "9",
+    "question": "How would you describe your decision-making process?",
+    "answers": [
+      {
+        "value": "Logical",
+        "answer": "I make decisions quickly and confidently."
+      },
+      {
+        "value": "Empath",
+        "answer": "I take time to consider all options before deciding."
+      },
+      {
+        "value": "Achiever",
+        "answer": "I find it difficult to make decisions and often second-guess myself."
+      },
+      {
+        "value": "Enthusiast",
+        "answer": "I usually rely on others to make decisions for me."
+      }
+    ],
+    "position": 9,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.251Z",
+    "updatedAt": "2026-10-13T05:54:37.251Z"
+  },
+  {
+    "id": "cmv69nlms000ayllx9i0mpahd",
+    "liveId": "10",
+    "question": "How do you deal with changes and new situations?",
+    "answers": [
+      {
+        "value": "Enthusiast",
+        "answer": "I adapt quickly and enjoy new experiences."
+      },
+      {
+        "value": "Logical",
+        "answer": "I feel uncomfortable at first but eventually adjust."
+      },
+      {
+        "value": "Empath",
+        "answer": "I resist change and prefer things to stay the same."
+      },
+      {
+        "value": "Achiever",
+        "answer": "I avoid new situations whenever possible."
+      }
+    ],
+    "position": 10,
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.252Z",
+    "updatedAt": "2026-10-13T05:54:37.252Z"
+  }
+]

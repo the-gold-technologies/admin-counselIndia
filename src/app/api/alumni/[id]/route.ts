@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 
 export async function GET(
   request: Request,
@@ -33,6 +34,17 @@ export async function PATCH(
     const { id } = await params;
     const body = await request.json();
 
+    const existing = await prisma.alumni.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      return NextResponse.json({ success: false, error: "Alumni not found" }, { status: 404 });
+    }
+
+    // Clean up replaced image/certificate files on Cloudinary
+    await cleanupReplacedCloudinaryFiles(existing, body);
+
     const updated = await prisma.alumni.update({
       where: { id },
       data: body,
@@ -50,6 +62,15 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const existing = await prisma.alumni.findUnique({
+      where: { id },
+    });
+
+    if (existing) {
+      // Clean up all Cloudinary files attached to this alumni
+      await cleanupReplacedCloudinaryFiles(existing, null);
+    }
+
     await prisma.alumni.delete({
       where: { id },
     });

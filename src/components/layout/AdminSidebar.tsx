@@ -83,7 +83,7 @@ const sidebarLinks: SidebarItem[] = [
       { title: "Ci For Business", href: "/leads/ci-business", icon: User },
       {
         title: "Personality Test",
-        href: "/leads/personality-test",
+        href: "/personality-test/personality-entry",
         icon: MessageSquareText,
       },
       { title: "Ebook", href: "/leads/ebook", icon: MessageSquareText },
@@ -127,9 +127,16 @@ const sidebarLinks: SidebarItem[] = [
     title: "Personality Test",
     icon: BrainCircuit,
     sublinks: [
-      { title: "Test Entries", href: "/personality-test" },
+      { title: "Personality Test Info", href: "/personality-test/personality-test-info" },
       { title: "Questions", href: "/personality-test/questions" },
+      { title: "Personality Entry", href: "/personality-test/personality-entry" },
+      { title: "Tab Result", href: "/personality-test/tab-result" },
     ],
+  },
+  {
+    title: "Profile",
+    href: "/profile",
+    icon: User,
   },
 
   {

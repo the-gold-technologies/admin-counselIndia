@@ -30,6 +30,9 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+        formData.append("oldUrl", value);
+      }
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -60,6 +63,13 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
   };
 
   const handleClear = () => {
+    if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+      fetch("/api/upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: value }),
+      }).catch((err) => console.warn("Failed to delete Cloudinary file:", err));
+    }
     onChange("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };

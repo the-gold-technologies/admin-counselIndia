@@ -1,0 +1,222 @@
+[
+  {
+    "id": "cmv69nlmy000byllx50gduggu",
+    "liveId": "1",
+    "name": "The Achiever",
+    "description": "You are action- and result-oriented and focus on the tasks ahead, where performance and productivity are key. You are verbally and socially skilled. You enjoy problem-solving and have high achievement needs. You are good at balancing authority and compassion. You are able to create a favorable environment at your workplace. You focus on every detail of your task and expect the same from others. Your approach to life is optimistic, and you focus on possibilities even in difficult situations. You accept your failures and work towards success.",
+    "points": "1",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.259Z",
+    "updatedAt": "2026-10-13T05:54:37.259Z"
+  },
+  {
+    "id": "cmv69nln1000cyllxkp7jr92k",
+    "liveId": "2",
+    "name": "The Enthusiast",
+    "description": "You are super creative and fun-loving. You look for all the possibilities and love working on new ideas. You can fill the room with laughter and the desire to live life on your own terms. You are always curious to learn new things and believe in enjoying your life. You can be described as someone who is \"full of energy\" and life. You are always on the go to create something new and interesting.",
+    "points": "2",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.261Z",
+    "updatedAt": "2026-10-13T05:54:37.261Z"
+  },
+  {
+    "id": "cmv69nln1000dyllxmd2ztxtu",
+    "liveId": "3",
+    "name": "The Logical",
+    "description": "You are an analyst and a critical thinker. You tend to focus on the minute details. You make decisions based on facts and proof. You know how to detach yourself from biases and observe all the information. You are a practical and self-motivated person. You have intellect, and people like you for your fair decision-making. You communicate effectively and observe the situation as a whole. You can be described as a \"practical\" and \"fair\" person",
+    "points": "3",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.262Z",
+    "updatedAt": "2026-10-13T05:54:37.262Z"
+  },
+  {
+    "id": "cmv69nln2000eyllx2l5r64pf",
+    "liveId": "4",
+    "name": "The Empath",
+    "description": "You like listening to others’ issues. You are a person with a big heart who is sensitive to others’ emotions. You look at things from various perspectives. You seek pleasure in helping and understanding others’. You create a harmonious environment wherever you go and believe in spreading happiness. Making this world a better place is your ultimate goal. You are a peace lover. You can sense others’ energy and look forward to helping them. You can describe yourself as a \"supporter\" or \"helper\".",
+    "points": "4",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.262Z",
+    "updatedAt": "2026-10-13T05:54:37.262Z"
+  },
+  {
+    "id": "cmv69nln2000fyllx9h6w69zk",
+    "liveId": "5",
+    "name": "The Enthusiast and Achiever",
+    "description": "You are the one who works hard to achieve the goals and likes to offer help and suggestions to others. You are someone who can be described as action- and goal-oriented. You are adaptable to the situation. You go extra miles to check the results and value relationships. You believe in creating new ideas and working on your own terms.",
+    "points": "5",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.263Z",
+    "updatedAt": "2026-10-13T05:54:37.263Z"
+  },
+  {
+    "id": "cmv69nln3000gyllx3t99qmzm",
+    "liveId": "6",
+    "name": "The Achiever and Logical",
+    "description": "You have high intellect. Your main aim in life is to be successful. You are broad-minded and respect everyone’s opinion. You look for facts and figures before coming to any conclusions. You believe in working hard for your goals. You believe in doing and not just saying. You believe in inspiring others through your unbiased and practical approach.",
+    "points": "6",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.263Z",
+    "updatedAt": "2026-10-13T05:54:37.263Z"
+  },
+  {
+    "id": "cmv69nln3000hyllx85xx9e3m",
+    "liveId": "7",
+    "name": "The Achiever and Empath",
+    "description": "You are a compassionate person. You have a high need for achievement and are goal-oriented. Nonetheless, you try to understand other people's perspectives and make decisions that are in everyone's best interests. As a person, you can be described as a great leader and a humble person.",
+    "points": "7",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.263Z",
+    "updatedAt": "2026-10-13T05:54:37.263Z"
+  },
+  {
+    "id": "cmv69nln4000iyllxnx7ktk8n",
+    "liveId": "8",
+    "name": "The Enthusiast and Empath",
+    "description": "You can be described as someone who believes in helping others and adding something beautiful to their lives. You believe in enjoying life and creating new ideas. You are creative by nature and like working with people. You are sensitive by nature and possess good listening skills. You also initiate the process of understanding people and ideas. Emotions play a very important role in your life.",
+    "points": "8",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.264Z",
+    "updatedAt": "2026-10-13T05:54:37.264Z"
+  },
+  {
+    "id": "cmv69nlnc000jyllxp9h40bo7",
+    "liveId": "9",
+    "name": "The Empath and Logical",
+    "description": "You are someone who can be described as having a combination of understanding and focus. You analyze everything deeply, whether it is people or situations, and then act accordingly. You like discussing ideas and facts. You do what is fair and believe in working on yourself. You have a high level of focus on your goals and lifting others up.",
+    "points": "9",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.272Z",
+    "updatedAt": "2026-10-13T05:54:37.272Z"
+  },
+  {
+    "id": "cmv69nlne000kyllx122ymnip",
+    "liveId": "10",
+    "name": "The Enthusiast and Logical",
+    "description": "You are practical by nature, although you look for creative ideas to complete your task. People around you can describe you as someone who is unbiased and makes fair decisions. Your rule in life is clear, and you work on your own principles. You know how to separate your personal and professional lives. You always look for evidence before making any decision.",
+    "points": "10",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.274Z",
+    "updatedAt": "2026-10-13T05:54:37.274Z"
+  },
+  {
+    "id": "cmv69nlne000lyllxt8qflf9x",
+    "liveId": "11",
+    "name": "The Enthusiast and Achiever",
+    "description": "Is the one who works hard in achieving their goals and likes to offer help/suggestions to  others. They are action and goal oriented. They are adaptable to the situation. They all  extra miles to check the results. They also value relationships.",
+    "points": "11",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.275Z",
+    "updatedAt": "2026-10-13T05:54:37.275Z"
+  },
+  {
+    "id": "cmv69nlnf000myllxt6q2ejbu",
+    "liveId": "12",
+    "name": "The Achiever and Logical",
+    "description": "The one who tend to be intellect. They are open minded as they are willing to accept and  consider other views with value and broad-mindedness.",
+    "points": "12",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.275Z",
+    "updatedAt": "2026-10-13T05:54:37.275Z"
+  },
+  {
+    "id": "cmv69nlng000nyllxlh7x1b3r",
+    "liveId": "13",
+    "name": "The Achiever and Empath",
+    "description": "People with these personality traits are compassionate in nature. They listen to other’s with non-judgmental approach and response quickly to other’s suffering. They believing  in achieving their goals",
+    "points": "13",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.276Z",
+    "updatedAt": "2026-10-13T05:54:37.276Z"
+  },
+  {
+    "id": "cmv69nlng000oyllxh5055ksc",
+    "liveId": "14",
+    "name": "The Enthusiast and Achiever",
+    "description": "Is the one who works hard in achieving their goals and likes to offer help/suggestions to  others. They are action and goal oriented. They are adaptable to the situation. They all  extra miles to check the results. They also value relationships.",
+    "points": "14",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.277Z",
+    "updatedAt": "2026-10-13T05:54:37.277Z"
+  },
+  {
+    "id": "cmv69nlnl000pyllxuk5j4z9v",
+    "liveId": "15",
+    "name": "The Achiever and Logical",
+    "description": "The one who tend to be intellect. They are open minded as they are willing to accept and  consider other views with value and broad-mindedness.",
+    "points": "15",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.281Z",
+    "updatedAt": "2026-10-13T05:54:37.281Z"
+  },
+  {
+    "id": "cmv69nlnl000qyllxrhn0ckba",
+    "liveId": "16",
+    "name": "The Achiever and Empath",
+    "description": "People with these personality traits are compassionate in nature. They listen to other’s  with non-judgmental approach and response quickly to other’s suffering. They believing  in achieving their goals",
+    "points": "16",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.282Z",
+    "updatedAt": "2026-10-13T05:54:37.282Z"
+  },
+  {
+    "id": "cmv69nlnm000ryllx0omhey2u",
+    "liveId": "17",
+    "name": "The Enthusiast and Logical",
+    "description": "These people are practical in nature. They take things one at the time and look at the  realistic side of life. They have a balanced approach towards life and people around them",
+    "points": "17",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.282Z",
+    "updatedAt": "2026-10-13T05:54:37.282Z"
+  },
+  {
+    "id": "cmv69nlnm000syllxty6v17po",
+    "liveId": "18",
+    "name": "The Enthusiast and Empath",
+    "description": "The one who likes to add on positive aspects in each sphere and situations. Who initiates  in understanding others. They always look forward in trying new projects. These people   are sensitive in nature as well.",
+    "points": "18",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.283Z",
+    "updatedAt": "2026-10-13T05:54:37.283Z"
+  },
+  {
+    "id": "cmv69nlnn000tyllxtep8hjwt",
+    "liveId": "19",
+    "name": "The Empath and Logical",
+    "description": "People with this personality trait tend to be analytical. They review and study situations deeply and then act accordingly. They like to discuss the idea and focus on what is right   as per the facts.",
+    "points": "19",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.283Z",
+    "updatedAt": "2026-10-13T05:54:37.283Z"
+  },
+  {
+    "id": "cmv69nlnn000uyllxhy0trx8y",
+    "liveId": "20",
+    "name": "The Enthusiast and Logical",
+    "description": "These people are practical in nature. They take things one at the time and look at the  realistic side of life. They have a balanced approach towards life and people around them",
+    "points": "20",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.284Z",
+    "updatedAt": "2026-10-13T05:54:37.284Z"
+  },
+  {
+    "id": "cmv69nlno000vyllxwojoiv43",
+    "liveId": "21",
+    "name": "The Enthusiast and Empath",
+    "description": "The one who likes to add on positive aspects in each sphere and situations. Who initiates  in understanding others. They always look forward in trying new projects. These people                      are sensitive in nature as well.",
+    "points": "21",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.284Z",
+    "updatedAt": "2026-10-13T05:54:37.284Z"
+  },
+  {
+    "id": "cmv69nlno000wyllxldza3t1t",
+    "liveId": "22",
+    "name": "The Empath and Logical",
+    "description": "People with this personality trait tend to be analytical. They review and study situations  deeply and then act accordingly. They like to discuss the idea and focus on what is right  as per the facts.",
+    "points": "22",
+    "status": "Active",
+    "createdAt": "2026-10-13T05:54:37.285Z",
+    "updatedAt": "2026-10-13T05:54:37.285Z"
+  }
+]

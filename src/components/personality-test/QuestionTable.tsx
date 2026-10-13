@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Edit3, Trash2, X, Loader2, ListChecks } from "lucide-react";
+import Link from "next/link";
+import { Plus, Search, Edit2, Trash2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface AnswerOption {
@@ -18,34 +19,14 @@ export interface QuestionItem {
   status: string;
 }
 
-const PERSONALITY_TYPES = [
-  "Achiever",
-  "Empath",
-  "Logical",
-  "Enthusiast",
-  "Initiator",
-];
-
 export default function QuestionTable() {
   const [items, setItems] = useState<QuestionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<QuestionItem | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
-  // Form State
-  const [formData, setFormData] = useState({
-    question: "",
-    answers: [
-      { answer: "", value: "Achiever" },
-      { answer: "", value: "Enthusiast" },
-      { answer: "", value: "Logical" },
-      { answer: "", value: "Empath" },
-    ],
-    position: 1,
-    status: "Active",
-  });
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const fetchData = async () => {
     setLoading(true);
@@ -66,92 +47,8 @@ export default function QuestionTable() {
     fetchData();
   }, []);
 
-  const openAddModal = () => {
-    setEditingItem(null);
-    setFormData({
-      question: "",
-      answers: [
-        { answer: "", value: "Achiever" },
-        { answer: "", value: "Enthusiast" },
-        { answer: "", value: "Logical" },
-        { answer: "", value: "Empath" },
-      ],
-      position: items.length + 1,
-      status: "Active",
-    });
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (item: QuestionItem) => {
-    setEditingItem(item);
-    const parsedAnswers = Array.isArray(item.answers)
-      ? item.answers
-      : typeof item.answers === "string"
-      ? JSON.parse(item.answers)
-      : [];
-
-    setFormData({
-      question: item.question,
-      answers:
-        parsedAnswers.length >= 4
-          ? parsedAnswers
-          : [
-              ...parsedAnswers,
-              ...Array(Math.max(0, 4 - parsedAnswers.length)).fill({
-                answer: "",
-                value: "Achiever",
-              }),
-            ],
-      position: item.position || 1,
-      status: item.status || "Active",
-    });
-    setIsModalOpen(true);
-  };
-
-  const handleAnswerChange = (idx: number, field: "answer" | "value", val: string) => {
-    const nextAnswers = [...formData.answers];
-    nextAnswers[idx] = { ...nextAnswers[idx], [field]: val };
-    setFormData({ ...formData, answers: nextAnswers });
-  };
-
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.question.trim()) return;
-
-    setSubmitting(true);
-    try {
-      if (editingItem) {
-        const res = await fetch("/api/personality-test/questions", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: editingItem.id, ...formData }),
-        });
-        const json = await res.json();
-        if (json.success) {
-          setIsModalOpen(false);
-          fetchData();
-        }
-      } else {
-        const res = await fetch("/api/personality-test/questions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-        const json = await res.json();
-        if (json.success) {
-          setIsModalOpen(false);
-          fetchData();
-        }
-      }
-    } catch (e) {
-      console.error("Failed to save question:", e);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   const handleDelete = async (id: string, question: string) => {
-    if (!window.confirm(`Delete question: "${question.slice(0, 50)}..."?`)) return;
+    if (!window.confirm(`Are you sure you want to delete this question?\n\n"${question.slice(0, 60)}..."`)) return;
     try {
       const res = await fetch(`/api/personality-test/questions?id=${id}`, {
         method: "DELETE",
@@ -159,6 +56,8 @@ export default function QuestionTable() {
       const json = await res.json();
       if (json.success) {
         fetchData();
+      } else {
+        alert(json.error || "Failed to delete question");
       }
     } catch (e) {
       console.error("Failed to delete question:", e);
@@ -171,103 +70,148 @@ export default function QuestionTable() {
       String(i.position).includes(search)
   );
 
+  // Pagination calculation
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+  const safePage = Math.min(Math.max(currentPage, 1), totalPages);
+  const startIndex = (safePage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, totalItems);
+  const paginated = filtered.slice(startIndex, endIndex);
+
+  const getPaginationRange = (): (number | string)[] => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const range: (number | string)[] = [];
+    const delta = 1;
+    for (
+      let i = Math.max(2, safePage - delta);
+      i <= Math.min(totalPages - 1, safePage + delta);
+      i++
+    ) {
+      range.push(i);
+    }
+    if (safePage - delta > 2) range.unshift("...");
+    if (safePage + delta < totalPages - 1) range.push("...");
+    range.unshift(1);
+    if (totalPages > 1) range.push(totalPages);
+    return range;
+  };
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* Search & Actions Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+    <div className="flex flex-col gap-5 w-full pt-1">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-[26px] font-bold text-[#0B0F29] tracking-tight">
+            Questions
+          </h1>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
+            Configure assessment questions, answer choices, and psychological trait value mappings.
+          </p>
+        </div>
+
+        <Link
+          href="/personality-test/questions/create"
+          className="px-4.5 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white font-bold text-xs shadow-md shadow-[#09A64A]/20 transition-all cursor-pointer inline-flex items-center gap-2 whitespace-nowrap self-start sm:self-auto"
+        >
+          <Plus className="w-4 h-4" />
+          <span>+ Add Question</span>
+        </Link>
+      </div>
+
+      {/* Filter / Search Bar Card */}
+      <div className="bg-white rounded-2xl border border-gray-200/80 p-3.5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="relative w-full sm:w-80">
+          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
+            placeholder="Search questions by text, position..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by question text or position..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A]"
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="w-full bg-[#f8fafc] border border-gray-200 rounded-xl pl-9.5 pr-4 py-2 text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A] transition-all"
           />
         </div>
 
-        <button
-          onClick={openAddModal}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#09A64A] hover:bg-[#089341] text-white rounded-xl text-xs font-bold shadow-xs transition-all cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Question</span>
-        </button>
+        <div className="text-xs text-gray-500 font-medium px-2">
+          Total: <span className="font-bold text-gray-800">{filtered.length} Questions</span>
+        </div>
       </div>
 
-      {/* Table Container */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
+      {/* Main Table Card */}
+      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
-              <tr className="bg-[#f8fafc] border-b border-gray-100 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-                <th className="py-3.5 px-4 w-16 text-center">#ID</th>
-                <th className="py-3.5 px-4 w-72">Question</th>
-                <th className="py-3.5 px-4">Answer Options & Trait Mapping</th>
-                <th className="py-3.5 px-4 w-24 text-center">Position</th>
-                <th className="py-3.5 px-4 w-28 text-center">Status</th>
-                <th className="py-3.5 px-4 w-28 text-center">Action</th>
+              <tr className="bg-[#09A64A] text-white font-semibold text-[13.5px] tracking-wide">
+                <th className="py-4.5 px-6 w-20 text-center">#ID</th>
+                <th className="py-4.5 px-6 min-w-[260px]">Question</th>
+                <th className="py-4.5 px-6 min-w-[340px]">Answer Options &amp; Trait Mappings</th>
+                <th className="py-4.5 px-6 w-24 text-center">Position</th>
+                <th className="py-4.5 px-6 w-28 text-center">Status</th>
+                <th className="py-4.5 px-6 text-center w-28">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 text-xs">
+            <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-gray-400 font-medium">
+                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#09A64A]" />
                     Loading questions...
                   </td>
                 </tr>
-              ) : filtered.length === 0 ? (
+              ) : paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-gray-400 font-medium">
-                    No questions found matching your search.
+                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
+                    No questions found.
                   </td>
                 </tr>
               ) : (
-                filtered.map((item, index) => {
+                paginated.map((item, index) => {
                   const answers: AnswerOption[] = Array.isArray(item.answers)
                     ? item.answers
                     : typeof item.answers === "string"
                     ? JSON.parse(item.answers || "[]")
                     : [];
 
+                  const displayIndex = startIndex + index + 1;
+
                   return (
-                    <tr key={item.id} className="hover:bg-gray-50/80 transition-colors">
-                      <td className="py-3.5 px-4 text-center font-bold text-gray-400">
-                        {item.liveId || index + 1}
+                    <tr key={item.id} className="hover:bg-gray-50/70 transition-colors duration-150">
+                      <td className="py-4.5 px-6 text-center font-bold text-gray-500 text-[14px]">
+                        {item.liveId || displayIndex}
                       </td>
-                      <td className="py-3.5 px-4 font-bold text-gray-900 leading-snug">
+                      <td className="py-4.5 px-6 font-bold text-gray-900 text-[14.5px] leading-snug">
                         {item.question}
                       </td>
-                      <td className="py-3.5 px-4">
+                      <td className="py-4.5 px-6">
                         <div className="flex flex-col gap-1.5 py-1">
                           {answers.map((ans, aIdx) => (
                             <div
                               key={aIdx}
-                              className="flex items-start gap-2 bg-gray-50/90 hover:bg-gray-100/80 px-2.5 py-1.5 rounded-lg border border-gray-100 transition-colors"
+                              className="text-[13px] text-gray-700 flex items-center justify-between gap-2 p-1.5 rounded-lg bg-gray-50/90 border border-gray-100"
                             >
-                              <span className="w-4 h-4 rounded-full bg-white border border-gray-200 text-[10px] font-bold text-gray-500 flex items-center justify-center shrink-0 mt-0.5">
-                                {aIdx + 1}
-                              </span>
-                              <span className="text-gray-700 font-medium flex-1 text-[11.5px] leading-snug">
-                                {ans.answer}
-                              </span>
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-gray-400 text-xs">{aIdx + 1}.</span>
+                                <span>{ans.answer}</span>
+                              </div>
+                              <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 shrink-0">
                                 {ans.value}
                               </span>
                             </div>
                           ))}
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 text-center">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold bg-gray-100 text-gray-700">
-                          #{item.position}
-                        </span>
+                      <td className="py-4.5 px-6 text-center text-gray-700 font-bold text-[14px]">
+                        #{item.position}
                       </td>
-                      <td className="py-3.5 px-4 text-center">
+                      <td className="py-4.5 px-6 text-center">
                         <span
                           className={cn(
-                            "inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold",
+                            "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold",
                             item.status === "Active"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                               : "bg-gray-100 text-gray-600 border border-gray-200"
@@ -276,21 +220,21 @@ export default function QuestionTable() {
                           {item.status}
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 text-center">
-                        <div className="flex items-center justify-center gap-1.5">
-                          <button
-                            onClick={() => openEditModal(item)}
-                            title="Edit"
-                            className="w-8 h-8 rounded-lg bg-emerald-50 text-[#09A64A] hover:bg-[#09A64A] hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-2xs"
+                      <td className="py-4.5 px-6 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <Link
+                            href={`/personality-test/questions/${item.id}/edit`}
+                            title="Edit Question"
+                            className="w-9 h-9 rounded-xl bg-emerald-50 text-[#09A64A] hover:bg-[#09A64A] hover:text-white transition-all inline-flex items-center justify-center cursor-pointer shadow-2xs"
                           >
-                            <Edit3 className="w-3.5 h-3.5" />
-                          </button>
+                            <Edit2 className="w-4 h-4" />
+                          </Link>
                           <button
                             onClick={() => handleDelete(item.id, item.question)}
-                            title="Delete"
-                            className="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-2xs"
+                            title="Delete Question"
+                            className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-all inline-flex items-center justify-center cursor-pointer shadow-2xs"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>
@@ -301,131 +245,79 @@ export default function QuestionTable() {
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* Add / Edit Question Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl border border-gray-100 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-              <h3 className="text-base font-bold text-gray-900">
-                {editingItem ? "Edit Question" : "Add New Question"}
-              </h3>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 flex items-center justify-center cursor-pointer"
+        {/* 10-10 Pagination Footer */}
+        <div className="px-6 py-4.5 bg-gray-50/60 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600 font-medium">
+          <div className="flex items-center gap-5 sm:gap-6">
+            <span className="text-gray-700 text-[13.5px]">
+              Showing <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex + 1 : 0}</span> to{" "}
+              <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
+              <span className="font-bold text-gray-900">{totalItems}</span> entries
+            </span>
+
+            <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500 pl-5 border-l border-gray-200">
+              <span className="font-medium text-gray-600">Show</span>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-xs font-bold text-gray-800 shadow-2xs hover:border-[#09A64A] focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+              <span className="font-medium text-gray-600">per page</span>
+            </div>
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={safePage === 1}
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-2xs text-xs font-semibold transition-all"
+              >
+                Previous
+              </button>
+
+              {getPaginationRange().map((page, idx) =>
+                page === "..." ? (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="px-2 text-gray-400 font-bold text-xs select-none"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={`page-${page}`}
+                    onClick={() => setCurrentPage(Number(page))}
+                    className={`min-w-8.5 h-8 px-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      safePage === page
+                        ? "bg-[#09A64A] text-white shadow-xs"
+                        : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={safePage === totalPages}
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-2xs text-xs font-semibold transition-all"
+              >
+                Next
               </button>
             </div>
-
-            <form onSubmit={handleSave} className="flex flex-col gap-4 pt-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">
-                  Question Text *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.question}
-                  onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                  placeholder="e.g. How do you typically respond to stressful situations?"
-                  className="w-full px-3.5 py-2 border border-gray-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] outline-none"
-                />
-              </div>
-
-              {/* 4 Answers */}
-              <div className="flex flex-col gap-3">
-                <label className="block text-xs font-bold text-gray-700">
-                  Answer Options & Personality Archetype Mappings (4 Choices) *
-                </label>
-                {formData.answers.map((ans, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 bg-gray-50 border border-gray-200 rounded-xl flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center"
-                  >
-                    <span className="w-6 h-6 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-600 flex items-center justify-center shrink-0">
-                      {idx + 1}
-                    </span>
-                    <input
-                      type="text"
-                      required
-                      value={ans.answer}
-                      onChange={(e) => handleAnswerChange(idx, "answer", e.target.value)}
-                      placeholder={`Answer option ${idx + 1}...`}
-                      className="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] outline-none"
-                    />
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="text-[11px] font-bold text-gray-500">Value:</span>
-                      <select
-                        value={ans.value}
-                        onChange={(e) => handleAnswerChange(idx, "value", e.target.value)}
-                        className="px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-emerald-800 focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] outline-none"
-                      >
-                        {PERSONALITY_TYPES.map((pt) => (
-                          <option key={pt} value={pt}>
-                            {pt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    Display Position
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    required
-                    value={formData.position}
-                    onChange={(e) =>
-                      setFormData({ ...formData, position: Number(e.target.value) || 1 })
-                    }
-                    className="w-full px-3.5 py-2 border border-gray-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    Status
-                  </label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2 border border-gray-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] outline-none"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-5 py-2 bg-[#09A64A] hover:bg-[#089341] text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5"
-                >
-                  {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{editingItem ? "Update Question" : "Create Question"}</span>
-                </button>
-              </div>
-            </form>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

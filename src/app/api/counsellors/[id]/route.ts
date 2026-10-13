@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -63,6 +64,9 @@ export async function PATCH(
       );
     }
 
+    // Clean up replaced files on Cloudinary
+    await cleanupReplacedCloudinaryFiles(existing, body);
+
     const updated = await prisma.counselor.update({
       where: { id: existing.id },
       data: {
@@ -101,6 +105,9 @@ export async function DELETE(
         { status: 404 }
       );
     }
+
+    // Delete all attached files from Cloudinary on delete
+    await cleanupReplacedCloudinaryFiles(existing, null);
 
     await prisma.counselor.delete({
       where: { id: existing.id },

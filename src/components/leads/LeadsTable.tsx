@@ -58,9 +58,25 @@ function renderCell(
   currentPage: number,
   pageSize: number
 ) {
-  const { key } = col;
+  const { key, label } = col;
 
-  if (key === 'sNo') {
+  if (key === 'sNo' || key === 'id' || key === 'liveId') {
+    const isIdCol =
+      key === 'id' ||
+      key === 'liveId' ||
+      (Boolean(label) && (/#?id\b/i.test(label!.trim()) || label!.toLowerCase().endsWith('id')));
+
+    if (isIdCol) {
+      // If it is ID, show that particular ID only
+      const idVal = lead.liveId ?? lead.sNo ?? lead.id ?? ((currentPage - 1) * pageSize + index + 1);
+      return (
+        <span className="font-semibold text-gray-700 font-mono text-[11px]">
+          {idVal}
+        </span>
+      );
+    }
+
+    // If it is SN number, start from 1, 2, ...
     const displayVal = (currentPage - 1) * pageSize + index + 1;
     return (
       <span className="font-semibold text-gray-500 font-mono text-[11px]">
@@ -314,14 +330,20 @@ export default function LeadsTable({
       if (!json.success) return;
 
       const rows = json.data;
-      const exportCols = columns.filter((c) => c.key !== 'sNo');
+      const exportCols = columns.slice(1);
+      const firstCol = columns[0];
+      const isFirstColId =
+        firstCol &&
+        (firstCol.key === 'id' ||
+          firstCol.key === 'liveId' ||
+          (Boolean(firstCol.label) && (/#?id\b/i.test(firstCol.label!.trim()) || firstCol.label!.toLowerCase().endsWith('id'))));
 
-      // Matching Counsel India format: Id, Name, Email, Phone Number / Mobile ...
-      const headers = ['Id', ...exportCols.map((c) => (c.key === 'mobile' ? 'Phone Number' : c.label))];
+      const firstHeaderLabel = isFirstColId ? (firstCol.label || 'Id') : 'S.No';
+      const headers = [firstHeaderLabel, ...exportCols.map((c) => (c.key === 'mobile' ? 'Phone Number' : c.label))];
       const csvRows = [headers.join(',')];
 
       rows.forEach((row: any, idx: number) => {
-        const idVal = idx + 1;
+        const idVal = isFirstColId ? (row.liveId ?? row.sNo ?? (idx + 1)) : (idx + 1);
         const cells = [
           `"${String(idVal).replace(/"/g, '""')}"`,
           ...exportCols.map((col) => {
