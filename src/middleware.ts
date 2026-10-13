@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
+import { corsHeaders } from "@/lib/cors";
 
 const AUTH_COOKIE_NAME = "counselindia_admin_token";
 
@@ -22,6 +23,35 @@ export async function middleware(request: NextRequest) {
     /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname)
   ) {
     return NextResponse.next();
+  }
+
+  // Handle CORS preflight options request
+  if (pathname.startsWith("/api/") && request.method === "OPTIONS") {
+    return new NextResponse(null, { status: 204, headers: corsHeaders });
+  }
+
+  // Allow public API access for public website data
+  const isPublicApi =
+    (request.method === "GET" && (
+      pathname.startsWith("/api/courses") ||
+      pathname.startsWith("/api/counsellors") ||
+      pathname.startsWith("/api/alumni") ||
+      pathname.startsWith("/api/settings") ||
+      pathname.startsWith("/api/personality-test/info") ||
+      pathname.startsWith("/api/personality-test/questions") ||
+      pathname.startsWith("/api/personality-test/tab-result")
+    )) ||
+    (request.method === "POST" && (
+      pathname.startsWith("/api/leads") ||
+      pathname.startsWith("/api/personality-test/entries")
+    ));
+
+  if (isPublicApi) {
+    const response = NextResponse.next();
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
+    return response;
   }
 
   // 2. Read auth token cookie
@@ -51,11 +81,11 @@ export async function middleware(request: NextRequest) {
 
   // 4. If not authenticated and attempting to access protected admin pages or APIs
   if (!isAuthenticated) {
-    // If it's an API route (other than auth/login), return 401 JSON
+    // If it is an API route (other than public APIs), return 401 JSON
     if (pathname.startsWith("/api/")) {
       return NextResponse.json(
         { error: "Unauthorized. Please login to continue." },
-        { status: 401 }
+        { status: 401, headers: corsHeaders }
       );
     }
 
@@ -71,12 +101,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };

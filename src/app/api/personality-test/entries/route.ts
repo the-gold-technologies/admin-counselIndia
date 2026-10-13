@@ -63,3 +63,54 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const category = "personality-test";
+
+    const lastLead = await prisma.inquiryLead.findFirst({
+      where: { category },
+      orderBy: { sNo: "desc" },
+      select: { sNo: true },
+    });
+    const nextSNo = (lastLead?.sNo ?? 0) + 1;
+
+    const extraData = {
+      gender: body.gender || "",
+      age: body.age ? String(body.age) : "",
+      proBackground: body.proBackground || body.pro_background || "",
+      purposeGiveTest: body.purposeGiveTest || body.purpose_give_test || "",
+      result: body.result || body.resultName || "0",
+      answers: body.answers || {},
+    };
+
+    const newLead = await prisma.inquiryLead.create({
+      data: {
+        sNo: nextSNo,
+        category,
+        name: body.name?.trim() || null,
+        email: body.email?.trim() || null,
+        mobile: body.mobile?.trim() || null,
+        countryCode: body.countryCode || body.country || null,
+        state: body.state || null,
+        city: body.city || null,
+        medium: body.medium || "Website Personality Test",
+        source: body.source || "Eligibility Test",
+        content: body.content || `Background: ${extraData.proBackground} | Purpose: ${extraData.purposeGiveTest}`,
+        hearFrom: body.hearFrom || body.hearabout || null,
+        extraData,
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: newLead,
+      message: "Personality test entry recorded successfully",
+    }, { status: 201 });
+  } catch (error: any) {
+    console.error("Failed to create personality entry:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
