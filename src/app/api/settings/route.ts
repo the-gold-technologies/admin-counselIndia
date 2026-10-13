@@ -19,15 +19,12 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json(
-      { success: true, data: settings },
-      { headers: corsHeaders },
-    );
+    return NextResponse.json({ success: true, data: settings }, { headers: corsHeaders });
   } catch (error) {
     console.error("GET /api/settings error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch settings" },
-      { status: 500, headers: corsHeaders },
+      { status: 500, headers: corsHeaders }
     );
   }
 }
@@ -57,13 +54,13 @@ export async function PATCH(request: Request) {
         message: "Settings updated successfully",
         data: settings,
       },
-      { headers: corsHeaders },
+      { headers: corsHeaders }
     );
   } catch (error) {
     console.error("PATCH /api/settings error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to update settings" },
-      { status: 500, headers: corsHeaders },
+      { status: 500, headers: corsHeaders }
     );
   }
 }

@@ -55,29 +55,23 @@ export async function GET(request: Request) {
     }
 
     // Fetch tab counts
-    const [
-      total,
-      allCount,
-      newCount,
-      contactedCount,
-      enrolledCount,
-      completedCount,
-    ] = await Promise.all([
-      prisma.courseLead.count({ where }),
-      prisma.courseLead.count(),
-      prisma.courseLead.count({
-        where: { status: { equals: "New", mode: "insensitive" } },
-      }),
-      prisma.courseLead.count({
-        where: { status: { equals: "Contacted", mode: "insensitive" } },
-      }),
-      prisma.courseLead.count({
-        where: { status: { equals: "Enrolled", mode: "insensitive" } },
-      }),
-      prisma.courseLead.count({
-        where: { status: { equals: "Completed", mode: "insensitive" } },
-      }),
-    ]);
+    const [total, allCount, newCount, contactedCount, enrolledCount, completedCount] =
+      await Promise.all([
+        prisma.courseLead.count({ where }),
+        prisma.courseLead.count(),
+        prisma.courseLead.count({
+          where: { status: { equals: "New", mode: "insensitive" } },
+        }),
+        prisma.courseLead.count({
+          where: { status: { equals: "Contacted", mode: "insensitive" } },
+        }),
+        prisma.courseLead.count({
+          where: { status: { equals: "Enrolled", mode: "insensitive" } },
+        }),
+        prisma.courseLead.count({
+          where: { status: { equals: "Completed", mode: "insensitive" } },
+        }),
+      ]);
 
     // Fetch distinct course names for filter dropdown
     const distinctCourses = await prisma.courseLead.findMany({
@@ -117,13 +111,13 @@ export async function GET(request: Request) {
           totalPages: fetchAll ? 1 : Math.ceil(total / limit) || 1,
         },
       },
-      { headers: corsHeaders },
+      { headers: corsHeaders }
     );
   } catch (error: any) {
     console.error("GET /api/course-leads error:", error);
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500, headers: corsHeaders },
+      { status: 500, headers: corsHeaders }
     );
   }
 }
@@ -136,7 +130,7 @@ export async function POST(request: Request) {
     if (!name || !email) {
       return NextResponse.json(
         { success: false, error: "Name and email are required" },
-        { status: 400, headers: corsHeaders },
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -175,13 +169,13 @@ export async function POST(request: Request) {
         data: newLead,
         message: "Course lead submitted successfully",
       },
-      { status: 201, headers: corsHeaders },
+      { status: 201, headers: corsHeaders }
     );
   } catch (error: any) {
     console.error("POST /api/course-leads error:", error);
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500, headers: corsHeaders },
+      { status: 500, headers: corsHeaders }
     );
   }
 }

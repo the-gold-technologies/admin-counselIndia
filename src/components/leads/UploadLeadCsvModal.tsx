@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  ChangeEvent,
-  DragEvent,
-} from "react";
+import React, { useState, useEffect, useRef, ChangeEvent, DragEvent } from "react";
 import {
   UploadCloud,
   FileSpreadsheet,
@@ -203,9 +197,7 @@ export default function UploadLeadCsvModal({
               <UploadCloud className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-gray-900">
-                Import Leads from CSV
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">Import Leads from CSV</h2>
               <p className="text-xs text-gray-500">
                 Upload CSV exports directly into your database
               </p>
@@ -303,8 +295,7 @@ export default function UploadLeadCsvModal({
                 Click to browse or drag & drop CSV file
               </h3>
               <p className="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
-                Supports Counsel India live CSV exports (Id, Name, Email, Phone
-                Number, etc.)
+                Supports Counsel India live CSV exports (Id, Name, Email, Phone Number, etc.)
               </p>
               <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-gray-200 rounded-full text-[11px] font-semibold text-gray-600 shadow-2xs">
                 <span>Any file size supported</span> • <span>Bulk import</span>
@@ -372,11 +363,7 @@ export default function UploadLeadCsvModal({
                                 key={ci}
                                 className="py-2 px-3 whitespace-nowrap max-w-[150px] truncate"
                               >
-                                {cell || (
-                                  <span className="text-gray-300 italic">
-                                    empty
-                                  </span>
-                                )}
+                                {cell || <span className="text-gray-300 italic">empty</span>}
                               </td>
                             ))}
                           </tr>

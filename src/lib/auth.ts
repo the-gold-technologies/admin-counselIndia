@@ -6,9 +6,10 @@ import { NextRequest } from "next/server";
 export const AUTH_COOKIE_NAME = "counselindia_admin_token";
 
 const getSecretKey = () => {
-  const secret =
-    process.env.JWT_SECRET ||
-    "counselindia_super_secure_jwt_secret_key_2026_tgt";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET is not defined in environment variables");
+  }
   return new TextEncoder().encode(secret);
 };
 
@@ -47,10 +48,7 @@ export async function verifyToken(token: string): Promise<TokenPayload | null> {
 /**
  * Compare plain text password with hashed password
  */
-export async function comparePassword(
-  plain: string,
-  hashed: string,
-): Promise<boolean> {
+export async function comparePassword(plain: string, hashed: string): Promise<boolean> {
   return bcrypt.compare(plain, hashed);
 }
 

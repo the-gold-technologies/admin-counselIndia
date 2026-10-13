@@ -75,8 +75,7 @@ export function AdminRightSidebar({
           Admissions Live
         </h2>
         <p className="text-xs font-medium text-gray-400 leading-relaxed max-w-[220px] mb-6">
-          Review candidates, allocate academic counselors, and manage learner
-          verifications.
+          Review candidates, allocate academic counselors, and manage learner verifications.
         </p>
 
         {onOpenAddModal && (
@@ -109,9 +108,7 @@ export function AdminRightSidebar({
             >
               <div className="space-y-0.5 min-w-0 pr-2">
                 <p className="font-bold text-gray-900 truncate">{act.title}</p>
-                <p className="text-[11px] text-gray-500 truncate">
-                  {act.subtitle}
-                </p>
+                <p className="text-[11px] text-gray-500 truncate">{act.subtitle}</p>
                 <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-1 font-medium">
                   <Clock className="w-3 h-3 text-gray-400" />
                   {act.time}

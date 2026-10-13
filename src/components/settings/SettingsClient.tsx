@@ -107,9 +107,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
           setSettings((prev) => ({
             ...prev,
             ...json.data,
-            referWallet: json.data.referWallet
-              ? String(json.data.referWallet)
-              : "100",
+            referWallet: json.data.referWallet ? String(json.data.referWallet) : "100",
           }));
         }
       } catch (err) {
@@ -137,10 +135,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
     router.push(`/settings/${tab}`);
   };
 
-  const showToast = (
-    message: string,
-    type: "success" | "error" = "success",
-  ) => {
+  const showToast = (message: string, type: "success" | "error" = "success") => {
     setToast({ type, message });
     setTimeout(() => {
       setToast(null);
@@ -226,9 +221,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
 
       const json = await res.json();
       if (json.success) {
-        showToast(
-          `${tab.charAt(0).toUpperCase() + tab.slice(1)} Settings saved successfully!`,
-        );
+        showToast(`${tab.charAt(0).toUpperCase() + tab.slice(1)} Settings saved successfully!`);
       } else {
         showToast(json.error || "Failed to save settings", "error");
       }
@@ -256,9 +249,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
     return (
       <div className="bg-white rounded-3xl border border-gray-100 p-20 text-center shadow-xs">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mx-auto mb-3" />
-        <p className="text-sm font-semibold text-gray-600">
-          Loading settings...
-        </p>
+        <p className="text-sm font-semibold text-gray-600">Loading settings...</p>
       </div>
     );
   }
@@ -295,8 +286,8 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
             Settings Management
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 mt-1">
-            Configure system parameters, brand assets, contact channels, legal
-            policies, and footer details
+            Configure system parameters, brand assets, contact channels, legal policies, and footer
+            details
           </p>
         </div>
       </div>
@@ -317,9 +308,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                   : "border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300"
               }`}
             >
-              <Icon
-                className={`w-4 h-4 ${isActive ? "text-[#09A64A]" : "text-gray-400"}`}
-              />
+              <Icon className={`w-4 h-4 ${isActive ? "text-[#09A64A]" : "text-gray-400"}`} />
               <span>{t.label}</span>
             </button>
           );
@@ -348,9 +337,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.title}
-                  onChange={(e) =>
-                    setSettings({ ...settings, title: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, title: e.target.value })}
                   placeholder="e.g. Counselindia"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -366,15 +353,11 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.footer}
-                  onChange={(e) =>
-                    setSettings({ ...settings, footer: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, footer: e.target.value })}
                   placeholder="e.g. Counselindia"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
-                <p className="text-[11px] text-gray-400">
-                  Copyright label displayed in footer
-                </p>
+                <p className="text-[11px] text-gray-400">Copyright label displayed in footer</p>
               </div>
 
               <div className="space-y-2">
@@ -384,15 +367,11 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="number"
                   value={settings.referWallet}
-                  onChange={(e) =>
-                    setSettings({ ...settings, referWallet: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, referWallet: e.target.value })}
                   placeholder="100"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
-                <p className="text-[11px] text-gray-400">
-                  Bonus points added for user referral
-                </p>
+                <p className="text-[11px] text-gray-400">Bonus points added for user referral</p>
               </div>
             </div>
           </div>
@@ -403,9 +382,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
               <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
                 2. Brand Identity Assets
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
-                Official logos and browser tab favicon
-              </p>
+              <p className="text-xs text-gray-400 mt-1">Official logos and browser tab favicon</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -473,9 +450,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.companyName}
-                  onChange={(e) =>
-                    setSettings({ ...settings, companyName: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, companyName: e.target.value })}
                   placeholder="e.g. counselindiaAdmin"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -488,9 +463,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.websiteLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, websiteLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, websiteLink: e.target.value })}
                   placeholder="counselindia"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -503,9 +476,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.gstNumber}
-                  onChange={(e) =>
-                    setSettings({ ...settings, gstNumber: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, gstNumber: e.target.value })}
                   placeholder="09AAICC6447N1Z0"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -518,9 +489,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.address}
-                  onChange={(e) =>
-                    setSettings({ ...settings, address: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, address: e.target.value })}
                   placeholder="counselindia"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -536,9 +505,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
                   2. Communication & Helpdesks
                 </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                  Official emails and telephone numbers
-                </p>
+                <p className="text-xs text-gray-400 mt-1">Official emails and telephone numbers</p>
               </div>
             </div>
 
@@ -550,9 +517,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.adminEmail}
-                  onChange={(e) =>
-                    setSettings({ ...settings, adminEmail: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, adminEmail: e.target.value })}
                   placeholder="counselindia"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -565,9 +530,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.supportEmail}
-                  onChange={(e) =>
-                    setSettings({ ...settings, supportEmail: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
                   placeholder="support@counselindia.co.in"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -580,9 +543,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.helplineNumber}
-                  onChange={(e) =>
-                    setSettings({ ...settings, helplineNumber: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, helplineNumber: e.target.value })}
                   placeholder="8888888888"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -595,9 +556,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.whatsNumber}
-                  onChange={(e) =>
-                    setSettings({ ...settings, whatsNumber: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, whatsNumber: e.target.value })}
                   placeholder="8888888888"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -631,9 +590,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
                   3. Social Channels & Mobile Applications
                 </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                  Social profiles and mobile store links
-                </p>
+                <p className="text-xs text-gray-400 mt-1">Social profiles and mobile store links</p>
               </div>
             </div>
 
@@ -645,9 +602,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.facebookLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, facebookLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, facebookLink: e.target.value })}
                   placeholder="https://www.facebook.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -660,9 +615,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.linkedinLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, linkedinLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, linkedinLink: e.target.value })}
                   placeholder="https://www.linkedin.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -675,9 +628,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.twitterLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, twitterLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, twitterLink: e.target.value })}
                   placeholder="https://twitter.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -690,9 +641,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.youtubeLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, youtubeLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, youtubeLink: e.target.value })}
                   placeholder="https://www.youtube.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -705,9 +654,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.instaLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, instaLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, instaLink: e.target.value })}
                   placeholder="https://www.instagram.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -720,9 +667,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.pinterestLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, pinterestLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, pinterestLink: e.target.value })}
                   placeholder="https://in.pinterest.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -753,9 +698,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.iosAppLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, iosAppLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, iosAppLink: e.target.value })}
                   placeholder="https://apps.apple.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -820,15 +763,12 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
 
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Admissions / Contact Email{" "}
-                  <span className="text-rose-500">*</span>
+                  Admissions / Contact Email <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="email"
                   value={settings.contactUsMail}
-                  onChange={(e) =>
-                    setSettings({ ...settings, contactUsMail: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, contactUsMail: e.target.value })}
                   placeholder="admissions@counselindiaservices.in"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -955,8 +895,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                   Public Pages & Legal Policies (CMS Rich Text)
                 </h3>
                 <p className="text-xs text-gray-400 mt-1">
-                  Visual formatting editor with HTML mode support for public
-                  website pages
+                  Visual formatting editor with HTML mode support for public website pages
                 </p>
               </div>
             </div>
@@ -986,45 +925,35 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
               <CmsEditor
                 label="Terms and Conditions"
                 value={settings.termsCondition}
-                onChange={(val) =>
-                  setSettings({ ...settings, termsCondition: val })
-                }
+                onChange={(val) => setSettings({ ...settings, termsCondition: val })}
                 placeholder="Write Terms and Conditions..."
               />
 
               <CmsEditor
                 label="How Can Sign Up (Guide)"
                 value={settings.howCanSignup}
-                onChange={(val) =>
-                  setSettings({ ...settings, howCanSignup: val })
-                }
+                onChange={(val) => setSettings({ ...settings, howCanSignup: val })}
                 placeholder="Write sign up instructions..."
               />
 
               <CmsEditor
                 label="Refund Policy"
                 value={settings.refundPolicy}
-                onChange={(val) =>
-                  setSettings({ ...settings, refundPolicy: val })
-                }
+                onChange={(val) => setSettings({ ...settings, refundPolicy: val })}
                 placeholder="Write Refund Policy..."
               />
 
               <CmsEditor
                 label="Academic Policy & Guidelines"
                 value={settings.academicPolicy}
-                onChange={(val) =>
-                  setSettings({ ...settings, academicPolicy: val })
-                }
+                onChange={(val) => setSettings({ ...settings, academicPolicy: val })}
                 placeholder="Write Academic Guidelines..."
               />
 
               <CmsEditor
                 label="Contact Us Page Content"
                 value={settings.contactUsContent}
-                onChange={(val) =>
-                  setSettings({ ...settings, contactUsContent: val })
-                }
+                onChange={(val) => setSettings({ ...settings, contactUsContent: val })}
                 placeholder="Write Contact Us description..."
               />
             </div>
@@ -1074,9 +1003,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <textarea
                   rows={2}
                   value={settings.footerTitle}
-                  onChange={(e) =>
-                    setSettings({ ...settings, footerTitle: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, footerTitle: e.target.value })}
                   placeholder="Counsel India is the only practical e-learning platform for psychology..."
                   className="w-full p-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all leading-relaxed"
                 />
@@ -1108,9 +1035,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                   <input
                     type="text"
                     value={settings.gstNumber}
-                    onChange={(e) =>
-                      setSettings({ ...settings, gstNumber: e.target.value })
-                    }
+                    onChange={(e) => setSettings({ ...settings, gstNumber: e.target.value })}
                     placeholder="09AAICC6447N1Z0"
                     className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                   />
@@ -1124,9 +1049,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.footerAddress}
-                  onChange={(e) =>
-                    setSettings({ ...settings, footerAddress: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, footerAddress: e.target.value })}
                   placeholder="12A20, 13th Floor, E-Square, Sector 96, Noida, Uttar Pradesh 201301"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -1227,9 +1150,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.footerFbLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, footerFbLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, footerFbLink: e.target.value })}
                   placeholder="https://www.facebook.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
@@ -1242,9 +1163,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                 <input
                   type="text"
                   value={settings.instaLink}
-                  onChange={(e) =>
-                    setSettings({ ...settings, instaLink: e.target.value })
-                  }
+                  onChange={(e) => setSettings({ ...settings, instaLink: e.target.value })}
                   placeholder="https://www.instagram.com/..."
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />

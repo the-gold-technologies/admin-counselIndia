@@ -24,10 +24,7 @@ export default function EbookListPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2
-            className="w-8 h-8 animate-spin"
-            style={{ color: "#14b8a6" }}
-          />
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#14b8a6" }} />
         </div>
       }
     >

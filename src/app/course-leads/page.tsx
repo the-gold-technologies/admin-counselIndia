@@ -71,8 +71,7 @@ function CourseLeadsContent() {
       const params = new URLSearchParams();
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCourse && selectedCourse !== "all")
-        params.set("course", selectedCourse);
+      if (selectedCourse && selectedCourse !== "all") params.set("course", selectedCourse);
       if (startDate) params.set("startDate", startDate);
       if (endDate) params.set("endDate", endDate);
       params.set("page", String(currentPage));
@@ -92,15 +91,7 @@ function CourseLeadsContent() {
     } finally {
       setIsLoading(false);
     }
-  }, [
-    activeTab,
-    search,
-    selectedCourse,
-    startDate,
-    endDate,
-    currentPage,
-    pageSize,
-  ]);
+  }, [activeTab, search, selectedCourse, startDate, endDate, currentPage, pageSize]);
 
   useEffect(() => {
     fetchLeads();
@@ -182,8 +173,7 @@ function CourseLeadsContent() {
       const params = new URLSearchParams({ all: "true" });
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCourse && selectedCourse !== "all")
-        params.set("course", selectedCourse);
+      if (selectedCourse && selectedCourse !== "all") params.set("course", selectedCourse);
 
       const res = await fetch(`/api/course-leads?${params.toString()}`);
       const json = await res.json();
@@ -217,15 +207,11 @@ function CourseLeadsContent() {
         ].join(",");
       });
 
-      const csvContent =
-        "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+      const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute(
-        "download",
-        `counselindia_course_leads_${Date.now()}.csv`,
-      );
+      link.setAttribute("download", `counselindia_course_leads_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -404,8 +390,7 @@ function CourseLeadsContent() {
             Course Leads Directory
           </h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Manage course enquiries, brochure downloads, assignments, and
-            conversion to admissions
+            Manage course enquiries, brochure downloads, assignments, and conversion to admissions
           </p>
         </div>
 
@@ -469,9 +454,7 @@ function CourseLeadsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               All Leads
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.all}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.all}</span>
             <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
               Complete Directory
             </span>
@@ -494,9 +477,7 @@ function CourseLeadsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               New Leads
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.new}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.new}</span>
             <span className="text-[11px] text-blue-600 font-semibold mt-0.5 block">
               Awaiting Follow-up
             </span>
@@ -519,9 +500,7 @@ function CourseLeadsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Contacted Leads
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.contacted}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.contacted}</span>
             <span className="text-[11px] text-amber-600 font-semibold mt-0.5 block">
               In Communication
             </span>
@@ -544,9 +523,7 @@ function CourseLeadsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Enrolled Leads
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.enrolled}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.enrolled}</span>
             <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
               Converted Admissions
             </span>
@@ -607,9 +584,7 @@ function CourseLeadsContent() {
             title="Refresh List"
             className="w-11 h-11 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 flex items-center justify-center shrink-0 cursor-pointer shadow-2xs hover:border-[#09A64A] transition-colors"
           >
-            <RefreshCw
-              className={`w-4 h-4 ${isLoading ? "animate-spin text-[#09A64A]" : ""}`}
-            />
+            <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-[#09A64A]" : ""}`} />
           </button>
         </div>
       </div>
@@ -635,12 +610,9 @@ function CourseLeadsContent() {
             <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4">
               <X className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-gray-900 mb-1">
-              Delete Course Lead?
-            </h3>
+            <h3 className="text-base font-bold text-gray-900 mb-1">Delete Course Lead?</h3>
             <p className="text-xs text-gray-500 mb-6">
-              Are you sure you want to delete this lead? This action cannot be
-              undone.
+              Are you sure you want to delete this lead? This action cannot be undone.
             </p>
             <div className="flex items-center justify-center gap-3">
               <button
@@ -666,11 +638,7 @@ function CourseLeadsContent() {
 export default function CourseLeadsPage() {
   return (
     <Suspense
-      fallback={
-        <div className="p-8 text-center text-gray-400">
-          Loading Course Leads...
-        </div>
-      }
+      fallback={<div className="p-8 text-center text-gray-400">Loading Course Leads...</div>}
     >
       <CourseLeadsContent />
     </Suspense>

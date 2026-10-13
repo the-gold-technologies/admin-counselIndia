@@ -138,8 +138,7 @@ export const INITIAL_ADMISSIONS: AdmissionItem[] = [
       fatherMobile: "9448123990",
     },
     address: {
-      permanent:
-        "Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand",
+      permanent: "Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand",
       correspondence: "Sector 62, Noida, Uttar Pradesh",
       city: "Dakshina Kannada",
       state: "Karnataka",

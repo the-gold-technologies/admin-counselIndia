@@ -57,9 +57,7 @@ export default function AlumniPage() {
       const json = await res.json();
       if (json.success) {
         setAlumni((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, status: nextStatus } : item,
-          ),
+          prev.map((item) => (item.id === id ? { ...item, status: nextStatus } : item))
         );
       }
     } catch (e) {
@@ -208,13 +206,9 @@ export default function AlumniPage() {
       }
     };
 
-    const headers = [
-      '"S.No"',
-      '"Name & Details"',
-      '"Online Status"',
-      '"Status"',
-      '"Action"',
-    ].join(",");
+    const headers = ['"S.No"', '"Name & Details"', '"Online Status"', '"Status"', '"Action"'].join(
+      ","
+    );
 
     const rows = alumni.map((a, i) => {
       const sNo = a.sNo || i + 1;
@@ -233,8 +227,7 @@ export default function AlumniPage() {
       ].join(",");
     });
 
-    const csvContent =
-      "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+    const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -255,12 +248,10 @@ export default function AlumniPage() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 tracking-tight">
-            Alumni Directory
-          </h1>
+          <h1 className="text-2xl font-black text-gray-900 tracking-tight">Alumni Directory</h1>
           <p className="text-xs text-gray-500 mt-1">
-            Certified graduates displayed on Counsel India Network directory &
-            verified credential database
+            Certified graduates displayed on Counsel India Network directory & verified credential
+            database
           </p>
         </div>
 
@@ -311,9 +302,7 @@ export default function AlumniPage() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Total Alumni
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {totalCount}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{totalCount}</span>
             <span className="text-[11px] text-[#09A64A] font-medium mt-0.5 block">
               Verified Graduates
             </span>
@@ -329,9 +318,7 @@ export default function AlumniPage() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Active Status
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {activeCount}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{activeCount}</span>
             <span className="text-[11px] text-gray-500 font-medium mt-0.5 block">
               Approved Profiles
             </span>
@@ -347,9 +334,7 @@ export default function AlumniPage() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Programs
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {uniquePrograms}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{uniquePrograms}</span>
             <span className="text-[11px] text-gray-500 font-medium mt-0.5 block">
               Disciplines & Degrees
             </span>
@@ -406,16 +391,10 @@ export default function AlumniPage() {
       {loading && alumni.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-200/80 p-16 text-center shadow-xs">
           <div className="w-8 h-8 border-3 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm font-semibold text-gray-600">
-            Loading alumni records...
-          </p>
+          <p className="text-sm font-semibold text-gray-600">Loading alumni records...</p>
         </div>
       ) : (
-        <AlumniTable
-          alumni={alumni}
-          onDelete={handleDelete}
-          onToggleStatus={handleToggleStatus}
-        />
+        <AlumniTable alumni={alumni} onDelete={handleDelete} onToggleStatus={handleToggleStatus} />
       )}
     </div>
   );

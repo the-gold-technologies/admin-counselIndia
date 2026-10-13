@@ -62,8 +62,7 @@ export function AdminRightSidebar({ stats, loading }: AdminRightSidebarProps) {
         </h2>
 
         <p className="text-sm font-medium text-emerald-100/80 leading-relaxed max-w-[210px] mb-8">
-          Review candidates, manage verified psychologists, and monitor live
-          enrollments.
+          Review candidates, manage verified psychologists, and monitor live enrollments.
         </p>
 
         <Link
@@ -109,15 +108,11 @@ export function AdminRightSidebar({ stats, loading }: AdminRightSidebarProps) {
                 <div key={idx} className="flex items-start gap-3 text-[13px]">
                   <div
                     className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${
-                      isAdmission
-                        ? "bg-emerald-500 animate-pulse"
-                        : "bg-[#09A64A]"
+                      isAdmission ? "bg-emerald-500 animate-pulse" : "bg-[#09A64A]"
                     }`}
                   ></div>
                   <div className="flex flex-col flex-1 leading-snug">
-                    <span className="font-bold text-[#0B0F29]">
-                      {activity.text}
-                    </span>
+                    <span className="font-bold text-[#0B0F29]">{activity.text}</span>
                     <span className="text-[11px] text-gray-400 font-semibold mt-0.5">
                       {relativeTime}
                     </span>

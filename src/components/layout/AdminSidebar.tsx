@@ -197,10 +197,8 @@ export function AdminSidebar() {
     return sidebarLinks
       .filter((item) =>
         item.sublinks?.some(
-          (sublink) =>
-            pathname === sublink.href ||
-            pathname.startsWith(sublink.href + "/"),
-        ),
+          (sublink) => pathname === sublink.href || pathname.startsWith(sublink.href + "/")
+        )
       )
       .map((item) => item.title);
   });
@@ -209,10 +207,8 @@ export function AdminSidebar() {
     const activeGroups = sidebarLinks
       .filter((item) =>
         item.sublinks?.some(
-          (sublink) =>
-            pathname === sublink.href ||
-            pathname.startsWith(sublink.href + "/"),
-        ),
+          (sublink) => pathname === sublink.href || pathname.startsWith(sublink.href + "/")
+        )
       )
       .map((item) => item.title);
 
@@ -229,7 +225,7 @@ export function AdminSidebar() {
 
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) =>
-      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
     );
   };
 
@@ -237,10 +233,7 @@ export function AdminSidebar() {
     <div className="flex h-full w-[280px] flex-col bg-[#0c1424] text-white overflow-hidden rounded-l-[2.5rem] border-l border-white/5 shrink-0 shadow-2xl">
       {/* Logo Area */}
       <div className="flex h-24 items-center px-8 border-b border-white/5">
-        <Link
-          href="/"
-          className="flex items-center gap-3 hover:opacity-90 transition-opacity"
-        >
+        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
           <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#09A64A] font-black italic shadow-md text-lg">
             CI
           </div>
@@ -269,9 +262,7 @@ export function AdminSidebar() {
 
             if (item.sublinks) {
               const isGroupActive = item.sublinks.some(
-                (sublink) =>
-                  pathname === sublink.href ||
-                  pathname.startsWith(sublink.href + "/"),
+                (sublink) => pathname === sublink.href || pathname.startsWith(sublink.href + "/")
               );
 
               return (
@@ -281,7 +272,7 @@ export function AdminSidebar() {
                       "flex items-center justify-between cursor-pointer group px-3.5 py-2.5 rounded-xl transition-all duration-150",
                       isGroupActive
                         ? "bg-[#09A64A]/10 text-[#09A64A]"
-                        : "hover:bg-white/5 text-gray-300",
+                        : "hover:bg-white/5 text-gray-300"
                     )}
                     onClick={() => toggleGroup(item.title)}
                   >
@@ -289,9 +280,7 @@ export function AdminSidebar() {
                       <item.icon
                         className={cn(
                           "w-4 h-4 shrink-0",
-                          isGroupActive
-                            ? "text-[#09A64A]"
-                            : "text-gray-400 group-hover:text-white",
+                          isGroupActive ? "text-[#09A64A]" : "text-gray-400 group-hover:text-white"
                         )}
                         strokeWidth={2.4}
                       />
@@ -300,10 +289,8 @@ export function AdminSidebar() {
                     <ChevronDown
                       className={cn(
                         "w-4 h-4 transition-transform shrink-0",
-                        isGroupActive
-                          ? "text-[#09A64A]"
-                          : "text-gray-400 group-hover:text-white",
-                        isOpen ? "rotate-180" : "",
+                        isGroupActive ? "text-[#09A64A]" : "text-gray-400 group-hover:text-white",
+                        isOpen ? "rotate-180" : ""
                       )}
                     />
                   </div>
@@ -311,8 +298,7 @@ export function AdminSidebar() {
                     <div className="space-y-0.5 pl-3 ml-2 border-l border-white/10 py-1.5 mt-1">
                       {item.sublinks.map((sublink, subIndex) => {
                         const isSubActive =
-                          pathname === sublink.href ||
-                          pathname.startsWith(sublink.href + "/");
+                          pathname === sublink.href || pathname.startsWith(sublink.href + "/");
                         const SubIcon = sublink.icon;
                         return (
                           <Link
@@ -322,16 +308,14 @@ export function AdminSidebar() {
                               "flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 whitespace-nowrap",
                               isSubActive
                                 ? "text-[#09A64A] bg-[#09A64A]/15 font-bold shadow-sm"
-                                : "text-gray-300 hover:text-white hover:bg-white/5",
+                                : "text-gray-300 hover:text-white hover:bg-white/5"
                             )}
                           >
                             {SubIcon && (
                               <SubIcon
                                 className={cn(
                                   "w-4 h-4 shrink-0",
-                                  isSubActive
-                                    ? "text-[#09A64A]"
-                                    : "text-gray-400",
+                                  isSubActive ? "text-[#09A64A]" : "text-gray-400"
                                 )}
                                 strokeWidth={isSubActive ? 2.4 : 2}
                               />
@@ -354,15 +338,12 @@ export function AdminSidebar() {
                   "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-150 whitespace-nowrap",
                   isActive
                     ? "bg-[#09A64A] text-white font-bold shadow-md shadow-[#09A64A]/30 transform scale-[1.01]"
-                    : "text-gray-300 hover:bg-white/5 hover:text-white",
+                    : "text-gray-300 hover:bg-white/5 hover:text-white"
                 )}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <item.icon
-                    className={cn(
-                      "w-4 h-4 shrink-0",
-                      isActive ? "text-white" : "text-gray-400",
-                    )}
+                    className={cn("w-4 h-4 shrink-0", isActive ? "text-white" : "text-gray-400")}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                   <span className="whitespace-nowrap">{item.title}</span>
@@ -371,9 +352,7 @@ export function AdminSidebar() {
                   <div
                     className={cn(
                       "flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold shrink-0",
-                      isActive
-                        ? "bg-white text-[#09A64A]"
-                        : "bg-[#09A64A] text-white",
+                      isActive ? "bg-white text-[#09A64A]" : "bg-[#09A64A] text-white"
                     )}
                   >
                     {item.badge}

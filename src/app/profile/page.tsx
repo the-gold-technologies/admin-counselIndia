@@ -154,9 +154,7 @@ export default function ProfilePage() {
       <div className="flex h-96 items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-[#09A64A]" />
-          <p className="text-sm font-medium text-gray-400">
-            Loading profile details...
-          </p>
+          <p className="text-sm font-medium text-gray-400">Loading profile details...</p>
         </div>
       </div>
     );
@@ -174,8 +172,7 @@ export default function ProfilePage() {
             </span>
           </h1>
           <p className="text-gray-400 text-sm sm:text-base leading-relaxed font-medium">
-            Update your administrator credentials, email address, and dashboard
-            security password.
+            Update your administrator credentials, email address, and dashboard security password.
           </p>
         </div>
 
@@ -219,9 +216,7 @@ export default function ProfilePage() {
               <User className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-[#0B0F29]">
-                1. Administrator Information
-              </h2>
+              <h2 className="text-lg font-bold text-[#0B0F29]">1. Administrator Information</h2>
               <p className="text-xs text-slate-400 font-medium">
                 Primary contact details for this administrator account.
               </p>
@@ -279,12 +274,9 @@ export default function ProfilePage() {
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-[#0B0F29]">
-                2. Change Password
-              </h2>
+              <h2 className="text-lg font-bold text-[#0B0F29]">2. Change Password</h2>
               <p className="text-xs text-slate-400 font-medium">
-                Update your login password. Leave blank if you do not want to
-                change it.
+                Update your login password. Leave blank if you do not want to change it.
               </p>
             </div>
           </div>
@@ -308,11 +300,7 @@ export default function ProfilePage() {
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition cursor-pointer"
                 title={showCurrentPassword ? "Hide password" : "Show password"}
               >
-                {showCurrentPassword ? (
-                  <EyeOff className="w-4 h-4" />
-                ) : (
-                  <Eye className="w-4 h-4" />
-                )}
+                {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -337,11 +325,7 @@ export default function ProfilePage() {
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition cursor-pointer"
                   title={showNewPassword ? "Hide password" : "Show password"}
                 >
-                  {showNewPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -362,9 +346,7 @@ export default function ProfilePage() {
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition cursor-pointer"
-                  title={
-                    showConfirmPassword ? "Hide password" : "Show password"
-                  }
+                  title={showConfirmPassword ? "Hide password" : "Show password"}
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -393,9 +375,7 @@ export default function ProfilePage() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            <span>
-              {saving ? "Updating..." : saved ? "Updated!" : "Update Profile"}
-            </span>
+            <span>{saving ? "Updating..." : saved ? "Updated!" : "Update Profile"}</span>
           </button>
         </div>
       </form>

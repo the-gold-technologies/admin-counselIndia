@@ -1,20 +1,16 @@
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dpa93copz",
-  api_key: process.env.CLOUDINARY_API_KEY || "739513226186525",
-  api_secret:
-    process.env.CLOUDINARY_API_SECRET || "RWS8j7NKjcshdhJ7g4PVSnaxoYI",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
 
 export { cloudinary };
 
 // Default system assets that must never be deleted automatically
-const PROTECTED_PUBLIC_IDS = new Set([
-  "counselindia/logo",
-  "counselindia/default",
-]);
+const PROTECTED_PUBLIC_IDS = new Set(["counselindia/logo", "counselindia/default"]);
 
 export interface CloudinaryUrlInfo {
   resourceType: "image" | "raw" | "video";
@@ -28,8 +24,7 @@ export interface CloudinaryUrlInfo {
  * Accurately parses a Cloudinary delivery URL to extract public_id and resource_type.
  */
 export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
-  if (!url || typeof url !== "string" || !url.includes("cloudinary.com"))
-    return null;
+  if (!url || typeof url !== "string" || !url.includes("cloudinary.com")) return null;
 
   try {
     const parts = url.split("/upload/");
@@ -42,9 +37,7 @@ export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
     const resourceTypeMatch = beforeUpload.match(/\/(image|raw|video|auto)$/);
     const rawResourceType = resourceTypeMatch ? resourceTypeMatch[1] : "image";
     const resourceType: "image" | "raw" | "video" =
-      rawResourceType === "raw" || rawResourceType === "video"
-        ? rawResourceType
-        : "image";
+      rawResourceType === "raw" || rawResourceType === "video" ? rawResourceType : "image";
 
     // Parse segments after /upload/ to remove transformations and version
     const segments = afterUpload.split("/");
@@ -60,9 +53,7 @@ export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
       if (
         seg.includes(",") ||
         seg.includes("_") ||
-        ["c_", "w_", "h_", "q_", "f_", "b_", "e_"].some((prefix) =>
-          seg.startsWith(prefix),
-        )
+        ["c_", "w_", "h_", "q_", "f_", "b_", "e_"].some((prefix) => seg.startsWith(prefix))
       ) {
         startIndex++;
         continue;
@@ -143,10 +134,7 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
   if (!info) return false;
 
   // Protect critical assets
-  if (
-    PROTECTED_PUBLIC_IDS.has(info.publicId) ||
-    PROTECTED_PUBLIC_IDS.has(info.fullPublicId)
-  ) {
+  if (PROTECTED_PUBLIC_IDS.has(info.publicId) || PROTECTED_PUBLIC_IDS.has(info.fullPublicId)) {
     console.log(`[Cloudinary] Skipping protected asset: ${info.publicId}`);
     return false;
   }
@@ -159,10 +147,7 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
     });
 
     // 2. If not found or if it's a PDF / raw document, attempt alternate resource_type
-    if (
-      result?.result !== "ok" &&
-      (info.extension === "pdf" || info.resourceType === "image")
-    ) {
+    if (result?.result !== "ok" && (info.extension === "pdf" || info.resourceType === "image")) {
       const rawResult = await cloudinary.uploader.destroy(info.fullPublicId, {
         resource_type: "raw",
         invalidate: true,
@@ -171,13 +156,10 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
       if (rawResult?.result === "ok") {
         result = rawResult;
       } else if (info.extension === "pdf") {
-        const rawNoExtResult = await cloudinary.uploader.destroy(
-          info.publicIdWithoutExt,
-          {
-            resource_type: "raw",
-            invalidate: true,
-          },
-        );
+        const rawNoExtResult = await cloudinary.uploader.destroy(info.publicIdWithoutExt, {
+          resource_type: "raw",
+          invalidate: true,
+        });
         if (rawNoExtResult?.result === "ok") {
           result = rawNoExtResult;
         }
@@ -186,14 +168,9 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
 
     const success = result?.result === "ok";
     if (success) {
-      console.log(
-        `[Cloudinary] Successfully deleted file: ${info.publicId} (${url})`,
-      );
+      console.log(`[Cloudinary] Successfully deleted file: ${info.publicId} (${url})`);
     } else {
-      console.warn(
-        `[Cloudinary] Delete response for ${info.publicId}:`,
-        result,
-      );
+      console.warn(`[Cloudinary] Delete response for ${info.publicId}:`, result);
     }
     return success;
   } catch (error) {
@@ -208,7 +185,7 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
  */
 export async function cleanupReplacedCloudinaryFiles(
   oldData: any,
-  newData: any,
+  newData: any
 ): Promise<string[]> {
   if (!oldData) return [];
 
@@ -222,7 +199,7 @@ export async function cleanupReplacedCloudinaryFiles(
 
   console.log(
     `[Cloudinary] Cleaning up ${removedUrls.length} replaced/removed files...`,
-    removedUrls,
+    removedUrls
   );
 
   const deleted: string[] = [];

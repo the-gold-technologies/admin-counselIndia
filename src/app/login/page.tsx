@@ -64,9 +64,7 @@ function LoginForm() {
         router.refresh();
       }, 500);
     } catch (err: any) {
-      setError(
-        err.message || "Failed to sign in. Please check your credentials.",
-      );
+      setError(err.message || "Failed to sign in. Please check your credentials.");
       setIsLoading(false);
     }
   };
@@ -142,9 +140,7 @@ function LoginForm() {
 
             {/* Password Field */}
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                Password
-              </label>
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                   <Lock className="w-4 h-4" />
@@ -164,11 +160,7 @@ function LoginForm() {
                   className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 transition"
                   aria-label="Toggle password visibility"
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>

@@ -51,12 +51,9 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
     <div className="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="font-bold text-lg text-[#0B0F29]">
-            Counsel India Modules
-          </h3>
+          <h3 className="font-bold text-lg text-[#0B0F29]">Counsel India Modules</h3>
           <p className="text-xs font-medium text-gray-400 mt-0.5">
-            Overview of live portals, registries, and student admissions
-            pipelines.
+            Overview of live portals, registries, and student admissions pipelines.
           </p>
         </div>
         <Link
@@ -72,9 +69,7 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
           <Loader2 className="w-6 h-6 animate-spin text-[#09A64A]" />
         </div>
       ) : displayedModules.length === 0 ? (
-        <div className="py-8 text-center text-gray-400 text-xs italic">
-          No modules available.
-        </div>
+        <div className="py-8 text-center text-gray-400 text-xs italic">No modules available.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-[13px]">
@@ -103,15 +98,9 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
                 const routeUrl = `/${mod.slug}`;
 
                 return (
-                  <tr
-                    key={mod.id}
-                    className="hover:bg-gray-50/30 transition-colors"
-                  >
+                  <tr key={mod.id} className="hover:bg-gray-50/30 transition-colors">
                     <td className="py-3.5">
-                      <Link
-                        href={routeUrl}
-                        className="flex items-center gap-2.5 group"
-                      >
+                      <Link href={routeUrl} className="flex items-center gap-2.5 group">
                         <div className="h-8 w-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#09A64A]/10 group-hover:text-[#09A64A] transition-colors">
                           <Icon className="w-4 h-4" />
                         </div>
@@ -125,9 +114,7 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
                         </div>
                       </Link>
                     </td>
-                    <td className="py-3.5 font-mono text-xs text-gray-500">
-                      /{mod.slug}
-                    </td>
+                    <td className="py-3.5 font-mono text-xs text-gray-500">/{mod.slug}</td>
                     <td className="py-3.5">
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-50 text-green-600">
                         <BadgeCheck className="w-3 h-3" />

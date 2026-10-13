@@ -126,18 +126,14 @@ export function AdminHeader({
     const query = searchQuery.toLowerCase();
     const filtered = STATIC_SEARCH_ITEMS.filter(
       (item) =>
-        item.title.toLowerCase().includes(query) ||
-        item.category.toLowerCase().includes(query),
+        item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query)
     );
     setResults(filtered);
   }, [searchQuery]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -150,9 +146,7 @@ export function AdminHeader({
       <header className="flex justify-between items-center w-full">
         <h1 className="text-[28px] font-bold tracking-tight text-[#0B0F29] flex items-center gap-2">
           Welcome back <span className="text-[#09A64A]">{userName}</span>
-          <span className="text-2xl animate-bounce origin-bottom-right delay-700">
-            👋
-          </span>
+          <span className="text-2xl animate-bounce origin-bottom-right delay-700">👋</span>
         </h1>
 
         <div className="flex items-center gap-3">
@@ -232,9 +226,7 @@ export function AdminHeader({
                         <item.icon className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[13px] font-bold text-gray-800">
-                          {item.title}
-                        </span>
+                        <span className="text-[13px] font-bold text-gray-800">{item.title}</span>
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                           {item.category}
                         </span>

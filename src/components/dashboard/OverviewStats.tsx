@@ -38,13 +38,9 @@ export function OverviewStats({ stats, loading }: OverviewStatsProps) {
               <GraduationCap className="w-6 h-6" strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="font-bold text-[#0B0F29] text-[15px]">
-                Active Admissions
-              </h3>
+              <h3 className="font-bold text-[#0B0F29] text-[15px]">Active Admissions</h3>
               <p className="text-[13px] font-medium text-gray-400 mt-0.5">
-                {loading
-                  ? "..."
-                  : `${admissionsCount.toLocaleString()} Enrolled Learners`}
+                {loading ? "..." : `${admissionsCount.toLocaleString()} Enrolled Learners`}
               </p>
             </div>
           </div>
@@ -71,13 +67,9 @@ export function OverviewStats({ stats, loading }: OverviewStatsProps) {
               <MessageSquare className="w-6 h-6" strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="font-bold text-[#0B0F29] text-[15px]">
-                Student Enquiries
-              </h3>
+              <h3 className="font-bold text-[#0B0F29] text-[15px]">Student Enquiries</h3>
               <p className="text-[13px] font-medium text-gray-400 mt-0.5">
-                {loading
-                  ? "..."
-                  : `${inquiriesCount.toLocaleString()} Submissions`}
+                {loading ? "..." : `${inquiriesCount.toLocaleString()} Submissions`}
               </p>
             </div>
           </div>
@@ -88,18 +80,14 @@ export function OverviewStats({ stats, loading }: OverviewStatsProps) {
               </p>
               <div className="flex items-center gap-1">
                 <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                <span className="text-[13px] font-bold text-[#0B0F29]">
-                  Active
-                </span>
+                <span className="text-[13px] font-bold text-[#0B0F29]">Active</span>
               </div>
             </div>
             <div>
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
                 Network
               </p>
-              <p className="text-[13px] font-bold text-[#0B0F29]">
-                {counselorsCount} Counsellors
-              </p>
+              <p className="text-[13px] font-bold text-[#0B0F29]">{counselorsCount} Counsellors</p>
             </div>
           </div>
         </div>

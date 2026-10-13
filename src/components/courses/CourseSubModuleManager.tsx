@@ -35,8 +35,7 @@ interface Props {
   moduleTitle: string;
   moduleSubtitle: string;
   dataField: "overviewData" | "learnData" | "credentialData" | "curriculumData";
-  countField:
-    "overviewCount" | "learnCount" | "credentialCount" | "curriculumCount";
+  countField: "overviewCount" | "learnCount" | "credentialCount" | "curriculumCount";
   defaultType: string;
   typeOptions?: string[];
 }
@@ -115,7 +114,7 @@ export default function CourseSubModuleManager({
         (it.title || "").toLowerCase().includes(q) ||
         (it.type || "").toLowerCase().includes(q) ||
         String(it.position || "").includes(q) ||
-        (it.status || "").toLowerCase().includes(q),
+        (it.status || "").toLowerCase().includes(q)
     );
   }, [items, searchQuery]);
 
@@ -133,8 +132,7 @@ export default function CourseSubModuleManager({
     return filteredItems.slice(start, start + pageSize);
   }, [filteredItems, currentPage, pageSize]);
 
-  const startEntry =
-    filteredItems.length > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+  const startEntry = filteredItems.length > 0 ? (currentPage - 1) * pageSize + 1 : 0;
   const endEntry = Math.min(currentPage * pageSize, filteredItems.length);
 
   // Pagination page buttons helper
@@ -196,18 +194,14 @@ export default function CourseSubModuleManager({
 
     let updatedList: SubModuleItem[] = [];
     if (editingIndex !== null) {
-      updatedList = items.map((it, idx) =>
-        idx === editingIndex ? newItem : it,
-      );
+      updatedList = items.map((it, idx) => (idx === editingIndex ? newItem : it));
     } else {
       updatedList = [...items, newItem];
     }
 
     await persistList(
       updatedList,
-      editingIndex !== null
-        ? "Item updated successfully!"
-        : "New item added successfully!",
+      editingIndex !== null ? "Item updated successfully!" : "New item added successfully!"
     );
     setIsModalOpen(false);
   };
@@ -232,10 +226,7 @@ export default function CourseSubModuleManager({
     await persistList(updatedList, "Status toggled!");
   };
 
-  const persistList = async (
-    updatedList: SubModuleItem[],
-    successMsg: string,
-  ) => {
+  const persistList = async (updatedList: SubModuleItem[], successMsg: string) => {
     setSaving(true);
     setError("");
     setSuccess("");
@@ -276,9 +267,7 @@ export default function CourseSubModuleManager({
       `"${(it.image || "").replace(/"/g, '""')}"`,
     ]);
 
-    const csvContent =
-      "\uFEFF" +
-      [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -305,7 +294,7 @@ export default function CourseSubModuleManager({
           <td style="text-align: center; border: 1px solid #ccc; padding: 6px;">${it.position || idx + 1}</td>
           <td style="text-align: center; border: 1px solid #ccc; padding: 6px;">${it.status || "Active"}</td>
           <td style="border: 1px solid #ccc; padding: 6px;">${(it.image || "").replace(/</g, "&lt;")}</td>
-        </tr>`,
+        </tr>`
       )
       .join("");
 
@@ -353,12 +342,7 @@ export default function CourseSubModuleManager({
       alert("No items to export");
       return;
     }
-    generateSubModulePdf(
-      items,
-      course?.name || "Course",
-      moduleTitle,
-      course?.slug || "course",
-    );
+    generateSubModulePdf(items, course?.name || "Course", moduleTitle, course?.slug || "course");
   };
 
   // 4. Print Handler matching Course Leads and Counsellors dedicated print window
@@ -515,8 +499,7 @@ export default function CourseSubModuleManager({
       ],
     ];
     const csvContent =
-      "\uFEFF" +
-      [headers.join(","), ...sampleRows.map((r) => r.join(","))].join("\r\n");
+      "\uFEFF" + [headers.join(","), ...sampleRows.map((r) => r.join(","))].join("\r\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -542,9 +525,7 @@ export default function CourseSubModuleManager({
       const text = await excelFile.text();
       const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
       if (lines.length < 2) {
-        throw new Error(
-          "File contains no data rows. Please use the template format.",
-        );
+        throw new Error("File contains no data rows. Please use the template format.");
       }
 
       // Simple CSV line parser supporting quoted values
@@ -573,20 +554,15 @@ export default function CourseSubModuleManager({
       };
 
       const headerCols = parseCSVLine(lines[0]).map((h) =>
-        h.toLowerCase().replace(/[^a-z0-9]/g, ""),
+        h.toLowerCase().replace(/[^a-z0-9]/g, "")
       );
       const titleColIdx = headerCols.findIndex(
-        (h) =>
-          h.includes("title") ||
-          h.includes("description") ||
-          h.includes("name"),
+        (h) => h.includes("title") || h.includes("description") || h.includes("name")
       );
       const typeColIdx = headerCols.findIndex((h) => h.includes("type"));
       const posColIdx = headerCols.findIndex((h) => h.includes("pos"));
       const statusColIdx = headerCols.findIndex((h) => h.includes("status"));
-      const imgColIdx = headerCols.findIndex(
-        (h) => h.includes("img") || h.includes("image"),
-      );
+      const imgColIdx = headerCols.findIndex((h) => h.includes("img") || h.includes("image"));
 
       const parsedItems: SubModuleItem[] = [];
 
@@ -595,23 +571,13 @@ export default function CourseSubModuleManager({
         if (cols.length === 0 || cols.every((c) => !c.trim())) continue;
 
         const title =
-          titleColIdx !== -1 && cols[titleColIdx]
-            ? cols[titleColIdx]
-            : cols[1] || cols[0] || "";
+          titleColIdx !== -1 && cols[titleColIdx] ? cols[titleColIdx] : cols[1] || cols[0] || "";
         if (!title.trim()) continue;
 
-        const type =
-          typeColIdx !== -1 && cols[typeColIdx]
-            ? cols[typeColIdx]
-            : defaultType;
+        const type = typeColIdx !== -1 && cols[typeColIdx] ? cols[typeColIdx] : defaultType;
         const pos =
-          posColIdx !== -1 && cols[posColIdx]
-            ? cols[posColIdx]
-            : String(parsedItems.length + 1);
-        const status =
-          statusColIdx !== -1 && cols[statusColIdx]
-            ? cols[statusColIdx]
-            : "Active";
+          posColIdx !== -1 && cols[posColIdx] ? cols[posColIdx] : String(parsedItems.length + 1);
+        const status = statusColIdx !== -1 && cols[statusColIdx] ? cols[statusColIdx] : "Active";
         const img = imgColIdx !== -1 && cols[imgColIdx] ? cols[imgColIdx] : "";
 
         parsedItems.push({
@@ -625,23 +591,20 @@ export default function CourseSubModuleManager({
 
       if (parsedItems.length === 0) {
         throw new Error(
-          "Could not parse any valid items from file. Please ensure title/content column is present.",
+          "Could not parse any valid items from file. Please ensure title/content column is present."
         );
       }
 
-      const finalList =
-        uploadMode === "append" ? [...items, ...parsedItems] : parsedItems;
+      const finalList = uploadMode === "append" ? [...items, ...parsedItems] : parsedItems;
       await persistList(
         finalList,
-        `Successfully imported ${parsedItems.length} items from ${excelFile.name}!`,
+        `Successfully imported ${parsedItems.length} items from ${excelFile.name}!`
       );
 
       setIsExcelModalOpen(false);
       setExcelFile(null);
     } catch (err: any) {
-      setExcelError(
-        err.message || "Failed to parse file. Please verify CSV format.",
-      );
+      setExcelError(err.message || "Failed to parse file. Please verify CSV format.");
     } finally {
       setUploadingExcel(false);
     }
@@ -651,9 +614,7 @@ export default function CourseSubModuleManager({
     return (
       <div className="flex flex-col items-center justify-center min-h-[420px] text-gray-500 gap-3">
         <Loader2 className="w-9 h-9 animate-spin text-[#09A64A]" />
-        <p className="text-sm font-semibold text-gray-600">
-          Loading {moduleTitle}...
-        </p>
+        <p className="text-sm font-semibold text-gray-600">Loading {moduleTitle}...</p>
       </div>
     );
   }
@@ -682,9 +643,7 @@ export default function CourseSubModuleManager({
               <span>Courses</span>
             </Link>
             <span>/</span>
-            <span className="text-gray-600 truncate max-w-[260px] font-medium">
-              {course?.name}
-            </span>
+            <span className="text-gray-600 truncate max-w-[260px] font-medium">{course?.name}</span>
             <span>/</span>
             <span className="text-[#09A64A] font-bold">{moduleTitle}</span>
           </div>
@@ -732,16 +691,12 @@ export default function CourseSubModuleManager({
                   ID: #{course.liveId}
                 </span>
               )}
-              <span className="text-xs text-gray-400 font-mono">
-                slug: {course.slug}
-              </span>
+              <span className="text-xs text-gray-400 font-mono">slug: {course.slug}</span>
             </div>
             <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-snug">
               {course.name}
             </h2>
-            <p className="text-xs text-gray-500 mt-1 leading-relaxed max-w-2xl">
-              {moduleSubtitle}
-            </p>
+            <p className="text-xs text-gray-500 mt-1 leading-relaxed max-w-2xl">{moduleSubtitle}</p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0 flex-wrap">
@@ -942,9 +897,7 @@ export default function CourseSubModuleManager({
               {paginatedItems.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="py-14 text-center text-gray-400">
-                    <p className="font-semibold text-gray-600 mb-1">
-                      No matching records found
-                    </p>
+                    <p className="font-semibold text-gray-600 mb-1">No matching records found</p>
                     <p className="text-xs text-gray-400 mb-3">
                       {searchQuery
                         ? "Try clearing your search query"
@@ -963,11 +916,8 @@ export default function CourseSubModuleManager({
               ) : (
                 paginatedItems.map((item, pIndex) => {
                   const globalIndex = (currentPage - 1) * pageSize + pIndex;
-                  const isActive =
-                    (item.status || "Active").toLowerCase() === "active";
-                  const imageUrl = item.image
-                    ? encodeURI(decodeURI(item.image))
-                    : "";
+                  const isActive = (item.status || "Active").toLowerCase() === "active";
+                  const imageUrl = item.image ? encodeURI(decodeURI(item.image)) : "";
 
                   return (
                     <tr
@@ -994,9 +944,7 @@ export default function CourseSubModuleManager({
                       </td>
 
                       {/* Icon */}
-                      <td className="py-3.5 px-2 text-center text-xs text-gray-400">
-                        -
-                      </td>
+                      <td className="py-3.5 px-2 text-center text-xs text-gray-400">-</td>
 
                       {/* Position */}
                       <td className="py-3.5 px-3 text-center text-xs font-bold text-gray-700">
@@ -1035,16 +983,13 @@ export default function CourseSubModuleManager({
                                 alt=""
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
-                                  (e.target as HTMLElement).style.display =
-                                    "none";
+                                  (e.target as HTMLElement).style.display = "none";
                                 }}
                               />
                             </div>
                           </a>
                         ) : (
-                          <span className="text-xs text-gray-400 font-medium">
-                            No-image
-                          </span>
+                          <span className="text-xs text-gray-400 font-medium">No-image</span>
                         )}
                       </td>
 
@@ -1081,8 +1026,7 @@ export default function CourseSubModuleManager({
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 font-medium pt-2 gap-3">
           <div className="flex items-center gap-3">
             <span>
-              Showing {startEntry} to {endEntry} of {filteredItems.length}{" "}
-              entries
+              Showing {startEntry} to {endEntry} of {filteredItems.length} entries
             </span>
             <div className="flex items-center gap-1.5">
               <span>Per page:</span>
@@ -1127,7 +1071,7 @@ export default function CourseSubModuleManager({
                 >
                   {p}
                 </button>
-              ),
+              )
             )}
 
             <button
@@ -1170,9 +1114,7 @@ export default function CourseSubModuleManager({
               {/* Sample Template Download Box */}
               <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3.5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-xs font-bold text-emerald-900">
-                    Need the upload format?
-                  </h4>
+                  <h4 className="text-xs font-bold text-emerald-900">Need the upload format?</h4>
                   <p className="text-[11px] text-emerald-700">
                     Download sample CSV template with required columns
                   </p>
@@ -1217,12 +1159,9 @@ export default function CourseSubModuleManager({
                   </div>
                   {excelFile ? (
                     <div>
-                      <p className="text-xs font-bold text-gray-800">
-                        {excelFile.name}
-                      </p>
+                      <p className="text-xs font-bold text-gray-800">{excelFile.name}</p>
                       <p className="text-[11px] text-gray-500 mt-0.5">
-                        {(excelFile.size / 1024).toFixed(1)} KB &bull; Click to
-                        change
+                        {(excelFile.size / 1024).toFixed(1)} KB &bull; Click to change
                       </p>
                     </div>
                   ) : (
@@ -1261,9 +1200,7 @@ export default function CourseSubModuleManager({
                     />
                     <div>
                       <div className="text-xs font-bold">Append Items</div>
-                      <div className="text-[10px] text-gray-500">
-                        Add rows to existing items
-                      </div>
+                      <div className="text-[10px] text-gray-500">Add rows to existing items</div>
                     </div>
                   </label>
 
@@ -1284,9 +1221,7 @@ export default function CourseSubModuleManager({
                     />
                     <div>
                       <div className="text-xs font-bold">Replace All</div>
-                      <div className="text-[10px] text-gray-500">
-                        Overwrite existing list
-                      </div>
+                      <div className="text-[10px] text-gray-500">Overwrite existing list</div>
                     </div>
                   </label>
                 </div>
@@ -1413,11 +1348,7 @@ export default function CourseSubModuleManager({
                   </label>
                   <button
                     type="button"
-                    onClick={() =>
-                      setItemStatus(
-                        itemStatus === "Active" ? "Inactive" : "Active",
-                      )
-                    }
+                    onClick={() => setItemStatus(itemStatus === "Active" ? "Inactive" : "Active")}
                     className={`w-full h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                       itemStatus === "Active"
                         ? "bg-[#09A64A] text-white shadow-2xs"
@@ -1462,12 +1393,8 @@ export default function CourseSubModuleManager({
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-semibold text-gray-700 truncate">
-                      {itemImage}
-                    </p>
-                    <p className="text-[10px] text-emerald-600 font-bold">
-                      Image preview
-                    </p>
+                    <p className="text-[11px] font-semibold text-gray-700 truncate">{itemImage}</p>
+                    <p className="text-[10px] text-emerald-600 font-bold">Image preview</p>
                   </div>
                   <button
                     type="button"

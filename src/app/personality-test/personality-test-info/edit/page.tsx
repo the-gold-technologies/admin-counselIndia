@@ -73,9 +73,7 @@ export default function EditPersonalityTestInfoPage() {
     return (
       <div className="py-24 text-center">
         <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-xs font-semibold text-gray-500">
-          Loading assessment configuration...
-        </p>
+        <p className="text-xs font-semibold text-gray-500">Loading assessment configuration...</p>
       </div>
     );
   }
@@ -96,8 +94,7 @@ export default function EditPersonalityTestInfoPage() {
             Edit Personality Test Info
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Configure primary assessment metadata, question count, and candidate
-            instructions.
+            Configure primary assessment metadata, question count, and candidate instructions.
           </p>
         </div>
       </div>
@@ -120,9 +117,7 @@ export default function EditPersonalityTestInfoPage() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. Personality Test One"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium text-sm"
                 />
@@ -154,9 +149,7 @@ export default function EditPersonalityTestInfoPage() {
                 <input
                   type="text"
                   value={formData.subtitle}
-                  onChange={(e) =>
-                    setFormData({ ...formData, subtitle: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                   placeholder="e.g. Test"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium text-sm"
                 />
@@ -175,13 +168,11 @@ export default function EditPersonalityTestInfoPage() {
                 label="Instruction Content *"
                 placeholder="Enter comprehensive instructions for the assessment..."
                 value={formData.instruction}
-                onChange={(html: string) =>
-                  setFormData({ ...formData, instruction: html })
-                }
+                onChange={(html: string) => setFormData({ ...formData, instruction: html })}
               />
               <p className="text-[12px] text-gray-400 mt-1.5">
-                Rich text will be formatted and presented directly to users on
-                the assessment introduction page.
+                Rich text will be formatted and presented directly to users on the assessment
+                introduction page.
               </p>
             </div>
           </div>
@@ -198,9 +189,7 @@ export default function EditPersonalityTestInfoPage() {
               </label>
               <select
                 value={formData.status}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-bold cursor-pointer text-xs"
               >
                 <option value="Active">Active</option>

@@ -36,11 +36,8 @@ export async function GET(request: Request) {
         item.courseName.toLowerCase().includes(search);
 
       const matchStatus =
-        !status ||
-        status === "All" ||
-        item.status.toLowerCase() === status.toLowerCase();
-      const matchCourse =
-        !course || course === "All" || item.courseName === course;
+        !status || status === "All" || item.status.toLowerCase() === status.toLowerCase();
+      const matchCourse = !course || course === "All" || item.courseName === course;
 
       return matchSearch && matchStatus && matchCourse;
     });
@@ -51,10 +48,7 @@ export async function GET(request: Request) {
       data: filtered,
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -67,8 +61,7 @@ export async function POST(request: Request) {
         email: body.email,
         mobile: body.mobile,
         courseName: body.courseName,
-        courseSlug:
-          body.courseSlug || body.courseName.toLowerCase().replace(/\s+/g, "-"),
+        courseSlug: body.courseSlug || body.courseName.toLowerCase().replace(/\s+/g, "-"),
         status: body.status || "Enrolled",
         academicCounselor: body.academicCounselor || "Anand Prakash",
         feeAmount: Number(body.feeAmount) || 24999,
@@ -89,18 +82,13 @@ export async function POST(request: Request) {
         city: body.city || "",
         state: body.state || "",
         pincode: body.pincode || "",
-        courseExpectations: JSON.stringify(
-          body.courseExpectations || ["Skill development"],
-        ),
+        courseExpectations: JSON.stringify(body.courseExpectations || ["Skill development"]),
         educationHistory: JSON.stringify(body.educationHistory || []),
       },
     });
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -116,10 +104,7 @@ export async function PATCH(request: Request) {
     });
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -127,20 +112,13 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    if (!id)
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+    if (!id) return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     await prisma.admission.delete({ where: { id } });
     return NextResponse.json({
       success: true,
       message: "Deleted successfully",
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

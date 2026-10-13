@@ -114,12 +114,12 @@ export default function EditCoursePage() {
         setHeadings(
           Array.isArray(data.headings) && data.headings.length > 0
             ? data.headings
-            : [{ heading: "Credentials", value: "" }],
+            : [{ heading: "Credentials", value: "" }]
         );
         setCheadings(
           Array.isArray(data.cheadings) && data.cheadings.length > 0
             ? data.cheadings
-            : [{ heading: "Months", value: "" }],
+            : [{ heading: "Months", value: "" }]
         );
         setSubdescription(data.subdescription || "");
         setAboutUs(data.aboutUs || "");
@@ -145,13 +145,8 @@ export default function EditCoursePage() {
   }, [id]);
 
   // Dynamic Add / Remove Headings
-  const addHeading = () =>
-    setHeadings([...headings, { heading: "", value: "" }]);
-  const updateHeading = (
-    index: number,
-    field: "heading" | "value",
-    val: string,
-  ) => {
+  const addHeading = () => setHeadings([...headings, { heading: "", value: "" }]);
+  const updateHeading = (index: number, field: "heading" | "value", val: string) => {
     const next = [...headings];
     next[index][field] = val;
     setHeadings(next);
@@ -161,13 +156,8 @@ export default function EditCoursePage() {
   };
 
   // Dynamic Add / Remove Cheadings
-  const addCheading = () =>
-    setCheadings([...cheadings, { heading: "", value: "" }]);
-  const updateCheading = (
-    index: number,
-    field: "heading" | "value",
-    val: string,
-  ) => {
+  const addCheading = () => setCheadings([...cheadings, { heading: "", value: "" }]);
+  const updateCheading = (index: number, field: "heading" | "value", val: string) => {
     const next = [...cheadings];
     next[index][field] = val;
     setCheadings(next);
@@ -243,9 +233,7 @@ export default function EditCoursePage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mb-3" />
-        <p className="text-xs font-semibold text-gray-500">
-          Loading course details...
-        </p>
+        <p className="text-xs font-semibold text-gray-500">Loading course details...</p>
       </div>
     );
   }
@@ -280,9 +268,7 @@ export default function EditCoursePage() {
         </Link>
         <div className="text-xs text-gray-400">
           Content Management &bull;{" "}
-          <span className="text-gray-700 font-semibold">
-            Edit Course #{course?.sNo}
-          </span>
+          <span className="text-gray-700 font-semibold">Edit Course #{course?.sNo}</span>
         </div>
       </div>
 
@@ -293,12 +279,9 @@ export default function EditCoursePage() {
             Content Management
           </span>
         </div>
-        <h1 className="text-2xl font-black text-gray-900 tracking-tight">
-          Edit Course
-        </h1>
+        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Edit Course</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Update course curriculum, pricing, duration, positions, and
-          publication status
+          Update course curriculum, pricing, duration, positions, and publication status
         </p>
       </div>
 
@@ -311,9 +294,7 @@ export default function EditCoursePage() {
                 {(course.name || "C")[0]?.toUpperCase() || "C"}
               </div>
               <div>
-                <h3 className="text-base font-bold text-gray-900 leading-tight">
-                  {course.name}
-                </h3>
+                <h3 className="text-base font-bold text-gray-900 leading-tight">{course.name}</h3>
                 <div className="flex items-center gap-3 text-xs text-gray-500 mt-1 flex-wrap">
                   <span className="flex items-center gap-1.5">
                     <Layers className="w-3 h-3 text-gray-400" />
@@ -335,18 +316,18 @@ export default function EditCoursePage() {
               </span>
               <div className="flex items-center gap-2 text-[11px] font-semibold text-gray-500">
                 <span className="inline-flex items-center gap-1 text-emerald-700">
-                  <Sparkles className="w-3 h-3 text-[#09A64A]" />{" "}
-                  {course.overviewCount || 0} Overview
+                  <Sparkles className="w-3 h-3 text-[#09A64A]" /> {course.overviewCount || 0}{" "}
+                  Overview
                 </span>
                 <span>&bull;</span>
                 <span className="inline-flex items-center gap-1 text-indigo-700">
-                  <Award className="w-3 h-3 text-indigo-600" />{" "}
-                  {course.credentialCount || 0} Credentials
+                  <Award className="w-3 h-3 text-indigo-600" /> {course.credentialCount || 0}{" "}
+                  Credentials
                 </span>
                 <span>&bull;</span>
                 <span className="inline-flex items-center gap-1 text-blue-700">
-                  <ListOrdered className="w-3 h-3 text-blue-600" />{" "}
-                  {course.curriculumCount || 0} Modules
+                  <ListOrdered className="w-3 h-3 text-blue-600" /> {course.curriculumCount || 0}{" "}
+                  Modules
                 </span>
               </div>
             </div>
@@ -376,9 +357,7 @@ export default function EditCoursePage() {
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
               1. Basic Course Information
             </h3>
-            <p className="text-xs text-gray-400">
-              Core identity and categorization
-            </p>
+            <p className="text-xs text-gray-400">Core identity and categorization</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -564,8 +543,7 @@ export default function EditCoursePage() {
                 3. Key Feature Headings &amp; Values (heading[])
               </h3>
               <p className="text-xs text-gray-400">
-                Dynamic credentials, eligibility, and core highlights shown on
-                course landing
+                Dynamic credentials, eligibility, and core highlights shown on course landing
               </p>
             </div>
             <button
@@ -588,9 +566,7 @@ export default function EditCoursePage() {
                   <input
                     type="text"
                     value={item.heading}
-                    onChange={(e) =>
-                      updateHeading(idx, "heading", e.target.value)
-                    }
+                    onChange={(e) => updateHeading(idx, "heading", e.target.value)}
                     placeholder="Heading Name (e.g. Credentials)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -599,9 +575,7 @@ export default function EditCoursePage() {
                   <input
                     type="text"
                     value={item.value}
-                    onChange={(e) =>
-                      updateHeading(idx, "value", e.target.value)
-                    }
+                    onChange={(e) => updateHeading(idx, "value", e.target.value)}
                     placeholder="Value (e.g. Grade A Certification)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -651,9 +625,7 @@ export default function EditCoursePage() {
                   <input
                     type="text"
                     value={item.heading}
-                    onChange={(e) =>
-                      updateCheading(idx, "heading", e.target.value)
-                    }
+                    onChange={(e) => updateCheading(idx, "heading", e.target.value)}
                     placeholder="Metric Name (e.g. Months)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -662,9 +634,7 @@ export default function EditCoursePage() {
                   <input
                     type="text"
                     value={item.value}
-                    onChange={(e) =>
-                      updateCheading(idx, "value", e.target.value)
-                    }
+                    onChange={(e) => updateCheading(idx, "value", e.target.value)}
                     placeholder="Metric Value (e.g. 3)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -821,8 +791,8 @@ export default function EditCoursePage() {
                 6. Descriptions &amp; Marketing Frameworks
               </h3>
               <p className="text-xs text-gray-400">
-                Rich CMS formatted text for public marketing copy, program
-                frameworks, and job benefits
+                Rich CMS formatted text for public marketing copy, program frameworks, and job
+                benefits
               </p>
             </div>
             <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-[#09A64A] text-xs font-bold border border-emerald-200">
@@ -884,8 +854,8 @@ export default function EditCoursePage() {
               7. Course Media &amp; Documents
             </h3>
             <p className="text-xs text-gray-400">
-              Upload cover banners, app responsive graphics, program brochure,
-              and scholarship guidelines
+              Upload cover banners, app responsive graphics, program brochure, and scholarship
+              guidelines
             </p>
           </div>
 

@@ -17,12 +17,7 @@ export default async function CourseCredentialsPage({
       dataField="credentialData"
       countField="credentialCount"
       defaultType="credential"
-      typeOptions={[
-        "credential",
-        "certificate",
-        "recommendation_letter",
-        "diploma",
-      ]}
+      typeOptions={["credential", "certificate", "recommendation_letter", "diploma"]}
     />
   );
 }

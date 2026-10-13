@@ -43,12 +43,7 @@ export function generateCounsellorPdf(counsellors: CounselorItem[]) {
     details: margin + colWidths.sNo,
     online: margin + colWidths.sNo + colWidths.details,
     status: margin + colWidths.sNo + colWidths.details + colWidths.online,
-    action:
-      margin +
-      colWidths.sNo +
-      colWidths.details +
-      colWidths.online +
-      colWidths.status,
+    action: margin + colWidths.sNo + colWidths.details + colWidths.online + colWidths.status,
   };
 
   let y = 16;

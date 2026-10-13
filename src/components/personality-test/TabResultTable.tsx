@@ -53,10 +53,7 @@ export default function TabResultTable() {
   }, []);
 
   const handleDelete = async (id: string, name: string) => {
-    if (
-      !window.confirm(`Are you sure you want to delete tab result "${name}"?`)
-    )
-      return;
+    if (!window.confirm(`Are you sure you want to delete tab result "${name}"?`)) return;
     try {
       const res = await fetch(`/api/personality-test/tab-result?id=${id}`, {
         method: "DELETE",
@@ -76,7 +73,7 @@ export default function TabResultTable() {
     (i) =>
       i.name.toLowerCase().includes(search.toLowerCase()) ||
       i.description.toLowerCase().includes(search.toLowerCase()) ||
-      i.points.includes(search),
+      i.points.includes(search)
   );
 
   // Pagination calculations
@@ -120,15 +117,11 @@ export default function TabResultTable() {
         return [id, name, desc, pts, st].join(",");
       });
 
-      const csvContent =
-        "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+      const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute(
-        "download",
-        `personality_tab_results_${Date.now()}.csv`,
-      );
+      link.setAttribute("download", `personality_tab_results_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -155,7 +148,7 @@ export default function TabResultTable() {
           <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.points}</td>
           <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.status}</td>
         </tr>
-      `,
+      `
       )
       .join("");
 
@@ -213,8 +206,7 @@ export default function TabResultTable() {
             Tab Result
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
-            Scoring outcome classifications, psychological archetype thresholds,
-            and profiles.
+            Scoring outcome classifications, psychological archetype thresholds, and profiles.
           </p>
         </div>
 
@@ -283,10 +275,7 @@ export default function TabResultTable() {
         </div>
 
         <div className="text-xs text-gray-500 font-medium px-2">
-          Total:{" "}
-          <span className="font-bold text-gray-800">
-            {filtered.length} Archetypes
-          </span>
+          Total: <span className="font-bold text-gray-800">{filtered.length} Archetypes</span>
         </div>
       </div>
 
@@ -307,20 +296,14 @@ export default function TabResultTable() {
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={6}
-                    className="py-16 text-center text-gray-400 font-medium text-sm"
-                  >
+                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#09A64A]" />
                     Loading tab results...
                   </td>
                 </tr>
               ) : paginated.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={6}
-                    className="py-16 text-center text-gray-400 font-medium text-sm"
-                  >
+                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
                     No results found.
                   </td>
                 </tr>
@@ -350,7 +333,7 @@ export default function TabResultTable() {
                             "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold",
                             item.status === "Active"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                              : "bg-gray-100 text-gray-600 border border-gray-200",
+                              : "bg-gray-100 text-gray-600 border border-gray-200"
                           )}
                         >
                           {item.status}
@@ -387,12 +370,9 @@ export default function TabResultTable() {
           <div className="flex items-center gap-5 sm:gap-6">
             <span className="text-gray-700 text-[13.5px]">
               Showing{" "}
-              <span className="font-bold text-gray-900">
-                {totalItems > 0 ? startIndex + 1 : 0}
-              </span>{" "}
+              <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex + 1 : 0}</span>{" "}
               to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
-              <span className="font-bold text-gray-900">{totalItems}</span>{" "}
-              entries
+              <span className="font-bold text-gray-900">{totalItems}</span> entries
             </span>
 
             <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500 pl-5 border-l border-gray-200">
@@ -444,13 +424,11 @@ export default function TabResultTable() {
                   >
                     {page}
                   </button>
-                ),
+                )
               )}
 
               <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={safePage === totalPages}
                 className="px-3.5 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-2xs text-xs font-semibold transition-all"
               >

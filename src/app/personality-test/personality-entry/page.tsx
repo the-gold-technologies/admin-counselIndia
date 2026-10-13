@@ -5,8 +5,7 @@ import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Personality Entry | Personality Test | Counsel India Admin",
-  description:
-    "Personality assessment test entries and respondent demographics",
+  description: "Personality assessment test entries and respondent demographics",
 };
 
 const COLUMNS: ColDef[] = [

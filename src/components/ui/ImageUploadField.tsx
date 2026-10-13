@@ -31,11 +31,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      if (
-        value &&
-        typeof value === "string" &&
-        value.includes("cloudinary.com")
-      ) {
+      if (value && typeof value === "string" && value.includes("cloudinary.com")) {
         formData.append("oldUrl", value);
       }
 
@@ -68,11 +64,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   };
 
   const handleClear = () => {
-    if (
-      value &&
-      typeof value === "string" &&
-      value.includes("cloudinary.com")
-    ) {
+    if (value && typeof value === "string" && value.includes("cloudinary.com")) {
       fetch("/api/upload", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -123,10 +115,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 onError={(e) => {
                   // Fallback to live admin url if local fails
                   const filename = value.split("/").pop();
-                  if (
-                    filename &&
-                    !(e.target as HTMLImageElement).src.includes("adminassets")
-                  ) {
+                  if (filename && !(e.target as HTMLImageElement).src.includes("adminassets")) {
                     (e.target as HTMLImageElement).src =
                       `https://admin.counselindia.com/project/public/adminassets/images/${filename}`;
                   }
@@ -142,9 +131,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 <span className="w-1.5 h-1.5 rounded-full bg-[#09A64A] inline-block" />
                 Active brand asset
               </span>
-              <p className="text-[10px] text-gray-400 mt-1">
-                Ready for browser and header display
-              </p>
+              <p className="text-[10px] text-gray-400 mt-1">Ready for browser and header display</p>
             </div>
           </div>
 
@@ -213,9 +200,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 <CloudUpload className="w-5 h-5" strokeWidth={2.2} />
               </div>
               <p className="text-gray-700 text-xs font-semibold text-center mb-0.5">
-                <span className="text-[#09A64A] font-bold hover:underline mr-1">
-                  Choose file
-                </span>
+                <span className="text-[#09A64A] font-bold hover:underline mr-1">Choose file</span>
                 or drag & drop
               </p>
               <p className="text-gray-400 text-[10px] font-medium text-center">
@@ -226,11 +211,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
         </div>
       )}
 
-      {uploadError && (
-        <span className="text-[11px] text-rose-500 font-medium">
-          {uploadError}
-        </span>
-      )}
+      {uploadError && <span className="text-[11px] text-rose-500 font-medium">{uploadError}</span>}
     </div>
   );
 };

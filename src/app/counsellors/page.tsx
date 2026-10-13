@@ -47,10 +47,7 @@ function CounsellorsContent() {
   // Sync tab with URL
   useEffect(() => {
     const urlStatus = searchParams.get("status")?.toLowerCase();
-    if (
-      urlStatus &&
-      ["verified", "pending", "inactive", "all"].includes(urlStatus)
-    ) {
+    if (urlStatus && ["verified", "pending", "inactive", "all"].includes(urlStatus)) {
       setActiveTab(urlStatus);
     }
   }, [searchParams]);
@@ -106,9 +103,7 @@ function CounsellorsContent() {
       const json = await res.json();
       if (json.success) {
         setCounsellors((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, status: nextStatus } : item,
-          ),
+          prev.map((item) => (item.id === id ? { ...item, status: nextStatus } : item))
         );
         fetchCounsellors();
       }
@@ -151,9 +146,7 @@ function CounsellorsContent() {
       if (search.trim()) params.set("search", search.trim());
       const res = await fetch(`/api/counsellors?${params.toString()}`);
       const json = await res.json();
-      const exportList: CounselorItem[] = json.success
-        ? json.data
-        : counsellors;
+      const exportList: CounselorItem[] = json.success ? json.data : counsellors;
 
       const headers = [
         "S.No",
@@ -193,15 +186,11 @@ function CounsellorsContent() {
         ].join(",");
       });
 
-      const csvContent =
-        "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+      const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute(
-        "download",
-        `counselindia_counsellors_${activeTab}_${Date.now()}.csv`,
-      );
+      link.setAttribute("download", `counselindia_counsellors_${activeTab}_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -217,9 +206,7 @@ function CounsellorsContent() {
       if (search.trim()) params.set("search", search.trim());
       const res = await fetch(`/api/counsellors?${params.toString()}`);
       const json = await res.json();
-      const exportList: CounselorItem[] = json.success
-        ? json.data
-        : counsellors;
+      const exportList: CounselorItem[] = json.success ? json.data : counsellors;
       generateCounsellorPdf(exportList);
     } catch (err) {
       console.error("Export PDF failed:", err);
@@ -384,8 +371,7 @@ function CounsellorsContent() {
             Counsellors Directory
           </h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Verified counsellors, pending applications, and clinical
-            practitioner directory
+            Verified counsellors, pending applications, and clinical practitioner directory
           </p>
         </div>
 
@@ -457,9 +443,7 @@ function CounsellorsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               All Counsellors
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.all}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.all}</span>
             <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
               Complete Directory
             </span>
@@ -482,9 +466,7 @@ function CounsellorsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Verified Counsellors
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.verified}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.verified}</span>
             <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
               Live &amp; Approved
             </span>
@@ -507,9 +489,7 @@ function CounsellorsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Pending Counsellors
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.pending}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.pending}</span>
             <span className="text-[11px] text-amber-600 font-semibold mt-0.5 block">
               Awaiting Review
             </span>
@@ -532,9 +512,7 @@ function CounsellorsContent() {
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Inactive Counsellors
             </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.inactive}
-            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">{counts.inactive}</span>
             <span className="text-[11px] text-gray-500 font-semibold mt-0.5 block">
               Deactivated Accounts
             </span>
@@ -590,9 +568,7 @@ function CounsellorsContent() {
             title="Refresh List"
             className="p-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all cursor-pointer shrink-0 shadow-2xs"
           >
-            <RefreshCw
-              className={`w-4 h-4 ${loading ? "animate-spin text-[#09A64A]" : ""}`}
-            />
+            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-[#09A64A]" : ""}`} />
           </button>
         </div>
       </div>
@@ -601,9 +577,7 @@ function CounsellorsContent() {
       {loading && counsellors.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-200/80 p-16 text-center shadow-xs">
           <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-xs font-semibold text-gray-500">
-            Loading {getTabLabel(activeTab)}...
-          </p>
+          <p className="text-xs font-semibold text-gray-500">Loading {getTabLabel(activeTab)}...</p>
         </div>
       ) : (
         <CounsellorTable
@@ -630,9 +604,7 @@ export default function CounsellorsPage() {
       fallback={
         <div className="py-24 text-center">
           <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-xs font-semibold text-gray-500">
-            Loading module...
-          </p>
+          <p className="text-xs font-semibold text-gray-500">Loading module...</p>
         </div>
       }
     >

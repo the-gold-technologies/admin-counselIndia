@@ -58,9 +58,7 @@ export default function CourseLeadEditModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-gray-50/50">
           <div>
-            <h3 className="text-lg font-bold text-gray-900">
-              Edit Course Lead
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900">Edit Course Lead</h3>
             <p className="text-xs text-gray-500 mt-0.5">
               Lead #{lead.sNo} &bull; {lead.courseName}
             </p>

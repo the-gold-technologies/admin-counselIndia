@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       console.error("DB query error in alumni route:", e);
       return NextResponse.json(
         { success: false, error: (e as any)?.message || String(e) },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -45,13 +45,10 @@ export async function GET(request: Request) {
         count: alumni.length,
         data: alumni,
       },
-      { headers: corsHeaders },
+      { headers: corsHeaders }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -61,7 +58,7 @@ export async function POST(request: Request) {
     if (!body.name || !body.email || !body.mobile) {
       return NextResponse.json(
         { success: false, error: "Name, email, and mobile are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -75,11 +72,9 @@ export async function POST(request: Request) {
         mobile: body.mobile,
         programName: body.programName || "Counselling Master Course",
         certificateNumber:
-          body.certificateNumber ||
-          String(Math.floor(10000 + Math.random() * 90000)),
+          body.certificateNumber || String(Math.floor(10000 + Math.random() * 90000)),
         profession: body.profession || "Counselor",
-        skills:
-          body.skills || "Counseling Psychology, Mental Health Assessment",
+        skills: body.skills || "Counseling Psychology, Mental Health Assessment",
         status: body.status || "Active",
         isOnline: body.isOnline !== undefined ? Boolean(body.isOnline) : true,
         isApproved: true,
@@ -89,10 +84,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -101,10 +93,7 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { id, ...data } = body;
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 
     const updated = await prisma.alumni.update({
@@ -114,10 +103,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -126,10 +112,7 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 
     await prisma.alumni.delete({
@@ -141,9 +124,6 @@ export async function DELETE(request: Request) {
       message: "Alumni deleted successfully",
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -17,10 +17,8 @@ export async function POST(request: Request) {
       try {
         const formData = await request.formData();
         const file = formData.get("file") as File | null;
-        if (formData.get("category"))
-          category = (formData.get("category") as string).trim();
-        if (formData.get("mode"))
-          mode = (formData.get("mode") as string).trim();
+        if (formData.get("category")) category = (formData.get("category") as string).trim();
+        if (formData.get("mode")) mode = (formData.get("mode") as string).trim();
 
         if (file) {
           const rawText = await file.text();
@@ -34,7 +32,7 @@ export async function POST(request: Request) {
       } catch (formErr: any) {
         console.warn(
           "FormData parse error (file may exceed 10MB), falling back to raw body:",
-          formErr?.message,
+          formErr?.message
         );
         const rawText = await request.text();
         text = rawText
@@ -60,7 +58,7 @@ export async function POST(request: Request) {
     if (!text || text.trim() === "") {
       return NextResponse.json(
         { success: false, error: "The uploaded file is empty" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -69,7 +67,7 @@ export async function POST(request: Request) {
     if (parsed.rows.length === 0) {
       return NextResponse.json(
         { success: false, error: "No data rows found in the CSV file" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -93,9 +91,7 @@ export async function POST(request: Request) {
         id: uniqueId,
         ...mapped,
         sNo:
-          mapped.liveId && /^\d+$/.test(mapped.liveId)
-            ? parseInt(mapped.liveId, 10)
-            : fallbackSNo,
+          mapped.liveId && /^\d+$/.test(mapped.liveId) ? parseInt(mapped.liveId, 10) : fallbackSNo,
       };
     });
 
@@ -114,7 +110,7 @@ export async function POST(request: Request) {
       } catch (chunkErr: any) {
         console.warn(
           `Chunk ${Math.floor(i / CHUNK_SIZE) + 1} insert error, falling back to resilient row-by-row import:`,
-          chunkErr?.message,
+          chunkErr?.message
         );
         for (const singleLead of chunk) {
           try {
@@ -123,11 +119,7 @@ export async function POST(request: Request) {
             });
             insertedCount++;
           } catch (rowErr: any) {
-            console.error(
-              "Skipping problematic lead record:",
-              singleLead.liveId,
-              rowErr?.message,
-            );
+            console.error("Skipping problematic lead record:", singleLead.liveId, rowErr?.message);
           }
         }
       }
@@ -146,7 +138,7 @@ export async function POST(request: Request) {
     console.error("Failed to upload/import CSV leads:", error);
     return NextResponse.json(
       { success: false, error: error.message || "Failed to process CSV file" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

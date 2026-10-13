@@ -6671,12 +6671,7 @@
         "type": "curriculum",
         "title": "Prenatal Development Stages",
         "status": "Active",
-        "topics": [
-          "Zygote Stage",
-          "Embryo Development",
-          "Fetal Growth",
-          "Maternal Influences"
-        ],
+        "topics": ["Zygote Stage", "Embryo Development", "Fetal Growth", "Maternal Influences"],
         "position": "6",
         "description": "<ul>\r\n<li>\r\n<p style=\"margin: 0px; font-style: normal; font-variant-caps: normal; font-stretch: normal; font-size: 9.5px; line-height: normal; font-family: Helvetica; font-size-adjust: none; font-kerning: auto; font-variant-alternates: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-position: normal; font-feature-settings: normal; font-optical-sizing: auto; font-variation-settings: normal;\"><span style=\"font-size: 12pt;\">Zygote Stage</span></p>\r\n</li>\r\n<li>\r\n<p style=\"margin: 0px; font-style: normal; font-variant-caps: normal; font-stretch: normal; font-size: 9.5px; line-height: normal; font-family: Helvetica; font-size-adjust: none; font-kerning: auto; font-variant-alternates: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-position: normal; font-feature-settings: normal; font-optical-sizing: auto; font-variation-settings: normal;\"><span style=\"font-size: 12pt;\">Embryo Development</span></p>\r\n</li>\r\n<li>\r\n<p style=\"margin: 0px; font-style: normal; font-variant-caps: normal; font-stretch: normal; font-size: 9.5px; line-height: normal; font-family: Helvetica; font-size-adjust: none; font-kerning: auto; font-variant-alternates: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-position: normal; font-feature-settings: normal; font-optical-sizing: auto; font-variation-settings: normal;\"><span style=\"font-size: 12pt;\">Fetal Growth</span></p>\r\n</li>\r\n<li>\r\n<p style=\"margin: 0px; font-style: normal; font-variant-caps: normal; font-stretch: normal; font-size: 9.5px; line-height: normal; font-family: Helvetica; font-size-adjust: none; font-kerning: auto; font-variant-alternates: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-position: normal; font-feature-settings: normal; font-optical-sizing: auto; font-variation-settings: normal;\"><span style=\"font-size: 12pt;\">Maternal Influences</span></p>\r\n</li>\r\n</ul>"
       },
@@ -10512,11 +10507,7 @@
         "type": "curriculum",
         "title": "Peer Influence and Family Role",
         "status": "Active",
-        "topics": [
-          "Peer influence",
-          "Role of family",
-          "Impact on mental health"
-        ],
+        "topics": ["Peer influence", "Role of family", "Impact on mental health"],
         "position": "54",
         "description": "<ul>\r\n<li><span style=\"font-family: -webkit-standard;\">Peer influence</span></li>\r\n<li><span style=\"font-family: -webkit-standard;\">Role of family</span></li>\r\n<li><span style=\"font-family: -webkit-standard;\">Impact on mental health</span></li>\r\n</ul>"
       },

@@ -7,10 +7,7 @@ export async function POST(request: Request) {
     const { records } = body as { records: any[] };
 
     if (!records || !Array.isArray(records) || records.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "No records provided" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "No records provided" }, { status: 400 });
     }
 
     const data = records
@@ -32,10 +29,7 @@ export async function POST(request: Request) {
         courseType: r.courseType || undefined,
         courseName: r.courseName || undefined,
         addedOn: r.addedOn || undefined,
-        extraData:
-          r.extraData && Object.keys(r.extraData).length > 0
-            ? r.extraData
-            : undefined,
+        extraData: r.extraData && Object.keys(r.extraData).length > 0 ? r.extraData : undefined,
       }));
 
     const result = await prisma.inquiryLead.createMany({
@@ -46,9 +40,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, count: result.count });
   } catch (error: any) {
     console.error("Seed error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

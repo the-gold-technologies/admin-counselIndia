@@ -24,10 +24,7 @@ export default function CourseEnquiryListPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2
-            className="w-8 h-8 animate-spin"
-            style={{ color: "#f97316" }}
-          />
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#f97316" }} />
         </div>
       }
     >

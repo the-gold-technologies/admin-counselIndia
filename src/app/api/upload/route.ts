@@ -9,25 +9,16 @@ export async function POST(request: Request) {
     const oldUrl = data.get("oldUrl") as string | null;
 
     if (!file) {
-      return NextResponse.json(
-        { success: false, error: "No file uploaded" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "No file uploaded" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // If an oldUrl was provided during upload/replace, delete it from Cloudinary
-    if (
-      oldUrl &&
-      typeof oldUrl === "string" &&
-      oldUrl.includes("cloudinary.com")
-    ) {
+    if (oldUrl && typeof oldUrl === "string" && oldUrl.includes("cloudinary.com")) {
       try {
-        console.log(
-          `[Upload API] Cleaning up old file replaced during upload: ${oldUrl}`,
-        );
+        console.log(`[Upload API] Cleaning up old file replaced during upload: ${oldUrl}`);
         await deleteCloudinaryFileByUrl(oldUrl);
       } catch (err) {
         console.warn(`[Upload API] Could not delete old file: ${oldUrl}`, err);
@@ -43,7 +34,7 @@ export async function POST(request: Request) {
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
-        },
+        }
       );
       uploadStream.end(buffer);
     });
@@ -59,7 +50,7 @@ export async function POST(request: Request) {
     console.error("Cloudinary upload error:", error);
     return NextResponse.json(
       { success: false, error: error?.message || "Upload failed" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -78,10 +69,7 @@ export async function DELETE(request: Request) {
     }
 
     if (!url) {
-      return NextResponse.json(
-        { success: false, error: "File URL is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "File URL is required" }, { status: 400 });
     }
 
     const deleted = await deleteCloudinaryFileByUrl(url);
@@ -94,7 +82,7 @@ export async function DELETE(request: Request) {
     console.error("Cloudinary delete error:", error);
     return NextResponse.json(
       { success: false, error: error?.message || "Delete failed" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -1,11 +1,7 @@
 import React from "react";
 import CourseSubModuleManager from "@/components/courses/CourseSubModuleManager";
 
-export default async function CourseOverviewPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function CourseOverviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   return (

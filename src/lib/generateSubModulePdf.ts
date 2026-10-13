@@ -5,7 +5,7 @@ export function generateSubModulePdf(
   items: SubModuleItem[],
   courseName: string,
   moduleTitle: string,
-  slug: string,
+  slug: string
 ) {
   const doc = new jsPDF({
     orientation: "portrait",
@@ -32,7 +32,7 @@ export function generateSubModulePdf(
   doc.text(
     `Exported: ${new Date().toLocaleDateString()} | Total Items: ${items.length}`,
     margin,
-    29,
+    29
   );
 
   // Table header bar
@@ -100,17 +100,10 @@ export function generateSubModulePdf(
 
     // subtle bottom line
     doc.setDrawColor(229, 231, 235);
-    doc.line(
-      margin,
-      currentY + rowHeight,
-      margin + usableWidth,
-      currentY + rowHeight,
-    );
+    doc.line(margin, currentY + rowHeight, margin + usableWidth, currentY + rowHeight);
 
     currentY += rowHeight;
   });
 
-  doc.save(
-    `${slug || "course"}_${moduleTitle.toLowerCase().replace(/[^a-z0-9]/g, "_")}.pdf`,
-  );
+  doc.save(`${slug || "course"}_${moduleTitle.toLowerCase().replace(/[^a-z0-9]/g, "_")}.pdf`);
 }

@@ -51,43 +51,24 @@ function formatDate(d: string | Date | null | undefined): string {
   });
 }
 
-function renderCell(
-  lead: any,
-  col: ColDef,
-  index: number,
-  currentPage: number,
-  pageSize: number,
-) {
+function renderCell(lead: any, col: ColDef, index: number, currentPage: number, pageSize: number) {
   const { key, label } = col;
 
   if (key === "sNo" || key === "id" || key === "liveId") {
     const isIdCol =
       key === "id" ||
       key === "liveId" ||
-      (Boolean(label) &&
-        (/#?id\b/i.test(label!.trim()) || label!.toLowerCase().endsWith("id")));
+      (Boolean(label) && (/#?id\b/i.test(label!.trim()) || label!.toLowerCase().endsWith("id")));
 
     if (isIdCol) {
       // If it is ID, show that particular ID only
-      const idVal =
-        lead.liveId ??
-        lead.sNo ??
-        lead.id ??
-        (currentPage - 1) * pageSize + index + 1;
-      return (
-        <span className="font-semibold text-gray-700 font-mono text-[11px]">
-          {idVal}
-        </span>
-      );
+      const idVal = lead.liveId ?? lead.sNo ?? lead.id ?? (currentPage - 1) * pageSize + index + 1;
+      return <span className="font-semibold text-gray-700 font-mono text-[11px]">{idVal}</span>;
     }
 
     // If it is SN number, start from 1, 2, ...
     const displayVal = (currentPage - 1) * pageSize + index + 1;
-    return (
-      <span className="font-semibold text-gray-500 font-mono text-[11px]">
-        {displayVal}
-      </span>
-    );
+    return <span className="font-semibold text-gray-500 font-mono text-[11px]">{displayVal}</span>;
   }
 
   if (key === "addedOn") {
@@ -100,10 +81,7 @@ function renderCell(
   // Specific smart fallbacks
   if (value === undefined || value === null || value === "") {
     if (key === "source") {
-      value =
-        lead.hearFrom ??
-        lead.extraData?.["Here From"] ??
-        lead.extraData?.["hereFrom"];
+      value = lead.hearFrom ?? lead.extraData?.["Here From"] ?? lead.extraData?.["hereFrom"];
     } else if (key === "hearFrom") {
       value =
         lead.source ??
@@ -133,8 +111,7 @@ function renderCell(
           lead.extraData?.referredByPhone ??
           lead.extraData?.referrerPhone ??
           lead.extraData?.refer_by_phone;
-        const rCourse =
-          lead.extraData?.courseRefer ?? lead.extraData?.course_refer;
+        const rCourse = lead.extraData?.courseRefer ?? lead.extraData?.course_refer;
         if (rName) parts.push(`Name: ${rName}`);
         if (rEmail) parts.push(`Email: ${rEmail}`);
         if (rPhone) parts.push(`Phone: ${rPhone}`);
@@ -146,16 +123,10 @@ function renderCell(
     } else if (key === "newsletterName") {
       value = lead.extraData?.newsletterName ?? lead.courseName ?? lead.content;
     } else if (key === "courseType") {
-      value =
-        lead.courseType ??
-        lead.extraData?.courseType ??
-        lead.extraData?.programType;
+      value = lead.courseType ?? lead.extraData?.courseType ?? lead.extraData?.programType;
     } else if (key === "courseName") {
       value =
-        lead.courseName ??
-        lead.extraData?.courseName ??
-        lead.extraData?.program ??
-        lead.content;
+        lead.courseName ?? lead.extraData?.courseName ?? lead.extraData?.program ?? lead.content;
     } else if (key === "referByName") {
       value =
         lead.extraData?.referByName ??
@@ -175,8 +146,7 @@ function renderCell(
         lead.extraData?.referredByPhone ??
         lead.extraData?.refer_by_phone;
     } else if (key === "leadName") {
-      value =
-        lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
+      value = lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
     } else if (key === "state") {
       value = lead.state ?? lead.extraData?.state ?? lead.extraData?.stateName;
     } else if (key === "city") {
@@ -446,16 +416,12 @@ export default function LeadsTable({
       const firstHeaderLabel = isFirstColId ? firstCol.label || "Id" : "S.No";
       const headers = [
         firstHeaderLabel,
-        ...exportCols.map((c) =>
-          c.key === "mobile" ? "Phone Number" : c.label,
-        ),
+        ...exportCols.map((c) => (c.key === "mobile" ? "Phone Number" : c.label)),
       ];
       const csvRows = [headers.join(",")];
 
       rows.forEach((row: any, idx: number) => {
-        const idVal = isFirstColId
-          ? (row.liveId ?? row.sNo ?? idx + 1)
-          : idx + 1;
+        const idVal = isFirstColId ? (row.liveId ?? row.sNo ?? idx + 1) : idx + 1;
         const cells = [
           `"${String(idVal).replace(/"/g, '""')}"`,
           ...exportCols.map((col) => {
@@ -487,9 +453,7 @@ export default function LeadsTable({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-            {title}
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{title}</h1>
           <p className="text-xs text-gray-500 mt-0.5">{description}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -529,15 +493,9 @@ export default function LeadsTable({
               className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 cursor-pointer transition-all shadow-sm"
             >
               {isExporting ? (
-                <Loader2
-                  className="w-4 h-4 animate-spin"
-                  style={{ color: accentColor }}
-                />
+                <Loader2 className="w-4 h-4 animate-spin" style={{ color: accentColor }} />
               ) : (
-                <FileSpreadsheet
-                  className="w-4 h-4"
-                  style={{ color: accentColor }}
-                />
+                <FileSpreadsheet className="w-4 h-4" style={{ color: accentColor }} />
               )}
               Export CSV
             </button>
@@ -551,9 +509,7 @@ export default function LeadsTable({
           <form onSubmit={handleFilterSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                  Name
-                </label>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">Name</label>
                 <input
                   type="text"
                   placeholder="Enter Name"
@@ -564,9 +520,7 @@ export default function LeadsTable({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                  Email
-                </label>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">Email</label>
                 <input
                   type="text"
                   placeholder="Enter email"
@@ -577,9 +531,7 @@ export default function LeadsTable({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                  Mobile
-                </label>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">Mobile</label>
                 <input
                   type="text"
                   placeholder="Enter mobile number"
@@ -612,9 +564,7 @@ export default function LeadsTable({
       {/* UTM Information & Search Card - Shown on UTM Data and Landing Page Utm tabs */}
       {(category === "utm-data" || category === "landing-page-utm") && (
         <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm space-y-4">
-          <h2 className="text-base sm:text-lg font-bold text-gray-700 tracking-tight">
-            {title}
-          </h2>
+          <h2 className="text-base sm:text-lg font-bold text-gray-700 tracking-tight">{title}</h2>
 
           <form onSubmit={handleUtmSearchSubmit} className="pt-1">
             <div className="flex w-full max-w-xl">
@@ -641,9 +591,8 @@ export default function LeadsTable({
               https://www.counselindia.com/course/mba-in-industrial-organizational-psychology?utm_source=google&amp;utm_medium=email&amp;utm_campaign=newcourse&amp;utm_id=id9&amp;utm_term=bestcourse&amp;utm_content=googleads
             </p>
             <p className="break-all leading-relaxed font-normal text-gray-700">
-              campaign id:id9, campaign source:google, campaign medium:email,
-              campaign name:newcourse, campaign term:bestcourse, campaign
-              content:googleads.
+              campaign id:id9, campaign source:google, campaign medium:email, campaign
+              name:newcourse, campaign term:bestcourse, campaign content:googleads.
             </p>
           </div>
         </div>
@@ -693,9 +642,7 @@ export default function LeadsTable({
             title="Refresh"
             className="p-1.5 rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer ml-1"
           >
-            <RefreshCw
-              className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`}
-            />
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`} />
           </button>
         </div>
       </div>
@@ -738,17 +685,12 @@ export default function LeadsTable({
                 ))
               ) : leads.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="py-16 text-center text-gray-400"
-                  >
+                  <td colSpan={columns.length} className="py-16 text-center text-gray-400">
                     <div className="max-w-xs mx-auto space-y-2">
                       <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto">
                         <Inbox className="w-6 h-6" />
                       </div>
-                      <p className="font-semibold text-gray-700 text-sm">
-                        No leads found
-                      </p>
+                      <p className="font-semibold text-gray-700 text-sm">No leads found</p>
                       <p className="text-xs text-gray-400">
                         {debouncedSearch
                           ? `No records match "${debouncedSearch}"`
@@ -759,10 +701,7 @@ export default function LeadsTable({
                 </tr>
               ) : (
                 leads.map((lead, i) => (
-                  <tr
-                    key={lead.id || i}
-                    className="hover:bg-gray-50/60 transition-colors group"
-                  >
+                  <tr key={lead.id || i} className="hover:bg-gray-50/60 transition-colors group">
                     {columns.map((col, ci) => (
                       <td
                         key={ci}
@@ -787,12 +726,9 @@ export default function LeadsTable({
         {/* Pagination Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 text-xs text-gray-500 font-medium bg-gray-50/40">
           <div>
-            Showing <span className="font-bold text-gray-800">{startItem}</span>{" "}
-            to <span className="font-bold text-gray-800">{endItem}</span> of{" "}
-            <span className="font-bold text-gray-800">
-              {totalCount.toLocaleString()}
-            </span>{" "}
-            results
+            Showing <span className="font-bold text-gray-800">{startItem}</span> to{" "}
+            <span className="font-bold text-gray-800">{endItem}</span> of{" "}
+            <span className="font-bold text-gray-800">{totalCount.toLocaleString()}</span> results
           </div>
 
           <div className="flex items-center gap-1.5">

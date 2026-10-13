@@ -44,10 +44,7 @@ function normalizeKey(str: string): string {
 /**
  * Automatically repairs known malformed or shifted header rows from Counsel India CSV exports.
  */
-export function detectAndFixHeaders(
-  rawHeaders: string[],
-  sampleRows: string[][],
-): string[] {
+export function detectAndFixHeaders(rawHeaders: string[], sampleRows: string[][]): string[] {
   if (!rawHeaders || rawHeaders.length === 0) return rawHeaders;
   const norm = rawHeaders.map(normalizeKey);
 
@@ -80,14 +77,7 @@ export function detectAndFixHeaders(
     norm[3] === "hearfrom" &&
     (norm[4] === "addedat" || norm[4] === "addedon" || norm[4] === "date")
   ) {
-    return [
-      "Name",
-      "Email",
-      "Mobile",
-      "Message",
-      "Hear From",
-      rawHeaders[4] || "AddedAt",
-    ];
+    return ["Name", "Email", "Mobile", "Message", "Hear From", rawHeaders[4] || "AddedAt"];
   }
 
   // Signature 2: Book a Session / Counsellor Contact export (counsellorcontact2026-...)
@@ -116,11 +106,7 @@ export function detectAndFixHeaders(
   }
 
   // Signature 3: General missing Mobile column after Email when data has 1 extra column
-  if (
-    maxColCount === rawHeaders.length + 1 &&
-    norm[0] === "name" &&
-    norm[1] === "email"
-  ) {
+  if (maxColCount === rawHeaders.length + 1 && norm[0] === "name" && norm[1] === "email") {
     const looksLikePhone = sampleRows.slice(0, 10).some((r) => {
       const val = (r[2] || "").trim();
       return /^\+?\d{7,15}$/.test(val.replace(/[\s\-]/g, ""));
@@ -147,8 +133,7 @@ export function detectAndFixHeaders(
   if (
     rawHeaders.length === 12 &&
     (maxColCount === 11 ||
-      (sampleRows.length > 0 &&
-        sampleRows.slice(0, 5).some((r) => r.length === 11))) &&
+      (sampleRows.length > 0 && sampleRows.slice(0, 5).some((r) => r.length === 11))) &&
     norm[0] === "id" &&
     norm[6] === "probackground" &&
     (norm[7] === "purposegivetest" || norm[7] === "purpose")
@@ -210,10 +195,7 @@ export function parseCsvText(text: string): ParsedCsvResult {
       } else if (c === ",") {
         row.push(field.trim());
         field = "";
-      } else if (
-        c === "\n" ||
-        (c === "\r" && i + 1 < len && sanitizedText[i + 1] === "\n")
-      ) {
+      } else if (c === "\n" || (c === "\r" && i + 1 < len && sanitizedText[i + 1] === "\n")) {
         if (c === "\r") i++;
         row.push(field.trim());
         field = "";
@@ -274,7 +256,7 @@ export function parseCsvText(text: string): ParsedCsvResult {
 export function mapCsvRecordToLead(
   record: Record<string, string>,
   category: string,
-  index: number,
+  index: number
 ) {
   // Normalize keys: strip all spaces, underscores, hyphens, and lowercase
   const norm: Record<string, string> = {};
@@ -295,8 +277,7 @@ export function mapCsvRecordToLead(
 
   // Id / S.No
   const liveId = getVal("id", "leadid", "sno", "serialno", "sn", "srno", "no");
-  const sNoNum =
-    liveId && /^\d+$/.test(liveId) ? parseInt(liveId, 10) : index + 1;
+  const sNoNum = liveId && /^\d+$/.test(liveId) ? parseInt(liveId, 10) : index + 1;
 
   // Name (handles Name, Full Name, User Name, User Details, Student Name, Customer Name)
   const name = getVal(
@@ -306,18 +287,11 @@ export function mapCsvRecordToLead(
     "userdetails",
     "user",
     "customername",
-    "studentname",
+    "studentname"
   );
 
   // Email (handles Email, Recipient Email, Email Address, User Email, Mail)
-  const email = getVal(
-    "email",
-    "recipientemail",
-    "emailaddress",
-    "useremail",
-    "mail",
-    "emailid",
-  );
+  const email = getVal("email", "recipientemail", "emailaddress", "useremail", "mail", "emailid");
 
   // Mobile / Phone (handles Phone Number, Mobile, Contact, Phone, Contact Number, Mobile No, etc.)
   const mobile = getVal(
@@ -333,30 +307,15 @@ export function mapCsvRecordToLead(
     "cellphone",
     "cell",
     "contactno",
-    "whatsappnumber",
+    "whatsappnumber"
   );
 
   // Country Code
   const countryCode = getVal("countrycode", "country_code", "dialcode", "code");
 
   // Location
-  const state = getVal(
-    "state",
-    "stateid",
-    "state_id",
-    "statename",
-    "province",
-    "region",
-  );
-  const city = getVal(
-    "city",
-    "cityid",
-    "city_id",
-    "cityname",
-    "district",
-    "location",
-    "place",
-  );
+  const state = getVal("state", "stateid", "state_id", "statename", "province", "region");
+  const city = getVal("city", "cityid", "city_id", "cityname", "district", "location", "place");
 
   // Marketing UTM / Type
   const medium = getVal("medium", "utmmedium", "type");
@@ -372,7 +331,7 @@ export function mapCsvRecordToLead(
     "feedback",
     "comment",
     "description",
-    "remarks",
+    "remarks"
   );
   const rawHearFrom = getVal(
     "hearfrom",
@@ -383,7 +342,7 @@ export function mapCsvRecordToLead(
     "hearaboutus",
     "hear_from",
     "here_from",
-    "source",
+    "source"
   );
 
   // Harmonize source and hearFrom: if one is present, fallback to the other
@@ -400,7 +359,7 @@ export function mapCsvRecordToLead(
     "courseid",
     "course_id",
     "courserefer",
-    "course_refer",
+    "course_refer"
   );
 
   // Added on / Date / Updated At
@@ -415,7 +374,7 @@ export function mapCsvRecordToLead(
     "updatedat",
     "updatedon",
     "updated_at",
-    "updated_on",
+    "updated_on"
   );
 
   // Extra data fields specific to Counsel India admin tabs
@@ -432,14 +391,7 @@ export function mapCsvRecordToLead(
   // Certificate Data & Result
   const certificateType = getVal("certificatetype");
   if (certificateType) extraData.certificateType = certificateType;
-  const marks = getVal(
-    "marks",
-    "score",
-    "percentage",
-    "result",
-    "testresult",
-    "test_result",
-  );
+  const marks = getVal("marks", "score", "percentage", "result", "testresult", "test_result");
   if (marks) extraData.marks = marks;
   const viewPath = getVal(
     "viewpath",
@@ -453,46 +405,23 @@ export function mapCsvRecordToLead(
     "pdf",
     "url",
     "filepath",
-    "file_path",
+    "file_path"
   );
   if (viewPath) extraData.viewPath = viewPath;
 
   // Refer Enquiry
-  const referByName = getVal(
-    "referbyname",
-    "referredbyname",
-    "referrername",
-    "refer_by_name",
-  );
+  const referByName = getVal("referbyname", "referredbyname", "referrername", "refer_by_name");
   if (referByName) extraData.referByName = referByName;
-  const referByEmail = getVal(
-    "referbyemail",
-    "referredbyemail",
-    "referreremail",
-    "refer_by_email",
-  );
+  const referByEmail = getVal("referbyemail", "referredbyemail", "referreremail", "refer_by_email");
   if (referByEmail) extraData.referByEmail = referByEmail;
-  const referByPhone = getVal(
-    "referbyphone",
-    "referredbyphone",
-    "referrerphone",
-    "refer_by_phone",
-  );
+  const referByPhone = getVal("referbyphone", "referredbyphone", "referrerphone", "refer_by_phone");
   if (referByPhone) extraData.referByPhone = referByPhone;
-  const courseRefer = getVal(
-    "courserefer",
-    "course_refer",
-    "referredcourse",
-    "refercourse",
-  );
+  const courseRefer = getVal("courserefer", "course_refer", "referredcourse", "refercourse");
   if (courseRefer) extraData.courseRefer = courseRefer;
 
   // Synthesize message for refer-enquiry if not explicitly given
   let finalMessage = message;
-  if (
-    !finalMessage &&
-    (referByName || referByEmail || referByPhone || courseRefer)
-  ) {
+  if (!finalMessage && (referByName || referByEmail || referByPhone || courseRefer)) {
     const parts: string[] = [];
     if (referByName) parts.push(`Name: ${referByName}`);
     if (referByEmail) parts.push(`Email: ${referByEmail}`);
@@ -518,7 +447,7 @@ export function mapCsvRecordToLead(
     "purpose_give_test",
     "give_test",
     "givetest",
-    "purposetest",
+    "purposetest"
   );
   if (purpose) extraData.purpose = purpose;
 
@@ -689,7 +618,6 @@ export function mapCsvRecordToLead(
     courseType: courseType || null,
     courseName: courseName || null,
     addedOn: addedOn || null,
-    extraData:
-      Object.keys(extraData).length > 0 ? sanitizeString(extraData) : undefined,
+    extraData: Object.keys(extraData).length > 0 ? sanitizeString(extraData) : undefined,
   };
 }

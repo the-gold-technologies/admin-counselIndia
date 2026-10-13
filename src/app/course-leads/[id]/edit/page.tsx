@@ -117,9 +117,7 @@ export default function EditCourseLeadPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mb-3" />
-        <p className="text-xs font-semibold text-gray-500">
-          Loading lead details...
-        </p>
+        <p className="text-xs font-semibold text-gray-500">Loading lead details...</p>
       </div>
     );
   }
@@ -154,9 +152,7 @@ export default function EditCourseLeadPage() {
         </Link>
         <div className="text-xs text-gray-400">
           Content Management &bull;{" "}
-          <span className="text-gray-700 font-semibold">
-            Edit Lead #{lead?.sNo}
-          </span>
+          <span className="text-gray-700 font-semibold">Edit Lead #{lead?.sNo}</span>
         </div>
       </div>
 
@@ -167,12 +163,9 @@ export default function EditCourseLeadPage() {
             Content Management
           </span>
         </div>
-        <h1 className="text-2xl font-black text-gray-900 tracking-tight">
-          Edit Course Lead
-        </h1>
+        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Edit Course Lead</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Assign Relationship Manager (RM), Customer Success Manager (CSM), and
-          update lead status
+          Assign Relationship Manager (RM), Customer Success Manager (CSM), and update lead status
         </p>
       </div>
 
@@ -210,9 +203,7 @@ export default function EditCourseLeadPage() {
                 {lead.courseName || "General Course"}
               </span>
               {lead.addedOn && (
-                <div className="text-[11px] text-gray-400 mt-1">
-                  Added: {lead.addedOn}
-                </div>
+                <div className="text-[11px] text-gray-400 mt-1">Added: {lead.addedOn}</div>
               )}
             </div>
           </div>
@@ -259,12 +250,9 @@ export default function EditCourseLeadPage() {
                   {opt}
                 </option>
               ))}
-              {relationshipManager &&
-                !RM_OPTIONS.includes(relationshipManager) && (
-                  <option value={relationshipManager}>
-                    {relationshipManager}
-                  </option>
-                )}
+              {relationshipManager && !RM_OPTIONS.includes(relationshipManager) && (
+                <option value={relationshipManager}>{relationshipManager}</option>
+              )}
             </select>
             <p className="text-[11px] text-gray-400">
               Assign counselor or RM responsible for student onboarding
@@ -291,12 +279,9 @@ export default function EditCourseLeadPage() {
                   {opt}
                 </option>
               ))}
-              {customerSuccessManager &&
-                !CSM_OPTIONS.includes(customerSuccessManager) && (
-                  <option value={customerSuccessManager}>
-                    {customerSuccessManager}
-                  </option>
-                )}
+              {customerSuccessManager && !CSM_OPTIONS.includes(customerSuccessManager) && (
+                <option value={customerSuccessManager}>{customerSuccessManager}</option>
+              )}
             </select>
             <p className="text-[11px] text-gray-400">
               Assign CSM responsible for student ongoing support & mentorship
@@ -331,11 +316,7 @@ export default function EditCourseLeadPage() {
             disabled={saving}
             className="px-6 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white font-bold text-xs shadow-md shadow-[#09A64A]/20 transition-all cursor-pointer flex items-center gap-2 active:scale-95 disabled:opacity-50"
           >
-            {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4" />
-            )}
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             <span>Submit form</span>
           </button>
 

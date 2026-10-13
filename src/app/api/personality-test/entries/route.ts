@@ -43,8 +43,7 @@ export async function GET(request: Request) {
         proBackground: extra.proBackground || "-",
         purposeGiveTest: extra.purposeGiveTest || "-",
         state: l.state || "-",
-        date:
-          l.addedOn || l.createdAt.toISOString().slice(0, 19).replace("T", " "),
+        date: l.addedOn || l.createdAt.toISOString().slice(0, 19).replace("T", " "),
         result: extra.result || "0",
         hereFrom: l.hearFrom || "-",
       };
@@ -61,10 +60,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -115,13 +111,10 @@ export async function POST(request: Request) {
         data: newLead,
         message: "Personality test entry recorded successfully",
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (error: any) {
     console.error("Failed to create personality entry:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

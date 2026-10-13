@@ -7,10 +7,7 @@ export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const counselor = await prisma.counselor.findFirst({
@@ -20,28 +17,16 @@ export async function GET(
     });
 
     if (!counselor) {
-      return NextResponse.json(
-        { success: false, error: "Counselor not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Counselor not found" }, { status: 404 });
     }
 
-    return NextResponse.json(
-      { success: true, data: counselor },
-      { headers: corsHeaders },
-    );
+    return NextResponse.json({ success: true, data: counselor }, { headers: corsHeaders });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const body = await request.json();
@@ -53,10 +38,7 @@ export async function PATCH(
     });
 
     if (!existing) {
-      return NextResponse.json(
-        { success: false, error: "Counselor not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Counselor not found" }, { status: 404 });
     }
 
     // Clean up replaced files on Cloudinary
@@ -70,22 +52,13 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(
-      { success: true, data: updated },
-      { headers: corsHeaders },
-    );
+    return NextResponse.json({ success: true, data: updated }, { headers: corsHeaders });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const existing = await prisma.counselor.findFirst({
@@ -95,10 +68,7 @@ export async function DELETE(
     });
 
     if (!existing) {
-      return NextResponse.json(
-        { success: false, error: "Counselor not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Counselor not found" }, { status: 404 });
     }
 
     // Delete all attached files from Cloudinary on delete
@@ -110,12 +80,9 @@ export async function DELETE(
 
     return NextResponse.json(
       { success: true, message: "Counselor deleted successfully" },
-      { headers: corsHeaders },
+      { headers: corsHeaders }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

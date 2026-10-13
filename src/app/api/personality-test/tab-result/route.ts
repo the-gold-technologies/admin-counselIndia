@@ -13,15 +13,12 @@ export async function GET(request: Request) {
       if (!result) {
         return NextResponse.json(
           { success: false, error: "Tab result not found" },
-          { status: 404 },
+          { status: 404 }
         );
       }
       return NextResponse.json({ success: true, data: result });
     } catch (error: any) {
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 },
-      );
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
   }
   try {
@@ -34,10 +31,7 @@ export async function GET(request: Request) {
       data: results,
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -54,10 +48,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -65,11 +56,7 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
     const { id, ...data } = body;
-    if (!id)
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+    if (!id) return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
 
     const updated = await prisma.personalityTabResult.update({
       where: { id },
@@ -82,10 +69,7 @@ export async function PUT(request: Request) {
     });
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -93,11 +77,7 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    if (!id)
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+    if (!id) return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
 
     await prisma.personalityTabResult.delete({ where: { id } });
     return NextResponse.json({
@@ -105,9 +85,6 @@ export async function DELETE(request: Request) {
       message: "Deleted successfully",
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

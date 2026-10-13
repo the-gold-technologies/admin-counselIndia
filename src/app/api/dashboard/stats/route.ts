@@ -22,21 +22,15 @@ export async function GET() {
       personalityQuestionsCount,
     ] = await Promise.all([
       prisma.admission.count().catch(() => 0),
-      prisma.admission
-        .count({ where: { createdAt: { gte: today } } })
-        .catch(() => 0),
+      prisma.admission.count({ where: { createdAt: { gte: today } } }).catch(() => 0),
       prisma.inquiryLead.count().catch(() => 0),
-      prisma.inquiryLead
-        .count({ where: { createdAt: { gte: today } } })
-        .catch(() => 0),
+      prisma.inquiryLead.count({ where: { createdAt: { gte: today } } }).catch(() => 0),
       prisma.counselor.count().catch(() => 0),
       prisma.course.count().catch(() => 0),
       prisma.alumni.count().catch(() => 0),
       prisma.courseLead.count().catch(() => 0),
       prisma.user.count().catch(() => 0),
-      prisma.user
-        .count({ where: { createdAt: { gte: today } } })
-        .catch(() => 0),
+      prisma.user.count({ where: { createdAt: { gte: today } } }).catch(() => 0),
       prisma.personalityQuestion.count().catch(() => 0),
     ]);
 
@@ -97,9 +91,7 @@ export async function GET() {
       ...recentAdmissions.map((a) => ({
         type: "admission",
         text: `New enrollment: ${a.name || "Student"} for ${(a.courseName || "Program").replace(/_/g, " ")}`,
-        time: a.admissionDate
-          ? a.admissionDate.toISOString()
-          : a.createdAt.toISOString(),
+        time: a.admissionDate ? a.admissionDate.toISOString() : a.createdAt.toISOString(),
       })),
       ...recentLeads.map((l) => ({
         type: "lead",
@@ -208,7 +200,7 @@ export async function GET() {
     console.error("Dashboard stats error:", error);
     return NextResponse.json(
       { success: false, error: error?.message || "Internal Server Error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { INITIAL_ADMISSIONS } from "@/lib/initialData";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
@@ -20,16 +17,11 @@ export async function GET(
 
     if (!admission) {
       // Find by id or sNo in initial data
-      admission = INITIAL_ADMISSIONS.find(
-        (a) => a.id === id || String(a.sNo) === id,
-      );
+      admission = INITIAL_ADMISSIONS.find((a) => a.id === id || String(a.sNo) === id);
     }
 
     if (!admission) {
-      return NextResponse.json(
-        { success: false, error: "Learner not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Learner not found" }, { status: 404 });
     }
 
     // Normalize JSON fields
@@ -40,9 +32,7 @@ export async function GET(
           ? JSON.parse(admission.courseExpectations)
           : admission.courseExpectations || [];
     } catch {
-      courseExpectations = [
-        admission.courseExpectations || "Upskilling & professional competence",
-      ];
+      courseExpectations = [admission.courseExpectations || "Upskilling & professional competence"];
     }
 
     let educationHistory = [];
@@ -70,12 +60,9 @@ export async function GET(
     };
 
     const address = admission.address || {
-      permanent:
-        admission.permanentAddress ||
-        "Flat 402, Green Meadows, 5th Main, Indiranagar",
+      permanent: admission.permanentAddress || "Flat 402, Green Meadows, 5th Main, Indiranagar",
       correspondence:
-        admission.correspondenceAddress ||
-        "Flat 402, Green Meadows, 5th Main, Indiranagar",
+        admission.correspondenceAddress || "Flat 402, Green Meadows, 5th Main, Indiranagar",
       city: admission.city || "Bengaluru",
       state: admission.state || "Karnataka",
       pincode: admission.pincode || "560038",
@@ -91,9 +78,6 @@ export async function GET(
 
     return NextResponse.json({ success: true, data: normalized });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -7,11 +7,7 @@ export const metadata: Metadata = {
   description: "Central Administration and Operations Panel for Counsel India",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="antialiased bg-[#f8f9fa] text-slate-800">

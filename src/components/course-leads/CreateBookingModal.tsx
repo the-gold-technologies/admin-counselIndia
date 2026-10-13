@@ -101,9 +101,7 @@ export default function CreateBookingModal({
               <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-gray-900">
-                Create A Booking
-              </h3>
+              <h3 className="text-lg font-bold text-gray-900">Create A Booking</h3>
               <p className="text-xs text-gray-500">
                 Convert lead #{lead.sNo} to official enrolled student
               </p>
@@ -160,15 +158,9 @@ export default function CreateBookingModal({
                 onChange={(e) => setBatchName(e.target.value)}
                 className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
               >
-                <option value="Weekend Batch (Batch 24)">
-                  Weekend Batch (Batch 24)
-                </option>
-                <option value="Weekday Evening Batch">
-                  Weekday Evening Batch
-                </option>
-                <option value="Fast Track Fast-Track">
-                  Fast Track Intensive
-                </option>
+                <option value="Weekend Batch (Batch 24)">Weekend Batch (Batch 24)</option>
+                <option value="Weekday Evening Batch">Weekday Evening Batch</option>
+                <option value="Fast Track Fast-Track">Fast Track Intensive</option>
               </select>
             </div>
             <div>

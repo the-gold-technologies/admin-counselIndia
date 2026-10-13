@@ -10,8 +10,7 @@ export function downloadLearnerPDF(learner: any) {
   const p = learner.personalDetails || {};
   const addr = learner.address || {};
   const expectations =
-    Array.isArray(learner.courseExpectations) &&
-    learner.courseExpectations.length > 0
+    Array.isArray(learner.courseExpectations) && learner.courseExpectations.length > 0
       ? learner.courseExpectations
       : [
           "Start",
@@ -22,9 +21,7 @@ export function downloadLearnerPDF(learner: any) {
           "Upskilling",
         ];
 
-  const education = Array.isArray(learner.educationHistory)
-    ? learner.educationHistory
-    : [];
+  const education = Array.isArray(learner.educationHistory) ? learner.educationHistory : [];
 
   const leftMargin = 15;
   const contentWidth = 180;
@@ -186,9 +183,7 @@ export function downloadLearnerPDF(learner: any) {
     p2y += 5;
 
     const eduItem =
-      education.find((e: any) =>
-        e.level?.toLowerCase().includes(secName.toLowerCase()),
-      ) || {};
+      education.find((e: any) => e.level?.toLowerCase().includes(secName.toLowerCase())) || {};
 
     const eduRows = [
       ["Course Name", eduItem.courseName || ""],

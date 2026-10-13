@@ -38,8 +38,7 @@ async function seedSettings(prismaInstance) {
     contactUsMobile: "+91-9518241200",
     contactUsMail: "admissions@counselindiaservices.in",
     contactUsHotline: "+91-8930804054",
-    contactUsHeadOffice:
-      "12A20, 13th Floor , Sector-96, Noida, Uttar Pradesh, 201301",
+    contactUsHeadOffice: "12A20, 13th Floor , Sector-96, Noida, Uttar Pradesh, 201301",
     contactUsBranchOffice:
       "1. Evolve Work Studio , 3rd floor , Raj Pinnacle \r\n (Behind Teieradiology Solution) ,  \r\nDoddanekundi Industrial Area,  \r\nBangalore  Karnataka - 560048   \r\n2. Yesssworks Andheri\r\nwww.yesssworks.com\r\n3rd Floor, Ackruti Softech Park, \r\nShree Krishna Nagar, Marol Midc Industry Estate, \r\nAndheri East, Mumbai, Maharashtra 400093",
     contactUsHoursOperation:
@@ -55,8 +54,7 @@ async function seedSettings(prismaInstance) {
     footerTitle:
       "Counsel India is the only practical e-learning platform for psychology and counselling programs in I",
     footerCompanyName: "COUNSELINDIA SERVICES PRIVATE LIMITED",
-    footerAddress:
-      "12A20, 13th Floor, E-Square , Sector 96, Noida, Uttar Pradesh 201301",
+    footerAddress: "12A20, 13th Floor, E-Square , Sector 96, Noida, Uttar Pradesh 201301",
     gstNumber: "09AAICC6447N1Z0",
     footerSupportEmail: "wecare@counselindiaservices.in",
     footerWhatsappNumber: "+918448519298",
@@ -64,8 +62,7 @@ async function seedSettings(prismaInstance) {
     footerTwitterLink: "https://twitter.com/counselindia1?lang=en",
     footerFbLink: "https://www.facebook.com/counselindia/",
     instaLink: "https://www.instagram.com/counsel_india_",
-    footerYoutubeLink:
-      "https://www.youtube.com/channel/UCWnALe3hLVdGJzVOuEgGoYg",
+    footerYoutubeLink: "https://www.youtube.com/channel/UCWnALe3hLVdGJzVOuEgGoYg",
     footerLinkedinLink: "https://www.linkedin.com/company/28905636/admin/",
   };
 
@@ -90,9 +87,7 @@ async function seedCourses(prismaInstance) {
     return;
   }
   const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-  console.log(
-    `Loading ${data.length} courses with full media and submodules...`,
-  );
+  console.log(`Loading ${data.length} courses with full media and submodules...`);
 
   await p.course.deleteMany({});
 
@@ -107,8 +102,7 @@ async function seedCourses(prismaInstance) {
             .replace(/(^-|-$)/g, "") +
           "-" +
           c.liveId;
-    const priceVal =
-      parseFloat(c.totalDiscountFee || c.totalProgramFee || 0) || 0;
+    const priceVal = parseFloat(c.totalDiscountFee || c.totalProgramFee || 0) || 0;
     const ratingVal = parseFloat(c.rating) || 5.0;
     const posVal = parseInt(c.position) || i + 1;
 
@@ -239,8 +233,7 @@ async function seedAlumni(prismaInstance) {
       skills: item.skills || null,
       isOnline: Boolean(item.isOnline),
       status: item.status || "Active",
-      isApproved:
-        item.isApproved !== undefined ? Boolean(item.isApproved) : true,
+      isApproved: item.isApproved !== undefined ? Boolean(item.isApproved) : true,
       createdAt: createdDate,
       updatedAt: updatedDate,
     };
@@ -311,8 +304,7 @@ async function seedCounselors(prismaInstance) {
       accountType: item.accountType || "Savings",
       accountHolderName: item.accountHolderName || "",
       userType: item.userType || "Counselor",
-      isApproved:
-        item.isApproved !== undefined ? Boolean(item.isApproved) : true,
+      isApproved: item.isApproved !== undefined ? Boolean(item.isApproved) : true,
       isOnline: Boolean(item.isOnline),
       videoStatus: Boolean(item.videoStatus),
       videoPrice: item.videoPrice !== undefined ? Number(item.videoPrice) : 0,
@@ -320,10 +312,8 @@ async function seedCounselors(prismaInstance) {
       audioPrice: item.audioPrice !== undefined ? Number(item.audioPrice) : 0,
       chatStatus: Boolean(item.chatStatus),
       chatPrice: item.chatPrice !== undefined ? Number(item.chatPrice) : 0,
-      expectedCharges:
-        item.expectedCharges !== undefined ? Number(item.expectedCharges) : 0,
-      councellFees:
-        item.councellFees !== undefined ? Number(item.councellFees) : 0,
+      expectedCharges: item.expectedCharges !== undefined ? Number(item.expectedCharges) : 0,
+      councellFees: item.councellFees !== undefined ? Number(item.councellFees) : 0,
       commission: item.commission !== undefined ? Number(item.commission) : 0,
       position: Number(item.position) || index + 1,
       about: item.about || "",
@@ -416,13 +406,21 @@ async function seedCourseLeads(prismaInstance) {
   console.log(`✓ Seeded ${count} Course Leads successfully.`);
 }
 
-// 7. Seed Single Admin User (superadmin@counselindia.com)
+// 7. Seed Single Admin User
 async function seedUser(prismaInstance) {
   const p = prismaInstance || prisma;
   console.log("--- 7/7 Seeding Admin User ---");
 
-  const adminEmail = "superadmin@counselindia.com";
+  const adminEmail = process.env.ADMIN_DEFAULT_EMAIL;
   const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD;
+
+  if (!adminEmail || !adminPassword) {
+    console.warn(
+      "⚠️ Warning: ADMIN_DEFAULT_EMAIL or ADMIN_DEFAULT_PASSWORD is not set in environment. Skipping admin user creation."
+    );
+    return null;
+  }
+
   const hashedPassword = bcrypt.hashSync(adminPassword, 10);
 
   // Strictly only the single authentic admin user
@@ -434,7 +432,7 @@ async function seedUser(prismaInstance) {
       email: adminEmail,
       password: hashedPassword,
       role: "SUPERADMIN",
-      phone: "+91-9518241200",
+      phone: process.env.ADMIN_DEFAULT_PHONE,
       status: "Active",
       avatar:
         "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
@@ -491,9 +489,7 @@ async function seedPersonalityTest(prismaInstance) {
         },
       });
     }
-    console.log(
-      `✓ Seeded ${questionsData.length} PersonalityQuestion records.`,
-    );
+    console.log(`✓ Seeded ${questionsData.length} PersonalityQuestion records.`);
   }
 
   // 3. Tab Results
@@ -511,9 +507,7 @@ async function seedPersonalityTest(prismaInstance) {
         },
       });
     }
-    console.log(
-      `✓ Seeded ${tabResultsData.length} PersonalityTabResult records.`,
-    );
+    console.log(`✓ Seeded ${tabResultsData.length} PersonalityTabResult records.`);
   }
 }
 

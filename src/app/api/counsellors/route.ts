@@ -40,18 +40,17 @@ export async function GET(request: Request) {
       ];
     }
 
-    const [total, verifiedCount, pendingCount, inactiveCount, allCount] =
-      await Promise.all([
-        prisma.counselor.count({ where }),
-        prisma.counselor.count({
-          where: { isApproved: true, status: "Active" },
-        }),
-        prisma.counselor.count({
-          where: { isApproved: false, status: "Active" },
-        }),
-        prisma.counselor.count({ where: { status: "Inactive" } }),
-        prisma.counselor.count(),
-      ]);
+    const [total, verifiedCount, pendingCount, inactiveCount, allCount] = await Promise.all([
+      prisma.counselor.count({ where }),
+      prisma.counselor.count({
+        where: { isApproved: true, status: "Active" },
+      }),
+      prisma.counselor.count({
+        where: { isApproved: false, status: "Active" },
+      }),
+      prisma.counselor.count({ where: { status: "Inactive" } }),
+      prisma.counselor.count(),
+    ]);
 
     const queryOptions: any = {
       where,
@@ -82,13 +81,10 @@ export async function GET(request: Request) {
           all: allCount,
         },
       },
-      { headers: corsHeaders },
+      { headers: corsHeaders }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -98,7 +94,7 @@ export async function POST(request: Request) {
     if (!body.name || !body.email || !body.mobile) {
       return NextResponse.json(
         { success: false, error: "Name, email, and mobile are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -131,8 +127,7 @@ export async function POST(request: Request) {
         accountType: body.accountType || null,
         accountHolderName: body.accountHolderName || null,
         userType: body.userType || "Counselor",
-        isApproved:
-          body.isApproved !== undefined ? Boolean(body.isApproved) : true,
+        isApproved: body.isApproved !== undefined ? Boolean(body.isApproved) : true,
         isOnline: Boolean(body.isOnline),
         videoStatus: Boolean(body.videoStatus),
         videoPrice: Number(body.videoPrice) || 0,
@@ -157,10 +152,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -169,10 +161,7 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { id, ...data } = body;
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 
     if (data.updatedOn === undefined) {
@@ -186,10 +175,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -198,10 +184,7 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "Missing ID" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 
     await prisma.counselor.delete({
@@ -213,9 +196,6 @@ export async function DELETE(request: Request) {
       message: "Counselor deleted successfully",
     });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

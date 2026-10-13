@@ -6,9 +6,10 @@ import { corsHeaders } from "@/lib/cors";
 const AUTH_COOKIE_NAME = "counselindia_admin_token";
 
 const getSecretKey = () => {
-  const secret =
-    process.env.JWT_SECRET ||
-    "counselindia_super_secure_jwt_secret_key_2026_tgt";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET is not defined in environment variables");
+  }
   return new TextEncoder().encode(secret);
 };
 
@@ -43,8 +44,7 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith("/api/personality-test/questions") ||
         pathname.startsWith("/api/personality-test/tab-result"))) ||
     (request.method === "POST" &&
-      (pathname.startsWith("/api/leads") ||
-        pathname.startsWith("/api/personality-test/entries")));
+      (pathname.startsWith("/api/leads") || pathname.startsWith("/api/personality-test/entries")));
 
   if (isPublicApi) {
     const response = NextResponse.next();
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json(
         { error: "Unauthorized. Please login to continue." },
-        { status: 401, headers: corsHeaders },
+        { status: 401, headers: corsHeaders }
       );
     }
 

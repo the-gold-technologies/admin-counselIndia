@@ -20,20 +20,7 @@ interface AdmissionsTableProps {
   admissions: AdmissionRow[];
 }
 
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function splitAdmissionDateTime(dateStr?: string | Date | null): {
   date: string;
@@ -73,9 +60,7 @@ export function splitAdmissionDateTime(dateStr?: string | Date | null): {
   }
 }
 
-export function formatAdmissionDateTime(
-  dateStr?: string | Date | null,
-): string {
+export function formatAdmissionDateTime(dateStr?: string | Date | null): string {
   const { date, time } = splitAdmissionDateTime(dateStr);
   return time ? `${date} ${time}` : date;
 }
@@ -145,10 +130,7 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
           <tbody className="divide-y divide-gray-100">
             {paginatedAdmissions.length === 0 ? (
               <tr>
-                <td
-                  colSpan={7}
-                  className="py-16 text-center text-gray-400 font-medium text-sm"
-                >
+                <td colSpan={7} className="py-16 text-center text-gray-400 font-medium text-sm">
                   No learner records found.
                 </td>
               </tr>
@@ -197,9 +179,7 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
                     {/* Date */}
                     <td className="py-4.5 px-6 whitespace-nowrap">
                       <div className="flex flex-col">
-                        <span className="font-semibold text-gray-800 text-[14px]">
-                          {dt.date}
-                        </span>
+                        <span className="font-semibold text-gray-800 text-[14px]">{dt.date}</span>
                         {dt.time && (
                           <span className="text-[12.5px] text-gray-500 font-medium mt-0.5">
                             {dt.time}
@@ -231,12 +211,9 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
         <div className="flex items-center gap-5 sm:gap-6">
           <span className="text-gray-700 text-[13.5px]">
             Showing{" "}
-            <span className="font-bold text-gray-900">
-              {totalItems > 0 ? startIndex + 1 : 0}
-            </span>{" "}
+            <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex + 1 : 0}</span>{" "}
             to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
-            <span className="font-bold text-gray-900">{totalItems}</span>{" "}
-            entries
+            <span className="font-bold text-gray-900">{totalItems}</span> entries
           </span>
 
           <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500 pl-5 border-l border-gray-200">
@@ -288,7 +265,7 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
                 >
                   {page}
                 </button>
-              ),
+              )
             )}
 
             <button

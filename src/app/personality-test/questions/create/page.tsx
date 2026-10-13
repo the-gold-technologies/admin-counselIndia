@@ -5,13 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
-const PERSONALITY_TYPES = [
-  "Achiever",
-  "Empath",
-  "Logical",
-  "Enthusiast",
-  "Initiator",
-];
+const PERSONALITY_TYPES = ["Achiever", "Empath", "Logical", "Enthusiast", "Initiator"];
 
 export default function CreateQuestionPage() {
   const router = useRouter();
@@ -28,11 +22,7 @@ export default function CreateQuestionPage() {
     status: "Active",
   });
 
-  const handleAnswerChange = (
-    idx: number,
-    field: "answer" | "value",
-    val: string,
-  ) => {
+  const handleAnswerChange = (idx: number, field: "answer" | "value", val: string) => {
     const nextAnswers = [...formData.answers];
     nextAnswers[idx] = { ...nextAnswers[idx], [field]: val };
     setFormData({ ...formData, answers: nextAnswers });
@@ -76,17 +66,11 @@ export default function CreateQuestionPage() {
         </Link>
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-0.5">
-            <Link
-              href="/personality-test/questions"
-              className="hover:text-[#09A64A]"
-            >
+            <Link href="/personality-test/questions" className="hover:text-[#09A64A]">
               Personality Test
             </Link>
             <span>/</span>
-            <Link
-              href="/personality-test/questions"
-              className="hover:text-[#09A64A]"
-            >
+            <Link href="/personality-test/questions" className="hover:text-[#09A64A]">
               Questions
             </Link>
             <span>/</span>
@@ -110,9 +94,7 @@ export default function CreateQuestionPage() {
               rows={3}
               required
               value={formData.question}
-              onChange={(e) =>
-                setFormData({ ...formData, question: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, question: e.target.value })}
               placeholder="e.g. How do you typically respond to stressful situations?"
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
             />
@@ -151,22 +133,16 @@ export default function CreateQuestionPage() {
                     type="text"
                     required
                     value={ans.answer}
-                    onChange={(e) =>
-                      handleAnswerChange(idx, "answer", e.target.value)
-                    }
+                    onChange={(e) => handleAnswerChange(idx, "answer", e.target.value)}
                     placeholder={`Answer option ${idx + 1}...`}
                     className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
                   />
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-bold text-gray-500">
-                      Trait:
-                    </span>
+                    <span className="text-xs font-bold text-gray-500">Trait:</span>
                     <select
                       value={ans.value}
-                      onChange={(e) =>
-                        handleAnswerChange(idx, "value", e.target.value)
-                      }
+                      onChange={(e) => handleAnswerChange(idx, "value", e.target.value)}
                       className="px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-emerald-800 outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
                     >
                       {PERSONALITY_TYPES.map((pt) => (
@@ -208,9 +184,7 @@ export default function CreateQuestionPage() {
               </label>
               <select
                 value={formData.status}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
               >
                 <option value="Active">Active</option>

@@ -38,20 +38,7 @@ interface AlumniDetail {
   updatedAt: string;
 }
 
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function formatDate(dateStr?: string | Date | null) {
   if (!dateStr) return "-";
@@ -108,9 +95,7 @@ export default function ViewAlumniPage() {
     return (
       <div className="py-24 text-center">
         <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-xs font-semibold text-gray-500">
-          Loading alumni profile...
-        </p>
+        <p className="text-xs font-semibold text-gray-500">Loading alumni profile...</p>
       </div>
     );
   }
@@ -121,9 +106,7 @@ export default function ViewAlumniPage() {
         <div className="w-12 h-12 rounded-2xl bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-4">
           <User className="w-6 h-6" />
         </div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">
-          Alumni Not Found
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Alumni Not Found</h2>
         <p className="text-xs text-gray-500 mb-6">
           {error || "Could not retrieve details for this ID."}
         </p>
@@ -202,9 +185,7 @@ export default function ViewAlumniPage() {
 
             <div>
               <div className="flex items-center gap-2.5">
-                <h2 className="text-xl font-bold text-gray-900">
-                  {alumni.name}
-                </h2>
+                <h2 className="text-xl font-bold text-gray-900">{alumni.name}</h2>
                 <span
                   className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${
                     isActive
@@ -258,27 +239,19 @@ export default function ViewAlumniPage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                <span className="text-xs text-gray-500 block">
-                  Email Address
-                </span>
-                <span className="text-sm font-bold text-gray-900 block mt-0.5">
-                  {alumni.email}
-                </span>
+                <span className="text-xs text-gray-500 block">Email Address</span>
+                <span className="text-sm font-bold text-gray-900 block mt-0.5">{alumni.email}</span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                <span className="text-xs text-gray-500 block">
-                  Mobile Number
-                </span>
+                <span className="text-xs text-gray-500 block">Mobile Number</span>
                 <span className="text-sm font-bold text-gray-900 block mt-0.5">
                   {alumni.mobile}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100 sm:col-span-2">
-                <span className="text-xs text-gray-500 block">
-                  Program Name
-                </span>
+                <span className="text-xs text-gray-500 block">Program Name</span>
                 <span className="text-sm font-bold text-gray-900 block mt-0.5">
                   {alumni.programName}
                 </span>
@@ -308,16 +281,10 @@ export default function ViewAlumniPage() {
           {/* Verification Timestamps */}
           <div className="pt-3 border-t border-gray-100 flex items-center gap-6 text-xs text-gray-500 font-medium">
             <span>
-              Added On:{" "}
-              <strong className="text-gray-700">
-                {formatDate(alumni.createdAt)}
-              </strong>
+              Added On: <strong className="text-gray-700">{formatDate(alumni.createdAt)}</strong>
             </span>
             <span>
-              Updated On:{" "}
-              <strong className="text-gray-700">
-                {formatDate(alumni.updatedAt)}
-              </strong>
+              Updated On: <strong className="text-gray-700">{formatDate(alumni.updatedAt)}</strong>
             </span>
           </div>
         </div>
