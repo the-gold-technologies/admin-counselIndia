@@ -269,8 +269,8 @@ export function mapCsvRecordToLead(
   const courseType = getVal('coursetype', 'programtype', 'type');
   const courseName = getVal('coursename', 'course', 'program', 'workshop', 'courseid', 'course_id', 'courserefer', 'course_refer');
 
-  // Added on / Date
-  const addedOn = getVal('addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate');
+  // Added on / Date / Updated At
+  const addedOn = getVal('addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate', 'updatedat', 'updatedon', 'updated_at', 'updated_on');
 
   // Extra data fields specific to Counsel India admin tabs
   const extraData: Record<string, any> = {};
@@ -341,8 +341,8 @@ export function mapCsvRecordToLead(
     'message', 'query', 'question', 'userquestion', 'feedback', 'comment', 'description', 'remarks',
     'hearfrom', 'herefrom', 'wherehear', 'referral', 'reference', 'hearaboutus', 'hear_from', 'here_from',
     'coursetype', 'programtype', 'type',
-    'coursename', 'course', 'program', 'workshop',
-    'addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate',
+    'coursename', 'course', 'program', 'workshop', 'courseid', 'course_id',
+    'addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate', 'updatedat', 'updatedon', 'updated_at', 'updated_on',
     'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage',
     'viewpath', 'view_path', 'certificateurl', 'certificate_url', 'pdfpath', 'pdf_path', 'pdfurl', 'pdf_url', 'pdf', 'url', 'filepath', 'file_path',
     'referbyname', 'referredbyname', 'referrername', 'referbyemail', 'referredbyemail', 'referreremail', 'referbyphone', 'referredbyphone', 'referrerphone',

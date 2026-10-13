@@ -52,11 +52,14 @@ export const LEAD_SUBTABS_CONFIG: Record<string, LeadSubtabMeta> = {
     description: 'Leads captured from marketing landing pages',
     columns: [
       { key: 'sNo', label: 'S.No', align: 'center' },
+      { key: 'courseName', label: 'Course ID' },
+      { key: 'source', label: 'Source' },
+      { key: 'medium', label: 'Medium' },
+      { key: 'content', label: 'Content' },
       { key: 'name', label: 'Name' },
       { key: 'email', label: 'Email' },
       { key: 'mobile', label: 'Phone Number' },
-      { key: 'medium', label: 'Medium' },
-      { key: 'addedOn', label: 'Created At', align: 'right' },
+      { key: 'addedOn', label: 'Updated At', align: 'right' },
     ],
   },
   'exit-intent': {
