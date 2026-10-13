@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
-
-const corsHeaders: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
+import { corsHeaders } from "@/lib/cors";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });

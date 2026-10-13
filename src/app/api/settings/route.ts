@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
-const corsHeaders: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
+import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
+import { corsHeaders } from "@/lib/cors";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -41,6 +37,13 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, createdAt, updatedAt, ...updateData } = body;
+
+    const existing = await prisma.siteSetting.findUnique({
+      where: { id: "default" },
+    });
+    if (existing) {
+      await cleanupReplacedCloudinaryFiles(existing, updateData);
+    }
 
     const settings = await prisma.siteSetting.upsert({
       where: { id: "default" },

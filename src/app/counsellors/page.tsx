@@ -26,7 +26,7 @@ function CounsellorsContent() {
   const router = useRouter();
 
   // Status param from URL or default to "verified"
-  const initialStatus = searchParams.get("status")?.toLowerCase() || "verified";
+  const initialStatus = searchParams.get("status")?.toLowerCase() || "all";
   const [activeTab, setActiveTab] = useState<string>(initialStatus);
 
   const [counsellors, setCounsellors] = useState<CounselorItem[]>([]);
@@ -428,8 +428,33 @@ function CounsellorsContent() {
         </div>
       </div>
 
-      {/* Metric Cards matching Alumni styling */}
+      {/* Metric Cards matching Alumni styling - All First */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        {/* All Counsellors (First) */}
+        <div
+          onClick={() => handleTabChange("all")}
+          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
+            activeTab === "all"
+              ? "bg-white border-[#09A64A] ring-2 ring-[#09A64A]/20"
+              : "bg-white border-gray-200/80 hover:border-gray-300"
+          }`}
+        >
+          <div>
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
+              All Counsellors
+            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">
+              {counts.all}
+            </span>
+            <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
+              Complete Directory
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#09A64A] flex items-center justify-center">
+            <Users className="w-6 h-6" />
+          </div>
+        </div>
+
         {/* Verified Counsellors */}
         <div
           onClick={() => handleTabChange("verified")}
@@ -504,31 +529,6 @@ function CounsellorsContent() {
             <UserX className="w-6 h-6" />
           </div>
         </div>
-
-        {/* All Counsellors */}
-        <div
-          onClick={() => handleTabChange("all")}
-          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
-            activeTab === "all"
-              ? "bg-white border-blue-500 ring-2 ring-blue-500/20"
-              : "bg-white border-gray-200/80 hover:border-gray-300"
-          }`}
-        >
-          <div>
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
-              All Counsellors
-            </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.all}
-            </span>
-            <span className="text-[11px] text-blue-600 font-semibold mt-0.5 block">
-              Complete Directory
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-            <Users className="w-6 h-6" />
-          </div>
-        </div>
       </div>
 
       {/* Navigation Filter Toolbar */}
@@ -536,10 +536,10 @@ function CounsellorsContent() {
         {/* Status Tabs */}
         <div className="flex items-center gap-1.5 p-1 bg-gray-100 rounded-xl overflow-x-auto">
           {[
+            { id: "all", label: `All (${counts.all})` },
             { id: "verified", label: `Verified (${counts.verified})` },
             { id: "pending", label: `Pending (${counts.pending})` },
             { id: "inactive", label: `Inactive (${counts.inactive})` },
-            { id: "all", label: `All (${counts.all})` },
           ].map((tab) => (
             <button
               key={tab.id}

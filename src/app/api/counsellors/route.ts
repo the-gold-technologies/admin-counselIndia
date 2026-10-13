@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
-const corsHeaders: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
+import { corsHeaders } from "@/lib/cors";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -45,13 +40,18 @@ export async function GET(request: Request) {
       ];
     }
 
-    const [total, verifiedCount, pendingCount, inactiveCount, allCount] = await Promise.all([
-      prisma.counselor.count({ where }),
-      prisma.counselor.count({ where: { isApproved: true, status: "Active" } }),
-      prisma.counselor.count({ where: { isApproved: false, status: "Active" } }),
-      prisma.counselor.count({ where: { status: "Inactive" } }),
-      prisma.counselor.count(),
-    ]);
+    const [total, verifiedCount, pendingCount, inactiveCount, allCount] =
+      await Promise.all([
+        prisma.counselor.count({ where }),
+        prisma.counselor.count({
+          where: { isApproved: true, status: "Active" },
+        }),
+        prisma.counselor.count({
+          where: { isApproved: false, status: "Active" },
+        }),
+        prisma.counselor.count({ where: { status: "Inactive" } }),
+        prisma.counselor.count(),
+      ]);
 
     const queryOptions: any = {
       where,
@@ -82,12 +82,12 @@ export async function GET(request: Request) {
           all: allCount,
         },
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     if (!body.name || !body.email || !body.mobile) {
       return NextResponse.json(
         { success: false, error: "Name, email, and mobile are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -131,7 +131,8 @@ export async function POST(request: Request) {
         accountType: body.accountType || null,
         accountHolderName: body.accountHolderName || null,
         userType: body.userType || "Counselor",
-        isApproved: body.isApproved !== undefined ? Boolean(body.isApproved) : true,
+        isApproved:
+          body.isApproved !== undefined ? Boolean(body.isApproved) : true,
         isOnline: Boolean(body.isOnline),
         videoStatus: Boolean(body.videoStatus),
         videoPrice: Number(body.videoPrice) || 0,
@@ -158,7 +159,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -170,7 +171,7 @@ export async function PATCH(request: Request) {
     if (!id) {
       return NextResponse.json(
         { success: false, error: "Missing ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -187,7 +188,7 @@ export async function PATCH(request: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -199,7 +200,7 @@ export async function DELETE(request: Request) {
     if (!id) {
       return NextResponse.json(
         { success: false, error: "Missing ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -214,7 +215,7 @@ export async function DELETE(request: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

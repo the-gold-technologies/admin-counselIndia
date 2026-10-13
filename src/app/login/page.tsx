@@ -82,7 +82,7 @@ function LoginForm() {
         <div className="pt-9 pb-6 px-8 text-center bg-gradient-to-b from-gray-50/70 to-white border-b border-gray-100">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-white shadow-md border border-gray-100 mb-4">
             <Image
-              src="/uploads/logo_ci-icon_1673585977.png"
+              src="https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png"
               alt="Counsel India"
               width={42}
               height={42}

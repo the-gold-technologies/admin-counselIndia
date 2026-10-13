@@ -15,9 +15,9 @@ async function seedSettings(prismaInstance) {
     title: "Counselindia",
     footer: "Counselindia",
     referWallet: "100",
-    logo: "/uploads/logo_ci-icon_1673585977.png",
-    lightLogo: "/uploads/light_logo_logo-dark-text_1640955961.png",
-    favicon: "/uploads/favicon_favicon_favicon_1671434128_1673585969.ico",
+    logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
+    lightLogo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873113/counselindia/brand/counselindia-light-logo.png",
+    favicon: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873100/counselindia/brand/favicon.png",
     companyName: "counselindiaAdmin",
     websiteLink: "counselindia",
     address: "counselindia",
@@ -434,7 +434,7 @@ async function seedUser(prismaInstance) {
       role: "SUPERADMIN",
       phone: "+91-9518241200",
       status: "Active",
-      avatar: "/uploads/logo_ci-icon_1673585977.png",
+      avatar: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
     },
   });
 

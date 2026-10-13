@@ -442,8 +442,33 @@ function CourseLeadsContent() {
         </div>
       </div>
 
-      {/* Metric Cards matching Counsellors/Alumni styling */}
+      {/* Metric Cards matching Counsellors/Alumni styling - All First */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        {/* All Leads (First) */}
+        <div
+          onClick={() => handleTabChange("all")}
+          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
+            activeTab === "all"
+              ? "bg-white border-[#09A64A] ring-2 ring-[#09A64A]/20"
+              : "bg-white border-gray-200/80 hover:border-gray-300"
+          }`}
+        >
+          <div>
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
+              All Leads
+            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">
+              {counts.all}
+            </span>
+            <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
+              Complete Directory
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#09A64A] flex items-center justify-center shrink-0">
+            <TrendingUp className="w-6 h-6" />
+          </div>
+        </div>
+
         {/* New Leads */}
         <div
           onClick={() => handleTabChange("new")}
@@ -460,7 +485,7 @@ function CourseLeadsContent() {
             <span className="text-2xl font-black text-gray-900 mt-1 block">
               {counts.new}
             </span>
-            <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
+            <span className="text-[11px] text-blue-600 font-semibold mt-0.5 block">
               Awaiting Follow-up
             </span>
           </div>
@@ -516,31 +541,6 @@ function CourseLeadsContent() {
           </div>
           <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#09A64A] flex items-center justify-center shrink-0">
             <UserCheck className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* All Leads */}
-        <div
-          onClick={() => handleTabChange("all")}
-          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
-            activeTab === "all"
-              ? "bg-white border-[#09A64A] ring-2 ring-[#09A64A]/20"
-              : "bg-white border-gray-200/80 hover:border-gray-300"
-          }`}
-        >
-          <div>
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
-              All Leads
-            </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {counts.all}
-            </span>
-            <span className="text-[11px] text-gray-500 font-semibold mt-0.5 block">
-              Complete Directory
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-gray-50 text-gray-600 flex items-center justify-center shrink-0">
-            <TrendingUp className="w-6 h-6" />
           </div>
         </div>
       </div>

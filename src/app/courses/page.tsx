@@ -321,9 +321,34 @@ function CoursesContent() {
         </div>
       </div>
 
-      {/* Metric Cards matching Course Leads & Counsellors styling */}
+      {/* Metric Cards matching Course Leads & Counsellors styling - All First */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        {/* Active Courses */}
+        {/* All Courses (First) */}
+        <div
+          onClick={() => handleTabChange("all")}
+          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
+            activeTab === "all"
+              ? "bg-white border-[#09A64A] ring-2 ring-[#09A64A]/20"
+              : "bg-white border-gray-200/80 hover:border-gray-300"
+          }`}
+        >
+          <div>
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
+              All Courses
+            </span>
+            <span className="text-2xl font-black text-gray-900 mt-1 block">
+              {stats.total || 43}
+            </span>
+            <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
+              Complete Directory
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#09A64A] flex items-center justify-center shrink-0">
+            <TrendingUp className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Active Courses (Second) */}
         <div
           onClick={() => handleTabChange("active")}
           className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
@@ -390,31 +415,6 @@ function CoursesContent() {
           </div>
           <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Layers className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* All Courses */}
-        <div
-          onClick={() => handleTabChange("all")}
-          className={`rounded-2xl p-5 border shadow-xs flex items-center justify-between cursor-pointer transition-all ${
-            activeTab === "all"
-              ? "bg-white border-[#09A64A] ring-2 ring-[#09A64A]/20"
-              : "bg-white border-gray-200/80 hover:border-gray-300"
-          }`}
-        >
-          <div>
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
-              All Courses
-            </span>
-            <span className="text-2xl font-black text-gray-900 mt-1 block">
-              {stats.total || 43}
-            </span>
-            <span className="text-[11px] text-[#09A64A] font-semibold mt-0.5 block">
-              Complete Directory
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#09A64A] flex items-center justify-center shrink-0">
-            <TrendingUp className="w-6 h-6" />
           </div>
         </div>
       </div>
