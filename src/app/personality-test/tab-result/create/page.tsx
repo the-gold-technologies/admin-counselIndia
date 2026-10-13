@@ -54,15 +54,23 @@ export default function CreateTabResultPage() {
         </Link>
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-0.5">
-            <Link href="/personality-test/tab-result" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/tab-result"
+              className="hover:text-[#09A64A]"
+            >
               Personality Test
             </Link>
             <span>/</span>
-            <Link href="/personality-test/tab-result" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/tab-result"
+              className="hover:text-[#09A64A]"
+            >
               Tab Result
             </Link>
             <span>/</span>
-            <span className="text-gray-800 font-bold">Add Result Archetype</span>
+            <span className="text-gray-800 font-bold">
+              Add Result Archetype
+            </span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
             Add Tab Result
@@ -81,7 +89,9 @@ export default function CreateTabResultPage() {
               type="text"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               placeholder="e.g. The Achiever"
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
             />
@@ -95,7 +105,9 @@ export default function CreateTabResultPage() {
               rows={5}
               required
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               placeholder="Comprehensive personality profile and score evaluation description..."
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all leading-relaxed"
             />
@@ -110,7 +122,9 @@ export default function CreateTabResultPage() {
                 type="text"
                 required
                 value={formData.points}
-                onChange={(e) => setFormData({ ...formData, points: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, points: e.target.value })
+                }
                 placeholder="e.g. 1"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
               />
@@ -122,7 +136,9 @@ export default function CreateTabResultPage() {
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
               >
                 <option value="Active">Active</option>

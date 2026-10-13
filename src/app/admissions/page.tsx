@@ -37,13 +37,16 @@ export default function AdmissionsPage() {
     const headers = ["S.No", "Name", "Email", "Mobile", "Course Name", "Date"];
     const rows = admissions.map((a, i) => [
       a.sNo || i + 1,
-      "\"" + a.name + "\"",
+      '"' + a.name + '"',
       a.email,
       a.mobile,
-      "\"" + a.courseName + "\"",
-      "\"" + formatAdmissionDateTime(a.admissionDate) + "\"",
+      '"' + a.courseName + '"',
+      '"' + formatAdmissionDateTime(a.admissionDate) + '"',
     ]);
-    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((r) => r.join(",")),
+    ].join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -63,7 +66,8 @@ export default function AdmissionsPage() {
             Learner List
           </h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
-            Manage verified student admissions, track enrollments, and export learner records.
+            Manage verified student admissions, track enrollments, and export
+            learner records.
           </p>
         </div>
 

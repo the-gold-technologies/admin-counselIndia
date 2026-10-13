@@ -50,7 +50,10 @@ function CoursesContent() {
   const [printing, setPrinting] = useState(false);
 
   // Delete State
-  const [courseToDelete, setCourseToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [courseToDelete, setCourseToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   // Fetch Courses
   const fetchCourses = useCallback(async () => {
@@ -59,7 +62,8 @@ function CoursesContent() {
       const params = new URLSearchParams();
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCategory && selectedCategory !== "all") params.set("category", selectedCategory);
+      if (selectedCategory && selectedCategory !== "all")
+        params.set("category", selectedCategory);
       params.set("page", String(currentPage));
       params.set("limit", String(pageSize));
 
@@ -99,7 +103,10 @@ function CoursesContent() {
   // Toggle Course Active / Inactive
   const handleToggleStatus = async (course: Course) => {
     try {
-      const newStatus = (course.status || "").toLowerCase() === "active" ? "Inactive" : "Active";
+      const newStatus =
+        (course.status || "").toLowerCase() === "active"
+          ? "Inactive"
+          : "Active";
       const res = await fetch(`/api/courses/${course.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -135,7 +142,8 @@ function CoursesContent() {
       const params = new URLSearchParams({ all: "true" });
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCategory && selectedCategory !== "all") params.set("category", selectedCategory);
+      if (selectedCategory && selectedCategory !== "all")
+        params.set("category", selectedCategory);
 
       const res = await fetch(`/api/courses?${params.toString()}`);
       const json = await res.json();
@@ -171,14 +179,12 @@ function CoursesContent() {
         ].join(",");
       });
 
-      const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+      const csvContent =
+        "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute(
-        "download",
-        `counselindia_courses_${Date.now()}.csv`
-      );
+      link.setAttribute("download", `counselindia_courses_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -196,7 +202,8 @@ function CoursesContent() {
       const params = new URLSearchParams({ all: "true" });
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCategory && selectedCategory !== "all") params.set("category", selectedCategory);
+      if (selectedCategory && selectedCategory !== "all")
+        params.set("category", selectedCategory);
 
       const res = await fetch(`/api/courses?${params.toString()}`);
       const json = await res.json();
@@ -214,7 +221,8 @@ function CoursesContent() {
       const params = new URLSearchParams({ all: "true" });
       if (activeTab && activeTab !== "all") params.set("status", activeTab);
       if (search.trim()) params.set("search", search.trim());
-      if (selectedCategory && selectedCategory !== "all") params.set("category", selectedCategory);
+      if (selectedCategory && selectedCategory !== "all")
+        params.set("category", selectedCategory);
 
       const res = await fetch(`/api/courses?${params.toString()}`);
       const json = await res.json();
@@ -305,7 +313,8 @@ function CoursesContent() {
             Course Management
           </h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Manage academic programs, masterclasses, curriculums, credentials, and admissions
+            Manage academic programs, masterclasses, curriculums, credentials,
+            and admissions
           </p>
         </div>
 
@@ -399,9 +408,7 @@ function CoursesContent() {
         </div>
 
         {/* Categories */}
-        <div
-          className="rounded-2xl p-5 border shadow-xs flex items-center justify-between bg-white border-gray-200/80"
-        >
+        <div className="rounded-2xl p-5 border shadow-xs flex items-center justify-between bg-white border-gray-200/80">
           <div>
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block">
               Categories
@@ -428,7 +435,9 @@ function CoursesContent() {
             onChange={(e) => handleCategoryChange(e.target.value)}
             className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] cursor-pointer transition-colors"
           >
-            <option value="all">All Categories ({stats.categories.length})</option>
+            <option value="all">
+              All Categories ({stats.categories.length})
+            </option>
             {stats.categories.map((c) => (
               <option key={c.name} value={c.name}>
                 {c.name} ({c.count})
@@ -472,7 +481,9 @@ function CoursesContent() {
             title="Refresh Courses"
             className="w-11 h-11 rounded-xl bg-[#f8fafc] border border-gray-200 hover:border-[#09A64A] hover:bg-white text-gray-600 hover:text-[#09A64A] flex items-center justify-center transition-all cursor-pointer shadow-2xs shrink-0 disabled:opacity-50"
           >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-[#09A64A]" : ""}`} />
+            <RefreshCw
+              className={`w-4 h-4 ${isLoading ? "animate-spin text-[#09A64A]" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -481,7 +492,9 @@ function CoursesContent() {
       {isLoading ? (
         <div className="bg-white rounded-2xl border border-gray-200/80 p-20 text-center">
           <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mx-auto mb-3" />
-          <p className="text-sm font-semibold text-gray-600">Loading courses...</p>
+          <p className="text-sm font-semibold text-gray-600">
+            Loading courses...
+          </p>
         </div>
       ) : (
         <CourseTable
@@ -497,7 +510,9 @@ function CoursesContent() {
             setCurrentPage(1);
           }}
           onToggleStatus={handleToggleStatus}
-          onDelete={(id, name) => setCourseToDelete({ id, name: name || "Course" })}
+          onDelete={(id, name) =>
+            setCourseToDelete({ id, name: name || "Course" })
+          }
         />
       )}
 
@@ -508,11 +523,15 @@ function CoursesContent() {
             <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4">
               <XCircle className="w-7 h-7" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">Delete Course</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
+              Delete Course
+            </h3>
             <p className="text-xs text-gray-500 mb-5 leading-relaxed">
               Are you sure you want to delete{" "}
-              <strong className="text-gray-800 font-bold">"{courseToDelete.name}"</strong>? This
-              action cannot be undone.
+              <strong className="text-gray-800 font-bold">
+                "{courseToDelete.name}"
+              </strong>
+              ? This action cannot be undone.
             </p>
             <div className="flex items-center justify-center gap-3">
               <button
@@ -543,7 +562,9 @@ export default function CoursesPage() {
       fallback={
         <div className="p-12 text-center">
           <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mx-auto mb-3" />
-          <p className="text-sm font-semibold text-gray-500">Loading course directory...</p>
+          <p className="text-sm font-semibold text-gray-500">
+            Loading course directory...
+          </p>
         </div>
       }
     >

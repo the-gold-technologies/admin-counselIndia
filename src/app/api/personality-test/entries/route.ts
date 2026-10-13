@@ -43,7 +43,8 @@ export async function GET(request: Request) {
         proBackground: extra.proBackground || "-",
         purposeGiveTest: extra.purposeGiveTest || "-",
         state: l.state || "-",
-        date: l.addedOn || l.createdAt.toISOString().slice(0, 19).replace("T", " "),
+        date:
+          l.addedOn || l.createdAt.toISOString().slice(0, 19).replace("T", " "),
         result: extra.result || "0",
         hereFrom: l.hearFrom || "-",
       };
@@ -60,10 +61,12 @@ export async function GET(request: Request) {
       },
     });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
-
 
 export async function POST(request: Request) {
   try {
@@ -98,19 +101,27 @@ export async function POST(request: Request) {
         city: body.city || null,
         medium: body.medium || "Website Personality Test",
         source: body.source || "Eligibility Test",
-        content: body.content || `Background: ${extraData.proBackground} | Purpose: ${extraData.purposeGiveTest}`,
+        content:
+          body.content ||
+          `Background: ${extraData.proBackground} | Purpose: ${extraData.purposeGiveTest}`,
         hearFrom: body.hearFrom || body.hearabout || null,
         extraData,
       },
     });
 
-    return NextResponse.json({
-      success: true,
-      data: newLead,
-      message: "Personality test entry recorded successfully",
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        data: newLead,
+        message: "Personality test entry recorded successfully",
+      },
+      { status: 201 },
+    );
   } catch (error: any) {
     console.error("Failed to create personality entry:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }

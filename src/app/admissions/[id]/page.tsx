@@ -38,13 +38,13 @@ export default function LearnerDetailPage() {
           setLearner(json.data);
         } else {
           const found = INITIAL_ADMISSIONS.find(
-            (a) => a.id === id || String(a.sNo) === id
+            (a) => a.id === id || String(a.sNo) === id,
           );
           setLearner(found || INITIAL_ADMISSIONS[0]);
         }
       } catch {
         const found = INITIAL_ADMISSIONS.find(
-          (a) => a.id === id || String(a.sNo) === id
+          (a) => a.id === id || String(a.sNo) === id,
         );
         setLearner(found || INITIAL_ADMISSIONS[0]);
       } finally {
@@ -71,7 +71,9 @@ export default function LearnerDetailPage() {
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-3 border-[#09A64A] border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-500 font-medium">Loading learner details...</p>
+          <p className="text-sm text-gray-500 font-medium">
+            Loading learner details...
+          </p>
         </div>
       </div>
     );
@@ -81,7 +83,9 @@ export default function LearnerDetailPage() {
     return (
       <div className="p-8 text-center bg-white rounded-2xl border border-gray-200 max-w-xl mx-auto mt-12">
         <h2 className="text-lg font-bold text-gray-900">Learner Not Found</h2>
-        <p className="text-sm text-gray-500 mt-1">The requested learner profile could not be located.</p>
+        <p className="text-sm text-gray-500 mt-1">
+          The requested learner profile could not be located.
+        </p>
         <Link
           href="/admissions"
           className="inline-flex items-center gap-2 mt-5 px-4 py-2.5 bg-[#1e293b] text-white rounded-xl text-sm font-semibold hover:bg-black transition-colors"
@@ -125,7 +129,8 @@ export default function LearnerDetailPage() {
 
           {/* Descriptive Subtitle */}
           <p className="text-sm text-gray-500 font-medium mt-1">
-            Comprehensive personal records, qualification history, and course enrollment profile.
+            Comprehensive personal records, qualification history, and course
+            enrollment profile.
           </p>
         </div>
 
@@ -188,11 +193,17 @@ export default function LearnerDetailPage() {
             <div className="flex flex-wrap items-center gap-6 pt-1 text-sm text-gray-600">
               <span className="flex items-center gap-2 font-medium">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#09A64A]" />
-                Mobile: <strong className="text-gray-900 font-semibold">{learner.mobile}</strong>
+                Mobile:{" "}
+                <strong className="text-gray-900 font-semibold">
+                  {learner.mobile}
+                </strong>
               </span>
               <span className="flex items-center gap-2 font-medium">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#09A64A]" />
-                Email: <strong className="text-gray-900 font-semibold">{learner.email}</strong>
+                Email:{" "}
+                <strong className="text-gray-900 font-semibold">
+                  {learner.email}
+                </strong>
               </span>
             </div>
           </div>
@@ -373,21 +384,34 @@ export default function LearnerDetailPage() {
                   Address Line
                 </span>
                 <p className="font-semibold text-gray-800 text-[14.5px] leading-relaxed">
-                  {addr.permanent || "Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand"}
+                  {addr.permanent ||
+                    "Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand"}
                 </p>
               </div>
               <div className="grid grid-cols-3 gap-3 pt-3">
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">City</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.city || "Dakshina Kannada"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    City
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.city || "Dakshina Kannada"}
+                  </span>
                 </div>
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">State</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.state || "Karnataka"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    State
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.state || "Karnataka"}
+                  </span>
                 </div>
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">Pincode</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.pincode || "574210"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    Pincode
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.pincode || "574210"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -410,16 +434,28 @@ export default function LearnerDetailPage() {
               </div>
               <div className="grid grid-cols-3 gap-3 pt-3">
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">City</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.city || "Noida"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    City
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.city || "Noida"}
+                  </span>
                 </div>
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">State</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.state || "Uttar Pradesh"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    State
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.state || "Uttar Pradesh"}
+                  </span>
                 </div>
                 <div className="p-3.5 bg-gray-50 rounded-xl">
-                  <span className="font-bold text-gray-400 text-xs uppercase block">Pincode</span>
-                  <span className="font-bold text-gray-900 text-sm mt-1 block">{addr.pincode || "201309"}</span>
+                  <span className="font-bold text-gray-400 text-xs uppercase block">
+                    Pincode
+                  </span>
+                  <span className="font-bold text-gray-900 text-sm mt-1 block">
+                    {addr.pincode || "201309"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -482,7 +518,10 @@ export default function LearnerDetailPage() {
               <tbody className="divide-y divide-gray-100 text-gray-700">
                 {education.length > 0 ? (
                   education.map((edu, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50/70 transition-colors">
+                    <tr
+                      key={idx}
+                      className="hover:bg-gray-50/70 transition-colors"
+                    >
                       <td className="py-4 px-5 font-bold text-gray-900 text-sm">
                         {edu.level || "Degree"}
                       </td>
@@ -505,7 +544,10 @@ export default function LearnerDetailPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-gray-400 font-medium text-sm">
+                    <td
+                      colSpan={6}
+                      className="py-8 text-center text-gray-400 font-medium text-sm"
+                    >
                       No academic history recorded.
                     </td>
                   </tr>

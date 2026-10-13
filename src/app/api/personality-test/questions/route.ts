@@ -11,21 +11,34 @@ export async function GET(request: Request) {
         where: { id },
       });
       if (!question) {
-        return NextResponse.json({ success: false, error: "Question not found" }, { status: 404 });
+        return NextResponse.json(
+          { success: false, error: "Question not found" },
+          { status: 404 },
+        );
       }
       return NextResponse.json({ success: true, data: question });
     } catch (error: any) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 },
+      );
     }
   }
   try {
     const questions = await prisma.personalityQuestion.findMany({
       orderBy: { position: "asc" },
     });
-    return NextResponse.json({ success: true, count: questions.length, data: questions });
+    return NextResponse.json({
+      success: true,
+      count: questions.length,
+      data: questions,
+    });
   } catch (error: any) {
     console.error("Failed to fetch personality questions:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -43,7 +56,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
     console.error("Failed to create personality question:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -51,7 +67,11 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
     const { id, ...data } = body;
-    if (!id) return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
+    if (!id)
+      return NextResponse.json(
+        { success: false, error: "Missing ID" },
+        { status: 400 },
+      );
 
     const updated = await prisma.personalityQuestion.update({
       where: { id },
@@ -65,7 +85,10 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
     console.error("Failed to update personality question:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -73,12 +96,22 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    if (!id) return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
+    if (!id)
+      return NextResponse.json(
+        { success: false, error: "Missing ID" },
+        { status: 400 },
+      );
 
     await prisma.personalityQuestion.delete({ where: { id } });
-    return NextResponse.json({ success: true, message: "Deleted successfully" });
+    return NextResponse.json({
+      success: true,
+      message: "Deleted successfully",
+    });
   } catch (error: any) {
     console.error("Failed to delete personality question:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }

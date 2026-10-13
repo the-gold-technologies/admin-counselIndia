@@ -1,18 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { AUTH_COOKIE_NAME, verifyToken, comparePassword, hashPassword, signToken } from "@/lib/auth";
+import {
+  AUTH_COOKIE_NAME,
+  verifyToken,
+  comparePassword,
+  hashPassword,
+  signToken,
+} from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
 
     if (!token) {
-      return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
+      return NextResponse.json(
+        { authenticated: false, user: null },
+        { status: 401 },
+      );
     }
 
     const payload = await verifyToken(token);
     if (!payload || !payload.id) {
-      return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
+      return NextResponse.json(
+        { authenticated: false, user: null },
+        { status: 401 },
+      );
     }
 
     let user: any = null;
@@ -46,7 +58,10 @@ export async function GET(req: NextRequest) {
     }
 
     if (!user || user.status !== "Active") {
-      return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
+      return NextResponse.json(
+        { authenticated: false, user: null },
+        { status: 401 },
+      );
     }
 
     return NextResponse.json({
@@ -55,7 +70,10 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Auth check error:", error);
-    return NextResponse.json({ authenticated: false, user: null }, { status: 500 });
+    return NextResponse.json(
+      { authenticated: false, user: null },
+      { status: 500 },
+    );
   }
 }
 
@@ -118,7 +136,7 @@ export async function PATCH(req: NextRequest) {
         if (conflict && conflict.length > 0) {
           return NextResponse.json(
             { error: "Another account already uses this email address" },
-            { status: 400 }
+            { status: 400 },
           );
         }
         updateData.email = normalizedEmail;
@@ -130,26 +148,26 @@ export async function PATCH(req: NextRequest) {
       if (!currentPassword) {
         return NextResponse.json(
           { error: "Please enter your current password to set a new password" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       const isCurrentPasswordValid = await comparePassword(
         currentPassword,
-        existingUser.password
+        existingUser.password,
       );
 
       if (!isCurrentPasswordValid) {
         return NextResponse.json(
           { error: "Current password is incorrect" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       if (newPassword.length < 6) {
         return NextResponse.json(
           { error: "New password must be at least 6 characters long" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -192,7 +210,10 @@ export async function PATCH(req: NextRequest) {
         id: existingUser.id,
         name: finalName,
         email: finalEmail,
-        phone: updateData.phone !== undefined ? updateData.phone : existingUser.phone,
+        phone:
+          updateData.phone !== undefined
+            ? updateData.phone
+            : existingUser.phone,
         role: existingUser.role,
         avatar: existingUser.avatar,
       },
@@ -222,7 +243,7 @@ export async function PATCH(req: NextRequest) {
     console.error("Profile update error:", error);
     return NextResponse.json(
       { error: error?.message || "Failed to update profile" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { X, Upload, FileSpreadsheet, Download, CheckCircle2 } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  X,
+  Upload,
+  FileSpreadsheet,
+  Download,
+  CheckCircle2,
+} from "lucide-react";
 
 interface ExcelUploadModalProps {
   isOpen: boolean;
@@ -9,7 +15,11 @@ interface ExcelUploadModalProps {
   onSuccess: () => void;
 }
 
-export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUploadModalProps) {
+export default function ExcelUploadModal({
+  isOpen,
+  onClose,
+  onSuccess,
+}: ExcelUploadModalProps) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -32,11 +42,15 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
   };
 
   const handleDownloadTemplate = () => {
-    const csvContent = "data:text/csv;charset=utf-8," + encodeURIComponent("Name,Email,Mobile,CourseName,Counselor,FeeAmount,BatchName\nPooja Verma,pooja@example.com,9876543210,Counselling Master Course - Foundation,Anand Prakash,24999,Batch Oct-2026");
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      encodeURIComponent(
+        "Name,Email,Mobile,CourseName,Counselor,FeeAmount,BatchName\nPooja Verma,pooja@example.com,9876543210,Counselling Master Course - Foundation,Anand Prakash,24999,Batch Oct-2026",
+      );
     const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'counselindia_admission_template.csv');
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "counselindia_admission_template.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -52,7 +66,9 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
               <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
                 Upload Excel / CSV
               </h3>
-              <p className="text-xs text-slate-500">Bulk onboarding for learners & admissions</p>
+              <p className="text-xs text-slate-500">
+                Bulk onboarding for learners & admissions
+              </p>
             </div>
           </div>
           <button
@@ -67,8 +83,12 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
           {/* Download Template Banner */}
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
             <div>
-              <p className="font-bold text-slate-900">Need the formatted template?</p>
-              <p className="text-[11px] text-slate-500 mt-0.5">Download sample columns matching Counsel India schema</p>
+              <p className="font-bold text-slate-900">
+                Need the formatted template?
+              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Download sample columns matching Counsel India schema
+              </p>
             </div>
             <button
               onClick={handleDownloadTemplate}
@@ -83,7 +103,9 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
           <div className="border-2 border-dashed border-slate-200 hover:border-emerald-500 rounded-2xl p-8 text-center transition-colors bg-slate-50/50">
             <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
             <p className="font-bold text-slate-800 text-sm">Upload file here</p>
-            <p className="text-slate-500 text-[11px] mt-1">Supports .xlsx, .xls, .csv files up to 10MB</p>
+            <p className="text-slate-500 text-[11px] mt-1">
+              Supports .xlsx, .xls, .csv files up to 10MB
+            </p>
 
             <input
               type="file"
@@ -95,7 +117,9 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
             {file && (
               <div className="mt-3 p-2 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 font-semibold flex items-center justify-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)</span>
+                <span>
+                  Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+                </span>
               </div>
             )}
           </div>
@@ -120,7 +144,7 @@ export default function ExcelUploadModal({ isOpen, onClose, onSuccess }: ExcelUp
               className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Upload className="w-4 h-4" />
-              <span>{uploading ? 'Processing...' : 'Upload & Process'}</span>
+              <span>{uploading ? "Processing..." : "Upload & Process"}</span>
             </button>
           </div>
         </div>

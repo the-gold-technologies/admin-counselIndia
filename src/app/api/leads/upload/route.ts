@@ -1,54 +1,80 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { parseCsvText, mapCsvRecordToLead } from '@/lib/csvParser';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { parseCsvText, mapCsvRecordToLead } from "@/lib/csvParser";
 
 export const maxDuration = 300; // 5 minutes max duration for large CSV files
 
 export async function POST(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    let category = searchParams.get('category')?.trim();
-    let mode = searchParams.get('mode')?.trim() || 'append';
-    let text = '';
+    let category = searchParams.get("category")?.trim();
+    let mode = searchParams.get("mode")?.trim() || "append";
+    let text = "";
 
-    const contentType = request.headers.get('content-type') || '';
+    const contentType = request.headers.get("content-type") || "";
 
-    if (contentType.includes('multipart/form-data')) {
+    if (contentType.includes("multipart/form-data")) {
       try {
         const formData = await request.formData();
-        const file = formData.get('file') as File | null;
-        if (formData.get('category')) category = (formData.get('category') as string).trim();
-        if (formData.get('mode')) mode = (formData.get('mode') as string).trim();
+        const file = formData.get("file") as File | null;
+        if (formData.get("category"))
+          category = (formData.get("category") as string).trim();
+        if (formData.get("mode"))
+          mode = (formData.get("mode") as string).trim();
 
         if (file) {
           const rawText = await file.text();
-          text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
+          text = rawText
+            ? rawText
+                .replace(/\0/g, "")
+                .replace(/\\u0000/g, "")
+                .replace(/\u0000/g, "")
+            : "";
         }
       } catch (formErr: any) {
-        console.warn('FormData parse error (file may exceed 10MB), falling back to raw body:', formErr?.message);
+        console.warn(
+          "FormData parse error (file may exceed 10MB), falling back to raw body:",
+          formErr?.message,
+        );
         const rawText = await request.text();
-        text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
+        text = rawText
+          ? rawText
+              .replace(/\0/g, "")
+              .replace(/\\u0000/g, "")
+              .replace(/\u0000/g, "")
+          : "";
       }
     } else {
       // Direct raw CSV upload (supports any file size 10MB, 20MB, 50MB+ without undici formData limit)
       const rawText = await request.text();
-      text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
+      text = rawText
+        ? rawText
+            .replace(/\0/g, "")
+            .replace(/\\u0000/g, "")
+            .replace(/\u0000/g, "")
+        : "";
     }
 
-    category = category || 'subscription';
+    category = category || "subscription";
 
-    if (!text || text.trim() === '') {
-      return NextResponse.json({ success: false, error: 'The uploaded file is empty' }, { status: 400 });
+    if (!text || text.trim() === "") {
+      return NextResponse.json(
+        { success: false, error: "The uploaded file is empty" },
+        { status: 400 },
+      );
     }
 
     // Parse the CSV with smart legacy header auto-detection
     const parsed = parseCsvText(text);
     if (parsed.rows.length === 0) {
-      return NextResponse.json({ success: false, error: 'No data rows found in the CSV file' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "No data rows found in the CSV file" },
+        { status: 400 },
+      );
     }
 
     // If replace mode, clear existing leads for this category
-    if (mode === 'replace') {
+    if (mode === "replace") {
       await prisma.inquiryLead.deleteMany({
         where: { category },
       });
@@ -66,7 +92,10 @@ export async function POST(request: Request) {
       return {
         id: uniqueId,
         ...mapped,
-        sNo: mapped.liveId && /^\d+$/.test(mapped.liveId) ? parseInt(mapped.liveId, 10) : fallbackSNo,
+        sNo:
+          mapped.liveId && /^\d+$/.test(mapped.liveId)
+            ? parseInt(mapped.liveId, 10)
+            : fallbackSNo,
       };
     });
 
@@ -83,7 +112,10 @@ export async function POST(request: Request) {
         });
         insertedCount += result.count;
       } catch (chunkErr: any) {
-        console.warn(`Chunk ${Math.floor(i / CHUNK_SIZE) + 1} insert error, falling back to resilient row-by-row import:`, chunkErr?.message);
+        console.warn(
+          `Chunk ${Math.floor(i / CHUNK_SIZE) + 1} insert error, falling back to resilient row-by-row import:`,
+          chunkErr?.message,
+        );
         for (const singleLead of chunk) {
           try {
             await prisma.inquiryLead.create({
@@ -91,7 +123,11 @@ export async function POST(request: Request) {
             });
             insertedCount++;
           } catch (rowErr: any) {
-            console.error('Skipping problematic lead record:', singleLead.liveId, rowErr?.message);
+            console.error(
+              "Skipping problematic lead record:",
+              singleLead.liveId,
+              rowErr?.message,
+            );
           }
         }
       }
@@ -107,10 +143,10 @@ export async function POST(request: Request) {
       headers: parsed.headers,
     });
   } catch (error: any) {
-    console.error('Failed to upload/import CSV leads:', error);
+    console.error("Failed to upload/import CSV leads:", error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to process CSV file' },
-      { status: 500 }
+      { success: false, error: error.message || "Failed to process CSV file" },
+      { status: 500 },
     );
   }
 }

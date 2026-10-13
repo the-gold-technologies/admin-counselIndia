@@ -73,7 +73,9 @@ export function splitAdmissionDateTime(dateStr?: string | Date | null): {
   }
 }
 
-export function formatAdmissionDateTime(dateStr?: string | Date | null): string {
+export function formatAdmissionDateTime(
+  dateStr?: string | Date | null,
+): string {
   const { date, time } = splitAdmissionDateTime(dateStr);
   return time ? `${date} ${time}` : date;
 }
@@ -228,9 +230,13 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
       <div className="px-6 py-4.5 bg-gray-50/60 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600 font-medium">
         <div className="flex items-center gap-5 sm:gap-6">
           <span className="text-gray-700 text-[13.5px]">
-            Showing <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex + 1 : 0}</span> to{" "}
-            <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
-            <span className="font-bold text-gray-900">{totalItems}</span> entries
+            Showing{" "}
+            <span className="font-bold text-gray-900">
+              {totalItems > 0 ? startIndex + 1 : 0}
+            </span>{" "}
+            to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
+            <span className="font-bold text-gray-900">{totalItems}</span>{" "}
+            entries
           </span>
 
           <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500 pl-5 border-l border-gray-200">
@@ -282,7 +288,7 @@ export default function AdmissionsTable({ admissions }: AdmissionsTableProps) {
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
 
             <button

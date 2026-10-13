@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, Download, Upload, Plus, Filter } from 'lucide-react';
+import React from "react";
+import { Search, Download, Upload, Plus, Filter } from "lucide-react";
 
 interface AdmissionsFiltersProps {
   search: string;
@@ -26,7 +26,14 @@ export default function AdmissionsFilters({
   onOpenUploadModal,
   onExportCSV,
 }: AdmissionsFiltersProps) {
-  const statusTabs = ['All', 'Enrolled', 'Verified', 'Pending', 'Completed', 'Dropped'];
+  const statusTabs = [
+    "All",
+    "Enrolled",
+    "Verified",
+    "Pending",
+    "Completed",
+    "Dropped",
+  ];
 
   return (
     <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">

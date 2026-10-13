@@ -48,7 +48,12 @@ export default function QuestionTable() {
   }, []);
 
   const handleDelete = async (id: string, question: string) => {
-    if (!window.confirm(`Are you sure you want to delete this question?\n\n"${question.slice(0, 60)}..."`)) return;
+    if (
+      !window.confirm(
+        `Are you sure you want to delete this question?\n\n"${question.slice(0, 60)}..."`,
+      )
+    )
+      return;
     try {
       const res = await fetch(`/api/personality-test/questions?id=${id}`, {
         method: "DELETE",
@@ -67,7 +72,7 @@ export default function QuestionTable() {
   const filtered = items.filter(
     (i) =>
       i.question.toLowerCase().includes(search.toLowerCase()) ||
-      String(i.position).includes(search)
+      String(i.position).includes(search),
   );
 
   // Pagination calculation
@@ -107,7 +112,8 @@ export default function QuestionTable() {
             Questions
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
-            Configure assessment questions, answer choices, and psychological trait value mappings.
+            Configure assessment questions, answer choices, and psychological
+            trait value mappings.
           </p>
         </div>
 
@@ -137,7 +143,10 @@ export default function QuestionTable() {
         </div>
 
         <div className="text-xs text-gray-500 font-medium px-2">
-          Total: <span className="font-bold text-gray-800">{filtered.length} Questions</span>
+          Total:{" "}
+          <span className="font-bold text-gray-800">
+            {filtered.length} Questions
+          </span>
         </div>
       </div>
 
@@ -149,7 +158,9 @@ export default function QuestionTable() {
               <tr className="bg-[#09A64A] text-white font-semibold text-[13.5px] tracking-wide">
                 <th className="py-4.5 px-6 w-20 text-center">#ID</th>
                 <th className="py-4.5 px-6 min-w-[260px]">Question</th>
-                <th className="py-4.5 px-6 min-w-[340px]">Answer Options &amp; Trait Mappings</th>
+                <th className="py-4.5 px-6 min-w-[340px]">
+                  Answer Options &amp; Trait Mappings
+                </th>
                 <th className="py-4.5 px-6 w-24 text-center">Position</th>
                 <th className="py-4.5 px-6 w-28 text-center">Status</th>
                 <th className="py-4.5 px-6 text-center w-28">Action</th>
@@ -158,14 +169,20 @@ export default function QuestionTable() {
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
+                  <td
+                    colSpan={6}
+                    className="py-16 text-center text-gray-400 font-medium text-sm"
+                  >
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#09A64A]" />
                     Loading questions...
                   </td>
                 </tr>
               ) : paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center text-gray-400 font-medium text-sm">
+                  <td
+                    colSpan={6}
+                    className="py-16 text-center text-gray-400 font-medium text-sm"
+                  >
                     No questions found.
                   </td>
                 </tr>
@@ -174,13 +191,16 @@ export default function QuestionTable() {
                   const answers: AnswerOption[] = Array.isArray(item.answers)
                     ? item.answers
                     : typeof item.answers === "string"
-                    ? JSON.parse(item.answers || "[]")
-                    : [];
+                      ? JSON.parse(item.answers || "[]")
+                      : [];
 
                   const displayIndex = startIndex + index + 1;
 
                   return (
-                    <tr key={item.id} className="hover:bg-gray-50/70 transition-colors duration-150">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-gray-50/70 transition-colors duration-150"
+                    >
                       <td className="py-4.5 px-6 text-center font-bold text-gray-500 text-[14px]">
                         {item.liveId || displayIndex}
                       </td>
@@ -195,7 +215,9 @@ export default function QuestionTable() {
                               className="text-[13px] text-gray-700 flex items-center justify-between gap-2 p-1.5 rounded-lg bg-gray-50/90 border border-gray-100"
                             >
                               <div className="flex items-center gap-2">
-                                <span className="font-bold text-gray-400 text-xs">{aIdx + 1}.</span>
+                                <span className="font-bold text-gray-400 text-xs">
+                                  {aIdx + 1}.
+                                </span>
                                 <span>{ans.answer}</span>
                               </div>
                               <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 shrink-0">
@@ -214,7 +236,7 @@ export default function QuestionTable() {
                             "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold",
                             item.status === "Active"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                              : "bg-gray-100 text-gray-600 border border-gray-200"
+                              : "bg-gray-100 text-gray-600 border border-gray-200",
                           )}
                         >
                           {item.status}
@@ -250,9 +272,13 @@ export default function QuestionTable() {
         <div className="px-6 py-4.5 bg-gray-50/60 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600 font-medium">
           <div className="flex items-center gap-5 sm:gap-6">
             <span className="text-gray-700 text-[13.5px]">
-              Showing <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex + 1 : 0}</span> to{" "}
-              <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
-              <span className="font-bold text-gray-900">{totalItems}</span> entries
+              Showing{" "}
+              <span className="font-bold text-gray-900">
+                {totalItems > 0 ? startIndex + 1 : 0}
+              </span>{" "}
+              to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
+              <span className="font-bold text-gray-900">{totalItems}</span>{" "}
+              entries
             </span>
 
             <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500 pl-5 border-l border-gray-200">
@@ -304,11 +330,13 @@ export default function QuestionTable() {
                   >
                     {page}
                   </button>
-                )
+                ),
               )}
 
               <button
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={safePage === totalPages}
                 className="px-3.5 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-2xs text-xs font-semibold transition-all"
               >

@@ -5,7 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
-export default function EditTabResultPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditTabResultPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const resolvedParams = use(params);
   const resultId = resolvedParams.id;
   const router = useRouter();
@@ -24,7 +28,9 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
     const fetchResult = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/personality-test/tab-result?id=${resultId}`);
+        const res = await fetch(
+          `/api/personality-test/tab-result?id=${resultId}`,
+        );
         const json = await res.json();
         if (json.success && json.data) {
           const item = json.data;
@@ -94,15 +100,23 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
         </Link>
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-0.5">
-            <Link href="/personality-test/tab-result" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/tab-result"
+              className="hover:text-[#09A64A]"
+            >
               Personality Test
             </Link>
             <span>/</span>
-            <Link href="/personality-test/tab-result" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/tab-result"
+              className="hover:text-[#09A64A]"
+            >
               Tab Result
             </Link>
             <span>/</span>
-            <span className="text-gray-800 font-bold">Edit Result Archetype</span>
+            <span className="text-gray-800 font-bold">
+              Edit Result Archetype
+            </span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
             Edit Tab Result
@@ -121,7 +135,9 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
               type="text"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
             />
           </div>
@@ -134,7 +150,9 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
               rows={5}
               required
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all leading-relaxed"
             />
           </div>
@@ -148,7 +166,9 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
                 type="text"
                 required
                 value={formData.points}
-                onChange={(e) => setFormData({ ...formData, points: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, points: e.target.value })
+                }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
               />
             </div>
@@ -159,7 +179,9 @@ export default function EditTabResultPage({ params }: { params: Promise<{ id: st
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
               >
                 <option value="Active">Active</option>

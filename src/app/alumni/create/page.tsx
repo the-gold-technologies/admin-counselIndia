@@ -3,7 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, ArrowLeft, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  ChevronLeft,
+  ArrowLeft,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
 import { CertificateUploadField } from "@/components/ui/CertificateUploadField";
 
@@ -108,7 +113,9 @@ export default function CreateAlumniPage() {
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 placeholder="Enter full name"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900"
               />
@@ -123,7 +130,9 @@ export default function CreateAlumniPage() {
                 type="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 placeholder="Enter email address"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900"
               />
@@ -138,7 +147,9 @@ export default function CreateAlumniPage() {
                 type="tel"
                 required
                 value={formData.mobile}
-                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
                 placeholder="Enter mobile number"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900"
               />
@@ -148,14 +159,18 @@ export default function CreateAlumniPage() {
             <ImageUploadField
               label="Profile Image"
               value={formData.image}
-              onChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, image: url }))
+              }
             />
 
             {/* Certificate Upload */}
             <CertificateUploadField
               label="Proof of CV / Certificate"
               value={formData.certificateUrl}
-              onChange={(url) => setFormData((prev) => ({ ...prev, certificateUrl: url }))}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, certificateUrl: url }))
+              }
             />
 
             {/* Certificate Number */}
@@ -167,7 +182,10 @@ export default function CreateAlumniPage() {
                 type="text"
                 value={formData.certificateNumber}
                 onChange={(e) =>
-                  setFormData({ ...formData, certificateNumber: e.target.value })
+                  setFormData({
+                    ...formData,
+                    certificateNumber: e.target.value,
+                  })
                 }
                 placeholder="e.g. 10892"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900"
@@ -198,7 +216,9 @@ export default function CreateAlumniPage() {
               <input
                 type="text"
                 value={formData.skills}
-                onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, skills: e.target.value })
+                }
                 placeholder="e.g. Anxiety, Stress, Depression, Relationship Counseling"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900"
               />
@@ -211,7 +231,9 @@ export default function CreateAlumniPage() {
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium text-gray-900 cursor-pointer"
               >
                 <option value="Active">Active</option>

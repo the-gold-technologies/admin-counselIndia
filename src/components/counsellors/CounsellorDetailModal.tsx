@@ -37,9 +37,9 @@ export default function CounsellorDetailModal({
   onClose,
   onEdit,
 }: CounsellorDetailModalProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "documents" | "pricing" | "banking">(
-    "overview"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "documents" | "pricing" | "banking"
+  >("overview");
 
   if (!isOpen || !counsellor) return null;
 
@@ -70,7 +70,9 @@ export default function CounsellorDetailModal({
               />
             ) : (
               <div className="w-20 h-20 rounded-2xl bg-[#09A64A]/20 border border-[#09A64A]/40 text-[#09A64A] flex items-center justify-center font-black text-2xl shadow-lg shrink-0">
-                {counsellor.name ? counsellor.name.charAt(0).toUpperCase() : "C"}
+                {counsellor.name
+                  ? counsellor.name.charAt(0).toUpperCase()
+                  : "C"}
               </div>
             )}
 
@@ -105,7 +107,9 @@ export default function CounsellorDetailModal({
                 {(counsellor.city || counsellor.country) && (
                   <span className="flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#09A64A]" />
-                    {[counsellor.city, counsellor.country].filter(Boolean).join(", ")}
+                    {[counsellor.city, counsellor.country]
+                      .filter(Boolean)
+                      .join(", ")}
                   </span>
                 )}
               </div>
@@ -192,11 +196,15 @@ export default function CounsellorDetailModal({
                       <div>
                         <span className="text-gray-400 block">Experience:</span>
                         <span className="font-bold text-gray-800">
-                          {counsellor.experience ? `${counsellor.experience} Year(s)` : "Not specified"}
+                          {counsellor.experience
+                            ? `${counsellor.experience} Year(s)`
+                            : "Not specified"}
                         </span>
                       </div>
                       <div>
-                        <span className="text-gray-400 block">Language(s):</span>
+                        <span className="text-gray-400 block">
+                          Language(s):
+                        </span>
                         <span className="font-bold text-gray-800">
                           {counsellor.language || "Hindi, English"}
                         </span>
@@ -280,7 +288,8 @@ export default function CounsellorDetailModal({
                               alt="Identity proof"
                               className="w-full h-32 object-cover rounded-xl border border-gray-200 mb-3"
                               onError={(e) => {
-                                (e.target as HTMLElement).style.display = "none";
+                                (e.target as HTMLElement).style.display =
+                                  "none";
                               }}
                             />
                           ) : (
@@ -317,7 +326,8 @@ export default function CounsellorDetailModal({
                               alt="Qualification proof"
                               className="w-full h-32 object-cover rounded-xl border border-gray-200 mb-3"
                               onError={(e) => {
-                                (e.target as HTMLElement).style.display = "none";
+                                (e.target as HTMLElement).style.display =
+                                  "none";
                               }}
                             />
                           ) : (
@@ -395,11 +405,14 @@ export default function CounsellorDetailModal({
                       <div className="p-4 rounded-2xl border border-gray-100 bg-gray-50/70 space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
-                            <Video className="w-4 h-4 text-emerald-600" /> Video Session
+                            <Video className="w-4 h-4 text-emerald-600" /> Video
+                            Session
                           </span>
                           <span
                             className={`w-2 h-2 rounded-full ${
-                              counsellor.videoStatus ? "bg-emerald-500" : "bg-gray-300"
+                              counsellor.videoStatus
+                                ? "bg-emerald-500"
+                                : "bg-gray-300"
                             }`}
                           />
                         </div>
@@ -407,7 +420,8 @@ export default function CounsellorDetailModal({
                           ₹{counsellor.videoPrice || 0}
                         </p>
                         <span className="text-[11px] text-gray-400 block">
-                          Status: {counsellor.videoStatus ? "Available" : "Disabled"}
+                          Status:{" "}
+                          {counsellor.videoStatus ? "Available" : "Disabled"}
                         </span>
                       </div>
 
@@ -415,11 +429,14 @@ export default function CounsellorDetailModal({
                       <div className="p-4 rounded-2xl border border-gray-100 bg-gray-50/70 space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
-                            <Mic className="w-4 h-4 text-blue-600" /> Audio Session
+                            <Mic className="w-4 h-4 text-blue-600" /> Audio
+                            Session
                           </span>
                           <span
                             className={`w-2 h-2 rounded-full ${
-                              counsellor.audioStatus ? "bg-emerald-500" : "bg-gray-300"
+                              counsellor.audioStatus
+                                ? "bg-emerald-500"
+                                : "bg-gray-300"
                             }`}
                           />
                         </div>
@@ -427,7 +444,8 @@ export default function CounsellorDetailModal({
                           ₹{counsellor.audioPrice || 0}
                         </p>
                         <span className="text-[11px] text-gray-400 block">
-                          Status: {counsellor.audioStatus ? "Available" : "Disabled"}
+                          Status:{" "}
+                          {counsellor.audioStatus ? "Available" : "Disabled"}
                         </span>
                       </div>
 
@@ -435,11 +453,14 @@ export default function CounsellorDetailModal({
                       <div className="p-4 rounded-2xl border border-gray-100 bg-gray-50/70 space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
-                            <MessageSquare className="w-4 h-4 text-amber-600" /> Chat Session
+                            <MessageSquare className="w-4 h-4 text-amber-600" />{" "}
+                            Chat Session
                           </span>
                           <span
                             className={`w-2 h-2 rounded-full ${
-                              counsellor.chatStatus ? "bg-emerald-500" : "bg-gray-300"
+                              counsellor.chatStatus
+                                ? "bg-emerald-500"
+                                : "bg-gray-300"
                             }`}
                           />
                         </div>
@@ -447,20 +468,25 @@ export default function CounsellorDetailModal({
                           ₹{counsellor.chatPrice || 0}
                         </p>
                         <span className="text-[11px] text-gray-400 block">
-                          Status: {counsellor.chatStatus ? "Available" : "Disabled"}
+                          Status:{" "}
+                          {counsellor.chatStatus ? "Available" : "Disabled"}
                         </span>
                       </div>
                     </div>
 
                     <div className="border-t border-gray-100 pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                       <div className="p-3 bg-gray-50 rounded-xl">
-                        <span className="text-gray-400 block">Excepted Charges Fees:</span>
+                        <span className="text-gray-400 block">
+                          Excepted Charges Fees:
+                        </span>
                         <span className="font-extrabold text-sm text-gray-800">
                           ₹{counsellor.expectedCharges || 0}
                         </span>
                       </div>
                       <div className="p-3 bg-gray-50 rounded-xl">
-                        <span className="text-gray-400 block">Councell Fees:</span>
+                        <span className="text-gray-400 block">
+                          Councell Fees:
+                        </span>
                         <span className="font-extrabold text-sm text-[#09A64A]">
                           ₹{counsellor.councellFees || 0}
                         </span>
@@ -491,7 +517,9 @@ export default function CounsellorDetailModal({
                         </span>
                       </div>
                       <div>
-                        <span className="text-gray-400 block">Account Number:</span>
+                        <span className="text-gray-400 block">
+                          Account Number:
+                        </span>
                         <span className="font-bold text-gray-800">
                           {counsellor.accountNumber || "Not provided"}
                         </span>
@@ -503,13 +531,17 @@ export default function CounsellorDetailModal({
                         </span>
                       </div>
                       <div>
-                        <span className="text-gray-400 block">Account Type:</span>
+                        <span className="text-gray-400 block">
+                          Account Type:
+                        </span>
                         <span className="font-bold text-gray-800">
                           {counsellor.accountType || "Savings"}
                         </span>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-gray-400 block">Account Holder Name:</span>
+                        <span className="text-gray-400 block">
+                          Account Holder Name:
+                        </span>
                         <span className="font-bold text-gray-800">
                           {counsellor.accountHolderName || counsellor.name}
                         </span>
@@ -532,12 +564,16 @@ export default function CounsellorDetailModal({
                     {counsellor.specialty}
                   </span>
                 ) : (
-                  <span className="text-xs text-gray-400 italic">None specified</span>
+                  <span className="text-xs text-gray-400 italic">
+                    None specified
+                  </span>
                 )}
 
                 {counsellor.expertise && (
                   <div className="pt-2 border-t border-gray-100">
-                    <span className="text-[11px] text-gray-400 block mb-1">Expertise:</span>
+                    <span className="text-[11px] text-gray-400 block mb-1">
+                      Expertise:
+                    </span>
                     <span className="text-xs font-medium text-gray-700">
                       {counsellor.expertise}
                     </span>
@@ -567,7 +603,9 @@ export default function CounsellorDetailModal({
                     <span className="flex items-center gap-1.5 font-bold">
                       <span
                         className={`w-2 h-2 rounded-full ${
-                          counsellor.videoStatus ? "bg-emerald-500" : "bg-rose-500"
+                          counsellor.videoStatus
+                            ? "bg-emerald-500"
+                            : "bg-rose-500"
                         }`}
                       />
                       {counsellor.videoStatus ? "Enabled" : "Disabled"}
@@ -578,7 +616,9 @@ export default function CounsellorDetailModal({
                     <span className="flex items-center gap-1.5 font-bold">
                       <span
                         className={`w-2 h-2 rounded-full ${
-                          counsellor.audioStatus ? "bg-emerald-500" : "bg-rose-500"
+                          counsellor.audioStatus
+                            ? "bg-emerald-500"
+                            : "bg-rose-500"
                         }`}
                       />
                       {counsellor.audioStatus ? "Enabled" : "Disabled"}
@@ -589,7 +629,9 @@ export default function CounsellorDetailModal({
                     <span className="flex items-center gap-1.5 font-bold">
                       <span
                         className={`w-2 h-2 rounded-full ${
-                          counsellor.chatStatus ? "bg-emerald-500" : "bg-rose-500"
+                          counsellor.chatStatus
+                            ? "bg-emerald-500"
+                            : "bg-rose-500"
                         }`}
                       />
                       {counsellor.chatStatus ? "Enabled" : "Disabled"}

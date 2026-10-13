@@ -100,7 +100,11 @@ export default function CreateCounsellorPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.mobile.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.mobile.trim()
+    ) {
       setError("Name, Email, and Mobile are required fields");
       return;
     }
@@ -144,7 +148,8 @@ export default function CreateCounsellorPage() {
             Add New Counsellor
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Create practitioner profile with academic credentials, session prices, and verification uploads
+            Create practitioner profile with academic credentials, session
+            prices, and verification uploads
           </p>
         </div>
       </div>
@@ -173,7 +178,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="Enter full name"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -187,7 +194,9 @@ export default function CreateCounsellorPage() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   placeholder="counselor@counselindia.com"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -201,7 +210,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.mobile}
-                  onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, mobile: e.target.value })
+                  }
                   placeholder="9876543210"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -214,7 +225,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="password"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   placeholder="Leave blank for auto-generate"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -228,7 +241,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   placeholder="Residential or clinic address"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -242,7 +257,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, city: e.target.value })
+                  }
                   placeholder="City"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -256,7 +273,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
                   placeholder="INDIA"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -269,7 +288,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.language}
-                  onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, language: e.target.value })
+                  }
                   placeholder="Hindi and English"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -290,7 +311,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.designation}
-                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, designation: e.target.value })
+                  }
                   placeholder="COUNSELLING PSYCHOLOGIST"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -304,7 +327,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.education}
-                  onChange={(e) => setFormData({ ...formData, education: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, education: e.target.value })
+                  }
                   placeholder="e.g. Post Graduate, M.Sc Psychology"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -318,7 +343,9 @@ export default function CreateCounsellorPage() {
                   type="text"
                   required
                   value={formData.experience}
-                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, experience: e.target.value })
+                  }
                   placeholder="e.g. 2"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -330,7 +357,9 @@ export default function CreateCounsellorPage() {
                 </label>
                 <select
                   value={formData.specialty}
-                  onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, specialty: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium cursor-pointer"
                 >
                   <option value="">Select Specialty</option>
@@ -349,7 +378,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.specialty2}
-                  onChange={(e) => setFormData({ ...formData, specialty2: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, specialty2: e.target.value })
+                  }
                   placeholder="Other specialty"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -362,7 +393,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.rciNumber}
-                  onChange={(e) => setFormData({ ...formData, rciNumber: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, rciNumber: e.target.value })
+                  }
                   placeholder="RCI Registration Number"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -375,7 +408,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.expertise}
-                  onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, expertise: e.target.value })
+                  }
                   placeholder="Cognitive behavioral therapy, depression, stress management"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -392,22 +427,30 @@ export default function CreateCounsellorPage() {
               <ImageUploadField
                 label="Profile Image"
                 value={formData.image}
-                onChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, image: url }))
+                }
               />
               <ImageUploadField
                 label="Identity Image (Aadhaar / Passport)"
                 value={formData.identityImage}
-                onChange={(url) => setFormData((prev) => ({ ...prev, identityImage: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, identityImage: url }))
+                }
               />
               <CertificateUploadField
                 label="Proof of Qualification (Degree / Certificate)"
                 value={formData.qualificationProof}
-                onChange={(url) => setFormData((prev) => ({ ...prev, qualificationProof: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, qualificationProof: url }))
+                }
               />
               <CertificateUploadField
                 label="Proof of CV / Resume"
                 value={formData.cvUrl}
-                onChange={(url) => setFormData((prev) => ({ ...prev, cvUrl: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, cvUrl: url }))
+                }
               />
             </div>
           </div>
@@ -425,7 +468,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.bankName}
-                  onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bankName: e.target.value })
+                  }
                   placeholder="State Bank of India"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -438,7 +483,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.accountNumber}
-                  onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, accountNumber: e.target.value })
+                  }
                   placeholder="39861095564"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -451,7 +498,9 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.ifscCode}
-                  onChange={(e) => setFormData({ ...formData, ifscCode: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, ifscCode: e.target.value })
+                  }
                   placeholder="SBIN0001234"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -463,7 +512,9 @@ export default function CreateCounsellorPage() {
                 </label>
                 <select
                   value={formData.accountType}
-                  onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, accountType: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium cursor-pointer"
                 >
                   <option value="Savings">Savings</option>
@@ -478,7 +529,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="text"
                   value={formData.accountHolderName}
-                  onChange={(e) => setFormData({ ...formData, accountHolderName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      accountHolderName: e.target.value,
+                    })
+                  }
                   placeholder="Name as per Bank Record"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -498,7 +554,12 @@ export default function CreateCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.videoStatus}
-                    onChange={(e) => setFormData({ ...formData, videoStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        videoStatus: e.target.checked,
+                      })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -506,7 +567,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.videoPrice}
-                  onChange={(e) => setFormData({ ...formData, videoPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      videoPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -517,7 +583,12 @@ export default function CreateCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.audioStatus}
-                    onChange={(e) => setFormData({ ...formData, audioStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        audioStatus: e.target.checked,
+                      })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -525,7 +596,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.audioPrice}
-                  onChange={(e) => setFormData({ ...formData, audioPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      audioPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -536,7 +612,9 @@ export default function CreateCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.chatStatus}
-                    onChange={(e) => setFormData({ ...formData, chatStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, chatStatus: e.target.checked })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -544,7 +622,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.chatPrice}
-                  onChange={(e) => setFormData({ ...formData, chatPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      chatPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -556,7 +639,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.expectedCharges}
-                  onChange={(e) => setFormData({ ...formData, expectedCharges: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      expectedCharges: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -568,7 +656,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.councellFees}
-                  onChange={(e) => setFormData({ ...formData, councellFees: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      councellFees: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -580,7 +673,12 @@ export default function CreateCounsellorPage() {
                 <input
                   type="number"
                   value={formData.commission}
-                  onChange={(e) => setFormData({ ...formData, commission: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      commission: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -600,7 +698,9 @@ export default function CreateCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.about}
-                  onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, about: e.target.value })
+                  }
                   placeholder="Professional summary..."
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
@@ -613,7 +713,9 @@ export default function CreateCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.achievements}
-                  onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, achievements: e.target.value })
+                  }
                   placeholder="Degrees, certifications, notable client milestones..."
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
@@ -626,7 +728,9 @@ export default function CreateCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.whatBringsYou}
-                  onChange={(e) => setFormData({ ...formData, whatBringsYou: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, whatBringsYou: e.target.value })
+                  }
                   placeholder="Statement of purpose..."
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
@@ -639,7 +743,9 @@ export default function CreateCounsellorPage() {
                   </label>
                   <select
                     value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="Active">Active</option>
@@ -653,7 +759,12 @@ export default function CreateCounsellorPage() {
                   </label>
                   <select
                     value={formData.isApproved ? "1" : "0"}
-                    onChange={(e) => setFormData({ ...formData, isApproved: e.target.value === "1" })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        isApproved: e.target.value === "1",
+                      })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="1">Approved</option>
@@ -667,12 +778,16 @@ export default function CreateCounsellorPage() {
                   </label>
                   <select
                     value={formData.userType}
-                    onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, userType: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="Counselor">Counselor</option>
                     <option value="Trainer">Trainer</option>
-                    <option value="Both Trainer and Counselor">Both Trainer and Counselor</option>
+                    <option value="Both Trainer and Counselor">
+                      Both Trainer and Counselor
+                    </option>
                   </select>
                 </div>
               </div>

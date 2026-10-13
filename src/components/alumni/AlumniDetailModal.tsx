@@ -1,7 +1,18 @@
 "use client";
 
 import React from "react";
-import { X, Award, Mail, Phone, Calendar, CheckCircle2, ShieldCheck, Briefcase, ExternalLink, Printer } from "lucide-react";
+import {
+  X,
+  Award,
+  Mail,
+  Phone,
+  Calendar,
+  CheckCircle2,
+  ShieldCheck,
+  Briefcase,
+  ExternalLink,
+  Printer,
+} from "lucide-react";
 import { AlumniItem } from "./AlumniTable";
 
 interface AlumniDetailModalProps {
@@ -12,8 +23,18 @@ interface AlumniDetailModalProps {
 }
 
 const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 function formatDate(dateStr?: string | Date | null) {
@@ -45,7 +66,10 @@ export default function AlumniDetailModal({
   if (!isOpen || !alumni) return null;
 
   const skillsList = alumni.skills
-    ? alumni.skills.split(",").map((s) => s.trim()).filter(Boolean)
+    ? alumni.skills
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
     : [];
 
   return (
@@ -68,7 +92,7 @@ export default function AlumniDetailModal({
                 alt={alumni.name}
                 className="w-20 h-20 rounded-2xl object-cover shadow-xl shrink-0 border-2 border-white/20"
                 onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
+                  (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
@@ -99,13 +123,18 @@ export default function AlumniDetailModal({
                 <span className="flex items-center gap-1.5">
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      alumni.isOnline ? "bg-[#09A64A] animate-pulse" : "bg-gray-400"
+                      alumni.isOnline
+                        ? "bg-[#09A64A] animate-pulse"
+                        : "bg-gray-400"
                     }`}
                   />
                   {alumni.isOnline ? "Online Directory" : "Offline"}
                 </span>
                 <span>•</span>
-                <span>Status: <strong className="text-white">{alumni.status}</strong></span>
+                <span>
+                  Status:{" "}
+                  <strong className="text-white">{alumni.status}</strong>
+                </span>
               </div>
             </div>
           </div>

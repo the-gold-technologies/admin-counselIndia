@@ -90,13 +90,13 @@ export async function GET(request: Request) {
         },
         categoryCounts,
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error) {
     console.error("Failed to fetch leads:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch leads" },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     if (!category) {
       return NextResponse.json(
         { success: false, error: "Category is required" },
-        { status: 400, headers: corsHeaders }
+        { status: 400, headers: corsHeaders },
       );
     }
 
@@ -148,13 +148,13 @@ export async function POST(request: Request) {
         data: newLead,
         message: "Lead submitted successfully",
       },
-      { status: 201, headers: corsHeaders }
+      { status: 201, headers: corsHeaders },
     );
   } catch (error) {
     console.error("Failed to create lead:", error);
     return NextResponse.json(
       { success: false, error: "Failed to create lead" },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }

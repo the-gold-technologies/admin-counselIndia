@@ -8,7 +8,7 @@ export async function OPTIONS() {
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -21,25 +21,25 @@ export async function GET(
     if (!lead) {
       return NextResponse.json(
         { success: false, error: "Course lead not found" },
-        { status: 404, headers: corsHeaders }
+        { status: 404, headers: corsHeaders },
       );
     }
 
     return NextResponse.json(
       { success: true, data: lead },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }
 
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -54,7 +54,7 @@ export async function PATCH(
     if (!existing) {
       return NextResponse.json(
         { success: false, error: "Course lead not found" },
-        { status: 404, headers: corsHeaders }
+        { status: 404, headers: corsHeaders },
       );
     }
 
@@ -78,19 +78,19 @@ export async function PATCH(
 
     return NextResponse.json(
       { success: true, data: updated, message: "Lead updated successfully" },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -103,7 +103,7 @@ export async function DELETE(
     if (!existing) {
       return NextResponse.json(
         { success: false, error: "Course lead not found" },
-        { status: 404, headers: corsHeaders }
+        { status: 404, headers: corsHeaders },
       );
     }
 
@@ -113,12 +113,12 @@ export async function DELETE(
 
     return NextResponse.json(
       { success: true, message: "Course lead deleted successfully" },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }

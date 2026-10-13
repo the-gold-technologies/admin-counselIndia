@@ -31,9 +31,10 @@ interface CourseTableProps {
 
 const CourseInitials = ({ name }: { name: string }) => {
   const words = name.trim().split(" ");
-  const initials = words.length >= 2
-    ? (words[0][0] + words[1][0]).toUpperCase()
-    : name.slice(0, 2).toUpperCase();
+  const initials =
+    words.length >= 2
+      ? (words[0][0] + words[1][0]).toUpperCase()
+      : name.slice(0, 2).toUpperCase();
 
   const colors = [
     "bg-emerald-600",
@@ -71,8 +72,8 @@ export const CourseTable: React.FC<CourseTableProps> = ({
     typeof totalCourses === "number"
       ? totalCourses
       : typeof totalItems === "number"
-      ? totalItems
-      : courses.length;
+        ? totalItems
+        : courses.length;
   const safeTotalPages =
     totalPages && totalPages > 0
       ? totalPages
@@ -137,7 +138,8 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                       No courses found
                     </p>
                     <p className="text-xs text-gray-400">
-                      Try adjusting your search query, category, or status filter
+                      Try adjusting your search query, category, or status
+                      filter
                     </p>
                   </div>
                 </td>
@@ -145,8 +147,11 @@ export const CourseTable: React.FC<CourseTableProps> = ({
             ) : (
               courses.map((course, index) => {
                 const sNoDisplay = (currentPage - 1) * pageSize + index + 1;
-                const isActive = (course.status || "").toLowerCase() === "active";
-                const feeDisplay = formatPrice(course.totalDiscountFee || course.totalProgramFee);
+                const isActive =
+                  (course.status || "").toLowerCase() === "active";
+                const feeDisplay = formatPrice(
+                  course.totalDiscountFee || course.totalProgramFee,
+                );
 
                 return (
                   <tr
@@ -168,7 +173,8 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                               alt={course.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                (e.target as HTMLElement).style.display = "none";
+                                (e.target as HTMLElement).style.display =
+                                  "none";
                               }}
                             />
                           </div>
@@ -193,7 +199,9 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                             {(course.listDuration || course.duration) && (
                               <span className="flex items-center gap-1 shrink-0">
                                 <Clock className="w-3.5 h-3.5 text-gray-400" />
-                                <span>{course.listDuration || course.duration}</span>
+                                <span>
+                                  {course.listDuration || course.duration}
+                                </span>
                               </span>
                             )}
                             {course.lessons && (
@@ -238,13 +246,17 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                           >
                             <div className="flex items-center gap-1.5 min-w-0">
                               <Sparkles className="w-3.5 h-3.5 text-[#09A64A] shrink-0" />
-                              <span className="text-xs font-semibold truncate">Overview</span>
+                              <span className="text-xs font-semibold truncate">
+                                Overview
+                              </span>
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               <span className="px-1.5 py-0.2 rounded-full bg-emerald-200 text-emerald-900 font-bold text-[10px]">
                                 {course.overviewCount || 0}
                               </span>
-                              <span className="text-[11px] text-[#09A64A] font-bold underline">View</span>
+                              <span className="text-[11px] text-[#09A64A] font-bold underline">
+                                View
+                              </span>
                             </div>
                           </Link>
 
@@ -256,13 +268,17 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                           >
                             <div className="flex items-center gap-1.5 min-w-0">
                               <Layers className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Objectives</span>
+                              <span className="text-xs font-semibold truncate">
+                                Objectives
+                              </span>
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               <span className="px-1.5 py-0.2 rounded-full bg-purple-200 text-purple-900 font-bold text-[10px]">
                                 {course.learnCount || 0}
                               </span>
-                              <span className="text-[11px] text-purple-700 font-bold underline">View</span>
+                              <span className="text-[11px] text-purple-700 font-bold underline">
+                                View
+                              </span>
                             </div>
                           </Link>
 
@@ -274,13 +290,17 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                           >
                             <div className="flex items-center gap-1.5 min-w-0">
                               <Award className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Credentials</span>
+                              <span className="text-xs font-semibold truncate">
+                                Credentials
+                              </span>
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               <span className="px-1.5 py-0.2 rounded-full bg-indigo-200 text-indigo-900 font-bold text-[10px]">
                                 {course.credentialCount || 0}
                               </span>
-                              <span className="text-[11px] text-indigo-700 font-bold underline">View</span>
+                              <span className="text-[11px] text-indigo-700 font-bold underline">
+                                View
+                              </span>
                             </div>
                           </Link>
 
@@ -292,13 +312,17 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                           >
                             <div className="flex items-center gap-1.5 min-w-0">
                               <ListOrdered className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Curriculum</span>
+                              <span className="text-xs font-semibold truncate">
+                                Curriculum
+                              </span>
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               <span className="px-1.5 py-0.2 rounded-full bg-blue-200 text-blue-900 font-bold text-[10px]">
                                 {course.curriculumCount || 0}
                               </span>
-                              <span className="text-[11px] text-blue-700 font-bold underline">View</span>
+                              <span className="text-[11px] text-blue-700 font-bold underline">
+                                View
+                              </span>
                             </div>
                           </Link>
                         </div>
@@ -329,7 +353,9 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                             isActive ? "bg-[#09A64A]" : "bg-gray-400"
                           }`}
                         />
-                        <span>{course.status || (isActive ? "Active" : "Inactive")}</span>
+                        <span>
+                          {course.status || (isActive ? "Active" : "Inactive")}
+                        </span>
                       </button>
                     </td>
 
@@ -415,12 +441,14 @@ export const CourseTable: React.FC<CourseTableProps> = ({
               >
                 {p}
               </button>
-            )
+            ),
           )}
 
           <button
             type="button"
-            onClick={() => onPageChange(Math.min(safeTotalPages, currentPage + 1))}
+            onClick={() =>
+              onPageChange(Math.min(safeTotalPages, currentPage + 1))
+            }
             disabled={currentPage >= safeTotalPages}
             className="px-2.5 py-1 rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium cursor-pointer"
           >

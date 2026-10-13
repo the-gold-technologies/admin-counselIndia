@@ -170,7 +170,11 @@ export default function EditCounsellorPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.mobile.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.mobile.trim()
+    ) {
       setError("Name, Email, and Mobile are required");
       return;
     }
@@ -202,7 +206,9 @@ export default function EditCounsellorPage() {
     return (
       <div className="py-24 text-center">
         <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-xs font-semibold text-gray-500">Loading counsellor details...</p>
+        <p className="text-xs font-semibold text-gray-500">
+          Loading counsellor details...
+        </p>
       </div>
     );
   }
@@ -249,7 +255,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -262,7 +270,9 @@ export default function EditCounsellorPage() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -275,7 +285,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.mobile}
-                  onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, mobile: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -287,7 +299,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="password"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   placeholder="leave blank if dont want to change!"
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
@@ -301,7 +315,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -314,7 +330,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, city: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -327,7 +345,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -339,7 +359,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.language}
-                  onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, language: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -359,7 +381,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.designation}
-                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, designation: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -372,7 +396,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.education}
-                  onChange={(e) => setFormData({ ...formData, education: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, education: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -385,7 +411,9 @@ export default function EditCounsellorPage() {
                   type="text"
                   required
                   value={formData.experience}
-                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, experience: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -396,7 +424,9 @@ export default function EditCounsellorPage() {
                 </label>
                 <select
                   value={formData.specialty}
-                  onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, specialty: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium cursor-pointer"
                 >
                   <option value="">Select Specialty</option>
@@ -415,7 +445,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.specialty2}
-                  onChange={(e) => setFormData({ ...formData, specialty2: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, specialty2: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -427,7 +459,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.rciNumber}
-                  onChange={(e) => setFormData({ ...formData, rciNumber: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, rciNumber: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -439,7 +473,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.expertise}
-                  onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, expertise: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
                 />
               </div>
@@ -455,22 +491,30 @@ export default function EditCounsellorPage() {
               <ImageUploadField
                 label="Profile Image"
                 value={formData.image}
-                onChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, image: url }))
+                }
               />
               <ImageUploadField
                 label="Identity Image (Aadhaar / Passport)"
                 value={formData.identityImage}
-                onChange={(url) => setFormData((prev) => ({ ...prev, identityImage: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, identityImage: url }))
+                }
               />
               <CertificateUploadField
                 label="Proof of Qualification"
                 value={formData.qualificationProof}
-                onChange={(url) => setFormData((prev) => ({ ...prev, qualificationProof: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, qualificationProof: url }))
+                }
               />
               <CertificateUploadField
                 label="Proof of CV"
                 value={formData.cvUrl}
-                onChange={(url) => setFormData((prev) => ({ ...prev, cvUrl: url }))}
+                onChange={(url) =>
+                  setFormData((prev) => ({ ...prev, cvUrl: url }))
+                }
               />
             </div>
           </div>
@@ -488,7 +532,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.bankName}
-                  onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bankName: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -500,7 +546,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.accountNumber}
-                  onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, accountNumber: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -512,7 +560,9 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.ifscCode}
-                  onChange={(e) => setFormData({ ...formData, ifscCode: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, ifscCode: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -523,7 +573,9 @@ export default function EditCounsellorPage() {
                 </label>
                 <select
                   value={formData.accountType}
-                  onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, accountType: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl cursor-pointer"
                 >
                   <option value="Savings">Savings</option>
@@ -538,7 +590,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="text"
                   value={formData.accountHolderName}
-                  onChange={(e) => setFormData({ ...formData, accountHolderName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      accountHolderName: e.target.value,
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -557,7 +614,12 @@ export default function EditCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.videoStatus}
-                    onChange={(e) => setFormData({ ...formData, videoStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        videoStatus: e.target.checked,
+                      })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -565,7 +627,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.videoPrice}
-                  onChange={(e) => setFormData({ ...formData, videoPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      videoPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -576,7 +643,12 @@ export default function EditCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.audioStatus}
-                    onChange={(e) => setFormData({ ...formData, audioStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        audioStatus: e.target.checked,
+                      })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -584,7 +656,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.audioPrice}
-                  onChange={(e) => setFormData({ ...formData, audioPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      audioPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -595,7 +672,9 @@ export default function EditCounsellorPage() {
                   <input
                     type="checkbox"
                     checked={formData.chatStatus}
-                    onChange={(e) => setFormData({ ...formData, chatStatus: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, chatStatus: e.target.checked })
+                    }
                     className="w-4 h-4 accent-[#09A64A]"
                   />
                 </label>
@@ -603,7 +682,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.chatPrice}
-                  onChange={(e) => setFormData({ ...formData, chatPrice: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      chatPrice: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-3 py-2 bg-white rounded-xl border border-gray-200"
                 />
               </div>
@@ -615,7 +699,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.expectedCharges}
-                  onChange={(e) => setFormData({ ...formData, expectedCharges: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      expectedCharges: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -627,7 +716,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.councellFees}
-                  onChange={(e) => setFormData({ ...formData, councellFees: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      councellFees: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -639,7 +733,12 @@ export default function EditCounsellorPage() {
                 <input
                   type="number"
                   value={formData.commission}
-                  onChange={(e) => setFormData({ ...formData, commission: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      commission: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -659,7 +758,9 @@ export default function EditCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.about}
-                  onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, about: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -671,7 +772,9 @@ export default function EditCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.achievements}
-                  onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, achievements: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -683,7 +786,9 @@ export default function EditCounsellorPage() {
                 <textarea
                   rows={3}
                   value={formData.whatBringsYou}
-                  onChange={(e) => setFormData({ ...formData, whatBringsYou: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, whatBringsYou: e.target.value })
+                  }
                   className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
                 />
               </div>
@@ -695,7 +800,9 @@ export default function EditCounsellorPage() {
                   </label>
                   <select
                     value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="Active">Active</option>
@@ -709,7 +816,12 @@ export default function EditCounsellorPage() {
                   </label>
                   <select
                     value={formData.isApproved ? "1" : "0"}
-                    onChange={(e) => setFormData({ ...formData, isApproved: e.target.value === "1" })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        isApproved: e.target.value === "1",
+                      })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="1">Approved</option>
@@ -723,12 +835,16 @@ export default function EditCounsellorPage() {
                   </label>
                   <select
                     value={formData.userType}
-                    onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, userType: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl font-medium cursor-pointer"
                   >
                     <option value="Counselor">Counselor</option>
                     <option value="Trainer">Trainer</option>
-                    <option value="Both Trainer and Counselor">Both Trainer and Counselor</option>
+                    <option value="Both Trainer and Counselor">
+                      Both Trainer and Counselor
+                    </option>
                   </select>
                 </div>
               </div>

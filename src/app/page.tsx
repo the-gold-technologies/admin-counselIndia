@@ -55,7 +55,8 @@ export default function DashboardHomePage() {
     return timeB - timeA;
   });
 
-  const todayCount = (stats?.todayAdmissions || 0) + (stats?.todayInquiries || 0);
+  const todayCount =
+    (stats?.todayAdmissions || 0) + (stats?.todayInquiries || 0);
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto pb-10">

@@ -2,14 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-  Edit2,
-  Trash2,
-  CalendarPlus,
-  Phone,
-  Mail,
-  Award,
-} from "lucide-react";
+import { Edit2, Trash2, CalendarPlus, Phone, Mail, Award } from "lucide-react";
 import { CourseLeadItem } from "@/types/courseLead";
 
 interface CourseLeadTableProps {
@@ -111,7 +104,8 @@ export default function CourseLeadTable({
                       No course leads found
                     </p>
                     <p className="text-xs text-gray-400">
-                      Try adjusting your search query, status tab, or date filters
+                      Try adjusting your search query, status tab, or date
+                      filters
                     </p>
                   </div>
                 </td>
@@ -175,14 +169,18 @@ export default function CourseLeadTable({
                         {/* Line 2: RM & CSM & Source */}
                         <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 text-xs text-gray-500">
                           <span className="inline-flex items-center gap-1">
-                            <span className="text-gray-400 font-medium">RM:</span>
+                            <span className="text-gray-400 font-medium">
+                              RM:
+                            </span>
                             <span className="text-gray-700 font-semibold">
                               {lead.relationshipManager || "Unassigned"}
                             </span>
                           </span>
                           <span className="text-gray-300">&bull;</span>
                           <span className="inline-flex items-center gap-1">
-                            <span className="text-gray-400 font-medium">CSM:</span>
+                            <span className="text-gray-400 font-medium">
+                              CSM:
+                            </span>
                             <span className="text-gray-700 font-semibold">
                               {lead.customerSuccessManager || "-"}
                             </span>
@@ -190,7 +188,9 @@ export default function CourseLeadTable({
                           {lead.source && (
                             <>
                               <span className="text-gray-300">&bull;</span>
-                              <span className="text-gray-400 text-[11px]">{lead.source}</span>
+                              <span className="text-gray-400 text-[11px]">
+                                {lead.source}
+                              </span>
                             </>
                           )}
                         </div>
@@ -203,7 +203,7 @@ export default function CourseLeadTable({
                         href={`/course-leads/${lead.id}/edit`}
                         title="Click to edit status"
                         className={`inline-block px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs border ${getStatusBadge(
-                          lead.status
+                          lead.status,
                         )}`}
                       >
                         {lead.status || "New"}
@@ -267,9 +267,13 @@ export default function CourseLeadTable({
       <div className="p-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50">
         <div className="flex items-center gap-4 text-xs text-gray-500">
           <span>
-            Showing <span className="font-bold text-gray-900">{totalItems > 0 ? startItem : 0}</span> to{" "}
-            <span className="font-bold text-gray-900">{endItem}</span> of{" "}
-            <span className="font-bold text-gray-900">{totalItems}</span> entries
+            Showing{" "}
+            <span className="font-bold text-gray-900">
+              {totalItems > 0 ? startItem : 0}
+            </span>{" "}
+            to <span className="font-bold text-gray-900">{endItem}</span> of{" "}
+            <span className="font-bold text-gray-900">{totalItems}</span>{" "}
+            entries
           </span>
 
           <div className="hidden sm:flex items-center gap-2 pl-4 border-l border-gray-200">
@@ -302,7 +306,10 @@ export default function CourseLeadTable({
 
             {getPaginationRange().map((page, idx) =>
               page === "..." ? (
-                <span key={`ellipsis-${idx}`} className="px-2 text-gray-400 font-bold text-xs select-none">
+                <span
+                  key={`ellipsis-${idx}`}
+                  className="px-2 text-gray-400 font-bold text-xs select-none"
+                >
                   ...
                 </span>
               ) : (
@@ -317,11 +324,13 @@ export default function CourseLeadTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
 
             <button
-              onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                onPageChange(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage >= totalPages}
               className="px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-xs font-semibold"
             >

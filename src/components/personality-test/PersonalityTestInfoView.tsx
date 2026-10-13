@@ -80,14 +80,20 @@ export default function PersonalityTestInfoView() {
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-gray-400 font-medium text-sm">
+                  <td
+                    colSpan={7}
+                    className="py-16 text-center text-gray-400 font-medium text-sm"
+                  >
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#09A64A]" />
                     Loading configuration...
                   </td>
                 </tr>
               ) : !info ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-gray-400 font-medium text-sm">
+                  <td
+                    colSpan={7}
+                    className="py-16 text-center text-gray-400 font-medium text-sm"
+                  >
                     No configuration found.
                   </td>
                 </tr>
@@ -121,7 +127,7 @@ export default function PersonalityTestInfoView() {
                         "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold",
                         info.status === "Active"
                           ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                          : "bg-gray-100 text-gray-600 border border-gray-200"
+                          : "bg-gray-100 text-gray-600 border border-gray-200",
                       )}
                     >
                       {info.status}
@@ -145,7 +151,9 @@ export default function PersonalityTestInfoView() {
         {/* Footer info bar */}
         <div className="px-6 py-4 bg-gray-50/60 border-t border-gray-100 text-xs text-gray-500 font-medium flex items-center justify-between">
           <span>Showing 1 of 1 assessment master configuration</span>
-          <span className="text-[#09A64A] font-bold">Standard Counsel India Format</span>
+          <span className="text-[#09A64A] font-bold">
+            Standard Counsel India Format
+          </span>
         </div>
       </div>
     </div>

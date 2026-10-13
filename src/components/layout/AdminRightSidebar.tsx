@@ -1,7 +1,16 @@
 "use client";
 
 import React from "react";
-import { Plus, Upload, Download, Sparkles, CheckCircle2, Clock, Users, ArrowRight } from "lucide-react";
+import {
+  Plus,
+  Upload,
+  Download,
+  Sparkles,
+  CheckCircle2,
+  Clock,
+  Users,
+  ArrowRight,
+} from "lucide-react";
 
 interface AdminRightSidebarProps {
   onOpenAddModal?: () => void;
@@ -56,7 +65,9 @@ export function AdminRightSidebar({
           <div className="w-6 h-6 rounded-full bg-white text-[#0a192f] flex items-center justify-center font-extrabold text-xs">
             CI
           </div>
-          <span className="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Admissions Portal</span>
+          <span className="text-xs uppercase tracking-wider text-emerald-400 font-semibold">
+            Admissions Portal
+          </span>
         </div>
 
         <h2 className="text-[24px] font-black leading-[1.15] mb-2">
@@ -64,7 +75,8 @@ export function AdminRightSidebar({
           Admissions Live
         </h2>
         <p className="text-xs font-medium text-gray-400 leading-relaxed max-w-[220px] mb-6">
-          Review candidates, allocate academic counselors, and manage learner verifications.
+          Review candidates, allocate academic counselors, and manage learner
+          verifications.
         </p>
 
         {onOpenAddModal && (
@@ -77,8 +89,6 @@ export function AdminRightSidebar({
           </button>
         )}
       </div>
-
-      
 
       {/* Recent Admissions Activity Stream */}
       <div className="bg-white rounded-[2rem] p-6 border border-gray-100 shadow-sm space-y-4">
@@ -93,17 +103,24 @@ export function AdminRightSidebar({
 
         <div className="space-y-3">
           {activities.map((act, i) => (
-            <div key={i} className="flex items-start justify-between p-3 rounded-2xl bg-gray-50/70 border border-gray-100 text-xs hover:bg-gray-100/60 transition-colors">
+            <div
+              key={i}
+              className="flex items-start justify-between p-3 rounded-2xl bg-gray-50/70 border border-gray-100 text-xs hover:bg-gray-100/60 transition-colors"
+            >
               <div className="space-y-0.5 min-w-0 pr-2">
                 <p className="font-bold text-gray-900 truncate">{act.title}</p>
-                <p className="text-[11px] text-gray-500 truncate">{act.subtitle}</p>
+                <p className="text-[11px] text-gray-500 truncate">
+                  {act.subtitle}
+                </p>
                 <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-1 font-medium">
                   <Clock className="w-3 h-3 text-gray-400" />
                   {act.time}
                 </p>
               </div>
 
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${act.badgeColor}`}>
+              <span
+                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${act.badgeColor}`}
+              >
                 {act.status}
               </span>
             </div>

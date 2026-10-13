@@ -1,5 +1,11 @@
-import React from 'react';
-import { Users, UserCheck, Clock, CreditCard, ArrowUpRight } from 'lucide-react';
+import React from "react";
+import {
+  Users,
+  UserCheck,
+  Clock,
+  CreditCard,
+  ArrowUpRight,
+} from "lucide-react";
 
 interface AdmissionsStatsProps {
   total: number;
@@ -8,39 +14,44 @@ interface AdmissionsStatsProps {
   totalFee: number;
 }
 
-export default function AdmissionsStats({ total, enrolled, pending, totalFee }: AdmissionsStatsProps) {
+export default function AdmissionsStats({
+  total,
+  enrolled,
+  pending,
+  totalFee,
+}: AdmissionsStatsProps) {
   const cards = [
     {
-      title: 'Total Admissions',
+      title: "Total Admissions",
       value: total.toLocaleString(),
-      change: '+14% vs last month',
+      change: "+14% vs last month",
       icon: Users,
-      color: 'from-blue-600 to-indigo-600',
-      bgColor: 'bg-blue-50 text-blue-600 border-blue-200/50',
+      color: "from-blue-600 to-indigo-600",
+      bgColor: "bg-blue-50 text-blue-600 border-blue-200/50",
     },
     {
-      title: 'Active Enrolled',
+      title: "Active Enrolled",
       value: enrolled.toLocaleString(),
-      change: '+92% conversion rate',
+      change: "+92% conversion rate",
       icon: UserCheck,
-      color: 'from-emerald-600 to-teal-600',
-      bgColor: 'bg-emerald-50 text-emerald-600 border-emerald-200/50',
+      color: "from-emerald-600 to-teal-600",
+      bgColor: "bg-emerald-50 text-emerald-600 border-emerald-200/50",
     },
     {
-      title: 'Pending Verification',
+      title: "Pending Verification",
       value: pending.toLocaleString(),
-      change: 'Needs review today',
+      change: "Needs review today",
       icon: Clock,
-      color: 'from-amber-600 to-orange-600',
-      bgColor: 'bg-amber-50 text-amber-600 border-amber-200/50',
+      color: "from-amber-600 to-orange-600",
+      bgColor: "bg-amber-50 text-amber-600 border-amber-200/50",
     },
     {
-      title: 'Total Fee Volume',
+      title: "Total Fee Volume",
       value: "₹" + ((totalFee || 0) / 100000).toFixed(2) + " Lakh",
-      change: 'Paid & verified',
+      change: "Paid & verified",
       icon: CreditCard,
-      color: 'from-purple-600 to-pink-600',
-      bgColor: 'bg-purple-50 text-purple-600 border-purple-200/50',
+      color: "from-purple-600 to-pink-600",
+      bgColor: "bg-purple-50 text-purple-600 border-purple-200/50",
     },
   ];
 
@@ -68,7 +79,9 @@ export default function AdmissionsStats({ total, enrolled, pending, totalFee }: 
               </h3>
               <p className="text-xs text-slate-500 flex items-center gap-1 mt-1 font-medium">
                 <ArrowUpRight className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-700 font-semibold">{card.change}</span>
+                <span className="text-emerald-700 font-semibold">
+                  {card.change}
+                </span>
               </p>
             </div>
           </div>

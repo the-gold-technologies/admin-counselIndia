@@ -35,7 +35,8 @@ interface Props {
   moduleTitle: string;
   moduleSubtitle: string;
   dataField: "overviewData" | "learnData" | "credentialData" | "curriculumData";
-  countField: "overviewCount" | "learnCount" | "credentialCount" | "curriculumCount";
+  countField:
+    "overviewCount" | "learnCount" | "credentialCount" | "curriculumCount";
   defaultType: string;
   typeOptions?: string[];
 }
@@ -114,7 +115,7 @@ export default function CourseSubModuleManager({
         (it.title || "").toLowerCase().includes(q) ||
         (it.type || "").toLowerCase().includes(q) ||
         String(it.position || "").includes(q) ||
-        (it.status || "").toLowerCase().includes(q)
+        (it.status || "").toLowerCase().includes(q),
     );
   }, [items, searchQuery]);
 
@@ -132,7 +133,8 @@ export default function CourseSubModuleManager({
     return filteredItems.slice(start, start + pageSize);
   }, [filteredItems, currentPage, pageSize]);
 
-  const startEntry = filteredItems.length > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+  const startEntry =
+    filteredItems.length > 0 ? (currentPage - 1) * pageSize + 1 : 0;
   const endEntry = Math.min(currentPage * pageSize, filteredItems.length);
 
   // Pagination page buttons helper
@@ -194,14 +196,18 @@ export default function CourseSubModuleManager({
 
     let updatedList: SubModuleItem[] = [];
     if (editingIndex !== null) {
-      updatedList = items.map((it, idx) => (idx === editingIndex ? newItem : it));
+      updatedList = items.map((it, idx) =>
+        idx === editingIndex ? newItem : it,
+      );
     } else {
       updatedList = [...items, newItem];
     }
 
     await persistList(
       updatedList,
-      editingIndex !== null ? "Item updated successfully!" : "New item added successfully!"
+      editingIndex !== null
+        ? "Item updated successfully!"
+        : "New item added successfully!",
     );
     setIsModalOpen(false);
   };
@@ -226,7 +232,10 @@ export default function CourseSubModuleManager({
     await persistList(updatedList, "Status toggled!");
   };
 
-  const persistList = async (updatedList: SubModuleItem[], successMsg: string) => {
+  const persistList = async (
+    updatedList: SubModuleItem[],
+    successMsg: string,
+  ) => {
     setSaving(true);
     setError("");
     setSuccess("");
@@ -267,7 +276,9 @@ export default function CourseSubModuleManager({
       `"${(it.image || "").replace(/"/g, '""')}"`,
     ]);
 
-    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
+    const csvContent =
+      "\uFEFF" +
+      [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -294,7 +305,7 @@ export default function CourseSubModuleManager({
           <td style="text-align: center; border: 1px solid #ccc; padding: 6px;">${it.position || idx + 1}</td>
           <td style="text-align: center; border: 1px solid #ccc; padding: 6px;">${it.status || "Active"}</td>
           <td style="border: 1px solid #ccc; padding: 6px;">${(it.image || "").replace(/</g, "&lt;")}</td>
-        </tr>`
+        </tr>`,
       )
       .join("");
 
@@ -323,7 +334,9 @@ export default function CourseSubModuleManager({
       </body>
     </html>`;
 
-    const blob = new Blob([excelHtml], { type: "application/vnd.ms-excel;charset=utf-8;" });
+    const blob = new Blob([excelHtml], {
+      type: "application/vnd.ms-excel;charset=utf-8;",
+    });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -344,7 +357,7 @@ export default function CourseSubModuleManager({
       items,
       course?.name || "Course",
       moduleTitle,
-      course?.slug || "course"
+      course?.slug || "course",
     );
   };
 
@@ -486,10 +499,24 @@ export default function CourseSubModuleManager({
   const handleDownloadTemplate = () => {
     const headers = ["Type", "Title", "Position", "Status", "Image"];
     const sampleRows = [
-      [`"${defaultType}"`, `"Comprehensive Curriculum The program offers a broad..."`, "1", "Active", `""`],
-      [`"${defaultType}"`, `"Expert-Led Classes Classes are delivered by seasoned professionals..."`, "2", "Active", `""`],
+      [
+        `"${defaultType}"`,
+        `"Comprehensive Curriculum The program offers a broad..."`,
+        "1",
+        "Active",
+        `""`,
+      ],
+      [
+        `"${defaultType}"`,
+        `"Expert-Led Classes Classes are delivered by seasoned professionals..."`,
+        "2",
+        "Active",
+        `""`,
+      ],
     ];
-    const csvContent = "\uFEFF" + [headers.join(","), ...sampleRows.map((r) => r.join(","))].join("\r\n");
+    const csvContent =
+      "\uFEFF" +
+      [headers.join(","), ...sampleRows.map((r) => r.join(","))].join("\r\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -515,7 +542,9 @@ export default function CourseSubModuleManager({
       const text = await excelFile.text();
       const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
       if (lines.length < 2) {
-        throw new Error("File contains no data rows. Please use the template format.");
+        throw new Error(
+          "File contains no data rows. Please use the template format.",
+        );
       }
 
       // Simple CSV line parser supporting quoted values
@@ -543,12 +572,21 @@ export default function CourseSubModuleManager({
         return result;
       };
 
-      const headerCols = parseCSVLine(lines[0]).map((h) => h.toLowerCase().replace(/[^a-z0-9]/g, ""));
-      const titleColIdx = headerCols.findIndex((h) => h.includes("title") || h.includes("description") || h.includes("name"));
+      const headerCols = parseCSVLine(lines[0]).map((h) =>
+        h.toLowerCase().replace(/[^a-z0-9]/g, ""),
+      );
+      const titleColIdx = headerCols.findIndex(
+        (h) =>
+          h.includes("title") ||
+          h.includes("description") ||
+          h.includes("name"),
+      );
       const typeColIdx = headerCols.findIndex((h) => h.includes("type"));
       const posColIdx = headerCols.findIndex((h) => h.includes("pos"));
       const statusColIdx = headerCols.findIndex((h) => h.includes("status"));
-      const imgColIdx = headerCols.findIndex((h) => h.includes("img") || h.includes("image"));
+      const imgColIdx = headerCols.findIndex(
+        (h) => h.includes("img") || h.includes("image"),
+      );
 
       const parsedItems: SubModuleItem[] = [];
 
@@ -556,13 +594,25 @@ export default function CourseSubModuleManager({
         const cols = parseCSVLine(lines[i]);
         if (cols.length === 0 || cols.every((c) => !c.trim())) continue;
 
-        const title = (titleColIdx !== -1 && cols[titleColIdx]) ? cols[titleColIdx] : (cols[1] || cols[0] || "");
+        const title =
+          titleColIdx !== -1 && cols[titleColIdx]
+            ? cols[titleColIdx]
+            : cols[1] || cols[0] || "";
         if (!title.trim()) continue;
 
-        const type = (typeColIdx !== -1 && cols[typeColIdx]) ? cols[typeColIdx] : defaultType;
-        const pos = (posColIdx !== -1 && cols[posColIdx]) ? cols[posColIdx] : String(parsedItems.length + 1);
-        const status = (statusColIdx !== -1 && cols[statusColIdx]) ? cols[statusColIdx] : "Active";
-        const img = (imgColIdx !== -1 && cols[imgColIdx]) ? cols[imgColIdx] : "";
+        const type =
+          typeColIdx !== -1 && cols[typeColIdx]
+            ? cols[typeColIdx]
+            : defaultType;
+        const pos =
+          posColIdx !== -1 && cols[posColIdx]
+            ? cols[posColIdx]
+            : String(parsedItems.length + 1);
+        const status =
+          statusColIdx !== -1 && cols[statusColIdx]
+            ? cols[statusColIdx]
+            : "Active";
+        const img = imgColIdx !== -1 && cols[imgColIdx] ? cols[imgColIdx] : "";
 
         parsedItems.push({
           title: title.trim(),
@@ -574,19 +624,24 @@ export default function CourseSubModuleManager({
       }
 
       if (parsedItems.length === 0) {
-        throw new Error("Could not parse any valid items from file. Please ensure title/content column is present.");
+        throw new Error(
+          "Could not parse any valid items from file. Please ensure title/content column is present.",
+        );
       }
 
-      const finalList = uploadMode === "append" ? [...items, ...parsedItems] : parsedItems;
+      const finalList =
+        uploadMode === "append" ? [...items, ...parsedItems] : parsedItems;
       await persistList(
         finalList,
-        `Successfully imported ${parsedItems.length} items from ${excelFile.name}!`
+        `Successfully imported ${parsedItems.length} items from ${excelFile.name}!`,
       );
 
       setIsExcelModalOpen(false);
       setExcelFile(null);
     } catch (err: any) {
-      setExcelError(err.message || "Failed to parse file. Please verify CSV format.");
+      setExcelError(
+        err.message || "Failed to parse file. Please verify CSV format.",
+      );
     } finally {
       setUploadingExcel(false);
     }
@@ -596,7 +651,9 @@ export default function CourseSubModuleManager({
     return (
       <div className="flex flex-col items-center justify-center min-h-[420px] text-gray-500 gap-3">
         <Loader2 className="w-9 h-9 animate-spin text-[#09A64A]" />
-        <p className="text-sm font-semibold text-gray-600">Loading {moduleTitle}...</p>
+        <p className="text-sm font-semibold text-gray-600">
+          Loading {moduleTitle}...
+        </p>
       </div>
     );
   }
@@ -606,10 +663,10 @@ export default function CourseSubModuleManager({
     moduleKey === "overview"
       ? "Course Key Features / Key Differentiations List"
       : moduleKey === "learning-objectives"
-      ? "Course Learning Objectives / Clinical Competencies List"
-      : moduleKey === "credentials"
-      ? "Course Certifications / Credentials List"
-      : "Course Curriculum / Syllabus Modules List";
+        ? "Course Learning Objectives / Clinical Competencies List"
+        : moduleKey === "credentials"
+          ? "Course Certifications / Credentials List"
+          : "Course Curriculum / Syllabus Modules List";
 
   return (
     <div className="space-y-6">
@@ -906,8 +963,11 @@ export default function CourseSubModuleManager({
               ) : (
                 paginatedItems.map((item, pIndex) => {
                   const globalIndex = (currentPage - 1) * pageSize + pIndex;
-                  const isActive = (item.status || "Active").toLowerCase() === "active";
-                  const imageUrl = item.image ? encodeURI(decodeURI(item.image)) : "";
+                  const isActive =
+                    (item.status || "Active").toLowerCase() === "active";
+                  const imageUrl = item.image
+                    ? encodeURI(decodeURI(item.image))
+                    : "";
 
                   return (
                     <tr
@@ -975,7 +1035,8 @@ export default function CourseSubModuleManager({
                                 alt=""
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
-                                  (e.target as HTMLElement).style.display = "none";
+                                  (e.target as HTMLElement).style.display =
+                                    "none";
                                 }}
                               />
                             </div>
@@ -1020,7 +1081,8 @@ export default function CourseSubModuleManager({
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 font-medium pt-2 gap-3">
           <div className="flex items-center gap-3">
             <span>
-              Showing {startEntry} to {endEntry} of {filteredItems.length} entries
+              Showing {startEntry} to {endEntry} of {filteredItems.length}{" "}
+              entries
             </span>
             <div className="flex items-center gap-1.5">
               <span>Per page:</span>
@@ -1065,7 +1127,7 @@ export default function CourseSubModuleManager({
                 >
                   {p}
                 </button>
-              )
+              ),
             )}
 
             <button
@@ -1159,7 +1221,8 @@ export default function CourseSubModuleManager({
                         {excelFile.name}
                       </p>
                       <p className="text-[11px] text-gray-500 mt-0.5">
-                        {(excelFile.size / 1024).toFixed(1)} KB &bull; Click to change
+                        {(excelFile.size / 1024).toFixed(1)} KB &bull; Click to
+                        change
                       </p>
                     </div>
                   ) : (
@@ -1351,7 +1414,9 @@ export default function CourseSubModuleManager({
                   <button
                     type="button"
                     onClick={() =>
-                      setItemStatus(itemStatus === "Active" ? "Inactive" : "Active")
+                      setItemStatus(
+                        itemStatus === "Active" ? "Inactive" : "Active",
+                      )
                     }
                     className={`w-full h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                       itemStatus === "Active"
@@ -1400,7 +1465,9 @@ export default function CourseSubModuleManager({
                     <p className="text-[11px] font-semibold text-gray-700 truncate">
                       {itemImage}
                     </p>
-                    <p className="text-[10px] text-emerald-600 font-bold">Image preview</p>
+                    <p className="text-[10px] text-emerald-600 font-bold">
+                      Image preview
+                    </p>
                   </div>
                   <button
                     type="button"

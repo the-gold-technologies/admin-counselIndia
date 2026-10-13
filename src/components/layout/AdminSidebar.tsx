@@ -127,18 +127,18 @@ const sidebarLinks: SidebarItem[] = [
     title: "Personality Test",
     icon: BrainCircuit,
     sublinks: [
-      { title: "Personality Test Info", href: "/personality-test/personality-test-info" },
+      {
+        title: "Personality Test Info",
+        href: "/personality-test/personality-test-info",
+      },
       { title: "Questions", href: "/personality-test/questions" },
-      { title: "Personality Entry", href: "/personality-test/personality-entry" },
+      {
+        title: "Personality Entry",
+        href: "/personality-test/personality-entry",
+      },
       { title: "Tab Result", href: "/personality-test/tab-result" },
     ],
   },
-  {
-    title: "Profile",
-    href: "/profile",
-    icon: User,
-  },
-
   {
     title: "Settings",
     icon: Settings,

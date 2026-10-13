@@ -1,4 +1,7 @@
-import { SettingsClient, SettingsTab } from "@/components/settings/SettingsClient";
+import {
+  SettingsClient,
+  SettingsTab,
+} from "@/components/settings/SettingsClient";
 
 interface PageProps {
   params: Promise<{ tab: string }>;

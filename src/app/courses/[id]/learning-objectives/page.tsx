@@ -17,7 +17,12 @@ export default async function CourseLearningObjectivesPage({
       dataField="learnData"
       countField="learnCount"
       defaultType="objective"
-      typeOptions={["objective", "clinical_skill", "competency", "career_outcome"]}
+      typeOptions={[
+        "objective",
+        "clinical_skill",
+        "competency",
+        "career_outcome",
+      ]}
     />
   );
 }

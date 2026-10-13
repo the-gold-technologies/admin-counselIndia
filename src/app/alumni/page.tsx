@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   Users,
   UserCheck,
-    BookOpen,
+  BookOpen,
   Search,
   Plus,
   Download,
@@ -58,8 +58,8 @@ export default function AlumniPage() {
       if (json.success) {
         setAlumni((prev) =>
           prev.map((item) =>
-            item.id === id ? { ...item, status: nextStatus } : item
-          )
+            item.id === id ? { ...item, status: nextStatus } : item,
+          ),
         );
       }
     } catch (e) {
@@ -213,7 +213,7 @@ export default function AlumniPage() {
       '"Name & Details"',
       '"Online Status"',
       '"Status"',
-      '"Action"'
+      '"Action"',
     ].join(",");
 
     const rows = alumni.map((a, i) => {
@@ -229,7 +229,7 @@ export default function AlumniPage() {
         `"${details.replace(/"/g, '""')}"`,
         `"Online:"`,
         `"${a.status}"`,
-        `""`
+        `""`,
       ].join(",");
     });
 
@@ -255,12 +255,12 @@ export default function AlumniPage() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-
           <h1 className="text-2xl font-black text-gray-900 tracking-tight">
             Alumni Directory
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Certified graduates displayed on Counsel India Network directory & verified credential database
+            Certified graduates displayed on Counsel India Network directory &
+            verified credential database
           </p>
         </div>
 
@@ -406,7 +406,9 @@ export default function AlumniPage() {
       {loading && alumni.length === 0 ? (
         <div className="bg-white rounded-2xl border border-gray-200/80 p-16 text-center shadow-xs">
           <div className="w-8 h-8 border-3 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm font-semibold text-gray-600">Loading alumni records...</p>
+          <p className="text-sm font-semibold text-gray-600">
+            Loading alumni records...
+          </p>
         </div>
       ) : (
         <AlumniTable

@@ -16,8 +16,10 @@ async function seedSettings(prismaInstance) {
     footer: "Counselindia",
     referWallet: "100",
     logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
-    lightLogo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873113/counselindia/brand/counselindia-light-logo.png",
-    favicon: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873100/counselindia/brand/favicon.png",
+    lightLogo:
+      "https://res.cloudinary.com/dpa93copz/image/upload/v1791873113/counselindia/brand/counselindia-light-logo.png",
+    favicon:
+      "https://res.cloudinary.com/dpa93copz/image/upload/v1791873100/counselindia/brand/favicon.png",
     companyName: "counselindiaAdmin",
     websiteLink: "counselindia",
     address: "counselindia",
@@ -434,7 +436,8 @@ async function seedUser(prismaInstance) {
       role: "SUPERADMIN",
       phone: "+91-9518241200",
       status: "Active",
-      avatar: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
+      avatar:
+        "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
     },
   });
 
@@ -488,7 +491,9 @@ async function seedPersonalityTest(prismaInstance) {
         },
       });
     }
-    console.log(`✓ Seeded ${questionsData.length} PersonalityQuestion records.`);
+    console.log(
+      `✓ Seeded ${questionsData.length} PersonalityQuestion records.`,
+    );
   }
 
   // 3. Tab Results
@@ -506,7 +511,9 @@ async function seedPersonalityTest(prismaInstance) {
         },
       });
     }
-    console.log(`✓ Seeded ${tabResultsData.length} PersonalityTabResult records.`);
+    console.log(
+      `✓ Seeded ${tabResultsData.length} PersonalityTabResult records.`,
+    );
   }
 }
 

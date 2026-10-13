@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "Invalid email or password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -45,15 +45,18 @@ export async function POST(req: NextRequest) {
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: "Invalid email or password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     // Check if user is active
     if (user.status !== "Active") {
       return NextResponse.json(
-        { error: "Your account has been deactivated. Please contact administrator." },
-        { status: 403 }
+        {
+          error:
+            "Your account has been deactivated. Please contact administrator.",
+        },
+        { status: 403 },
       );
     }
 
@@ -110,7 +113,7 @@ export async function POST(req: NextRequest) {
     console.error("Login API error:", error);
     return NextResponse.json(
       { error: error?.message || "An unexpected error occurred during login" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

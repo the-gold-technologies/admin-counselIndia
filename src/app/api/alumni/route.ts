@@ -32,14 +32,21 @@ export async function GET(request: Request) {
         orderBy: [{ sNo: "asc" }, { createdAt: "desc" }],
       });
     } catch (e) {
-      console.error("DB query error in alumni route:", e); return NextResponse.json({ success: false, error: (e as any)?.message || String(e) }, { status: 500 });
+      console.error("DB query error in alumni route:", e);
+      return NextResponse.json(
+        { success: false, error: (e as any)?.message || String(e) },
+        { status: 500 },
+      );
     }
 
-    return NextResponse.json({
-      success: true,
-      count: alumni.length,
-      data: alumni,
-    }, { headers: corsHeaders });
+    return NextResponse.json(
+      {
+        success: true,
+        count: alumni.length,
+        data: alumni,
+      },
+      { headers: corsHeaders },
+    );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },

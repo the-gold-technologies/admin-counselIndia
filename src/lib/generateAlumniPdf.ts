@@ -43,7 +43,12 @@ export function generateAlumniPdf(alumni: AlumniItem[]) {
     details: margin + colWidths.sNo,
     online: margin + colWidths.sNo + colWidths.details,
     status: margin + colWidths.sNo + colWidths.details + colWidths.online,
-    action: margin + colWidths.sNo + colWidths.details + colWidths.online + colWidths.status,
+    action:
+      margin +
+      colWidths.sNo +
+      colWidths.details +
+      colWidths.online +
+      colWidths.status,
   };
 
   let y = 16;
@@ -65,7 +70,9 @@ export function generateAlumniPdf(alumni: AlumniItem[]) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(8.5);
 
-    doc.text("S.No", colX.sNo + colWidths.sNo / 2, y + 6.5, { align: "center" });
+    doc.text("S.No", colX.sNo + colWidths.sNo / 2, y + 6.5, {
+      align: "center",
+    });
     doc.text("Name & Details", colX.details + 2, y + 6.5);
     doc.text("Online\nStatus", colX.online + 2, y + 4.2);
     doc.text("Status", colX.status + 2, y + 6.5);

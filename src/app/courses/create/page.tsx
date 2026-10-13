@@ -90,14 +90,31 @@ export default function CreateCoursePage() {
   // Auto-generate slug from name
   const handleNameChange = (val: string) => {
     setName(val);
-    if (!slug || slug === name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")) {
-      setSlug(val.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
+    if (
+      !slug ||
+      slug ===
+        name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "")
+    ) {
+      setSlug(
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, ""),
+      );
     }
   };
 
   // Add / Remove Key Feature
-  const addHeading = () => setHeadings([...headings, { heading: "", value: "" }]);
-  const updateHeading = (index: number, field: "heading" | "value", val: string) => {
+  const addHeading = () =>
+    setHeadings([...headings, { heading: "", value: "" }]);
+  const updateHeading = (
+    index: number,
+    field: "heading" | "value",
+    val: string,
+  ) => {
     const next = [...headings];
     next[index][field] = val;
     setHeadings(next);
@@ -107,8 +124,13 @@ export default function CreateCoursePage() {
   };
 
   // Add / Remove Outline
-  const addCheading = () => setCheadings([...cheadings, { heading: "", value: "" }]);
-  const updateCheading = (index: number, field: "heading" | "value", val: string) => {
+  const addCheading = () =>
+    setCheadings([...cheadings, { heading: "", value: "" }]);
+  const updateCheading = (
+    index: number,
+    field: "heading" | "value",
+    val: string,
+  ) => {
     const next = [...cheadings];
     next[index][field] = val;
     setCheadings(next);
@@ -196,7 +218,8 @@ export default function CreateCoursePage() {
           <span>Back to Courses</span>
         </Link>
         <div className="text-xs text-gray-400">
-          Content Management &bull; <span className="text-gray-700 font-semibold">Create Course</span>
+          Content Management &bull;{" "}
+          <span className="text-gray-700 font-semibold">Create Course</span>
         </div>
       </div>
 
@@ -211,7 +234,8 @@ export default function CreateCoursePage() {
           Create New Course
         </h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus details
+          Add a complete program with curriculum structure, fees, dynamic
+          highlights, and syllabus details
         </p>
       </div>
 
@@ -236,7 +260,9 @@ export default function CreateCoursePage() {
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
               1. Basic Course Information
             </h3>
-            <p className="text-xs text-gray-400">Core identity and categorization</p>
+            <p className="text-xs text-gray-400">
+              Core identity and categorization
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -281,13 +307,23 @@ export default function CreateCoursePage() {
                 <option value="Masters Program">Masters Program</option>
                 <option value="PG Diploma Programs">PG Diploma Programs</option>
                 <option value="Master's Program">Master's Program</option>
-                <option value="Entrepreneurship Programs">Entrepreneurship Programs</option>
+                <option value="Entrepreneurship Programs">
+                  Entrepreneurship Programs
+                </option>
                 <option value="Internships">Internships</option>
-                <option value="Advanced Certifications">Advanced Certifications</option>
-                <option value="Certificate Programs">Certificate Programs</option>
-                <option value="Counseling Buildup Prog.">Counseling Buildup Prog.</option>
+                <option value="Advanced Certifications">
+                  Advanced Certifications
+                </option>
+                <option value="Certificate Programs">
+                  Certificate Programs
+                </option>
+                <option value="Counseling Buildup Prog.">
+                  Counseling Buildup Prog.
+                </option>
                 <option value="Life Programs">Life Programs</option>
-                <option value="Professional Programs">Professional Programs</option>
+                <option value="Professional Programs">
+                  Professional Programs
+                </option>
               </select>
             </div>
 
@@ -326,7 +362,9 @@ export default function CreateCoursePage() {
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
               2. Structure, Schedule &amp; Eligibility
             </h3>
-            <p className="text-xs text-gray-400">Duration formats, lessons, seats, and target audience</p>
+            <p className="text-xs text-gray-400">
+              Duration formats, lessons, seats, and target audience
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -432,7 +470,10 @@ export default function CreateCoursePage() {
                 <Sparkles className="w-4 h-4 text-[#09A64A]" />
                 3. Key Feature Headings &amp; Values (heading[])
               </h3>
-              <p className="text-xs text-gray-400">Dynamic credentials, eligibility, and core highlights shown on course landing</p>
+              <p className="text-xs text-gray-400">
+                Dynamic credentials, eligibility, and core highlights shown on
+                course landing
+              </p>
             </div>
             <button
               type="button"
@@ -446,12 +487,17 @@ export default function CreateCoursePage() {
 
           <div className="space-y-3">
             {headings.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80">
+              <div
+                key={idx}
+                className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80"
+              >
                 <div className="w-1/3">
                   <input
                     type="text"
                     value={item.heading}
-                    onChange={(e) => updateHeading(idx, "heading", e.target.value)}
+                    onChange={(e) =>
+                      updateHeading(idx, "heading", e.target.value)
+                    }
                     placeholder="Heading Name (e.g. Credentials)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -460,7 +506,9 @@ export default function CreateCoursePage() {
                   <input
                     type="text"
                     value={item.value}
-                    onChange={(e) => updateHeading(idx, "value", e.target.value)}
+                    onChange={(e) =>
+                      updateHeading(idx, "value", e.target.value)
+                    }
                     placeholder="Value (e.g. Grade A Certification)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -486,7 +534,9 @@ export default function CreateCoursePage() {
                 <ListOrdered className="w-4 h-4 text-blue-600" />
                 4. Course Outline &amp; Highlights (cheading[])
               </h3>
-              <p className="text-xs text-gray-400">Months, Core Modules, Topics, and Live Sessions statistics</p>
+              <p className="text-xs text-gray-400">
+                Months, Core Modules, Topics, and Live Sessions statistics
+              </p>
             </div>
             <button
               type="button"
@@ -500,12 +550,17 @@ export default function CreateCoursePage() {
 
           <div className="space-y-3">
             {cheadings.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80">
+              <div
+                key={idx}
+                className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80"
+              >
                 <div className="w-1/3">
                   <input
                     type="text"
                     value={item.heading}
-                    onChange={(e) => updateCheading(idx, "heading", e.target.value)}
+                    onChange={(e) =>
+                      updateCheading(idx, "heading", e.target.value)
+                    }
                     placeholder="Metric Name (e.g. Months)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -514,7 +569,9 @@ export default function CreateCoursePage() {
                   <input
                     type="text"
                     value={item.value}
-                    onChange={(e) => updateCheading(idx, "value", e.target.value)}
+                    onChange={(e) =>
+                      updateCheading(idx, "value", e.target.value)
+                    }
                     placeholder="Metric Value (e.g. 3)"
                     className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
                   />
@@ -538,7 +595,9 @@ export default function CreateCoursePage() {
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
               5. Pricing, Discounts &amp; Payments
             </h3>
-            <p className="text-xs text-gray-400">Total fees, one-time fees, discounts, and payment links</p>
+            <p className="text-xs text-gray-400">
+              Total fees, one-time fees, discounts, and payment links
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -669,7 +728,8 @@ export default function CreateCoursePage() {
                 6. Descriptions &amp; Marketing Frameworks
               </h3>
               <p className="text-xs text-gray-400">
-                Rich CMS formatted text for public marketing copy, program frameworks, and job benefits
+                Rich CMS formatted text for public marketing copy, program
+                frameworks, and job benefits
               </p>
             </div>
             <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-[#09A64A] text-xs font-bold border border-emerald-200">
@@ -731,7 +791,8 @@ export default function CreateCoursePage() {
               7. Course Media &amp; Documents
             </h3>
             <p className="text-xs text-gray-400">
-              Upload cover banners, app responsive graphics, program brochure, and scholarship guidelines
+              Upload cover banners, app responsive graphics, program brochure,
+              and scholarship guidelines
             </p>
           </div>
 

@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { FileText, CloudUpload, X, Eye, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  FileText,
+  CloudUpload,
+  X,
+  Eye,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
 
 interface CertificateUploadFieldProps {
   label?: string;
@@ -30,7 +37,11 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+      if (
+        value &&
+        typeof value === "string" &&
+        value.includes("cloudinary.com")
+      ) {
         formData.append("oldUrl", value);
       }
 
@@ -63,7 +74,11 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
   };
 
   const handleClear = () => {
-    if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+    if (
+      value &&
+      typeof value === "string" &&
+      value.includes("cloudinary.com")
+    ) {
       fetch("/api/upload", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -74,7 +89,9 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const isPdf = typeof value === "string" && (value.endsWith(".pdf") || value.includes("application/pdf"));
+  const isPdf =
+    typeof value === "string" &&
+    (value.endsWith(".pdf") || value.includes("application/pdf"));
   const displayName =
     typeof value === "string" && value
       ? value.split("/").pop() || "Uploaded Certificate"
@@ -157,7 +174,9 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
           {isUploading ? (
             <div className="flex flex-col items-center gap-2 text-[#09A64A]">
               <Loader2 className="w-8 h-8 animate-spin" />
-              <span className="text-xs font-bold">Uploading certificate...</span>
+              <span className="text-xs font-bold">
+                Uploading certificate...
+              </span>
             </div>
           ) : (
             <>

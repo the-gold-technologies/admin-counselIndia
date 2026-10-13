@@ -1,9 +1,10 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dpa93copz',
-  api_key: process.env.CLOUDINARY_API_KEY || '739513226186525',
-  api_secret: process.env.CLOUDINARY_API_SECRET || 'RWS8j7NKjcshdhJ7g4PVSnaxoYI',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dpa93copz",
+  api_key: process.env.CLOUDINARY_API_KEY || "739513226186525",
+  api_secret:
+    process.env.CLOUDINARY_API_SECRET || "RWS8j7NKjcshdhJ7g4PVSnaxoYI",
   secure: true,
 });
 
@@ -11,12 +12,12 @@ export { cloudinary };
 
 // Default system assets that must never be deleted automatically
 const PROTECTED_PUBLIC_IDS = new Set([
-  'counselindia/logo',
-  'counselindia/default',
+  "counselindia/logo",
+  "counselindia/default",
 ]);
 
 export interface CloudinaryUrlInfo {
-  resourceType: 'image' | 'raw' | 'video';
+  resourceType: "image" | "raw" | "video";
   publicId: string;
   publicIdWithoutExt: string;
   fullPublicId: string;
@@ -27,10 +28,11 @@ export interface CloudinaryUrlInfo {
  * Accurately parses a Cloudinary delivery URL to extract public_id and resource_type.
  */
 export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
-  if (!url || typeof url !== 'string' || !url.includes('cloudinary.com')) return null;
+  if (!url || typeof url !== "string" || !url.includes("cloudinary.com"))
+    return null;
 
   try {
-    const parts = url.split('/upload/');
+    const parts = url.split("/upload/");
     if (parts.length < 2) return null;
 
     const beforeUpload = parts[0];
@@ -38,12 +40,14 @@ export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
 
     // Determine resource_type (image, raw, video)
     const resourceTypeMatch = beforeUpload.match(/\/(image|raw|video|auto)$/);
-    const rawResourceType = resourceTypeMatch ? resourceTypeMatch[1] : 'image';
-    const resourceType: 'image' | 'raw' | 'video' =
-      rawResourceType === 'raw' || rawResourceType === 'video' ? rawResourceType : 'image';
+    const rawResourceType = resourceTypeMatch ? resourceTypeMatch[1] : "image";
+    const resourceType: "image" | "raw" | "video" =
+      rawResourceType === "raw" || rawResourceType === "video"
+        ? rawResourceType
+        : "image";
 
     // Parse segments after /upload/ to remove transformations and version
-    const segments = afterUpload.split('/');
+    const segments = afterUpload.split("/");
     let startIndex = 0;
     while (startIndex < segments.length) {
       const seg = segments[startIndex];
@@ -54,9 +58,11 @@ export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
       }
       // Transformation parameters (e.g. c_fill,w_300 or q_auto,f_auto)
       if (
-        seg.includes(',') ||
-        seg.includes('_') ||
-        ['c_', 'w_', 'h_', 'q_', 'f_', 'b_', 'e_'].some((prefix) => seg.startsWith(prefix))
+        seg.includes(",") ||
+        seg.includes("_") ||
+        ["c_", "w_", "h_", "q_", "f_", "b_", "e_"].some((prefix) =>
+          seg.startsWith(prefix),
+        )
       ) {
         startIndex++;
         continue;
@@ -64,28 +70,28 @@ export function parseCloudinaryUrl(url: string): CloudinaryUrlInfo | null {
       break;
     }
 
-    const publicPath = segments.slice(startIndex).join('/');
+    const publicPath = segments.slice(startIndex).join("/");
     if (!publicPath) return null;
 
     // Check if filename has an extension
     const hasExtension = /\.[a-zA-Z0-9]+$/.test(publicPath);
     let publicIdWithoutExt = publicPath;
-    let extension = '';
+    let extension = "";
     if (hasExtension) {
-      const lastDot = publicPath.lastIndexOf('.');
+      const lastDot = publicPath.lastIndexOf(".");
       publicIdWithoutExt = publicPath.slice(0, lastDot);
       extension = publicPath.slice(lastDot + 1).toLowerCase();
     }
 
     return {
       resourceType,
-      publicId: resourceType === 'raw' ? publicPath : publicIdWithoutExt,
+      publicId: resourceType === "raw" ? publicPath : publicIdWithoutExt,
       publicIdWithoutExt,
       fullPublicId: publicPath,
       extension,
     };
   } catch (err) {
-    console.error('Error parsing Cloudinary URL:', err);
+    console.error("Error parsing Cloudinary URL:", err);
     return null;
   }
 }
@@ -100,11 +106,11 @@ export function extractCloudinaryUrls(data: any): string[] {
   function traverse(item: any) {
     if (!item) return;
 
-    if (typeof item === 'string') {
+    if (typeof item === "string") {
       const matches = item.match(urlRegex);
       if (matches) {
         for (const u of matches) {
-          const cleanUrl = u.replace(/[.,;:]+$/, '');
+          const cleanUrl = u.replace(/[.,;:]+$/, "");
           urls.add(cleanUrl);
         }
       }
@@ -118,7 +124,7 @@ export function extractCloudinaryUrls(data: any): string[] {
       return;
     }
 
-    if (typeof item === 'object') {
+    if (typeof item === "object") {
       for (const key of Object.keys(item)) {
         traverse(item[key]);
       }
@@ -153,30 +159,41 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
     });
 
     // 2. If not found or if it's a PDF / raw document, attempt alternate resource_type
-    if (result?.result !== 'ok' && (info.extension === 'pdf' || info.resourceType === 'image')) {
+    if (
+      result?.result !== "ok" &&
+      (info.extension === "pdf" || info.resourceType === "image")
+    ) {
       const rawResult = await cloudinary.uploader.destroy(info.fullPublicId, {
-        resource_type: 'raw',
+        resource_type: "raw",
         invalidate: true,
       });
 
-      if (rawResult?.result === 'ok') {
+      if (rawResult?.result === "ok") {
         result = rawResult;
-      } else if (info.extension === 'pdf') {
-        const rawNoExtResult = await cloudinary.uploader.destroy(info.publicIdWithoutExt, {
-          resource_type: 'raw',
-          invalidate: true,
-        });
-        if (rawNoExtResult?.result === 'ok') {
+      } else if (info.extension === "pdf") {
+        const rawNoExtResult = await cloudinary.uploader.destroy(
+          info.publicIdWithoutExt,
+          {
+            resource_type: "raw",
+            invalidate: true,
+          },
+        );
+        if (rawNoExtResult?.result === "ok") {
           result = rawNoExtResult;
         }
       }
     }
 
-    const success = result?.result === 'ok';
+    const success = result?.result === "ok";
     if (success) {
-      console.log(`[Cloudinary] Successfully deleted file: ${info.publicId} (${url})`);
+      console.log(
+        `[Cloudinary] Successfully deleted file: ${info.publicId} (${url})`,
+      );
     } else {
-      console.warn(`[Cloudinary] Delete response for ${info.publicId}:`, result);
+      console.warn(
+        `[Cloudinary] Delete response for ${info.publicId}:`,
+        result,
+      );
     }
     return success;
   } catch (error) {
@@ -191,7 +208,7 @@ export async function deleteCloudinaryFileByUrl(url: string): Promise<boolean> {
  */
 export async function cleanupReplacedCloudinaryFiles(
   oldData: any,
-  newData: any
+  newData: any,
 ): Promise<string[]> {
   if (!oldData) return [];
 
@@ -205,7 +222,7 @@ export async function cleanupReplacedCloudinaryFiles(
 
   console.log(
     `[Cloudinary] Cleaning up ${removedUrls.length} replaced/removed files...`,
-    removedUrls
+    removedUrls,
   );
 
   const deleted: string[] = [];

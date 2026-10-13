@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import UploadLeadCsvModal from './UploadLeadCsvModal';
+import React, { useState, useEffect, useCallback } from "react";
+import UploadLeadCsvModal from "./UploadLeadCsvModal";
 import {
   Search,
   X,
@@ -12,12 +12,12 @@ import {
   Inbox,
   Loader2,
   UploadCloud,
-} from 'lucide-react';
+} from "lucide-react";
 
 export interface ColDef {
   key: string;
   label: string;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
 }
 
 export interface LeadsTableProps {
@@ -29,25 +29,25 @@ export interface LeadsTableProps {
 }
 
 const EXTRA_KEYS = [
-  'gender',
-  'age',
-  'proBackground',
-  'purpose',
-  'ebookName',
-  'newsletterName',
-  'certificateType',
-  'viewPath',
-  'referByName',
-  'referByEmail',
-  'marks',
+  "gender",
+  "age",
+  "proBackground",
+  "purpose",
+  "ebookName",
+  "newsletterName",
+  "certificateType",
+  "viewPath",
+  "referByName",
+  "referByEmail",
+  "marks",
 ];
 
 function formatDate(d: string | Date | null | undefined): string {
-  if (!d) return '—';
-  return new Date(d).toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
+  if (!d) return "—";
+  return new Date(d).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
   });
 }
 
@@ -56,19 +56,24 @@ function renderCell(
   col: ColDef,
   index: number,
   currentPage: number,
-  pageSize: number
+  pageSize: number,
 ) {
   const { key, label } = col;
 
-  if (key === 'sNo' || key === 'id' || key === 'liveId') {
+  if (key === "sNo" || key === "id" || key === "liveId") {
     const isIdCol =
-      key === 'id' ||
-      key === 'liveId' ||
-      (Boolean(label) && (/#?id\b/i.test(label!.trim()) || label!.toLowerCase().endsWith('id')));
+      key === "id" ||
+      key === "liveId" ||
+      (Boolean(label) &&
+        (/#?id\b/i.test(label!.trim()) || label!.toLowerCase().endsWith("id")));
 
     if (isIdCol) {
       // If it is ID, show that particular ID only
-      const idVal = lead.liveId ?? lead.sNo ?? lead.id ?? ((currentPage - 1) * pageSize + index + 1);
+      const idVal =
+        lead.liveId ??
+        lead.sNo ??
+        lead.id ??
+        (currentPage - 1) * pageSize + index + 1;
       return (
         <span className="font-semibold text-gray-700 font-mono text-[11px]">
           {idVal}
@@ -85,7 +90,7 @@ function renderCell(
     );
   }
 
-  if (key === 'addedOn') {
+  if (key === "addedOn") {
     const val = lead.addedOn || formatDate(lead.createdAt);
     return <span className="text-gray-400 whitespace-nowrap">{val}</span>;
   }
@@ -93,81 +98,154 @@ function renderCell(
   let value: any = lead[key];
 
   // Specific smart fallbacks
-  if (value === undefined || value === null || value === '') {
-    if (key === 'source') {
-      value = lead.hearFrom ?? lead.extraData?.['Here From'] ?? lead.extraData?.['hereFrom'];
-    } else if (key === 'hearFrom') {
-      value = lead.source ?? lead.extraData?.['Here From'] ?? lead.extraData?.['hereFrom'] ?? lead.extraData?.['here_from'];
-    } else if (key === 'message') {
-      value = lead.message ?? lead.extraData?.['Question'] ?? lead.extraData?.['question'] ?? lead.extraData?.query;
+  if (value === undefined || value === null || value === "") {
+    if (key === "source") {
+      value =
+        lead.hearFrom ??
+        lead.extraData?.["Here From"] ??
+        lead.extraData?.["hereFrom"];
+    } else if (key === "hearFrom") {
+      value =
+        lead.source ??
+        lead.extraData?.["Here From"] ??
+        lead.extraData?.["hereFrom"] ??
+        lead.extraData?.["here_from"];
+    } else if (key === "message") {
+      value =
+        lead.message ??
+        lead.extraData?.["Question"] ??
+        lead.extraData?.["question"] ??
+        lead.extraData?.query;
       if (!value) {
         const parts: string[] = [];
-        const rName = lead.extraData?.referByName ?? lead.extraData?.referredByName ?? lead.extraData?.referrerName ?? lead.extraData?.refer_by_name;
-        const rEmail = lead.extraData?.referByEmail ?? lead.extraData?.referredByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.refer_by_email;
-        const rPhone = lead.extraData?.referByPhone ?? lead.extraData?.referredByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.refer_by_phone;
-        const rCourse = lead.extraData?.courseRefer ?? lead.extraData?.course_refer;
+        const rName =
+          lead.extraData?.referByName ??
+          lead.extraData?.referredByName ??
+          lead.extraData?.referrerName ??
+          lead.extraData?.refer_by_name;
+        const rEmail =
+          lead.extraData?.referByEmail ??
+          lead.extraData?.referredByEmail ??
+          lead.extraData?.referrerEmail ??
+          lead.extraData?.refer_by_email;
+        const rPhone =
+          lead.extraData?.referByPhone ??
+          lead.extraData?.referredByPhone ??
+          lead.extraData?.referrerPhone ??
+          lead.extraData?.refer_by_phone;
+        const rCourse =
+          lead.extraData?.courseRefer ?? lead.extraData?.course_refer;
         if (rName) parts.push(`Name: ${rName}`);
         if (rEmail) parts.push(`Email: ${rEmail}`);
         if (rPhone) parts.push(`Phone: ${rPhone}`);
         if (rCourse) parts.push(`Course: ${rCourse}`);
-        if (parts.length > 0) value = parts.join(' | ');
+        if (parts.length > 0) value = parts.join(" | ");
       }
-    } else if (key === 'ebookName') {
+    } else if (key === "ebookName") {
       value = lead.extraData?.ebookName ?? lead.courseName ?? lead.content;
-    } else if (key === 'newsletterName') {
+    } else if (key === "newsletterName") {
       value = lead.extraData?.newsletterName ?? lead.courseName ?? lead.content;
-    } else if (key === 'courseType') {
-      value = lead.courseType ?? lead.extraData?.courseType ?? lead.extraData?.programType;
-    } else if (key === 'courseName') {
-      value = lead.courseName ?? lead.extraData?.courseName ?? lead.extraData?.program ?? lead.content;
-    } else if (key === 'referByName') {
-      value = lead.extraData?.referByName ?? lead.extraData?.referrerName ?? lead.extraData?.referredByName ?? lead.extraData?.refer_by_name;
-    } else if (key === 'referByEmail') {
-      value = lead.extraData?.referByEmail ?? lead.extraData?.referrerEmail ?? lead.extraData?.referredByEmail ?? lead.extraData?.refer_by_email;
-    } else if (key === 'referByPhone') {
-      value = lead.extraData?.referByPhone ?? lead.extraData?.referrerPhone ?? lead.extraData?.referredByPhone ?? lead.extraData?.refer_by_phone;
-    } else if (key === 'leadName') {
-      value = lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
-    } else if (key === 'state') {
+    } else if (key === "courseType") {
+      value =
+        lead.courseType ??
+        lead.extraData?.courseType ??
+        lead.extraData?.programType;
+    } else if (key === "courseName") {
+      value =
+        lead.courseName ??
+        lead.extraData?.courseName ??
+        lead.extraData?.program ??
+        lead.content;
+    } else if (key === "referByName") {
+      value =
+        lead.extraData?.referByName ??
+        lead.extraData?.referrerName ??
+        lead.extraData?.referredByName ??
+        lead.extraData?.refer_by_name;
+    } else if (key === "referByEmail") {
+      value =
+        lead.extraData?.referByEmail ??
+        lead.extraData?.referrerEmail ??
+        lead.extraData?.referredByEmail ??
+        lead.extraData?.refer_by_email;
+    } else if (key === "referByPhone") {
+      value =
+        lead.extraData?.referByPhone ??
+        lead.extraData?.referrerPhone ??
+        lead.extraData?.referredByPhone ??
+        lead.extraData?.refer_by_phone;
+    } else if (key === "leadName") {
+      value =
+        lead.extraData?.leadName ?? lead.extraData?.referredName ?? lead.name;
+    } else if (key === "state") {
       value = lead.state ?? lead.extraData?.state ?? lead.extraData?.stateName;
-    } else if (key === 'city') {
+    } else if (key === "city") {
       value = lead.city ?? lead.extraData?.city ?? lead.extraData?.cityName;
-    } else if (key === 'medium') {
-      value = lead.medium ?? lead.courseType ?? lead.extraData?.type ?? lead.extraData?.['Type'] ?? lead.extraData?.medium;
-    } else if (key === 'purpose') {
-      value = lead.extraData?.purpose ?? lead.extraData?.['Purpose Give Test'] ?? lead.extraData?.purposegivetest ?? lead.extraData?.purposeGiveTest;
-    } else if (key === 'marks') {
-      value = lead.extraData?.marks ?? lead.extraData?.score ?? lead.extraData?.result ?? lead.extraData?.['Result'] ?? lead.extraData?.testResult;
-    } else if (key === 'certificateType') {
+    } else if (key === "medium") {
+      value =
+        lead.medium ??
+        lead.courseType ??
+        lead.extraData?.type ??
+        lead.extraData?.["Type"] ??
+        lead.extraData?.medium;
+    } else if (key === "purpose") {
+      value =
+        lead.extraData?.purpose ??
+        lead.extraData?.["Purpose Give Test"] ??
+        lead.extraData?.purposegivetest ??
+        lead.extraData?.purposeGiveTest;
+    } else if (key === "marks") {
+      value =
+        lead.extraData?.marks ??
+        lead.extraData?.score ??
+        lead.extraData?.result ??
+        lead.extraData?.["Result"] ??
+        lead.extraData?.testResult;
+    } else if (key === "certificateType") {
       value = lead.extraData?.certificateType;
-    } else if (key === 'viewPath') {
-      value = lead.extraData?.viewPath ?? lead.extraData?.certificateUrl ?? lead.extraData?.pdf_url ?? lead.extraData?.pdfUrl ?? lead.extraData?.pdfpath ?? lead.extraData?.url;
+    } else if (key === "viewPath") {
+      value =
+        lead.extraData?.viewPath ??
+        lead.extraData?.certificateUrl ??
+        lead.extraData?.pdf_url ??
+        lead.extraData?.pdfUrl ??
+        lead.extraData?.pdfpath ??
+        lead.extraData?.url;
     } else if (EXTRA_KEYS.includes(key)) {
       value = lead.extraData?.[key];
     }
   }
 
   // Universal extraData fallback
-  if (value === undefined || value === null || value === '') {
+  if (value === undefined || value === null || value === "") {
     value = lead.extraData?.[key];
   }
 
   // Case/symbol insensitive match in extraData
-  if ((value === undefined || value === null || value === '') && lead.extraData && typeof lead.extraData === 'object') {
-    const normTarget = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (
+    (value === undefined || value === null || value === "") &&
+    lead.extraData &&
+    typeof lead.extraData === "object"
+  ) {
+    const normTarget = key.toLowerCase().replace(/[^a-z0-9]/g, "");
     for (const [k, v] of Object.entries(lead.extraData)) {
-      if (k.toLowerCase().replace(/[^a-z0-9]/g, '') === normTarget && v !== undefined && v !== null && v !== '') {
+      if (
+        k.toLowerCase().replace(/[^a-z0-9]/g, "") === normTarget &&
+        v !== undefined &&
+        v !== null &&
+        v !== ""
+      ) {
         value = v;
         break;
       }
     }
   }
 
-  if (value === undefined || value === null || value === '') {
+  if (value === undefined || value === null || value === "") {
     return <span className="text-gray-300 italic">—</span>;
   }
 
-  if (key === 'email') {
+  if (key === "email") {
     return (
       <a
         href={`mailto:${value}`}
@@ -178,11 +256,17 @@ function renderCell(
     );
   }
 
-  if (key === 'mobile') {
+  if (key === "mobile") {
     const rawVal = String(value);
     let full = rawVal;
-    if (lead.countryCode && !rawVal.startsWith('+') && !rawVal.startsWith(String(lead.countryCode))) {
-      const code = String(lead.countryCode).startsWith('+') ? lead.countryCode : `+${lead.countryCode}`;
+    if (
+      lead.countryCode &&
+      !rawVal.startsWith("+") &&
+      !rawVal.startsWith(String(lead.countryCode))
+    ) {
+      const code = String(lead.countryCode).startsWith("+")
+        ? lead.countryCode
+        : `+${lead.countryCode}`;
       full = `${code} ${rawVal}`;
     }
     return (
@@ -195,11 +279,16 @@ function renderCell(
     );
   }
 
-  if (key === 'name') {
+  if (key === "name") {
     return <span className="font-semibold text-gray-900">{String(value)}</span>;
   }
 
-  if (key === 'viewPath' || (typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://')) && key.toLowerCase().includes('path'))) {
+  if (
+    key === "viewPath" ||
+    (typeof value === "string" &&
+      (value.startsWith("http://") || value.startsWith("https://")) &&
+      key.toLowerCase().includes("path"))
+  ) {
     return (
       <a
         href={String(value)}
@@ -207,8 +296,18 @@ function renderCell(
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-md transition-colors shadow-sm"
       >
-        <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        <svg
+          className="w-3.5 h-3.5 text-emerald-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+          />
         </svg>
         View PDF
       </a>
@@ -223,26 +322,30 @@ export default function LeadsTable({
   title,
   description,
   columns,
-  accentColor = '#10b981',
+  accentColor = "#10b981",
 }: LeadsTableProps) {
   const [leads, setLeads] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(50); // Default 50 per page as requested
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   // Dedicated filter card state (matching Personality Test)
-  const [filterName, setFilterName] = useState('');
-  const [filterEmail, setFilterEmail] = useState('');
-  const [filterMobile, setFilterMobile] = useState('');
-  const [activeFilters, setActiveFilters] = useState<{ name: string; email: string; mobile: string }>({
-    name: '',
-    email: '',
-    mobile: '',
+  const [filterName, setFilterName] = useState("");
+  const [filterEmail, setFilterEmail] = useState("");
+  const [filterMobile, setFilterMobile] = useState("");
+  const [activeFilters, setActiveFilters] = useState<{
+    name: string;
+    email: string;
+    mobile: string;
+  }>({
+    name: "",
+    email: "",
+    mobile: "",
   });
 
   const handleFilterSubmit = (e: React.FormEvent) => {
@@ -256,15 +359,15 @@ export default function LeadsTable({
   };
 
   const handleFilterReset = () => {
-    setFilterName('');
-    setFilterEmail('');
-    setFilterMobile('');
-    setActiveFilters({ name: '', email: '', mobile: '' });
+    setFilterName("");
+    setFilterEmail("");
+    setFilterMobile("");
+    setActiveFilters({ name: "", email: "", mobile: "" });
     setCurrentPage(1);
   };
 
   // Dedicated UTM search state (matching UTM Data tab)
-  const [utmSearch, setUtmSearch] = useState('');
+  const [utmSearch, setUtmSearch] = useState("");
 
   const handleUtmSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -290,10 +393,10 @@ export default function LeadsTable({
         page: String(currentPage),
         limit: String(pageSize),
       });
-      if (debouncedSearch) params.set('search', debouncedSearch);
-      if (activeFilters.name) params.set('name', activeFilters.name);
-      if (activeFilters.email) params.set('email', activeFilters.email);
-      if (activeFilters.mobile) params.set('mobile', activeFilters.mobile);
+      if (debouncedSearch) params.set("search", debouncedSearch);
+      if (activeFilters.name) params.set("name", activeFilters.name);
+      if (activeFilters.email) params.set("email", activeFilters.email);
+      if (activeFilters.mobile) params.set("mobile", activeFilters.mobile);
 
       const res = await fetch(`/api/leads?${params}`);
       const json = await res.json();
@@ -302,7 +405,7 @@ export default function LeadsTable({
         setTotalCount(json.pagination.total);
       }
     } catch (e) {
-      console.error('Failed to fetch leads', e);
+      console.error("Failed to fetch leads", e);
     } finally {
       setIsLoading(false);
     }
@@ -319,11 +422,11 @@ export default function LeadsTable({
   const handleExport = async () => {
     setIsExporting(true);
     try {
-      const params = new URLSearchParams({ category, all: 'true' });
-      if (debouncedSearch) params.set('search', debouncedSearch);
-      if (activeFilters.name) params.set('name', activeFilters.name);
-      if (activeFilters.email) params.set('email', activeFilters.email);
-      if (activeFilters.mobile) params.set('mobile', activeFilters.mobile);
+      const params = new URLSearchParams({ category, all: "true" });
+      if (debouncedSearch) params.set("search", debouncedSearch);
+      if (activeFilters.name) params.set("name", activeFilters.name);
+      if (activeFilters.email) params.set("email", activeFilters.email);
+      if (activeFilters.mobile) params.set("mobile", activeFilters.mobile);
 
       const res = await fetch(`/api/leads?${params}`);
       const json = await res.json();
@@ -334,33 +437,42 @@ export default function LeadsTable({
       const firstCol = columns[0];
       const isFirstColId =
         firstCol &&
-        (firstCol.key === 'id' ||
-          firstCol.key === 'liveId' ||
-          (Boolean(firstCol.label) && (/#?id\b/i.test(firstCol.label!.trim()) || firstCol.label!.toLowerCase().endsWith('id'))));
+        (firstCol.key === "id" ||
+          firstCol.key === "liveId" ||
+          (Boolean(firstCol.label) &&
+            (/#?id\b/i.test(firstCol.label!.trim()) ||
+              firstCol.label!.toLowerCase().endsWith("id"))));
 
-      const firstHeaderLabel = isFirstColId ? (firstCol.label || 'Id') : 'S.No';
-      const headers = [firstHeaderLabel, ...exportCols.map((c) => (c.key === 'mobile' ? 'Phone Number' : c.label))];
-      const csvRows = [headers.join(',')];
+      const firstHeaderLabel = isFirstColId ? firstCol.label || "Id" : "S.No";
+      const headers = [
+        firstHeaderLabel,
+        ...exportCols.map((c) =>
+          c.key === "mobile" ? "Phone Number" : c.label,
+        ),
+      ];
+      const csvRows = [headers.join(",")];
 
       rows.forEach((row: any, idx: number) => {
-        const idVal = isFirstColId ? (row.liveId ?? row.sNo ?? (idx + 1)) : (idx + 1);
+        const idVal = isFirstColId
+          ? (row.liveId ?? row.sNo ?? idx + 1)
+          : idx + 1;
         const cells = [
           `"${String(idVal).replace(/"/g, '""')}"`,
           ...exportCols.map((col) => {
             const k = col.key;
             let v: any;
-            if (k === 'addedOn') v = row.addedOn || formatDate(row.createdAt);
-            else if (EXTRA_KEYS.includes(k)) v = row.extraData?.[k] ?? '';
-            else v = row[k] ?? '';
+            if (k === "addedOn") v = row.addedOn || formatDate(row.createdAt);
+            else if (EXTRA_KEYS.includes(k)) v = row.extraData?.[k] ?? "";
+            else v = row[k] ?? "";
             return `"${String(v).replace(/"/g, '""')}"`;
           }),
         ];
-        csvRows.push(cells.join(','));
+        csvRows.push(cells.join(","));
       });
 
-      const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+      const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `counselindia_${category}_leads_${Date.now()}.csv`;
       a.click();
@@ -375,13 +487,15 @@ export default function LeadsTable({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            {title}
+          </h1>
           <p className="text-xs text-gray-500 mt-0.5">{description}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span
             className="px-3 py-1 text-xs font-bold rounded-full"
-            style={{ background: accentColor + '18', color: accentColor }}
+            style={{ background: accentColor + "18", color: accentColor }}
           >
             {totalCount.toLocaleString()} records
           </span>
@@ -395,7 +509,7 @@ export default function LeadsTable({
           </button>
 
           {/* Export Button: styled as dark button on Personality Test, standard on other tabs */}
-          {category === 'personality-test' ? (
+          {category === "personality-test" ? (
             <button
               onClick={handleExport}
               disabled={isExporting || totalCount === 0}
@@ -415,9 +529,15 @@ export default function LeadsTable({
               className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 cursor-pointer transition-all shadow-sm"
             >
               {isExporting ? (
-                <Loader2 className="w-4 h-4 animate-spin" style={{ color: accentColor }} />
+                <Loader2
+                  className="w-4 h-4 animate-spin"
+                  style={{ color: accentColor }}
+                />
               ) : (
-                <FileSpreadsheet className="w-4 h-4" style={{ color: accentColor }} />
+                <FileSpreadsheet
+                  className="w-4 h-4"
+                  style={{ color: accentColor }}
+                />
               )}
               Export CSV
             </button>
@@ -426,73 +546,75 @@ export default function LeadsTable({
       </div>
 
       {/* Filter Form Card - ONLY on Personality Test tab as requested */}
-      {category === 'personality-test' && (
-      <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm">
-        <form onSubmit={handleFilterSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Name"
-                value={filterName}
-                onChange={(e) => setFilterName(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
-              />
+      {category === "personality-test" && (
+        <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm">
+          <form onSubmit={handleFilterSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  value={filterName}
+                  onChange={(e) => setFilterName(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter email"
+                  value={filterEmail}
+                  onChange={(e) => setFilterEmail(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Mobile
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter mobile number"
+                  value={filterMobile}
+                  onChange={(e) => setFilterMobile(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                Email
-              </label>
-              <input
-                type="text"
-                placeholder="Enter email"
-                value={filterEmail}
-                onChange={(e) => setFilterEmail(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
-              />
+            <div className="flex items-center gap-2.5">
+              <button
+                type="submit"
+                className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={handleFilterReset}
+                className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+              >
+                Reset
+              </button>
             </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                Mobile
-              </label>
-              <input
-                type="text"
-                placeholder="Enter mobile number"
-                value={filterMobile}
-                onChange={(e) => setFilterMobile(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="submit"
-              className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={handleFilterReset}
-              className="px-6 py-2 rounded-md bg-[#07a64b] hover:bg-[#068f40] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
       )}
 
       {/* UTM Information & Search Card - Shown on UTM Data and Landing Page Utm tabs */}
-      {(category === 'utm-data' || category === 'landing-page-utm') && (
+      {(category === "utm-data" || category === "landing-page-utm") && (
         <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm space-y-4">
-          <h2 className="text-base sm:text-lg font-bold text-gray-700 tracking-tight">{title}</h2>
+          <h2 className="text-base sm:text-lg font-bold text-gray-700 tracking-tight">
+            {title}
+          </h2>
 
           <form onSubmit={handleUtmSearchSubmit} className="pt-1">
             <div className="flex w-full max-w-xl">
@@ -515,10 +637,13 @@ export default function LeadsTable({
           <div className="pt-2 text-xs sm:text-sm text-gray-700 space-y-3">
             <p className="font-bold text-gray-800">Example</p>
             <p className="break-all leading-relaxed font-normal text-gray-700">
-              UTM LINK= https://www.counselindia.com/course/mba-in-industrial-organizational-psychology?utm_source=google&amp;utm_medium=email&amp;utm_campaign=newcourse&amp;utm_id=id9&amp;utm_term=bestcourse&amp;utm_content=googleads
+              UTM LINK=
+              https://www.counselindia.com/course/mba-in-industrial-organizational-psychology?utm_source=google&amp;utm_medium=email&amp;utm_campaign=newcourse&amp;utm_id=id9&amp;utm_term=bestcourse&amp;utm_content=googleads
             </p>
             <p className="break-all leading-relaxed font-normal text-gray-700">
-              campaign id:id9, campaign source:google, campaign medium:email, campaign name:newcourse, campaign term:bestcourse, campaign content:googleads.
+              campaign id:id9, campaign source:google, campaign medium:email,
+              campaign name:newcourse, campaign term:bestcourse, campaign
+              content:googleads.
             </p>
           </div>
         </div>
@@ -537,7 +662,7 @@ export default function LeadsTable({
           />
           {search && (
             <button
-              onClick={() => setSearch('')}
+              onClick={() => setSearch("")}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-0.5"
             >
               <X className="w-3.5 h-3.5" />
@@ -568,7 +693,9 @@ export default function LeadsTable({
             title="Refresh"
             className="p-1.5 rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer ml-1"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -586,11 +713,11 @@ export default function LeadsTable({
                   <th
                     key={i}
                     className={`py-3.5 px-4 bg-gray-50/70 ${
-                      col.align === 'center'
-                        ? 'text-center w-20'
-                        : col.align === 'right'
-                        ? 'text-right'
-                        : 'text-left'
+                      col.align === "center"
+                        ? "text-center w-20"
+                        : col.align === "right"
+                          ? "text-right"
+                          : "text-left"
                     }`}
                   >
                     {col.label}
@@ -611,12 +738,17 @@ export default function LeadsTable({
                 ))
               ) : leads.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="py-16 text-center text-gray-400">
+                  <td
+                    colSpan={columns.length}
+                    className="py-16 text-center text-gray-400"
+                  >
                     <div className="max-w-xs mx-auto space-y-2">
                       <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto">
                         <Inbox className="w-6 h-6" />
                       </div>
-                      <p className="font-semibold text-gray-700 text-sm">No leads found</p>
+                      <p className="font-semibold text-gray-700 text-sm">
+                        No leads found
+                      </p>
                       <p className="text-xs text-gray-400">
                         {debouncedSearch
                           ? `No records match "${debouncedSearch}"`
@@ -635,11 +767,11 @@ export default function LeadsTable({
                       <td
                         key={ci}
                         className={`py-3.5 px-4 ${
-                          col.align === 'center'
-                            ? 'text-center'
-                            : col.align === 'right'
-                            ? 'text-right'
-                            : 'text-left'
+                          col.align === "center"
+                            ? "text-center"
+                            : col.align === "right"
+                              ? "text-right"
+                              : "text-left"
                         }`}
                       >
                         {renderCell(lead, col, i, currentPage, pageSize)}
@@ -655,9 +787,12 @@ export default function LeadsTable({
         {/* Pagination Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 text-xs text-gray-500 font-medium bg-gray-50/40">
           <div>
-            Showing <span className="font-bold text-gray-800">{startItem}</span> to{' '}
-            <span className="font-bold text-gray-800">{endItem}</span> of{' '}
-            <span className="font-bold text-gray-800">{totalCount.toLocaleString()}</span> results
+            Showing <span className="font-bold text-gray-800">{startItem}</span>{" "}
+            to <span className="font-bold text-gray-800">{endItem}</span> of{" "}
+            <span className="font-bold text-gray-800">
+              {totalCount.toLocaleString()}
+            </span>{" "}
+            results
           </div>
 
           <div className="flex items-center gap-1.5">

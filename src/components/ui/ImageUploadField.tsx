@@ -31,7 +31,11 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+      if (
+        value &&
+        typeof value === "string" &&
+        value.includes("cloudinary.com")
+      ) {
         formData.append("oldUrl", value);
       }
 
@@ -64,7 +68,11 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   };
 
   const handleClear = () => {
-    if (value && typeof value === "string" && value.includes("cloudinary.com")) {
+    if (
+      value &&
+      typeof value === "string" &&
+      value.includes("cloudinary.com")
+    ) {
       fetch("/api/upload", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -115,8 +123,12 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 onError={(e) => {
                   // Fallback to live admin url if local fails
                   const filename = value.split("/").pop();
-                  if (filename && !(e.target as HTMLImageElement).src.includes("adminassets")) {
-                    (e.target as HTMLImageElement).src = `https://admin.counselindia.com/project/public/adminassets/images/${filename}`;
+                  if (
+                    filename &&
+                    !(e.target as HTMLImageElement).src.includes("adminassets")
+                  ) {
+                    (e.target as HTMLImageElement).src =
+                      `https://admin.counselindia.com/project/public/adminassets/images/${filename}`;
                   }
                 }}
               />

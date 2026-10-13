@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -7,7 +7,10 @@ export async function POST(request: Request) {
     const { records } = body as { records: any[] };
 
     if (!records || !Array.isArray(records) || records.length === 0) {
-      return NextResponse.json({ success: false, error: 'No records provided' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "No records provided" },
+        { status: 400 },
+      );
     }
 
     const data = records
@@ -42,10 +45,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, count: result.count });
   } catch (error: any) {
-    console.error('Seed error:', error);
+    console.error("Seed error:", error);
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

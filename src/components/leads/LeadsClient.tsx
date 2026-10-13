@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   FileSpreadsheet,
@@ -13,8 +13,8 @@ import {
   ChevronRight,
   Mail,
   Phone,
-} from 'lucide-react';
-import { InquiryLeadItem, LEAD_SUBTABS_CONFIG } from '@/types/leads';
+} from "lucide-react";
+import { InquiryLeadItem, LEAD_SUBTABS_CONFIG } from "@/types/leads";
 
 interface LeadsClientProps {
   slug: string;
@@ -25,13 +25,13 @@ export function LeadsClient({ slug }: LeadsClientProps) {
 
   // Find metadata for current slug or default to 'subscribe'
   const tabConfig = useMemo(() => {
-    return LEAD_SUBTABS_CONFIG[slug] || LEAD_SUBTABS_CONFIG['subscribe'];
+    return LEAD_SUBTABS_CONFIG[slug] || LEAD_SUBTABS_CONFIG["subscribe"];
   }, [slug]);
 
   const [leads, setLeads] = useState<InquiryLeadItem[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,10 +51,10 @@ export function LeadsClient({ slug }: LeadsClientProps) {
     try {
       setIsLoading(true);
       const params = new URLSearchParams();
-      params.set('category', tabConfig.id);
-      if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim());
-      params.set('page', String(currentPage));
-      params.set('limit', String(pageSize));
+      params.set("category", tabConfig.id);
+      if (debouncedSearch.trim()) params.set("search", debouncedSearch.trim());
+      params.set("page", String(currentPage));
+      params.set("limit", String(pageSize));
 
       const res = await fetch(`/api/leads?${params.toString()}`);
       const data = await res.json();
@@ -64,7 +64,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
         setTotalCount(data.pagination?.total || 0);
       }
     } catch (err) {
-      console.error('Failed to load leads:', err);
+      console.error("Failed to load leads:", err);
     } finally {
       setIsLoading(false);
     }
@@ -80,72 +80,98 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       setIsExporting(true);
       const params = new URLSearchParams({
         category: tabConfig.id,
-        all: 'true',
+        all: "true",
       });
-      if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim());
+      if (debouncedSearch.trim()) params.set("search", debouncedSearch.trim());
 
       const res = await fetch(`/api/leads?${params.toString()}`);
       const json = await res.json();
       const exportList: InquiryLeadItem[] = json.success ? json.data : leads;
 
       if (!exportList.length) {
-        alert('No leads to export');
+        alert("No leads to export");
         return;
       }
 
       // Headers from columns
       const headers = tabConfig.columns.map((c) => c.label);
-      const csvRows = [headers.join(',')];
+      const csvRows = [headers.join(",")];
 
       exportList.forEach((lead, idx) => {
         const row = tabConfig.columns.map((col) => {
-          let val: any = '';
-          if (col.key === 'sNo') {
+          let val: any = "";
+          if (col.key === "sNo") {
             val = idx + 1;
-          } else if (col.key === 'gender') {
-            val = lead.extraData?.gender || '';
-          } else if (col.key === 'age') {
-            val = lead.extraData?.age || '';
-          } else if (col.key === 'proBackground') {
-            val = lead.extraData?.proBackground || '';
-          } else if (col.key === 'purpose') {
-            val = lead.extraData?.purpose || '';
-          } else if (col.key === 'ebookName') {
-            val = lead.extraData?.ebookName || '';
-          } else if (col.key === 'newsletterName') {
-            val = lead.extraData?.newsletterName || '';
-          } else if (col.key === 'marks') {
-            val = lead.extraData?.marks || '';
-          } else if (col.key === 'certificateType') {
-            val = lead.extraData?.certificateType || '';
-          } else if (col.key === 'viewPath') {
-            val = lead.extraData?.viewPath || lead.extraData?.certificateUrl || lead.extraData?.pdf_url || lead.extraData?.pdfUrl || lead.extraData?.pdfpath || '';
-          } else if (col.key === 'hearFrom') {
-            val = lead.hearFrom || lead.source || lead.extraData?.['Here From'] || lead.extraData?.['hereFrom'] || '';
-          } else if (col.key === 'message') {
-            val = lead.message || lead.extraData?.['Question'] || lead.extraData?.['question'] || '';
-          } else if (col.key === 'referByName') {
-            val = lead.extraData?.referByName || lead.extraData?.refer_by_name || '';
-          } else if (col.key === 'referByEmail') {
-            val = lead.extraData?.referByEmail || lead.extraData?.refer_by_email || '';
+          } else if (col.key === "gender") {
+            val = lead.extraData?.gender || "";
+          } else if (col.key === "age") {
+            val = lead.extraData?.age || "";
+          } else if (col.key === "proBackground") {
+            val = lead.extraData?.proBackground || "";
+          } else if (col.key === "purpose") {
+            val = lead.extraData?.purpose || "";
+          } else if (col.key === "ebookName") {
+            val = lead.extraData?.ebookName || "";
+          } else if (col.key === "newsletterName") {
+            val = lead.extraData?.newsletterName || "";
+          } else if (col.key === "marks") {
+            val = lead.extraData?.marks || "";
+          } else if (col.key === "certificateType") {
+            val = lead.extraData?.certificateType || "";
+          } else if (col.key === "viewPath") {
+            val =
+              lead.extraData?.viewPath ||
+              lead.extraData?.certificateUrl ||
+              lead.extraData?.pdf_url ||
+              lead.extraData?.pdfUrl ||
+              lead.extraData?.pdfpath ||
+              "";
+          } else if (col.key === "hearFrom") {
+            val =
+              lead.hearFrom ||
+              lead.source ||
+              lead.extraData?.["Here From"] ||
+              lead.extraData?.["hereFrom"] ||
+              "";
+          } else if (col.key === "message") {
+            val =
+              lead.message ||
+              lead.extraData?.["Question"] ||
+              lead.extraData?.["question"] ||
+              "";
+          } else if (col.key === "referByName") {
+            val =
+              lead.extraData?.referByName ||
+              lead.extraData?.refer_by_name ||
+              "";
+          } else if (col.key === "referByEmail") {
+            val =
+              lead.extraData?.referByEmail ||
+              lead.extraData?.refer_by_email ||
+              "";
           } else {
-            val = (lead as any)[col.key] || '';
+            val = (lead as any)[col.key] || "";
           }
           return `"${String(val).replace(/"/g, '""')}"`;
         });
-        csvRows.push(row.join(','));
+        csvRows.push(row.join(","));
       });
 
-      const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob([csvRows.join("\n")], {
+        type: "text/csv;charset=utf-8;",
+      });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `counselindia_${tabConfig.slug}_leads_${Date.now()}.csv`);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `counselindia_${tabConfig.slug}_leads_${Date.now()}.csv`,
+      );
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      console.error('Export CSV failed:', err);
+      console.error("Export CSV failed:", err);
     } finally {
       setIsExporting(false);
     }
@@ -157,7 +183,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
 
   // Helper to extract cell content
   const renderCell = (lead: InquiryLeadItem, colKey: string, index: number) => {
-    if (colKey === 'sNo') {
+    if (colKey === "sNo") {
       // ALWAYS 1-indexed sequential starting from 1 for the current page
       return (
         <span className="font-semibold text-gray-500 text-xs">
@@ -166,15 +192,15 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'name') {
+    if (colKey === "name") {
       return (
         <span className="font-bold text-gray-900 text-xs">
-          {lead.name || '—'}
+          {lead.name || "—"}
         </span>
       );
     }
 
-    if (colKey === 'email') {
+    if (colKey === "email") {
       if (!lead.email) return <span className="text-gray-400">—</span>;
       return (
         <a
@@ -186,7 +212,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'mobile') {
+    if (colKey === "mobile") {
       if (!lead.mobile) return <span className="text-gray-400">—</span>;
       return (
         <span className="font-semibold text-gray-800 text-xs">
@@ -195,7 +221,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'medium' || colKey === 'source') {
+    if (colKey === "medium" || colKey === "source") {
       const val = (lead as any)[colKey];
       if (!val) return <span className="text-gray-400">—</span>;
       return (
@@ -205,8 +231,12 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'hearFrom') {
-      const hf = lead.hearFrom || lead.source || lead.extraData?.['Here From'] || lead.extraData?.['hereFrom'];
+    if (colKey === "hearFrom") {
+      const hf =
+        lead.hearFrom ||
+        lead.source ||
+        lead.extraData?.["Here From"] ||
+        lead.extraData?.["hereFrom"];
       if (!hf) return <span className="text-gray-400">—</span>;
       return (
         <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/50">
@@ -215,19 +245,36 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'message') {
-      let msg = lead.message || lead.extraData?.['Question'] || lead.extraData?.['question'] || lead.extraData?.query;
+    if (colKey === "message") {
+      let msg =
+        lead.message ||
+        lead.extraData?.["Question"] ||
+        lead.extraData?.["question"] ||
+        lead.extraData?.query;
       if (!msg) {
         const parts: string[] = [];
-        const rName = lead.extraData?.referByName || lead.extraData?.referredByName || lead.extraData?.referrerName || lead.extraData?.refer_by_name;
-        const rEmail = lead.extraData?.referByEmail || lead.extraData?.referredByEmail || lead.extraData?.referrerEmail || lead.extraData?.refer_by_email;
-        const rPhone = lead.extraData?.referByPhone || lead.extraData?.referredByPhone || lead.extraData?.referrerPhone || lead.extraData?.refer_by_phone;
-        const rCourse = lead.extraData?.courseRefer || lead.extraData?.course_refer;
+        const rName =
+          lead.extraData?.referByName ||
+          lead.extraData?.referredByName ||
+          lead.extraData?.referrerName ||
+          lead.extraData?.refer_by_name;
+        const rEmail =
+          lead.extraData?.referByEmail ||
+          lead.extraData?.referredByEmail ||
+          lead.extraData?.referrerEmail ||
+          lead.extraData?.refer_by_email;
+        const rPhone =
+          lead.extraData?.referByPhone ||
+          lead.extraData?.referredByPhone ||
+          lead.extraData?.referrerPhone ||
+          lead.extraData?.refer_by_phone;
+        const rCourse =
+          lead.extraData?.courseRefer || lead.extraData?.course_refer;
         if (rName) parts.push(`Name: ${rName}`);
         if (rEmail) parts.push(`Email: ${rEmail}`);
         if (rPhone) parts.push(`Phone: ${rPhone}`);
         if (rCourse) parts.push(`Course: ${rCourse}`);
-        if (parts.length > 0) msg = parts.join(' | ');
+        if (parts.length > 0) msg = parts.join(" | ");
       }
       if (!msg) return <span className="text-gray-400">—</span>;
       return (
@@ -237,7 +284,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       );
     }
 
-    if (colKey === 'addedOn') {
+    if (colKey === "addedOn") {
       return (
         <span className="text-[11px] text-gray-500 font-medium whitespace-nowrap">
           {lead.addedOn || new Date(lead.createdAt).toLocaleDateString()}
@@ -246,24 +293,56 @@ export function LeadsClient({ slug }: LeadsClientProps) {
     }
 
     // Extra dynamic keys
-    if (colKey === 'gender') return <span className="text-xs">{lead.extraData?.gender || '—'}</span>;
-    if (colKey === 'age') return <span className="text-xs">{lead.extraData?.age || '—'}</span>;
-    if (colKey === 'proBackground') return <span className="text-xs">{lead.extraData?.proBackground || '—'}</span>;
-    if (colKey === 'purpose') return <span className="text-xs">{lead.extraData?.purpose || '—'}</span>;
-    if (colKey === 'ebookName') return <span className="text-xs font-semibold">{lead.extraData?.ebookName || '—'}</span>;
-    if (colKey === 'newsletterName') return <span className="text-xs font-semibold">{lead.extraData?.newsletterName || '—'}</span>;
-    if (colKey === 'marks') {
+    if (colKey === "gender")
+      return <span className="text-xs">{lead.extraData?.gender || "—"}</span>;
+    if (colKey === "age")
+      return <span className="text-xs">{lead.extraData?.age || "—"}</span>;
+    if (colKey === "proBackground")
+      return (
+        <span className="text-xs">{lead.extraData?.proBackground || "—"}</span>
+      );
+    if (colKey === "purpose")
+      return <span className="text-xs">{lead.extraData?.purpose || "—"}</span>;
+    if (colKey === "ebookName")
+      return (
+        <span className="text-xs font-semibold">
+          {lead.extraData?.ebookName || "—"}
+        </span>
+      );
+    if (colKey === "newsletterName")
+      return (
+        <span className="text-xs font-semibold">
+          {lead.extraData?.newsletterName || "—"}
+        </span>
+      );
+    if (colKey === "marks") {
       return lead.extraData?.marks ? (
         <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[10px]">
           {lead.extraData.marks}
         </span>
-      ) : <span className="text-gray-400">—</span>;
+      ) : (
+        <span className="text-gray-400">—</span>
+      );
     }
-    if (colKey === 'certificateType') return <span className="text-xs">{lead.extraData?.certificateType || '—'}</span>;
-    if (colKey === 'viewPath') {
-      const vPath = lead.extraData?.viewPath || lead.extraData?.certificateUrl || lead.extraData?.pdf_url || lead.extraData?.pdfUrl || lead.extraData?.pdfpath || lead.extraData?.url;
+    if (colKey === "certificateType")
+      return (
+        <span className="text-xs">
+          {lead.extraData?.certificateType || "—"}
+        </span>
+      );
+    if (colKey === "viewPath") {
+      const vPath =
+        lead.extraData?.viewPath ||
+        lead.extraData?.certificateUrl ||
+        lead.extraData?.pdf_url ||
+        lead.extraData?.pdfUrl ||
+        lead.extraData?.pdfpath ||
+        lead.extraData?.url;
       if (!vPath) return <span className="text-gray-400">—</span>;
-      if (typeof vPath === 'string' && (vPath.startsWith('http://') || vPath.startsWith('https://'))) {
+      if (
+        typeof vPath === "string" &&
+        (vPath.startsWith("http://") || vPath.startsWith("https://"))
+      ) {
         return (
           <a
             href={vPath}
@@ -271,8 +350,18 @@ export function LeadsClient({ slug }: LeadsClientProps) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-md transition-colors shadow-sm"
           >
-            <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <svg
+              className="w-3.5 h-3.5 text-emerald-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
             </svg>
             View PDF
           </a>
@@ -280,12 +369,18 @@ export function LeadsClient({ slug }: LeadsClientProps) {
       }
       return <span className="text-xs text-gray-500">{vPath}</span>;
     }
-    if (colKey === 'referByName') return <span className="text-xs">{lead.extraData?.referByName || '—'}</span>;
-    if (colKey === 'referByEmail') return <span className="text-xs">{lead.extraData?.referByEmail || '—'}</span>;
+    if (colKey === "referByName")
+      return (
+        <span className="text-xs">{lead.extraData?.referByName || "—"}</span>
+      );
+    if (colKey === "referByEmail")
+      return (
+        <span className="text-xs">{lead.extraData?.referByEmail || "—"}</span>
+      );
 
     // Fallback direct key
     const directVal = (lead as any)[colKey];
-    return <span className="text-xs text-gray-700">{directVal || '—'}</span>;
+    return <span className="text-xs text-gray-700">{directVal || "—"}</span>;
   };
 
   return (
@@ -301,9 +396,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
               {totalCount} Total Leads
             </span>
           </div>
-          <p className="text-sm text-gray-500 mt-1">
-            {tabConfig.description}
-          </p>
+          <p className="text-sm text-gray-500 mt-1">{tabConfig.description}</p>
         </div>
 
         {/* Global Export Button */}
@@ -336,7 +429,7 @@ export function LeadsClient({ slug }: LeadsClientProps) {
           />
           {search && (
             <button
-              onClick={() => setSearch('')}
+              onClick={() => setSearch("")}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-0.5"
             >
               <X className="w-3.5 h-3.5" />
@@ -364,7 +457,9 @@ export function LeadsClient({ slug }: LeadsClientProps) {
             title="Refresh"
             className="p-1.5 rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -379,11 +474,11 @@ export function LeadsClient({ slug }: LeadsClientProps) {
                   <th
                     key={cIdx}
                     className={`py-3.5 px-4 ${
-                      col.align === 'center'
-                        ? 'text-center w-16'
-                        : col.align === 'right'
-                        ? 'text-right'
-                        : 'text-left'
+                      col.align === "center"
+                        ? "text-center w-16"
+                        : col.align === "right"
+                          ? "text-right"
+                          : "text-left"
                     }`}
                   >
                     {col.label}
@@ -400,11 +495,11 @@ export function LeadsClient({ slug }: LeadsClientProps) {
                       <td key={cIdx} className="py-4 px-4">
                         <div
                           className={`h-3.5 bg-gray-100 rounded ${
-                            col.align === 'center'
-                              ? 'w-6 mx-auto'
-                              : col.align === 'right'
-                              ? 'w-20 ml-auto'
-                              : 'w-24'
+                            col.align === "center"
+                              ? "w-6 mx-auto"
+                              : col.align === "right"
+                                ? "w-20 ml-auto"
+                                : "w-24"
                           }`}
                         />
                       </td>
@@ -421,7 +516,9 @@ export function LeadsClient({ slug }: LeadsClientProps) {
                       <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto text-gray-400">
                         <Inbox className="w-6 h-6" />
                       </div>
-                      <p className="font-semibold text-gray-700 text-sm">No leads found</p>
+                      <p className="font-semibold text-gray-700 text-sm">
+                        No leads found
+                      </p>
                       <p className="text-xs text-gray-400">
                         {debouncedSearch
                           ? `No inquiries match "${debouncedSearch}"`
@@ -440,11 +537,11 @@ export function LeadsClient({ slug }: LeadsClientProps) {
                       <td
                         key={cIdx}
                         className={`py-3.5 px-4 ${
-                          col.align === 'center'
-                            ? 'text-center'
-                            : col.align === 'right'
-                            ? 'text-right'
-                            : 'text-left'
+                          col.align === "center"
+                            ? "text-center"
+                            : col.align === "right"
+                              ? "text-right"
+                              : "text-left"
                         }`}
                       >
                         {renderCell(lead, col.key, index)}
@@ -460,8 +557,8 @@ export function LeadsClient({ slug }: LeadsClientProps) {
         {/* Pagination Footer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-5 py-3.5 border-t border-gray-100 bg-white text-xs font-medium text-gray-500">
           <div>
-            Showing <span className="font-bold text-gray-800">{startItem}</span> to{' '}
-            <span className="font-bold text-gray-800">{endItem}</span> of{' '}
+            Showing <span className="font-bold text-gray-800">{startItem}</span>{" "}
+            to <span className="font-bold text-gray-800">{endItem}</span> of{" "}
             <span className="font-bold text-gray-800">{totalCount}</span> leads
           </div>
 

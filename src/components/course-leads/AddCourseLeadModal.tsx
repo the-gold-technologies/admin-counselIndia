@@ -70,7 +70,9 @@ export default function AddCourseLeadModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-gray-50/50">
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Add New Course Lead</h3>
+            <h3 className="text-lg font-bold text-gray-900">
+              Add New Course Lead
+            </h3>
             <p className="text-xs text-gray-500 mt-0.5">
               Record manual offline, walk-in, or phone lead
             </p>
@@ -155,7 +157,9 @@ export default function AddCourseLeadModal({
                 onChange={(e) => setCourseName(e.target.value)}
                 className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
               >
-                <option value="">-- Select from existing courses or type below --</option>
+                <option value="">
+                  -- Select from existing courses or type below --
+                </option>
                 {courses.map((c) => (
                   <option key={c} value={c}>
                     {c}

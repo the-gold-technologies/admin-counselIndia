@@ -35,15 +35,20 @@ export async function GET(request: Request) {
     }
 
     // Overall stats
-    const [totalAll, totalActive, totalInactive, allCategoriesGroup] = await Promise.all([
-      prisma.course.count(),
-      prisma.course.count({ where: { status: { equals: "Active", mode: "insensitive" } } }),
-      prisma.course.count({ where: { status: { equals: "Inactive", mode: "insensitive" } } }),
-      prisma.course.groupBy({
-        by: ["category"],
-        _count: { category: true },
-      }),
-    ]);
+    const [totalAll, totalActive, totalInactive, allCategoriesGroup] =
+      await Promise.all([
+        prisma.course.count(),
+        prisma.course.count({
+          where: { status: { equals: "Active", mode: "insensitive" } },
+        }),
+        prisma.course.count({
+          where: { status: { equals: "Inactive", mode: "insensitive" } },
+        }),
+        prisma.course.groupBy({
+          by: ["category"],
+          _count: { category: true },
+        }),
+      ]);
 
     const categoriesList = allCategoriesGroup
       .filter((g) => g.category)
@@ -85,13 +90,13 @@ export async function GET(request: Request) {
           categories: categoriesList,
         },
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error: any) {
     console.error("GET /api/courses error:", error);
     return NextResponse.json(
       { error: "Failed to fetch courses", details: error.message },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }
@@ -102,11 +107,19 @@ export async function POST(request: Request) {
     const { name, category, position, status } = body;
 
     if (!name) {
-      return NextResponse.json({ error: "Course name is required" }, { status: 400, headers: corsHeaders });
+      return NextResponse.json(
+        { error: "Course name is required" },
+        { status: 400, headers: corsHeaders },
+      );
     }
 
     const count = await prisma.course.count();
-    const slugBase = body.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const slugBase =
+      body.slug ||
+      name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
     let slug = slugBase;
     let suffix = 1;
     while (await prisma.course.findUnique({ where: { slug } })) {
@@ -136,7 +149,8 @@ export async function POST(request: Request) {
         oneTimeDiscountPercent: body.oneTimeDiscountPercent || null,
         startRange: body.startRange || null,
         endRange: body.endRange || null,
-        price: parseFloat(body.totalDiscountFee || body.totalProgramFee || 0) || 0,
+        price:
+          parseFloat(body.totalDiscountFee || body.totalProgramFee || 0) || 0,
         rating: parseFloat(body.rating) || 5.0,
         paymentLink: body.paymentLink || null,
         nextBatchDate: body.nextBatchDate || null,
@@ -174,7 +188,7 @@ export async function POST(request: Request) {
     console.error("POST /api/courses error:", error);
     return NextResponse.json(
       { error: "Failed to create course", details: error.message },
-      { status: 500, headers: corsHeaders }
+      { status: 500, headers: corsHeaders },
     );
   }
 }

@@ -40,7 +40,8 @@ export default function AddAlumniModal({
         name: alumniToEdit.name || "",
         email: alumniToEdit.email || "",
         mobile: alumniToEdit.mobile || "",
-        programName: alumniToEdit.programName || "Counselling Master Course - Foundation",
+        programName:
+          alumniToEdit.programName || "Counselling Master Course - Foundation",
         certificateNumber: alumniToEdit.certificateNumber || "",
         profession: alumniToEdit.profession || "",
         skills: alumniToEdit.skills || "",
@@ -82,7 +83,8 @@ export default function AddAlumniModal({
           }),
         });
         const json = await res.json();
-        if (!json.success) throw new Error(json.error || "Failed to update alumni");
+        if (!json.success)
+          throw new Error(json.error || "Failed to update alumni");
       } else {
         // POST
         const res = await fetch("/api/alumni", {
@@ -91,7 +93,8 @@ export default function AddAlumniModal({
           body: JSON.stringify(formData),
         });
         const json = await res.json();
-        if (!json.success) throw new Error(json.error || "Failed to add alumni");
+        if (!json.success)
+          throw new Error(json.error || "Failed to add alumni");
       }
 
       onSuccess();
@@ -132,7 +135,10 @@ export default function AddAlumniModal({
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="overflow-y-auto p-7 space-y-5 flex-1">
+        <form
+          onSubmit={handleSubmit}
+          className="overflow-y-auto p-7 space-y-5 flex-1"
+        >
           {error && (
             <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-center gap-3 text-rose-700 text-sm font-medium">
               <AlertCircle className="w-5 h-5 shrink-0" />
@@ -150,7 +156,9 @@ export default function AddAlumniModal({
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 placeholder="e.g. Dr. Ramesh Kumar"
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
               />
@@ -165,7 +173,9 @@ export default function AddAlumniModal({
                 type="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 placeholder="e.g. ramesh@example.com"
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
               />
@@ -180,7 +190,9 @@ export default function AddAlumniModal({
                 type="tel"
                 required
                 value={formData.mobile}
-                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
                 placeholder="e.g. 9876543210"
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
               />
@@ -195,7 +207,10 @@ export default function AddAlumniModal({
                 type="text"
                 value={formData.certificateNumber}
                 onChange={(e) =>
-                  setFormData({ ...formData, certificateNumber: e.target.value })
+                  setFormData({
+                    ...formData,
+                    certificateNumber: e.target.value,
+                  })
                 }
                 placeholder="e.g. 10892"
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
@@ -212,7 +227,9 @@ export default function AddAlumniModal({
               type="text"
               required
               value={formData.programName}
-              onChange={(e) => setFormData({ ...formData, programName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, programName: e.target.value })
+              }
               placeholder="e.g. Counselling Master Course - Foundation"
               className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
             />
@@ -226,7 +243,9 @@ export default function AddAlumniModal({
             <input
               type="text"
               value={formData.profession}
-              onChange={(e) => setFormData({ ...formData, profession: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, profession: e.target.value })
+              }
               placeholder="e.g. Practicing Mental Health Counselor"
               className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
             />
@@ -240,7 +259,9 @@ export default function AddAlumniModal({
             <textarea
               rows={2}
               value={formData.skills}
-              onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, skills: e.target.value })
+              }
               placeholder="e.g. Anxiety, Stress Management, CBT Therapy, Relationship Counseling"
               className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium"
             />
@@ -254,7 +275,9 @@ export default function AddAlumniModal({
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium cursor-pointer"
               >
                 <option value="Active">Active</option>
@@ -269,7 +292,10 @@ export default function AddAlumniModal({
               <select
                 value={formData.isOnline ? "true" : "false"}
                 onChange={(e) =>
-                  setFormData({ ...formData, isOnline: e.target.value === "true" })
+                  setFormData({
+                    ...formData,
+                    isOnline: e.target.value === "true",
+                  })
                 }
                 className="w-full px-4 py-2.5 bg-gray-50/70 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all font-medium cursor-pointer"
               >

@@ -64,7 +64,9 @@ function LoginForm() {
         router.refresh();
       }, 500);
     } catch (err: any) {
-      setError(err.message || "Failed to sign in. Please check your credentials.");
+      setError(
+        err.message || "Failed to sign in. Please check your credentials.",
+      );
       setIsLoading(false);
     }
   };
@@ -100,7 +102,6 @@ function LoginForm() {
 
         {/* Form Body */}
         <div className="p-8">
-
           {/* Error Banner */}
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-start gap-2.5 animate-shake">

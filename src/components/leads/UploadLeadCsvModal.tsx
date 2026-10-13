@@ -1,6 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef, ChangeEvent, DragEvent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  DragEvent,
+} from "react";
 import {
   UploadCloud,
   FileSpreadsheet,
@@ -12,28 +18,28 @@ import {
   RefreshCw,
   PlusCircle,
   Eye,
-} from 'lucide-react';
-import { parseCsvText } from '@/lib/csvParser';
+} from "lucide-react";
+import { parseCsvText } from "@/lib/csvParser";
 
 const CATEGORIES = [
-  { slug: 'subscription', label: 'Subscribe' },
-  { slug: 'landing-page', label: 'Landing Pages' },
-  { slug: 'exit-intent', label: 'Exit Intent' },
-  { slug: 'contact-us', label: 'Contact Us' },
-  { slug: 'book-session', label: 'Book a Session' },
-  { slug: 'ci-business', label: 'Ci For Business' },
-  { slug: 'personality-test', label: 'Personality Test' },
-  { slug: 'ebook', label: 'Ebook' },
-  { slug: 'newsletter', label: 'Newsletter' },
-  { slug: 'courses-enquiry', label: 'Courses Enquiry' },
-  { slug: 'utm-data', label: 'utm data' },
-  { slug: 'landing-page-utm', label: 'Landing Page UTM' },
-  { slug: 'course-registration', label: 'course registeration' },
-  { slug: 'ask-question', label: 'Ask Question' },
-  { slug: 'app-data', label: 'App Data' },
-  { slug: 'certificate-data', label: 'certificate_data' },
-  { slug: 'leadform-data', label: 'leadform data' },
-  { slug: 'refer-enquiry', label: 'Refer Enquiry' },
+  { slug: "subscription", label: "Subscribe" },
+  { slug: "landing-page", label: "Landing Pages" },
+  { slug: "exit-intent", label: "Exit Intent" },
+  { slug: "contact-us", label: "Contact Us" },
+  { slug: "book-session", label: "Book a Session" },
+  { slug: "ci-business", label: "Ci For Business" },
+  { slug: "personality-test", label: "Personality Test" },
+  { slug: "ebook", label: "Ebook" },
+  { slug: "newsletter", label: "Newsletter" },
+  { slug: "courses-enquiry", label: "Courses Enquiry" },
+  { slug: "utm-data", label: "utm data" },
+  { slug: "landing-page-utm", label: "Landing Page UTM" },
+  { slug: "course-registration", label: "course registeration" },
+  { slug: "ask-question", label: "Ask Question" },
+  { slug: "app-data", label: "App Data" },
+  { slug: "certificate-data", label: "certificate_data" },
+  { slug: "leadform-data", label: "leadform data" },
+  { slug: "refer-enquiry", label: "Refer Enquiry" },
 ];
 
 interface UploadLeadCsvModalProps {
@@ -48,11 +54,11 @@ export default function UploadLeadCsvModal({
   isOpen,
   onClose,
   defaultCategory,
-  accentColor = '#10b981',
+  accentColor = "#10b981",
   onSuccess,
 }: UploadLeadCsvModalProps) {
   const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
-  const [mode, setMode] = useState<'append' | 'replace'>('append');
+  const [mode, setMode] = useState<"append" | "replace">("append");
   const [file, setFile] = useState<File | null>(null);
   const [previewRows, setPreviewRows] = useState<string[][]>([]);
   const [previewHeaders, setPreviewHeaders] = useState<string[]>([]);
@@ -77,10 +83,10 @@ export default function UploadLeadCsvModal({
   if (!isOpen) return null;
 
   const handleFileSelection = (selectedFile: File) => {
-    if (!selectedFile.name.toLowerCase().endsWith('.csv')) {
+    if (!selectedFile.name.toLowerCase().endsWith(".csv")) {
       setUploadResult({
         success: false,
-        message: 'Please select a valid .csv file.',
+        message: "Please select a valid .csv file.",
       });
       return;
     }
@@ -91,19 +97,19 @@ export default function UploadLeadCsvModal({
     // Read first few chunks for instant client-side preview
     const reader = new FileReader();
     reader.onload = (e) => {
-      const content = (e.target?.result as string) || '';
+      const content = (e.target?.result as string) || "";
       try {
         const parsed = parseCsvText(content);
         if (parsed.headers.length > 0) {
           setTotalEstimatedRows(parsed.totalRows);
           setPreviewHeaders(parsed.headers);
           const sample = parsed.rows.slice(0, 5).map((rowObj) => {
-            return parsed.headers.map((h) => rowObj[h] ?? '');
+            return parsed.headers.map((h) => rowObj[h] ?? "");
           });
           setPreviewRows(sample);
         }
       } catch (err) {
-        console.error('Failed to parse CSV preview:', err);
+        console.error("Failed to parse CSV preview:", err);
       }
     };
     reader.readAsText(selectedFile);
@@ -141,9 +147,9 @@ export default function UploadLeadCsvModal({
     try {
       const uploadUrl = `/api/leads/upload?category=${encodeURIComponent(selectedCategory)}&mode=${encodeURIComponent(mode)}`;
       const res = await fetch(uploadUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'text/csv',
+          "Content-Type": "text/csv",
         },
         body: file,
       });
@@ -160,13 +166,13 @@ export default function UploadLeadCsvModal({
       } else {
         setUploadResult({
           success: false,
-          message: data.error || 'Upload failed. Please try again.',
+          message: data.error || "Upload failed. Please try again.",
         });
       }
     } catch (err: any) {
       setUploadResult({
         success: false,
-        message: err.message || 'Network error occurred during upload.',
+        message: err.message || "Network error occurred during upload.",
       });
     } finally {
       setIsUploading(false);
@@ -180,7 +186,7 @@ export default function UploadLeadCsvModal({
     setTotalEstimatedRows(0);
     setUploadResult(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -197,8 +203,12 @@ export default function UploadLeadCsvModal({
               <UploadCloud className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Import Leads from CSV</h2>
-              <p className="text-xs text-gray-500">Upload CSV exports directly into your database</p>
+              <h2 className="text-lg font-bold text-gray-900">
+                Import Leads from CSV
+              </h2>
+              <p className="text-xs text-gray-500">
+                Upload CSV exports directly into your database
+              </p>
             </div>
           </div>
           <button
@@ -237,11 +247,11 @@ export default function UploadLeadCsvModal({
               <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-2xl border border-gray-200">
                 <button
                   type="button"
-                  onClick={() => setMode('append')}
+                  onClick={() => setMode("append")}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                    mode === 'append'
-                      ? 'bg-white shadow-sm text-gray-800'
-                      : 'text-gray-500 hover:text-gray-700'
+                    mode === "append"
+                      ? "bg-white shadow-sm text-gray-800"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   <PlusCircle className="w-3.5 h-3.5 text-emerald-600" />
@@ -249,11 +259,11 @@ export default function UploadLeadCsvModal({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setMode('replace')}
+                  onClick={() => setMode("replace")}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                    mode === 'replace'
-                      ? 'bg-rose-50 border border-rose-200 text-rose-700 font-bold'
-                      : 'text-gray-500 hover:text-gray-700'
+                    mode === "replace"
+                      ? "bg-rose-50 border border-rose-200 text-rose-700 font-bold"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   <RefreshCw className="w-3.5 h-3.5 text-rose-500" />
@@ -272,8 +282,8 @@ export default function UploadLeadCsvModal({
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all ${
                 isDragging
-                  ? 'border-emerald-500 bg-emerald-50/40'
-                  : 'border-gray-200 bg-gray-50/40 hover:bg-gray-50 hover:border-gray-300'
+                  ? "border-emerald-500 bg-emerald-50/40"
+                  : "border-gray-200 bg-gray-50/40 hover:bg-gray-50 hover:border-gray-300"
               }`}
             >
               <input
@@ -293,7 +303,8 @@ export default function UploadLeadCsvModal({
                 Click to browse or drag & drop CSV file
               </h3>
               <p className="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
-                Supports Counsel India live CSV exports (Id, Name, Email, Phone Number, etc.)
+                Supports Counsel India live CSV exports (Id, Name, Email, Phone
+                Number, etc.)
               </p>
               <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-gray-200 rounded-full text-[11px] font-semibold text-gray-600 shadow-2xs">
                 <span>Any file size supported</span> • <span>Bulk import</span>
@@ -312,7 +323,7 @@ export default function UploadLeadCsvModal({
                       {file.name}
                     </h4>
                     <p className="text-[11px] text-gray-500 mt-0.5">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB •{' '}
+                      {(file.size / 1024 / 1024).toFixed(2)} MB •{" "}
                       <span className="font-semibold text-emerald-700">
                         {totalEstimatedRows.toLocaleString()} rows detected
                       </span>
@@ -357,8 +368,15 @@ export default function UploadLeadCsvModal({
                         {previewRows.map((row, ri) => (
                           <tr key={ri} className="hover:bg-gray-50/40">
                             {row.map((cell, ci) => (
-                              <td key={ci} className="py-2 px-3 whitespace-nowrap max-w-[150px] truncate">
-                                {cell || <span className="text-gray-300 italic">empty</span>}
+                              <td
+                                key={ci}
+                                className="py-2 px-3 whitespace-nowrap max-w-[150px] truncate"
+                              >
+                                {cell || (
+                                  <span className="text-gray-300 italic">
+                                    empty
+                                  </span>
+                                )}
                               </td>
                             ))}
                           </tr>
@@ -376,8 +394,8 @@ export default function UploadLeadCsvModal({
             <div
               className={`p-4 rounded-2xl flex items-start gap-3 border ${
                 uploadResult.success
-                  ? 'bg-emerald-50/60 border-emerald-200 text-emerald-800'
-                  : 'bg-rose-50/60 border-rose-200 text-rose-800'
+                  ? "bg-emerald-50/60 border-emerald-200 text-emerald-800"
+                  : "bg-rose-50/60 border-rose-200 text-rose-800"
               }`}
             >
               {uploadResult.success ? (
@@ -386,7 +404,9 @@ export default function UploadLeadCsvModal({
                 <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
               )}
               <div className="flex-1 text-xs">
-                <p className="font-bold">{uploadResult.success ? 'Import Complete!' : 'Import Failed'}</p>
+                <p className="font-bold">
+                  {uploadResult.success ? "Import Complete!" : "Import Failed"}
+                </p>
                 <p className="mt-0.5 opacity-90">{uploadResult.message}</p>
               </div>
             </div>
@@ -400,7 +420,7 @@ export default function UploadLeadCsvModal({
             onClick={onClose}
             className="px-4 py-2.5 rounded-2xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
           >
-            {uploadResult?.success ? 'Close' : 'Cancel'}
+            {uploadResult?.success ? "Close" : "Cancel"}
           </button>
 
           <div className="flex items-center gap-2">

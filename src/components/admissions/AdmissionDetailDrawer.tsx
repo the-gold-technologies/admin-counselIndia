@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   X,
   User,
@@ -14,7 +14,7 @@ import {
   CreditCard,
   CheckCircle2,
   FileText,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface AdmissionDetailProps {
   admission: any | null;
@@ -29,7 +29,9 @@ export default function AdmissionDetailDrawer({
   onClose,
   onStatusChange,
 }: AdmissionDetailProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'education' | 'about' | 'post'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "education" | "about" | "post"
+  >("overview");
 
   if (!isOpen || !admission) return null;
 
@@ -37,17 +39,19 @@ export default function AdmissionDetailDrawer({
   let expectations: string[] = [];
   try {
     expectations =
-      typeof admission.courseExpectations === 'string'
+      typeof admission.courseExpectations === "string"
         ? JSON.parse(admission.courseExpectations)
         : admission.courseExpectations || [];
   } catch {
-    expectations = [admission.courseExpectations || 'Upskilling & professional competence'];
+    expectations = [
+      admission.courseExpectations || "Upskilling & professional competence",
+    ];
   }
 
   let education: any[] = [];
   try {
     education =
-      typeof admission.educationHistory === 'string'
+      typeof admission.educationHistory === "string"
         ? JSON.parse(admission.educationHistory)
         : admission.educationHistory || [];
   } catch {
@@ -58,10 +62,10 @@ export default function AdmissionDetailDrawer({
   const addr = admission.address || {};
 
   const tabs = [
-    { id: 'overview', label: 'Personal Details', icon: User },
-    { id: 'education', label: 'Address', icon: MapPin },
-    { id: 'about', label: 'Course Expectations', icon: Target },
-    { id: 'post', label: 'Academic Qualifications', icon: GraduationCap },
+    { id: "overview", label: "Personal Details", icon: User },
+    { id: "education", label: "Address", icon: MapPin },
+    { id: "about", label: "Course Expectations", icon: Target },
+    { id: "post", label: "Academic Qualifications", icon: GraduationCap },
   ];
 
   return (
@@ -72,7 +76,7 @@ export default function AdmissionDetailDrawer({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold text-lg flex items-center justify-center shadow-md shadow-emerald-600/20">
-                {admission.name?.slice(0, 2).toUpperCase() || 'LR'}
+                {admission.name?.slice(0, 2).toUpperCase() || "LR"}
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -80,18 +84,20 @@ export default function AdmissionDetailDrawer({
                     {admission.name}
                   </h2>
                   <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    {admission.status || 'Enrolled'}
+                    {admission.status || "Enrolled"}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 mt-0.5 font-medium">
-                  {admission.courseName?.replace(/_/g, ' ')}
+                  {admission.courseName?.replace(/_/g, " ")}
                 </p>
                 <div className="flex items-center gap-3 mt-2 text-xs text-slate-600">
                   <span className="flex items-center gap-1 font-medium">
-                    <Mail className="w-3 h-3 text-slate-400" /> {admission.email}
+                    <Mail className="w-3 h-3 text-slate-400" />{" "}
+                    {admission.email}
                   </span>
                   <span className="flex items-center gap-1 font-medium">
-                    <Phone className="w-3 h-3 text-slate-400" /> {admission.mobile}
+                    <Phone className="w-3 h-3 text-slate-400" />{" "}
+                    {admission.mobile}
                   </span>
                 </div>
               </div>
@@ -127,7 +133,7 @@ export default function AdmissionDetailDrawer({
         {/* Tab Content Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* TAB 1: Personal Details */}
-          {activeTab === 'overview' && (
+          {activeTab === "overview" && (
             <div className="space-y-4">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
                 <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
@@ -135,36 +141,70 @@ export default function AdmissionDetailDrawer({
                 </h4>
                 <div className="grid grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Date of Birth</span>
-                    <span className="font-bold text-slate-800">{p.dob || admission.dob || '1989-02-08'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Date of Birth
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.dob || admission.dob || "1989-02-08"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Age</span>
-                    <span className="font-bold text-slate-800">{p.age || admission.age || '37'} Years</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Age
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.age || admission.age || "37"} Years
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Gender</span>
-                    <span className="font-bold text-slate-800">{p.gender || admission.gender || 'Female'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Gender
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.gender || admission.gender || "Female"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Marital Status</span>
-                    <span className="font-bold text-slate-800">{p.maritalStatus || admission.maritalStatus || 'Married'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Marital Status
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.maritalStatus || admission.maritalStatus || "Married"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Nationality</span>
-                    <span className="font-bold text-slate-800">{p.nationality || admission.nationality || 'Indian'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Nationality
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.nationality || admission.nationality || "Indian"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Category</span>
-                    <span className="font-bold text-slate-800">{p.category || admission.category || 'General'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Category
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.category || admission.category || "General"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Aadhar Number</span>
-                    <span className="font-mono font-bold text-slate-800">{p.aadharNumber || admission.aadharNumber || '9422-4733-8489'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Aadhar Number
+                    </span>
+                    <span className="font-mono font-bold text-slate-800">
+                      {p.aadharNumber ||
+                        admission.aadharNumber ||
+                        "9422-4733-8489"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">PAN Card Number</span>
-                    <span className="font-mono font-bold text-slate-800">{p.panNumber || admission.panNumber || 'ABCPS8912K'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      PAN Card Number
+                    </span>
+                    <span className="font-mono font-bold text-slate-800">
+                      {p.panNumber || admission.panNumber || "ABCPS8912K"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -176,20 +216,38 @@ export default function AdmissionDetailDrawer({
                 </h4>
                 <div className="grid grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Father / Guardian Name</span>
-                    <span className="font-bold text-slate-800">{p.fatherName || admission.fatherName || 'S K Dayananda Shetty'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Father / Guardian Name
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.fatherName ||
+                        admission.fatherName ||
+                        "S K Dayananda Shetty"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Father Mobile</span>
-                    <span className="font-bold text-slate-800">{p.fatherMobile || admission.fatherMobile || '9448123990'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Father Mobile
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {p.fatherMobile || admission.fatherMobile || "9448123990"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Academic Counselor</span>
-                    <span className="font-bold text-emerald-700">{admission.academicCounselor || 'Anand Prakash'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Academic Counselor
+                    </span>
+                    <span className="font-bold text-emerald-700">
+                      {admission.academicCounselor || "Anand Prakash"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Batch Allocation</span>
-                    <span className="font-bold text-slate-800">{admission.batchName || 'Batch Oct-2026 Alpha'}</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      Batch Allocation
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {admission.batchName || "Batch Oct-2026 Alpha"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -201,7 +259,8 @@ export default function AdmissionDetailDrawer({
                     Enrollment Fee Status
                   </span>
                   <span className="text-base font-extrabold text-emerald-950">
-                    ₹{(admission.feeAmount || 44999).toLocaleString()} ({admission.paymentStatus || 'Paid'})
+                    ₹{(admission.feeAmount || 44999).toLocaleString()} (
+                    {admission.paymentStatus || "Paid"})
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-emerald-300 text-xs font-bold text-emerald-700 shadow-2xs">
@@ -213,7 +272,7 @@ export default function AdmissionDetailDrawer({
           )}
 
           {/* TAB 2: Address Information */}
-          {activeTab === 'education' && (
+          {activeTab === "education" && (
             <div className="space-y-4">
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-900 uppercase tracking-wider">
@@ -221,20 +280,34 @@ export default function AdmissionDetailDrawer({
                   <span>Permanent Address</span>
                 </div>
                 <p className="text-xs text-slate-700 font-medium leading-relaxed">
-                  {addr.permanent || admission.permanentAddress || 'Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand'}
+                  {addr.permanent ||
+                    admission.permanentAddress ||
+                    "Asha Nilaya Village Keyyuru Post Madavu, Near Merla Bus Stand"}
                 </p>
                 <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200/60 text-xs">
                   <div>
-                    <span className="text-slate-500 text-[11px] block">District / City</span>
-                    <span className="font-bold text-slate-800">{addr.city || admission.city || 'Dakshina Kannada'}</span>
+                    <span className="text-slate-500 text-[11px] block">
+                      District / City
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {addr.city || admission.city || "Dakshina Kannada"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 text-[11px] block">State</span>
-                    <span className="font-bold text-slate-800">{addr.state || admission.state || 'Karnataka'}</span>
+                    <span className="text-slate-500 text-[11px] block">
+                      State
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {addr.state || admission.state || "Karnataka"}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 text-[11px] block">Pincode</span>
-                    <span className="font-bold text-slate-800">{addr.pincode || admission.pincode || '574210'}</span>
+                    <span className="text-slate-500 text-[11px] block">
+                      Pincode
+                    </span>
+                    <span className="font-bold text-slate-800">
+                      {addr.pincode || admission.pincode || "574210"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -245,14 +318,16 @@ export default function AdmissionDetailDrawer({
                   <span>Correspondence Address</span>
                 </div>
                 <p className="text-xs text-slate-700 font-medium leading-relaxed">
-                  {addr.correspondence || admission.correspondenceAddress || 'Sector 62, Noida, Uttar Pradesh'}
+                  {addr.correspondence ||
+                    admission.correspondenceAddress ||
+                    "Sector 62, Noida, Uttar Pradesh"}
                 </p>
               </div>
             </div>
           )}
 
           {/* TAB 3: Course Expectations */}
-          {activeTab === 'about' && (
+          {activeTab === "about" && (
             <div className="space-y-4">
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
                 <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -261,7 +336,9 @@ export default function AdmissionDetailDrawer({
                 </h4>
                 <div className="space-y-2.5 mt-3">
                   {expectations.length === 0 ? (
-                    <p className="text-xs text-slate-500">No expectations specified.</p>
+                    <p className="text-xs text-slate-500">
+                      No expectations specified.
+                    </p>
                   ) : (
                     expectations.map((exp, i) => (
                       <div
@@ -279,7 +356,7 @@ export default function AdmissionDetailDrawer({
           )}
 
           {/* TAB 4: Academic Details */}
-          {activeTab === 'post' && (
+          {activeTab === "post" && (
             <div className="space-y-4">
               {education.length === 0 ? (
                 <div className="p-8 text-center text-slate-400 text-xs bg-slate-50 rounded-2xl border border-slate-200">
@@ -294,7 +371,7 @@ export default function AdmissionDetailDrawer({
                     <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
                       <span className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
                         <GraduationCap className="w-4 h-4 text-emerald-600" />
-                        {edu.level || 'Academic Tier'}
+                        {edu.level || "Academic Tier"}
                       </span>
                       {edu.scoreOrPercentage && (
                         <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px]">
@@ -305,20 +382,36 @@ export default function AdmissionDetailDrawer({
 
                     <div className="grid grid-cols-2 gap-3 pt-1">
                       <div>
-                        <span className="text-slate-500 text-[11px] block">Course Name</span>
-                        <span className="font-semibold text-slate-800">{edu.courseName || '-'}</span>
+                        <span className="text-slate-500 text-[11px] block">
+                          Course Name
+                        </span>
+                        <span className="font-semibold text-slate-800">
+                          {edu.courseName || "-"}
+                        </span>
                       </div>
                       <div>
-                        <span className="text-slate-500 text-[11px] block">Institution / College</span>
-                        <span className="font-semibold text-slate-800">{edu.instituteName || '-'}</span>
+                        <span className="text-slate-500 text-[11px] block">
+                          Institution / College
+                        </span>
+                        <span className="font-semibold text-slate-800">
+                          {edu.instituteName || "-"}
+                        </span>
                       </div>
                       <div>
-                        <span className="text-slate-500 text-[11px] block">Board / University</span>
-                        <span className="font-semibold text-slate-800">{edu.boardOrUniversity || '-'}</span>
+                        <span className="text-slate-500 text-[11px] block">
+                          Board / University
+                        </span>
+                        <span className="font-semibold text-slate-800">
+                          {edu.boardOrUniversity || "-"}
+                        </span>
                       </div>
                       <div>
-                        <span className="text-slate-500 text-[11px] block">Passing Year</span>
-                        <span className="font-semibold text-slate-800">{edu.yearOfPassing || '-'}</span>
+                        <span className="text-slate-500 text-[11px] block">
+                          Passing Year
+                        </span>
+                        <span className="font-semibold text-slate-800">
+                          {edu.yearOfPassing || "-"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -331,10 +424,14 @@ export default function AdmissionDetailDrawer({
         {/* Drawer Footer Actions */}
         <div className="p-4 border-t border-slate-200 bg-slate-50/70 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500 font-medium">Update Status:</span>
+            <span className="text-xs text-slate-500 font-medium">
+              Update Status:
+            </span>
             <select
               value={admission.status}
-              onChange={(e) => onStatusChange && onStatusChange(admission.id, e.target.value)}
+              onChange={(e) =>
+                onStatusChange && onStatusChange(admission.id, e.target.value)
+              }
               className="text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             >
               <option value="Enrolled">Enrolled</option>

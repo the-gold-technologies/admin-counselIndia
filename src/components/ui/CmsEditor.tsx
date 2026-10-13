@@ -49,7 +49,10 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
     }
   };
 
-  const executeCommand = (command: string, arg: string | undefined = undefined) => {
+  const executeCommand = (
+    command: string,
+    arg: string | undefined = undefined,
+  ) => {
     if (viewMode === "code") return;
     if (editorRef.current) {
       editorRef.current.focus();

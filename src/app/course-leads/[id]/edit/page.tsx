@@ -117,7 +117,9 @@ export default function EditCourseLeadPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mb-3" />
-        <p className="text-xs font-semibold text-gray-500">Loading lead details...</p>
+        <p className="text-xs font-semibold text-gray-500">
+          Loading lead details...
+        </p>
       </div>
     );
   }
@@ -151,7 +153,10 @@ export default function EditCourseLeadPage() {
           <span>Back to Course Leads</span>
         </Link>
         <div className="text-xs text-gray-400">
-          Content Management &bull; <span className="text-gray-700 font-semibold">Edit Lead #{lead?.sNo}</span>
+          Content Management &bull;{" "}
+          <span className="text-gray-700 font-semibold">
+            Edit Lead #{lead?.sNo}
+          </span>
         </div>
       </div>
 
@@ -166,7 +171,8 @@ export default function EditCourseLeadPage() {
           Edit Course Lead
         </h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Assign Relationship Manager (RM), Customer Success Manager (CSM), and update lead status
+          Assign Relationship Manager (RM), Customer Success Manager (CSM), and
+          update lead status
         </p>
       </div>
 
@@ -214,7 +220,10 @@ export default function EditCourseLeadPage() {
       )}
 
       {/* Main Edit Form matching live site */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-6"
+      >
         {error && (
           <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
@@ -232,7 +241,10 @@ export default function EditCourseLeadPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Relationship Manager (RM) */}
           <div className="space-y-1.5">
-            <label htmlFor="rm" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+            <label
+              htmlFor="rm"
+              className="block text-xs font-bold text-gray-700 uppercase tracking-wider"
+            >
               Relationship Manager
             </label>
             <select
@@ -247,9 +259,12 @@ export default function EditCourseLeadPage() {
                   {opt}
                 </option>
               ))}
-              {relationshipManager && !RM_OPTIONS.includes(relationshipManager) && (
-                <option value={relationshipManager}>{relationshipManager}</option>
-              )}
+              {relationshipManager &&
+                !RM_OPTIONS.includes(relationshipManager) && (
+                  <option value={relationshipManager}>
+                    {relationshipManager}
+                  </option>
+                )}
             </select>
             <p className="text-[11px] text-gray-400">
               Assign counselor or RM responsible for student onboarding
@@ -258,7 +273,10 @@ export default function EditCourseLeadPage() {
 
           {/* Customer Success Manager (CSM) */}
           <div className="space-y-1.5">
-            <label htmlFor="csm" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+            <label
+              htmlFor="csm"
+              className="block text-xs font-bold text-gray-700 uppercase tracking-wider"
+            >
               Customer Success Manager
             </label>
             <select
@@ -273,9 +291,12 @@ export default function EditCourseLeadPage() {
                   {opt}
                 </option>
               ))}
-              {customerSuccessManager && !CSM_OPTIONS.includes(customerSuccessManager) && (
-                <option value={customerSuccessManager}>{customerSuccessManager}</option>
-              )}
+              {customerSuccessManager &&
+                !CSM_OPTIONS.includes(customerSuccessManager) && (
+                  <option value={customerSuccessManager}>
+                    {customerSuccessManager}
+                  </option>
+                )}
             </select>
             <p className="text-[11px] text-gray-400">
               Assign CSM responsible for student ongoing support & mentorship
@@ -285,7 +306,10 @@ export default function EditCourseLeadPage() {
 
         {/* Status Option matching live site */}
         <div className="max-w-xs space-y-1.5">
-          <label htmlFor="status" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+          <label
+            htmlFor="status"
+            className="block text-xs font-bold text-gray-700 uppercase tracking-wider"
+          >
             Status <span className="text-rose-500">*</span>
           </label>
           <select

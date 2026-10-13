@@ -17,7 +17,10 @@ export async function GET() {
     }
     return NextResponse.json({ success: true, data: info });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -32,7 +35,8 @@ export async function PUT(request: Request) {
         where: { id: existing.id },
         data: {
           name: body.name ?? existing.name,
-          totalQuestions: Number(body.totalQuestions) || existing.totalQuestions,
+          totalQuestions:
+            Number(body.totalQuestions) || existing.totalQuestions,
           subtitle: body.subtitle ?? existing.subtitle,
           instruction: body.instruction ?? existing.instruction,
           status: body.status ?? existing.status,
@@ -52,6 +56,9 @@ export async function PUT(request: Request) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }

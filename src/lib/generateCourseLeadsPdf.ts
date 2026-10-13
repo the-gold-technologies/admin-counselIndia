@@ -22,7 +22,7 @@ export function generateCourseLeadsPdf(leads: CourseLeadItem[]) {
   doc.text(
     `Exported: ${new Date().toLocaleDateString()} | Total Records: ${leads.length}`,
     margin,
-    25
+    25,
   );
 
   // Table header bar
@@ -78,7 +78,11 @@ export function generateCourseLeadsPdf(leads: CourseLeadItem[]) {
     doc.text((lead.name || "-").slice(0, 24), margin + 14, currentY + 4.8);
     doc.text((lead.email || "-").slice(0, 30), margin + 65, currentY + 4.8);
     doc.text(lead.mobile || "-", margin + 125, currentY + 4.8);
-    doc.text((lead.courseName || "-").slice(0, 40), margin + 160, currentY + 4.8);
+    doc.text(
+      (lead.courseName || "-").slice(0, 40),
+      margin + 160,
+      currentY + 4.8,
+    );
     doc.text(lead.status || "New", margin + 235, currentY + 4.8);
     doc.text(lead.addedOn || "-", margin + 255, currentY + 4.8);
 

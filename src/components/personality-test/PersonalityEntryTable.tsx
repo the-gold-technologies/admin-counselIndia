@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, Download, Eye, ChevronLeft, ChevronRight, X, Loader2, User } from "lucide-react";
+import {
+  Search,
+  Download,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Loader2,
+  User,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface PersonalityEntryItem {
@@ -29,7 +38,8 @@ export default function PersonalityEntryTable() {
   const [limit, setLimit] = useState(25);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedEntry, setSelectedEntry] = useState<PersonalityEntryItem | null>(null);
+  const [selectedEntry, setSelectedEntry] =
+    useState<PersonalityEntryItem | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -97,7 +107,10 @@ export default function PersonalityEntryTable() {
       `"${e.hereFrom}"`,
     ]);
 
-    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((r) => r.join(",")),
+    ].join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -174,49 +187,71 @@ export default function PersonalityEntryTable() {
             <tbody className="divide-y divide-gray-100 text-xs">
               {loading ? (
                 <tr>
-                  <td colSpan={12} className="py-12 text-center text-gray-400 font-medium">
+                  <td
+                    colSpan={12}
+                    className="py-12 text-center text-gray-400 font-medium"
+                  >
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#09A64A]" />
                     Loading personality test entries...
                   </td>
                 </tr>
               ) : entries.length === 0 ? (
                 <tr>
-                  <td colSpan={12} className="py-12 text-center text-gray-400 font-medium">
+                  <td
+                    colSpan={12}
+                    className="py-12 text-center text-gray-400 font-medium"
+                  >
                     No entries found matching your search.
                   </td>
                 </tr>
               ) : (
                 entries.map((entry) => (
-                  <tr key={entry.id} className="hover:bg-gray-50/80 transition-colors">
+                  <tr
+                    key={entry.id}
+                    className="hover:bg-gray-50/80 transition-colors"
+                  >
                     <td className="py-3.5 px-3.5 text-center font-bold text-gray-400">
                       {entry.liveId || entry.sNo}
                     </td>
                     <td className="py-3.5 px-3.5 font-bold text-gray-900">
                       {entry.name}
                     </td>
-                    <td className="py-3.5 px-3.5 text-gray-600 truncate max-w-[180px]" title={entry.email}>
+                    <td
+                      className="py-3.5 px-3.5 text-gray-600 truncate max-w-[180px]"
+                      title={entry.email}
+                    >
                       {entry.email}
                     </td>
                     <td className="py-3.5 px-3.5 font-medium text-gray-700">
                       {entry.mobile}
                     </td>
                     <td className="py-3.5 px-3 text-center">
-                      <span className={cn(
-                        "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold",
-                        entry.gender === "Female" ? "bg-pink-50 text-pink-700 border border-pink-200" :
-                        entry.gender === "Male" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                        "bg-gray-50 text-gray-600"
-                      )}>
+                      <span
+                        className={cn(
+                          "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold",
+                          entry.gender === "Female"
+                            ? "bg-pink-50 text-pink-700 border border-pink-200"
+                            : entry.gender === "Male"
+                              ? "bg-blue-50 text-blue-700 border border-blue-200"
+                              : "bg-gray-50 text-gray-600",
+                        )}
+                      >
                         {entry.gender || "-"}
                       </span>
                     </td>
                     <td className="py-3.5 px-3 text-center text-gray-600 font-bold">
                       {entry.age || "-"}
                     </td>
-                    <td className="py-3.5 px-3.5 text-gray-600 truncate max-w-[180px]" title={entry.proBackground}>
+                    <td
+                      className="py-3.5 px-3.5 text-gray-600 truncate max-w-[180px]"
+                      title={entry.proBackground}
+                    >
                       {entry.proBackground || "-"}
                     </td>
-                    <td className="py-3.5 px-3.5 text-gray-600 truncate max-w-[200px]" title={entry.purposeGiveTest}>
+                    <td
+                      className="py-3.5 px-3.5 text-gray-600 truncate max-w-[200px]"
+                      title={entry.purposeGiveTest}
+                    >
                       {entry.purposeGiveTest || "-"}
                     </td>
                     <td className="py-3.5 px-3 text-center text-[11px] text-gray-500 font-medium whitespace-nowrap">
@@ -249,9 +284,15 @@ export default function PersonalityEntryTable() {
         {/* Pagination Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-gray-100 bg-[#fafafa]">
           <span className="text-xs text-gray-500 font-medium">
-            Showing <span className="font-bold text-gray-800">{entries.length ? (page - 1) * limit + 1 : 0}</span> to{" "}
-            <span className="font-bold text-gray-800">{Math.min(page * limit, total)}</span> of{" "}
-            <span className="font-bold text-gray-800">{total}</span> entries
+            Showing{" "}
+            <span className="font-bold text-gray-800">
+              {entries.length ? (page - 1) * limit + 1 : 0}
+            </span>{" "}
+            to{" "}
+            <span className="font-bold text-gray-800">
+              {Math.min(page * limit, total)}
+            </span>{" "}
+            of <span className="font-bold text-gray-800">{total}</span> entries
           </span>
 
           <div className="flex items-center gap-1.5">
@@ -286,8 +327,12 @@ export default function PersonalityEntryTable() {
                   <User className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-gray-900">{selectedEntry.name}</h3>
-                  <p className="text-xs text-gray-400">Entry ID: #{selectedEntry.liveId || selectedEntry.sNo}</p>
+                  <h3 className="text-base font-bold text-gray-900">
+                    {selectedEntry.name}
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    Entry ID: #{selectedEntry.liveId || selectedEntry.sNo}
+                  </p>
                 </div>
               </div>
               <button
@@ -301,32 +346,52 @@ export default function PersonalityEntryTable() {
             <div className="flex flex-col gap-3 pt-4 text-xs">
               <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
                 <div>
-                  <span className="text-[11px] font-bold text-gray-400 uppercase">Email</span>
-                  <p className="font-semibold text-gray-800 break-all mt-0.5">{selectedEntry.email}</p>
+                  <span className="text-[11px] font-bold text-gray-400 uppercase">
+                    Email
+                  </span>
+                  <p className="font-semibold text-gray-800 break-all mt-0.5">
+                    {selectedEntry.email}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold text-gray-400 uppercase">Mobile</span>
-                  <p className="font-semibold text-gray-800 mt-0.5">{selectedEntry.mobile}</p>
+                  <span className="text-[11px] font-bold text-gray-400 uppercase">
+                    Mobile
+                  </span>
+                  <p className="font-semibold text-gray-800 mt-0.5">
+                    {selectedEntry.mobile}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold text-gray-400 uppercase">Gender</span>
-                  <p className="font-semibold text-gray-800 mt-0.5">{selectedEntry.gender || "Not specified"}</p>
+                  <span className="text-[11px] font-bold text-gray-400 uppercase">
+                    Gender
+                  </span>
+                  <p className="font-semibold text-gray-800 mt-0.5">
+                    {selectedEntry.gender || "Not specified"}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold text-gray-400 uppercase">Age</span>
-                  <p className="font-semibold text-gray-800 mt-0.5">{selectedEntry.age || "Not specified"}</p>
+                  <span className="text-[11px] font-bold text-gray-400 uppercase">
+                    Age
+                  </span>
+                  <p className="font-semibold text-gray-800 mt-0.5">
+                    {selectedEntry.age || "Not specified"}
+                  </p>
                 </div>
               </div>
 
               <div>
-                <span className="text-[11px] font-bold text-gray-400 uppercase">Professional Background</span>
+                <span className="text-[11px] font-bold text-gray-400 uppercase">
+                  Professional Background
+                </span>
                 <p className="font-medium text-gray-800 p-2.5 bg-gray-50 rounded-xl mt-1 border border-gray-100">
                   {selectedEntry.proBackground || "-"}
                 </p>
               </div>
 
               <div>
-                <span className="text-[11px] font-bold text-gray-400 uppercase">Purpose of Giving Test</span>
+                <span className="text-[11px] font-bold text-gray-400 uppercase">
+                  Purpose of Giving Test
+                </span>
                 <p className="font-medium text-gray-800 p-2.5 bg-gray-50 rounded-xl mt-1 border border-gray-100">
                   {selectedEntry.purposeGiveTest || "-"}
                 </p>
@@ -334,16 +399,28 @@ export default function PersonalityEntryTable() {
 
               <div className="grid grid-cols-3 gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100 text-center">
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase">Date</span>
-                  <p className="font-semibold text-gray-700 text-[11px] mt-0.5">{selectedEntry.date}</p>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">
+                    Date
+                  </span>
+                  <p className="font-semibold text-gray-700 text-[11px] mt-0.5">
+                    {selectedEntry.date}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase">Result Score</span>
-                  <p className="font-bold text-emerald-700 text-[11px] mt-0.5">{selectedEntry.result}</p>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">
+                    Result Score
+                  </span>
+                  <p className="font-bold text-emerald-700 text-[11px] mt-0.5">
+                    {selectedEntry.result}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase">Source</span>
-                  <p className="font-semibold text-gray-700 text-[11px] mt-0.5">{selectedEntry.hereFrom || "-"}</p>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">
+                    Source
+                  </span>
+                  <p className="font-semibold text-gray-700 text-[11px] mt-0.5">
+                    {selectedEntry.hereFrom || "-"}
+                  </p>
                 </div>
               </div>
             </div>

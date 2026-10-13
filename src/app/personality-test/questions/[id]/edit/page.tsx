@@ -13,7 +13,11 @@ const PERSONALITY_TYPES = [
   "Initiator",
 ];
 
-export default function EditQuestionPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditQuestionPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const resolvedParams = use(params);
   const questionId = resolvedParams.id;
   const router = useRouter();
@@ -36,15 +40,17 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     const fetchQuestion = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/personality-test/questions?id=${questionId}`);
+        const res = await fetch(
+          `/api/personality-test/questions?id=${questionId}`,
+        );
         const json = await res.json();
         if (json.success && json.data) {
           const item = json.data;
           const parsedAnswers = Array.isArray(item.answers)
             ? item.answers
             : typeof item.answers === "string"
-            ? JSON.parse(item.answers)
-            : [];
+              ? JSON.parse(item.answers)
+              : [];
 
           setFormData({
             question: item.question || "",
@@ -74,7 +80,11 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     fetchQuestion();
   }, [questionId, router]);
 
-  const handleAnswerChange = (idx: number, field: "answer" | "value", val: string) => {
+  const handleAnswerChange = (
+    idx: number,
+    field: "answer" | "value",
+    val: string,
+  ) => {
     const nextAnswers = [...formData.answers];
     nextAnswers[idx] = { ...nextAnswers[idx], [field]: val };
     setFormData({ ...formData, answers: nextAnswers });
@@ -109,7 +119,9 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     return (
       <div className="w-full max-w-4xl mx-auto pt-16 flex flex-col items-center justify-center gap-3 text-gray-500">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A]" />
-        <span className="text-sm font-semibold">Loading question details...</span>
+        <span className="text-sm font-semibold">
+          Loading question details...
+        </span>
       </div>
     );
   }
@@ -127,11 +139,17 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
         </Link>
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-0.5">
-            <Link href="/personality-test/questions" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/questions"
+              className="hover:text-[#09A64A]"
+            >
               Personality Test
             </Link>
             <span>/</span>
-            <Link href="/personality-test/questions" className="hover:text-[#09A64A]">
+            <Link
+              href="/personality-test/questions"
+              className="hover:text-[#09A64A]"
+            >
               Questions
             </Link>
             <span>/</span>
@@ -155,7 +173,9 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
               rows={3}
               required
               value={formData.question}
-              onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, question: e.target.value })
+              }
               placeholder="e.g. How do you typically respond to stressful situations?"
               className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
             />
@@ -191,16 +211,22 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                     type="text"
                     required
                     value={ans.answer}
-                    onChange={(e) => handleAnswerChange(idx, "answer", e.target.value)}
+                    onChange={(e) =>
+                      handleAnswerChange(idx, "answer", e.target.value)
+                    }
                     placeholder={`Answer option ${idx + 1}...`}
                     className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
                   />
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-bold text-gray-500">Trait:</span>
+                    <span className="text-xs font-bold text-gray-500">
+                      Trait:
+                    </span>
                     <select
                       value={ans.value}
-                      onChange={(e) => handleAnswerChange(idx, "value", e.target.value)}
+                      onChange={(e) =>
+                        handleAnswerChange(idx, "value", e.target.value)
+                      }
                       className="px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-emerald-800 outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
                     >
                       {PERSONALITY_TYPES.map((pt) => (
@@ -227,7 +253,10 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                 required
                 value={formData.position}
                 onChange={(e) =>
-                  setFormData({ ...formData, position: Number(e.target.value) || 1 })
+                  setFormData({
+                    ...formData,
+                    position: Number(e.target.value) || 1,
+                  })
                 }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all"
               />
@@ -239,7 +268,9 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition-all cursor-pointer"
               >
                 <option value="Active">Active</option>

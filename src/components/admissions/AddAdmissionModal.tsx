@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { X, Plus, User, BookOpen, MapPin, CheckCircle2 } from 'lucide-react';
-import { INITIAL_COURSES, INITIAL_COUNSELORS } from '@/lib/initialData';
+import React, { useState } from "react";
+import { X, Plus, User, BookOpen, MapPin, CheckCircle2 } from "lucide-react";
+import { INITIAL_COURSES, INITIAL_COUNSELORS } from "@/lib/initialData";
 
 interface AddAdmissionModalProps {
   isOpen: boolean;
@@ -10,38 +10,44 @@ interface AddAdmissionModalProps {
   onSuccess: (newAdmission: any) => void;
 }
 
-export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdmissionModalProps) {
+export default function AddAdmissionModal({
+  isOpen,
+  onClose,
+  onSuccess,
+}: AddAdmissionModalProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
+    name: "",
+    email: "",
+    mobile: "",
     courseName: INITIAL_COURSES[0].name,
     academicCounselor: INITIAL_COUNSELORS[0],
     feeAmount: INITIAL_COURSES[0].price,
-    batchName: 'Batch Oct-2026 Alpha',
-    status: 'Enrolled',
-    paymentStatus: 'Paid',
-    dob: '1998-05-15',
+    batchName: "Batch Oct-2026 Alpha",
+    status: "Enrolled",
+    paymentStatus: "Paid",
+    dob: "1998-05-15",
     age: 28,
-    gender: 'Female',
-    nationality: 'Indian',
-    aadharNumber: '',
-    panNumber: '',
-    fatherName: '',
-    fatherMobile: '',
-    permanentAddress: '',
-    city: 'New Delhi',
-    state: 'Delhi',
-    pincode: '110001',
+    gender: "Female",
+    nationality: "Indian",
+    aadharNumber: "",
+    panNumber: "",
+    fatherName: "",
+    fatherMobile: "",
+    permanentAddress: "",
+    city: "New Delhi",
+    state: "Delhi",
+    pincode: "110001",
   });
 
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    if (name === 'courseName') {
+    if (name === "courseName") {
       const selected = INITIAL_COURSES.find((c) => c.name === value);
       setFormData((prev) => ({
         ...prev,
@@ -57,9 +63,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('/api/admissions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -67,10 +73,10 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
         onSuccess(data.data);
         onClose();
       } else {
-        alert(data.error || 'Failed to create admission');
+        alert(data.error || "Failed to create admission");
       }
     } catch (err: any) {
-      alert(err.message || 'Error occurred');
+      alert(err.message || "Error occurred");
     } finally {
       setLoading(false);
     }
@@ -85,7 +91,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
             <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
               New Student Admission
             </h3>
-            <p className="text-xs text-slate-500">Register candidate profile & course enrollment</p>
+            <p className="text-xs text-slate-500">
+              Register candidate profile & course enrollment
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -96,7 +104,10 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5 text-xs max-h-[80vh] overflow-y-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="p-6 space-y-5 text-xs max-h-[80vh] overflow-y-auto"
+        >
           {/* Section 1: Candidate Contact Info */}
           <div>
             <h4 className="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3 flex items-center gap-1.5">
@@ -105,7 +116,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Full Name *</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Full Name *
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -118,7 +131,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Email Address *</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Email Address *
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -131,7 +146,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Mobile Number *</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Mobile Number *
+                </label>
                 <input
                   type="tel"
                   name="mobile"
@@ -144,7 +161,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Gender</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Gender
+                </label>
                 <select
                   name="gender"
                   value={formData.gender}
@@ -158,7 +177,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Aadhar Number</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Aadhar Number
+                </label>
                 <input
                   type="text"
                   name="aadharNumber"
@@ -170,7 +191,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Father / Guardian Name</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Father / Guardian Name
+                </label>
                 <input
                   type="text"
                   name="fatherName"
@@ -191,7 +214,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="md:col-span-2">
-                <label className="font-semibold text-slate-700 block mb-1">Select Program *</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Select Program *
+                </label>
                 <select
                   name="courseName"
                   value={formData.courseName}
@@ -207,7 +232,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Academic Counselor</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Academic Counselor
+                </label>
                 <select
                   name="academicCounselor"
                   value={formData.academicCounselor}
@@ -223,7 +250,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Fee Amount (₹)</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Fee Amount (₹)
+                </label>
                 <input
                   type="number"
                   name="feeAmount"
@@ -234,7 +263,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Payment Status</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Payment Status
+                </label>
                 <select
                   name="paymentStatus"
                   value={formData.paymentStatus}
@@ -248,7 +279,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Batch Allocation</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Batch Allocation
+                </label>
                 <input
                   type="text"
                   name="batchName"
@@ -268,7 +301,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="md:col-span-3">
-                <label className="font-semibold text-slate-700 block mb-1">Permanent Address</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Permanent Address
+                </label>
                 <input
                   type="text"
                   name="permanentAddress"
@@ -280,7 +315,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">City</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  City
+                </label>
                 <input
                   type="text"
                   name="city"
@@ -291,7 +328,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">State</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  State
+                </label>
                 <input
                   type="text"
                   name="state"
@@ -302,7 +341,9 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Pincode</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Pincode
+                </label>
                 <input
                   type="text"
                   name="pincode"
@@ -329,7 +370,7 @@ export default function AddAdmissionModal({ isOpen, onClose, onSuccess }: AddAdm
               className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Plus className="w-4 h-4" />
-              <span>{loading ? 'Registering...' : 'Register Admission'}</span>
+              <span>{loading ? "Registering..." : "Register Admission"}</span>
             </button>
           </div>
         </form>

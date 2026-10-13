@@ -36,9 +36,9 @@ export default function CounsellorDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [imgError, setImgError] = useState(false);
-  const [activeTab, setActiveTab] = useState<"overview" | "documents" | "pricing" | "banking">(
-    "overview"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "documents" | "pricing" | "banking"
+  >("overview");
 
   useEffect(() => {
     if (!id) return;
@@ -66,7 +66,9 @@ export default function CounsellorDetailPage() {
     return (
       <div className="py-24 text-center">
         <div className="w-8 h-8 border-2 border-[#09A64A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-xs font-semibold text-gray-500">Loading counsellor dossier...</p>
+        <p className="text-xs font-semibold text-gray-500">
+          Loading counsellor dossier...
+        </p>
       </div>
     );
   }
@@ -74,8 +76,12 @@ export default function CounsellorDetailPage() {
   if (error || !counsellor) {
     return (
       <div className="py-16 text-center max-w-md mx-auto">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Counsellor Not Found</h2>
-        <p className="text-xs text-gray-500 mb-6">{error || "Could not retrieve counsellor profile."}</p>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">
+          Counsellor Not Found
+        </h2>
+        <p className="text-xs text-gray-500 mb-6">
+          {error || "Could not retrieve counsellor profile."}
+        </p>
         <Link
           href="/counsellors"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#09A64A] text-white font-bold text-xs"
@@ -100,7 +106,9 @@ export default function CounsellorDetailPage() {
     .join("")
     .toUpperCase();
 
-  const safeImageUrl = counsellor.image ? encodeURI(counsellor.image.trim()) : null;
+  const safeImageUrl = counsellor.image
+    ? encodeURI(counsellor.image.trim())
+    : null;
 
   return (
     <div className="space-y-6 pb-20 w-full">
@@ -245,63 +253,85 @@ export default function CounsellorDetailPage() {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Designation</span>
+                    <span className="text-xs text-gray-500 block">
+                      Designation
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.designation || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Education / Qualification</span>
+                    <span className="text-xs text-gray-500 block">
+                      Education / Qualification
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.education || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Experience</span>
+                    <span className="text-xs text-gray-500 block">
+                      Experience
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
-                      {counsellor.experience ? `${counsellor.experience} years` : "-"}
+                      {counsellor.experience
+                        ? `${counsellor.experience} years`
+                        : "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Primary Specialty</span>
+                    <span className="text-xs text-gray-500 block">
+                      Primary Specialty
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.specialty || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Secondary Specialty</span>
+                    <span className="text-xs text-gray-500 block">
+                      Secondary Specialty
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.specialty2 || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Location / City</span>
+                    <span className="text-xs text-gray-500 block">
+                      Location / City
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
-                      {[counsellor.city, counsellor.country].filter(Boolean).join(", ") || "-"}
+                      {[counsellor.city, counsellor.country]
+                        .filter(Boolean)
+                        .join(", ") || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Languages Spoken</span>
+                    <span className="text-xs text-gray-500 block">
+                      Languages Spoken
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.language || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Added On</span>
+                    <span className="text-xs text-gray-500 block">
+                      Added On
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.addedOn || "-"}
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                    <span className="text-xs text-gray-500 block">Updated On</span>
+                    <span className="text-xs text-gray-500 block">
+                      Updated On
+                    </span>
                     <span className="text-sm font-bold text-gray-900 block mt-0.5">
                       {counsellor.updatedOn || "-"}
                     </span>
@@ -346,9 +376,13 @@ export default function CounsellorDetailPage() {
                 {/* Profile Photo */}
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100 flex items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-gray-900 block">Profile Photo</span>
+                    <span className="text-xs font-bold text-gray-900 block">
+                      Profile Photo
+                    </span>
                     <span className="text-[11px] text-gray-500 block">
-                      {counsellor.image ? "Uploaded on file" : "No photo attached"}
+                      {counsellor.image
+                        ? "Uploaded on file"
+                        : "No photo attached"}
                     </span>
                   </div>
                   {counsellor.image ? (
@@ -362,16 +396,22 @@ export default function CounsellorDetailPage() {
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   ) : (
-                    <span className="text-xs text-gray-400 font-semibold">Missing</span>
+                    <span className="text-xs text-gray-400 font-semibold">
+                      Missing
+                    </span>
                   )}
                 </div>
 
                 {/* Identity Proof */}
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100 flex items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-gray-900 block">Identity Proof (Aadhaar / ID)</span>
+                    <span className="text-xs font-bold text-gray-900 block">
+                      Identity Proof (Aadhaar / ID)
+                    </span>
                     <span className="text-[11px] text-gray-500 block">
-                      {counsellor.identityImage ? "Official ID verification document" : "Not uploaded"}
+                      {counsellor.identityImage
+                        ? "Official ID verification document"
+                        : "Not uploaded"}
                     </span>
                   </div>
                   {counsellor.identityImage ? (
@@ -385,16 +425,22 @@ export default function CounsellorDetailPage() {
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   ) : (
-                    <span className="text-xs text-gray-400 font-semibold">Missing</span>
+                    <span className="text-xs text-gray-400 font-semibold">
+                      Missing
+                    </span>
                   )}
                 </div>
 
                 {/* Qualification Proof */}
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100 flex items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-gray-900 block">Qualification Proof</span>
+                    <span className="text-xs font-bold text-gray-900 block">
+                      Qualification Proof
+                    </span>
                     <span className="text-[11px] text-gray-500 block">
-                      {counsellor.qualificationProof ? "Degree / Certificate marksheet" : "Not uploaded"}
+                      {counsellor.qualificationProof
+                        ? "Degree / Certificate marksheet"
+                        : "Not uploaded"}
                     </span>
                   </div>
                   {counsellor.qualificationProof ? (
@@ -408,16 +454,22 @@ export default function CounsellorDetailPage() {
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   ) : (
-                    <span className="text-xs text-gray-400 font-semibold">Missing</span>
+                    <span className="text-xs text-gray-400 font-semibold">
+                      Missing
+                    </span>
                   )}
                 </div>
 
                 {/* CV / Resume */}
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100 flex items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-gray-900 block">CV / Resume Document</span>
+                    <span className="text-xs font-bold text-gray-900 block">
+                      CV / Resume Document
+                    </span>
                     <span className="text-[11px] text-gray-500 block">
-                      {counsellor.cvUrl ? "Professional Curriculum Vitae" : "Not uploaded"}
+                      {counsellor.cvUrl
+                        ? "Professional Curriculum Vitae"
+                        : "Not uploaded"}
                     </span>
                   </div>
                   {counsellor.cvUrl ? (
@@ -431,7 +483,9 @@ export default function CounsellorDetailPage() {
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   ) : (
-                    <span className="text-xs text-gray-400 font-semibold">Missing</span>
+                    <span className="text-xs text-gray-400 font-semibold">
+                      Missing
+                    </span>
                   )}
                 </div>
               </div>
@@ -449,7 +503,9 @@ export default function CounsellorDetailPage() {
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100">
                   <div className="flex items-center gap-2 mb-2">
                     <Video className="w-4 h-4 text-[#09A64A]" />
-                    <span className="text-xs font-bold text-gray-900">Video Consultation</span>
+                    <span className="text-xs font-bold text-gray-900">
+                      Video Consultation
+                    </span>
                   </div>
                   <span className="text-lg font-black text-gray-900 block">
                     ₹{counsellor.videoPrice || 0}
@@ -462,7 +518,9 @@ export default function CounsellorDetailPage() {
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100">
                   <div className="flex items-center gap-2 mb-2">
                     <Mic className="w-4 h-4 text-[#09A64A]" />
-                    <span className="text-xs font-bold text-gray-900">Audio Consultation</span>
+                    <span className="text-xs font-bold text-gray-900">
+                      Audio Consultation
+                    </span>
                   </div>
                   <span className="text-lg font-black text-gray-900 block">
                     ₹{counsellor.audioPrice || 0}
@@ -475,7 +533,9 @@ export default function CounsellorDetailPage() {
                 <div className="p-4 rounded-xl bg-gray-50/70 border border-gray-100">
                   <div className="flex items-center gap-2 mb-2">
                     <MessageSquare className="w-4 h-4 text-[#09A64A]" />
-                    <span className="text-xs font-bold text-gray-900">Chat Consultation</span>
+                    <span className="text-xs font-bold text-gray-900">
+                      Chat Consultation
+                    </span>
                   </div>
                   <span className="text-lg font-black text-gray-900 block">
                     ₹{counsellor.chatPrice || 0}
@@ -488,14 +548,18 @@ export default function CounsellorDetailPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                  <span className="text-xs text-gray-500 block">Expected Charges</span>
+                  <span className="text-xs text-gray-500 block">
+                    Expected Charges
+                  </span>
                   <span className="text-base font-bold text-gray-900 block mt-0.5">
                     ₹{counsellor.expectedCharges || 0}
                   </span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                  <span className="text-xs text-gray-500 block">Counsel India Fees</span>
+                  <span className="text-xs text-gray-500 block">
+                    Counsel India Fees
+                  </span>
                   <span className="text-base font-bold text-gray-900 block mt-0.5">
                     ₹{counsellor.councellFees || 0}
                   </span>
@@ -520,7 +584,9 @@ export default function CounsellorDetailPage() {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                  <span className="text-xs text-gray-500 block">Account Number</span>
+                  <span className="text-xs text-gray-500 block">
+                    Account Number
+                  </span>
                   <span className="text-sm font-bold text-gray-900 block mt-0.5">
                     {counsellor.accountNumber || "-"}
                   </span>
@@ -534,14 +600,18 @@ export default function CounsellorDetailPage() {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100">
-                  <span className="text-xs text-gray-500 block">Account Type</span>
+                  <span className="text-xs text-gray-500 block">
+                    Account Type
+                  </span>
                   <span className="text-sm font-bold text-gray-900 block mt-0.5">
                     {counsellor.accountType || "-"}
                   </span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100 sm:col-span-2">
-                  <span className="text-xs text-gray-500 block">Account Holder Name</span>
+                  <span className="text-xs text-gray-500 block">
+                    Account Holder Name
+                  </span>
                   <span className="text-sm font-bold text-gray-900 block mt-0.5">
                     {counsellor.accountHolderName || "-"}
                   </span>

@@ -51,9 +51,12 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
     <div className="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="font-bold text-lg text-[#0B0F29]">Counsel India Modules</h3>
+          <h3 className="font-bold text-lg text-[#0B0F29]">
+            Counsel India Modules
+          </h3>
           <p className="text-xs font-medium text-gray-400 mt-0.5">
-            Overview of live portals, registries, and student admissions pipelines.
+            Overview of live portals, registries, and student admissions
+            pipelines.
           </p>
         </div>
         <Link
@@ -100,9 +103,15 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
                 const routeUrl = `/${mod.slug}`;
 
                 return (
-                  <tr key={mod.id} className="hover:bg-gray-50/30 transition-colors">
+                  <tr
+                    key={mod.id}
+                    className="hover:bg-gray-50/30 transition-colors"
+                  >
                     <td className="py-3.5">
-                      <Link href={routeUrl} className="flex items-center gap-2.5 group">
+                      <Link
+                        href={routeUrl}
+                        className="flex items-center gap-2.5 group"
+                      >
                         <div className="h-8 w-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#09A64A]/10 group-hover:text-[#09A64A] transition-colors">
                           <Icon className="w-4 h-4" />
                         </div>
@@ -126,7 +135,8 @@ export function ModuleStructure({ stats, loading }: ModuleStructureProps) {
                       </span>
                     </td>
                     <td className="py-3.5 font-bold text-gray-800">
-                      {(mod.recordsCount ?? 0).toLocaleString()} record{(mod.recordsCount ?? 0) === 1 ? "" : "s"}
+                      {(mod.recordsCount ?? 0).toLocaleString()} record
+                      {(mod.recordsCount ?? 0) === 1 ? "" : "s"}
                     </td>
                     <td className="py-3.5 text-right">
                       <Link

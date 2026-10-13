@@ -18,19 +18,22 @@ export const TABS = [
     name: "Personality Test Info",
     href: "/personality-test/personality-test-info",
     icon: Info,
-    description: "Test configuration, student instructions, and live status settings",
+    description:
+      "Test configuration, student instructions, and live status settings",
   },
   {
     name: "Questions",
     href: "/personality-test/questions",
     icon: HelpCircle,
-    description: "Assessment questions, answer choices, and psychological trait mappings",
+    description:
+      "Assessment questions, answer choices, and psychological trait mappings",
   },
   {
     name: "Personality Entry",
     href: "/personality-test/personality-entry",
     icon: Users,
-    description: "Student submissions, test responses, and respondent demographics",
+    description:
+      "Student submissions, test responses, and respondent demographics",
   },
   {
     name: "Tab Result",
@@ -65,7 +68,9 @@ export default function PersonalityTestTabs({
               Content Management
             </span>
             <span className="text-gray-300">•</span>
-            <span className="text-xs font-semibold text-gray-500">Personality Test</span>
+            <span className="text-xs font-semibold text-gray-500">
+              Personality Test
+            </span>
           </div>
           <h1 className="text-2xl sm:text-[26px] font-bold text-[#0B0F29] tracking-tight">
             {activeTitle}
@@ -75,7 +80,9 @@ export default function PersonalityTestTabs({
           </p>
         </div>
 
-        {headerActions && <div className="flex items-center gap-3">{headerActions}</div>}
+        {headerActions && (
+          <div className="flex items-center gap-3">{headerActions}</div>
+        )}
       </div>
 
       {/* Nav Tabs */}
@@ -84,8 +91,10 @@ export default function PersonalityTestTabs({
           const Icon = tab.icon;
           const isActive =
             pathname === tab.href ||
-            (tab.href === "/personality-test/questions" && pathname === "/personality-test/question") ||
-            (tab.href === "/personality-test/personality-test-info" && pathname === "/personality-test");
+            (tab.href === "/personality-test/questions" &&
+              pathname === "/personality-test/question") ||
+            (tab.href === "/personality-test/personality-test-info" &&
+              pathname === "/personality-test");
 
           return (
             <Link
@@ -95,10 +104,15 @@ export default function PersonalityTestTabs({
                 "flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer",
                 isActive
                   ? "bg-[#1f2937] text-white shadow-xs"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
               )}
             >
-              <Icon className={cn("w-4 h-4", isActive ? "text-emerald-400" : "text-gray-400")} />
+              <Icon
+                className={cn(
+                  "w-4 h-4",
+                  isActive ? "text-emerald-400" : "text-gray-400",
+                )}
+              />
               <span>{tab.name}</span>
             </Link>
           );
@@ -106,9 +120,7 @@ export default function PersonalityTestTabs({
       </div>
 
       {/* Main Content Area */}
-      <div className="w-full">
-        {children}
-      </div>
+      <div className="w-full">{children}</div>
     </div>
   );
 }

@@ -16,7 +16,13 @@ interface CounsellorTableProps {
   onToggleStatus: (id: string, currentStatus: string) => void;
 }
 
-function AvatarThumbnail({ image, name }: { image?: string | null; name: string }) {
+function AvatarThumbnail({
+  image,
+  name,
+}: {
+  image?: string | null;
+  name: string;
+}) {
   const [hasError, setHasError] = useState(false);
   const initials = (name || "C")
     .trim()
@@ -89,7 +95,9 @@ export default function CounsellorTable({
             <tr className="bg-[#09A64A] text-white font-semibold text-[13.5px] tracking-wide">
               <th className="py-4.5 px-6 w-18 text-center">S.No</th>
               <th className="py-4.5 px-6 min-w-[260px]">Name &amp; Details</th>
-              <th className="py-4.5 px-6 min-w-[240px]">Specialty &amp; Credentials</th>
+              <th className="py-4.5 px-6 min-w-[240px]">
+                Specialty &amp; Credentials
+              </th>
               <th className="py-4.5 px-6 text-center w-36">Online Status</th>
               <th className="py-4.5 px-6 text-center w-32">Status</th>
               <th className="py-4.5 px-6 text-center w-36">Action</th>
@@ -138,16 +146,24 @@ export default function CounsellorTable({
                             {item.name}
                           </Link>
                           <div className="text-gray-600 text-xs">
-                            Email: <span className="font-medium text-gray-800">{item.email || "-"}</span>
+                            Email:{" "}
+                            <span className="font-medium text-gray-800">
+                              {item.email || "-"}
+                            </span>
                           </div>
                           <div className="text-gray-600 text-xs">
-                            Mobile: <span className="font-medium text-gray-800">{item.mobile || "-"}</span>
+                            Mobile:{" "}
+                            <span className="font-medium text-gray-800">
+                              {item.mobile || "-"}
+                            </span>
                           </div>
                           <div className="text-gray-400 text-[11px] pt-0.5">
                             Added On: {item.addedOn || "-"}
                           </div>
                           <div className="flex items-center gap-1.5 pt-0.5">
-                            <span className="text-[11px] text-gray-500 font-medium">Is Approved:</span>
+                            <span className="text-[11px] text-gray-500 font-medium">
+                              Is Approved:
+                            </span>
                             <span
                               className={`inline-flex items-center gap-1 text-[11px] font-bold ${
                                 isApproved ? "text-[#09A64A]" : "text-amber-600"
@@ -179,7 +195,8 @@ export default function CounsellorTable({
                         )}
                         {item.experience && (
                           <div className="text-xs text-gray-500 font-medium">
-                            Experience: {item.experience} yr{Number(item.experience) === 1 ? "" : "s"}
+                            Experience: {item.experience} yr
+                            {Number(item.experience) === 1 ? "" : "s"}
                           </div>
                         )}
                       </div>
@@ -190,7 +207,9 @@ export default function CounsellorTable({
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
                         <span
                           className={`w-2 h-2 rounded-full ${
-                            isOnline ? "bg-[#09A64A] animate-pulse" : "bg-gray-400"
+                            isOnline
+                              ? "bg-[#09A64A] animate-pulse"
+                              : "bg-gray-400"
                           }`}
                         />
                         <span>{isOnline ? "Online" : "Offline"}</span>
@@ -255,9 +274,13 @@ export default function CounsellorTable({
       <div className="p-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50/50">
         <div className="flex items-center gap-4 text-xs text-gray-500">
           <span>
-            Showing <span className="font-bold text-gray-900">{totalItems > 0 ? startIndex : 0}</span> to{" "}
-            <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
-            <span className="font-bold text-gray-900">{totalItems}</span> entries
+            Showing{" "}
+            <span className="font-bold text-gray-900">
+              {totalItems > 0 ? startIndex : 0}
+            </span>{" "}
+            to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
+            <span className="font-bold text-gray-900">{totalItems}</span>{" "}
+            entries
           </span>
 
           <div className="hidden sm:flex items-center gap-2 pl-4 border-l border-gray-200">
@@ -289,7 +312,10 @@ export default function CounsellorTable({
 
             {getPaginationRange().map((page, idx) =>
               page === "..." ? (
-                <span key={`ellipsis-${idx}`} className="px-2 text-gray-400 font-bold text-xs select-none">
+                <span
+                  key={`ellipsis-${idx}`}
+                  className="px-2 text-gray-400 font-bold text-xs select-none"
+                >
                   ...
                 </span>
               ) : (
@@ -304,11 +330,13 @@ export default function CounsellorTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
 
             <button
-              onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                onPageChange(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage === totalPages}
               className="px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-xs font-semibold"
             >
@@ -329,7 +357,8 @@ export default function CounsellorTable({
               Delete Counsellor?
             </h3>
             <p className="text-xs text-gray-500 text-center mb-6">
-              This action cannot be undone. Are you sure you want to remove this counsellor from the system?
+              This action cannot be undone. Are you sure you want to remove this
+              counsellor from the system?
             </p>
             <div className="flex items-center gap-3">
               <button

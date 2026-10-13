@@ -228,14 +228,14 @@ export default function AddCounsellorModal({
 
   const handleChange = (
     field: string,
-    value: string | number | boolean | null
+    value: string | number | boolean | null,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileUpload = (
     field: "image" | "identityImage" | "qualificationProof" | "cvUrl",
-    file: File
+    file: File,
   ) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -247,7 +247,11 @@ export default function AddCounsellorModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.mobile.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.mobile.trim()
+    ) {
       setError("Name, Email, and Mobile are required fields");
       return;
     }
@@ -256,9 +260,10 @@ export default function AddCounsellorModal({
       setLoading(true);
       setError(null);
 
-      const url = isEditing && initialData?.id
-        ? `/api/counsellors/${initialData.id}`
-        : "/api/counsellors";
+      const url =
+        isEditing && initialData?.id
+          ? `/api/counsellors/${initialData.id}`
+          : "/api/counsellors";
       const method = isEditing ? "PATCH" : "POST";
 
       const res = await fetch(url, {
@@ -294,10 +299,13 @@ export default function AddCounsellorModal({
           </button>
 
           <h2 className="text-xl font-black text-white tracking-tight">
-            {isEditing ? `Edit Counsellor: ${initialData?.name}` : "Add New Counsellor"}
+            {isEditing
+              ? `Edit Counsellor: ${initialData?.name}`
+              : "Add New Counsellor"}
           </h2>
           <p className="text-xs text-gray-400 mt-1">
-            Fill in the counsellor profile details, documents, and platform configurations.
+            Fill in the counsellor profile details, documents, and platform
+            configurations.
           </p>
 
           {/* Navigation Tabs */}
@@ -327,7 +335,10 @@ export default function AddCounsellorModal({
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 flex flex-col overflow-hidden"
+        >
           <div className="p-6 overflow-y-auto flex-1 space-y-6 bg-gray-50/50">
             {error && (
               <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
@@ -388,7 +399,12 @@ export default function AddCounsellorModal({
 
                   <div>
                     <label className="font-bold text-gray-700 block mb-1.5">
-                      Password {isEditing && <span className="text-gray-400 font-normal">(leave blank to keep current)</span>}
+                      Password{" "}
+                      {isEditing && (
+                        <span className="text-gray-400 font-normal">
+                          (leave blank to keep current)
+                        </span>
+                      )}
                     </label>
                     <input
                       type="password"
@@ -469,7 +485,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.designation}
-                      onChange={(e) => handleChange("designation", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("designation", e.target.value)
+                      }
                       placeholder="e.g. COUNSELLING PSYCHOLOGIST"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -482,7 +500,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.education}
-                      onChange={(e) => handleChange("education", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("education", e.target.value)
+                      }
                       placeholder="e.g. Post Graduate / M.Sc Psychology"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -490,12 +510,15 @@ export default function AddCounsellorModal({
 
                   <div>
                     <label className="font-bold text-gray-700 block mb-1.5">
-                      Experience (Years) <span className="text-rose-500">*</span>
+                      Experience (Years){" "}
+                      <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.experience}
-                      onChange={(e) => handleChange("experience", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("experience", e.target.value)
+                      }
                       placeholder="e.g. 2"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -507,7 +530,9 @@ export default function AddCounsellorModal({
                     </label>
                     <select
                       value={formData.specialty}
-                      onChange={(e) => handleChange("specialty", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("specialty", e.target.value)
+                      }
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A] bg-white cursor-pointer"
                     >
                       <option value="">Select Specialty</option>
@@ -526,7 +551,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.specialty2}
-                      onChange={(e) => handleChange("specialty2", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("specialty2", e.target.value)
+                      }
                       placeholder="Custom specialty..."
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -539,7 +566,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.rciNumber}
-                      onChange={(e) => handleChange("rciNumber", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("rciNumber", e.target.value)
+                      }
                       placeholder="e.g. A12345"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -552,7 +581,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.expertise}
-                      onChange={(e) => handleChange("expertise", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("expertise", e.target.value)
+                      }
                       placeholder="e.g. Cognitive behavioral therapy, Anxiety, Child Counseling"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] focus:ring-1 focus:ring-[#09A64A]"
                     />
@@ -572,7 +603,9 @@ export default function AddCounsellorModal({
                   {/* Profile Image */}
                   <div className="border border-gray-200 rounded-2xl p-4 bg-gray-50 flex flex-col justify-between">
                     <div>
-                      <span className="font-bold text-gray-800 block mb-2">Profile Image</span>
+                      <span className="font-bold text-gray-800 block mb-2">
+                        Profile Image
+                      </span>
                       {formData.image ? (
                         <img
                           src={formData.image}
@@ -660,7 +693,8 @@ export default function AddCounsellorModal({
                         className="hidden"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (file) handleFileUpload("qualificationProof", file);
+                          if (file)
+                            handleFileUpload("qualificationProof", file);
                         }}
                       />
                     </label>
@@ -717,16 +751,22 @@ export default function AddCounsellorModal({
                       <input
                         type="checkbox"
                         checked={formData.videoStatus}
-                        onChange={(e) => handleChange("videoStatus", e.target.checked)}
+                        onChange={(e) =>
+                          handleChange("videoStatus", e.target.checked)
+                        }
                         className="w-4 h-4 accent-[#09A64A]"
                       />
                     </label>
                     <div>
-                      <label className="text-gray-500 block mb-1">Video Price (₹)</label>
+                      <label className="text-gray-500 block mb-1">
+                        Video Price (₹)
+                      </label>
                       <input
                         type="number"
                         value={formData.videoPrice}
-                        onChange={(e) => handleChange("videoPrice", Number(e.target.value))}
+                        onChange={(e) =>
+                          handleChange("videoPrice", Number(e.target.value))
+                        }
                         className="w-full px-3 py-1.5 rounded-lg border border-gray-200 bg-white"
                       />
                     </div>
@@ -739,16 +779,22 @@ export default function AddCounsellorModal({
                       <input
                         type="checkbox"
                         checked={formData.audioStatus}
-                        onChange={(e) => handleChange("audioStatus", e.target.checked)}
+                        onChange={(e) =>
+                          handleChange("audioStatus", e.target.checked)
+                        }
                         className="w-4 h-4 accent-[#09A64A]"
                       />
                     </label>
                     <div>
-                      <label className="text-gray-500 block mb-1">Audio Price (₹)</label>
+                      <label className="text-gray-500 block mb-1">
+                        Audio Price (₹)
+                      </label>
                       <input
                         type="number"
                         value={formData.audioPrice}
-                        onChange={(e) => handleChange("audioPrice", Number(e.target.value))}
+                        onChange={(e) =>
+                          handleChange("audioPrice", Number(e.target.value))
+                        }
                         className="w-full px-3 py-1.5 rounded-lg border border-gray-200 bg-white"
                       />
                     </div>
@@ -761,16 +807,22 @@ export default function AddCounsellorModal({
                       <input
                         type="checkbox"
                         checked={formData.chatStatus}
-                        onChange={(e) => handleChange("chatStatus", e.target.checked)}
+                        onChange={(e) =>
+                          handleChange("chatStatus", e.target.checked)
+                        }
                         className="w-4 h-4 accent-[#09A64A]"
                       />
                     </label>
                     <div>
-                      <label className="text-gray-500 block mb-1">Chat Price (₹)</label>
+                      <label className="text-gray-500 block mb-1">
+                        Chat Price (₹)
+                      </label>
                       <input
                         type="number"
                         value={formData.chatPrice}
-                        onChange={(e) => handleChange("chatPrice", Number(e.target.value))}
+                        onChange={(e) =>
+                          handleChange("chatPrice", Number(e.target.value))
+                        }
                         className="w-full px-3 py-1.5 rounded-lg border border-gray-200 bg-white"
                       />
                     </div>
@@ -784,7 +836,12 @@ export default function AddCounsellorModal({
                       <input
                         type="number"
                         value={formData.expectedCharges}
-                        onChange={(e) => handleChange("expectedCharges", Number(e.target.value))}
+                        onChange={(e) =>
+                          handleChange(
+                            "expectedCharges",
+                            Number(e.target.value),
+                          )
+                        }
                         className="w-full px-3 py-1.5 rounded-lg border border-gray-200 bg-white"
                       />
                     </div>
@@ -797,7 +854,9 @@ export default function AddCounsellorModal({
                     <input
                       type="number"
                       value={formData.councellFees}
-                      onChange={(e) => handleChange("councellFees", Number(e.target.value))}
+                      onChange={(e) =>
+                        handleChange("councellFees", Number(e.target.value))
+                      }
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
                   </div>
@@ -809,7 +868,9 @@ export default function AddCounsellorModal({
                     <input
                       type="number"
                       value={formData.commission}
-                      onChange={(e) => handleChange("commission", Number(e.target.value))}
+                      onChange={(e) =>
+                        handleChange("commission", Number(e.target.value))
+                      }
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
                   </div>
@@ -845,7 +906,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.accountNumber}
-                      onChange={(e) => handleChange("accountNumber", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("accountNumber", e.target.value)
+                      }
                       placeholder="e.g. 39861095564"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
@@ -870,7 +933,9 @@ export default function AddCounsellorModal({
                     </label>
                     <select
                       value={formData.accountType}
-                      onChange={(e) => handleChange("accountType", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("accountType", e.target.value)
+                      }
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A] bg-white cursor-pointer"
                     >
                       <option value="Savings">Savings</option>
@@ -885,7 +950,9 @@ export default function AddCounsellorModal({
                     <input
                       type="text"
                       value={formData.accountHolderName}
-                      onChange={(e) => handleChange("accountHolderName", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("accountHolderName", e.target.value)
+                      }
                       placeholder="e.g. Suhani Saleem"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
@@ -922,7 +989,9 @@ export default function AddCounsellorModal({
                     <textarea
                       rows={3}
                       value={formData.achievements}
-                      onChange={(e) => handleChange("achievements", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("achievements", e.target.value)
+                      }
                       placeholder="Key achievements and milestones..."
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
@@ -935,7 +1004,9 @@ export default function AddCounsellorModal({
                     <textarea
                       rows={3}
                       value={formData.whatBringsYou}
-                      onChange={(e) => handleChange("whatBringsYou", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("whatBringsYou", e.target.value)
+                      }
                       placeholder="Mission and motivation..."
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-[#09A64A]"
                     />
@@ -962,7 +1033,9 @@ export default function AddCounsellorModal({
                       </label>
                       <select
                         value={formData.isApproved ? "1" : "0"}
-                        onChange={(e) => handleChange("isApproved", e.target.value === "1")}
+                        onChange={(e) =>
+                          handleChange("isApproved", e.target.value === "1")
+                        }
                         className="w-full px-3.5 py-2 rounded-xl border border-gray-200 bg-white"
                       >
                         <option value="1">Yes (Approved)</option>
@@ -976,12 +1049,16 @@ export default function AddCounsellorModal({
                       </label>
                       <select
                         value={formData.userType}
-                        onChange={(e) => handleChange("userType", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("userType", e.target.value)
+                        }
                         className="w-full px-3.5 py-2 rounded-xl border border-gray-200 bg-white"
                       >
                         <option value="Counselor">Counselor</option>
                         <option value="Trainer">Trainer</option>
-                        <option value="Both Trainer and Counselor">Both Trainer and Counselor</option>
+                        <option value="Both Trainer and Counselor">
+                          Both Trainer and Counselor
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -1005,7 +1082,11 @@ export default function AddCounsellorModal({
               disabled={loading}
               className="px-6 py-2 rounded-xl bg-[#09A64A] hover:bg-[#07883b] text-white font-bold text-xs shadow-md shadow-[#09A64A]/30 transition-all cursor-pointer disabled:opacity-50"
             >
-              {loading ? "Saving..." : isEditing ? "Update Counsellor" : "Save Counsellor"}
+              {loading
+                ? "Saving..."
+                : isEditing
+                  ? "Update Counsellor"
+                  : "Save Counsellor"}
             </button>
           </div>
         </form>

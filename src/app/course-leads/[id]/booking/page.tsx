@@ -138,7 +138,9 @@ export default function CreateBookingPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 animate-spin text-[#09A64A] mb-3" />
-        <p className="text-xs font-semibold text-gray-500">Loading booking information...</p>
+        <p className="text-xs font-semibold text-gray-500">
+          Loading booking information...
+        </p>
       </div>
     );
   }
@@ -172,7 +174,10 @@ export default function CreateBookingPage() {
           <span>Back to Course Leads</span>
         </Link>
         <div className="text-xs text-gray-400">
-          Content Management &bull; <span className="text-gray-700 font-semibold">Create Booking #{lead?.sNo}</span>
+          Content Management &bull;{" "}
+          <span className="text-gray-700 font-semibold">
+            Create Booking #{lead?.sNo}
+          </span>
         </div>
       </div>
 
@@ -233,7 +238,10 @@ export default function CreateBookingPage() {
       )}
 
       {/* Booking Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-6"
+      >
         {error && (
           <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
@@ -244,7 +252,10 @@ export default function CreateBookingPage() {
         {success && (
           <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
-            <span>Booking created successfully! Lead converted to Enrolled. Redirecting...</span>
+            <span>
+              Booking created successfully! Lead converted to Enrolled.
+              Redirecting...
+            </span>
           </div>
         )}
 
@@ -297,9 +308,10 @@ export default function CreateBookingPage() {
                   {c}
                 </option>
               ))}
-              {academicCounselor && !COUNSELOR_OPTIONS.includes(academicCounselor) && (
-                <option value={academicCounselor}>{academicCounselor}</option>
-              )}
+              {academicCounselor &&
+                !COUNSELOR_OPTIONS.includes(academicCounselor) && (
+                  <option value={academicCounselor}>{academicCounselor}</option>
+                )}
             </select>
           </div>
 

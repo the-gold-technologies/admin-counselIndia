@@ -9,16 +9,18 @@ export function downloadLearnerPDF(learner: any) {
 
   const p = learner.personalDetails || {};
   const addr = learner.address || {};
-  const expectations = Array.isArray(learner.courseExpectations) && learner.courseExpectations.length > 0
-    ? learner.courseExpectations
-    : [
-        "Start",
-        "Creating social impact & give it back to the society",
-        "Promotion / Appraisal in existing role",
-        "Job/ Placement",
-        "Improve your own capability of handling life situations.",
-        "Upskilling",
-      ];
+  const expectations =
+    Array.isArray(learner.courseExpectations) &&
+    learner.courseExpectations.length > 0
+      ? learner.courseExpectations
+      : [
+          "Start",
+          "Creating social impact & give it back to the society",
+          "Promotion / Appraisal in existing role",
+          "Job/ Placement",
+          "Improve your own capability of handling life situations.",
+          "Upskilling",
+        ];
 
   const education = Array.isArray(learner.educationHistory)
     ? learner.educationHistory
@@ -183,9 +185,10 @@ export function downloadLearnerPDF(learner: any) {
     doc.text(secName, leftMargin, p2y + 3);
     p2y += 5;
 
-    const eduItem = education.find((e: any) =>
-      e.level?.toLowerCase().includes(secName.toLowerCase())
-    ) || {};
+    const eduItem =
+      education.find((e: any) =>
+        e.level?.toLowerCase().includes(secName.toLowerCase()),
+      ) || {};
 
     const eduRows = [
       ["Course Name", eduItem.courseName || ""],

@@ -22,7 +22,7 @@ export function generateCoursesPdf(courses: Course[]) {
   doc.text(
     `Exported: ${new Date().toLocaleDateString()} | Total Records: ${courses.length}`,
     margin,
-    25
+    25,
   );
 
   // Table header bar
@@ -77,7 +77,10 @@ export function generateCoursesPdf(courses: Course[]) {
     const sNo = index + 1;
     const name = (course.name || "-").slice(0, 55);
     const category = (course.category || "-").slice(0, 24);
-    const duration = (course.listDuration || course.duration || "-").slice(0, 18);
+    const duration = (course.listDuration || course.duration || "-").slice(
+      0,
+      18,
+    );
     const fee = course.totalDiscountFee ? `₹${course.totalDiscountFee}` : "-";
     const pos = String(course.position || index + 1);
     const status = course.status || "Active";

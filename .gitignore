@@ -29,3 +29,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local prettier configuration (not for github)
+.prettierrc*
+.prettierignore
+
