@@ -139,14 +139,13 @@ export default function UploadLeadCsvModal({
     setUploadResult(null);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('category', selectedCategory);
-      formData.append('mode', mode);
-
-      const res = await fetch('/api/leads/upload', {
+      const uploadUrl = `/api/leads/upload?category=${encodeURIComponent(selectedCategory)}&mode=${encodeURIComponent(mode)}`;
+      const res = await fetch(uploadUrl, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'text/csv',
+        },
+        body: file,
       });
 
       const data = await res.json();

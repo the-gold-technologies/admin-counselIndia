@@ -52,10 +52,6 @@ export const LEAD_SUBTABS_CONFIG: Record<string, LeadSubtabMeta> = {
     description: 'Leads captured from marketing landing pages',
     columns: [
       { key: 'sNo', label: 'S.No', align: 'center' },
-      { key: 'courseName', label: 'Course ID' },
-      { key: 'source', label: 'Source' },
-      { key: 'medium', label: 'Medium' },
-      { key: 'content', label: 'Content' },
       { key: 'name', label: 'Name' },
       { key: 'email', label: 'Email' },
       { key: 'mobile', label: 'Phone Number' },
@@ -230,6 +226,8 @@ export const LEAD_SUBTABS_CONFIG: Record<string, LeadSubtabMeta> = {
     columns: [
       { key: 'sNo', label: 'S.No', align: 'center' },
       { key: 'name', label: 'User Details' },
+      { key: 'email', label: 'Email' },
+      { key: 'mobile', label: 'Mobile' },
       { key: 'courseName', label: 'Course' },
       { key: 'addedOn', label: 'Date', align: 'right' },
     ],

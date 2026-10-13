@@ -2,26 +2,41 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { parseCsvText, mapCsvRecordToLead } from '@/lib/csvParser';
 
-export const maxDuration = 120; // 2 minutes max duration for large CSV files
+export const maxDuration = 300; // 5 minutes max duration for large CSV files
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
-    const file = formData.get('file') as File | null;
-    const category = (formData.get('category') as string)?.trim() || 'subscription';
-    const mode = (formData.get('mode') as string)?.trim() || 'append'; // 'append' or 'replace'
+    const { searchParams } = new URL(request.url);
+    let category = searchParams.get('category')?.trim();
+    let mode = searchParams.get('mode')?.trim() || 'append';
+    let text = '';
 
-    if (!file) {
-      return NextResponse.json({ success: false, error: 'No CSV file provided' }, { status: 400 });
+    const contentType = request.headers.get('content-type') || '';
+
+    if (contentType.includes('multipart/form-data')) {
+      try {
+        const formData = await request.formData();
+        const file = formData.get('file') as File | null;
+        if (formData.get('category')) category = (formData.get('category') as string).trim();
+        if (formData.get('mode')) mode = (formData.get('mode') as string).trim();
+
+        if (file) {
+          const rawText = await file.text();
+          text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
+        }
+      } catch (formErr: any) {
+        console.warn('FormData parse error (file may exceed 10MB), falling back to raw body:', formErr?.message);
+        const rawText = await request.text();
+        text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
+      }
+    } else {
+      // Direct raw CSV upload (supports any file size 10MB, 20MB, 50MB+ without undici formData limit)
+      const rawText = await request.text();
+      text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
     }
 
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      return NextResponse.json({ success: false, error: 'Please upload a valid .csv file' }, { status: 400 });
-    }
+    category = category || 'subscription';
 
-    // Sanitize any raw null bytes or UTF-8 0x00 sequences
-    const rawText = await file.text();
-    const text = rawText ? rawText.replace(/\0/g, '').replace(/\\u0000/g, '').replace(/\u0000/g, '') : '';
     if (!text || text.trim() === '') {
       return NextResponse.json({ success: false, error: 'The uploaded file is empty' }, { status: 400 });
     }
@@ -41,12 +56,17 @@ export async function POST(request: Request) {
 
     // Map records into Prisma InquiryLead shape
     const timestamp = Date.now();
+    const totalRows = parsed.rows.length;
     const leadsToInsert = parsed.rows.map((row, index) => {
-      const mapped = mapCsvRecordToLead(row, category, index);
-      const uniqueId = `lead_${category}_${mapped.liveId || index + 1}_${timestamp}_${Math.random().toString(36).slice(2, 8)}`;
+      // If no explicit liveId/sNo in CSV, assign descending sNo (totalRows - index)
+      // so the newest lead at the top of the CSV is sorted first in the table
+      const fallbackSNo = totalRows - index;
+      const mapped = mapCsvRecordToLead(row, category, fallbackSNo - 1);
+      const uniqueId = `lead_${category}_${mapped.liveId || fallbackSNo}_${timestamp}_${Math.random().toString(36).slice(2, 8)}`;
       return {
         id: uniqueId,
         ...mapped,
+        sNo: mapped.liveId && /^\d+$/.test(mapped.liveId) ? parseInt(mapped.liveId, 10) : fallbackSNo,
       };
     });
 

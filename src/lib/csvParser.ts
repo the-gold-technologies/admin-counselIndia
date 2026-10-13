@@ -107,6 +107,17 @@ export function detectAndFixHeaders(rawHeaders: string[], sampleRows: string[][]
     }
   }
 
+  // Signature 4: Personality Test export (State header exists in table THs, but data rows have only 11 columns, Date is at col 8)
+  if (
+    rawHeaders.length === 12 &&
+    (maxColCount === 11 || (sampleRows.length > 0 && sampleRows.slice(0, 5).some((r) => r.length === 11))) &&
+    norm[0] === 'id' &&
+    norm[6] === 'probackground' &&
+    (norm[7] === 'purposegivetest' || norm[7] === 'purpose')
+  ) {
+    return ['#Id', 'Name', 'Email', 'Mobile', 'Gender', 'Age', 'Pro Background', 'Purpose Give Test', 'Date', 'Result', 'Here From'];
+  }
+
   // Pad any extra columns with Extra_N so no data is dropped
   if (maxColCount > rawHeaders.length) {
     const fixed = [...rawHeaders];
@@ -252,8 +263,8 @@ export function mapCsvRecordToLead(
   const state = getVal('state', 'stateid', 'state_id', 'statename', 'province', 'region');
   const city = getVal('city', 'cityid', 'city_id', 'cityname', 'district', 'location', 'place');
 
-  // Marketing UTM
-  const medium = getVal('medium', 'utmmedium');
+  // Marketing UTM / Type
+  const medium = getVal('medium', 'utmmedium', 'type');
   const rawSource = getVal('source', 'utmsource');
   const content = getVal('content', 'utmcontent', 'campaign', 'utmcampaign');
 
@@ -283,10 +294,10 @@ export function mapCsvRecordToLead(
   const newsletterName = getVal('newslettername', 'newsletter');
   if (newsletterName) extraData.newsletterName = newsletterName;
 
-  // Certificate Data
+  // Certificate Data & Result
   const certificateType = getVal('certificatetype');
   if (certificateType) extraData.certificateType = certificateType;
-  const marks = getVal('marks', 'score', 'percentage');
+  const marks = getVal('marks', 'score', 'percentage', 'result', 'testresult', 'test_result');
   if (marks) extraData.marks = marks;
   const viewPath = getVal('viewpath', 'view_path', 'certificateurl', 'certificate_url', 'pdfpath', 'pdf_path', 'pdfurl', 'pdf_url', 'pdf', 'url', 'filepath', 'file_path');
   if (viewPath) extraData.viewPath = viewPath;
@@ -323,7 +334,7 @@ export function mapCsvRecordToLead(
   if (age) extraData.age = age;
   const proBackground = getVal('probackground', 'profession', 'background');
   if (proBackground) extraData.proBackground = proBackground;
-  const purpose = getVal('purpose');
+  const purpose = getVal('purpose', 'purposegivetest', 'purpose_give_test', 'give_test', 'givetest', 'purposetest');
   if (purpose) extraData.purpose = purpose;
 
   // Collect any remaining unknown columns
@@ -343,11 +354,11 @@ export function mapCsvRecordToLead(
     'coursetype', 'programtype', 'type',
     'coursename', 'course', 'program', 'workshop', 'courseid', 'course_id',
     'addedon', 'addedat', 'createdat', 'date', 'submissiondate', 'timestamp', 'createddate', 'updatedat', 'updatedon', 'updated_at', 'updated_on',
-    'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage',
+    'ebookname', 'ebook', 'newslettername', 'newsletter', 'certificatetype', 'marks', 'score', 'percentage', 'result', 'testresult',
     'viewpath', 'view_path', 'certificateurl', 'certificate_url', 'pdfpath', 'pdf_path', 'pdfurl', 'pdf_url', 'pdf', 'url', 'filepath', 'file_path',
     'referbyname', 'referredbyname', 'referrername', 'referbyemail', 'referredbyemail', 'referreremail', 'referbyphone', 'referredbyphone', 'referrerphone',
     'courserefer', 'course_refer', 'referredcourse', 'refercourse',
-    'leadname', 'gender', 'sex', 'age', 'probackground', 'profession', 'background', 'purpose'
+    'leadname', 'gender', 'sex', 'age', 'probackground', 'profession', 'background', 'purpose', 'purposegivetest'
   ]);
 
   for (const [origKey, val] of Object.entries(record)) {

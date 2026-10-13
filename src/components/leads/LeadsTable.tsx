@@ -116,8 +116,12 @@ function renderCell(
       value = lead.state ?? lead.extraData?.state ?? lead.extraData?.stateName;
     } else if (key === 'city') {
       value = lead.city ?? lead.extraData?.city ?? lead.extraData?.cityName;
+    } else if (key === 'medium') {
+      value = lead.medium ?? lead.courseType ?? lead.extraData?.type ?? lead.extraData?.['Type'] ?? lead.extraData?.medium;
+    } else if (key === 'purpose') {
+      value = lead.extraData?.purpose ?? lead.extraData?.['Purpose Give Test'] ?? lead.extraData?.purposegivetest ?? lead.extraData?.purposeGiveTest;
     } else if (key === 'marks') {
-      value = lead.extraData?.marks ?? lead.extraData?.score;
+      value = lead.extraData?.marks ?? lead.extraData?.score ?? lead.extraData?.result ?? lead.extraData?.['Result'] ?? lead.extraData?.testResult;
     } else if (key === 'certificateType') {
       value = lead.extraData?.certificateType;
     } else if (key === 'viewPath') {
@@ -240,6 +244,16 @@ export default function LeadsTable({
     setFilterEmail('');
     setFilterMobile('');
     setActiveFilters({ name: '', email: '', mobile: '' });
+    setCurrentPage(1);
+  };
+
+  // Dedicated UTM search state (matching UTM Data tab)
+  const [utmSearch, setUtmSearch] = useState('');
+
+  const handleUtmSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearch(utmSearch);
+    setDebouncedSearch(utmSearch);
     setCurrentPage(1);
   };
 
@@ -451,6 +465,41 @@ export default function LeadsTable({
           </div>
         </form>
       </div>
+      )}
+
+      {/* UTM Information & Search Card - Shown on UTM Data and Landing Page Utm tabs */}
+      {(category === 'utm-data' || category === 'landing-page-utm') && (
+        <div className="bg-white p-6 rounded-xl border border-gray-200/90 shadow-sm space-y-4">
+          <h2 className="text-base sm:text-lg font-bold text-gray-700 tracking-tight">{title}</h2>
+
+          <form onSubmit={handleUtmSearchSubmit} className="pt-1">
+            <div className="flex w-full max-w-xl">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={utmSearch}
+                onChange={(e) => setUtmSearch(e.target.value)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all bg-white"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2 bg-[#07a64b] hover:bg-[#068f40] text-white text-xs sm:text-sm font-medium rounded-r-md transition-colors shadow-sm cursor-pointer shrink-0"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+
+          <div className="pt-2 text-xs sm:text-sm text-gray-700 space-y-3">
+            <p className="font-bold text-gray-800">Example</p>
+            <p className="break-all leading-relaxed font-normal text-gray-700">
+              UTM LINK= https://www.counselindia.com/course/mba-in-industrial-organizational-psychology?utm_source=google&amp;utm_medium=email&amp;utm_campaign=newcourse&amp;utm_id=id9&amp;utm_term=bestcourse&amp;utm_content=googleads
+            </p>
+            <p className="break-all leading-relaxed font-normal text-gray-700">
+              campaign id:id9, campaign source:google, campaign medium:email, campaign name:newcourse, campaign term:bestcourse, campaign content:googleads.
+            </p>
+          </div>
+        </div>
       )}
 
       {/* Toolbar */}

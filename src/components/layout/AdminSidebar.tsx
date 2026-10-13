@@ -68,23 +68,59 @@ const sidebarLinks: SidebarItem[] = [
     icon: Layers,
     sublinks: [
       { title: "Subscribe", href: "/leads/subscribe", icon: MessageSquareText },
-      { title: "Landing Pages", href: "/leads/landing-page", icon: MessageSquareText },
-      { title: "Exit Intent", href: "/leads/exit-intent", icon: MessageSquareText },
+      {
+        title: "Landing Pages",
+        href: "/leads/landing-page",
+        icon: MessageSquareText,
+      },
+      {
+        title: "Exit Intent",
+        href: "/leads/exit-intent",
+        icon: MessageSquareText,
+      },
       { title: "Contact Us", href: "/leads/contact-us", icon: User },
       { title: "Book a Session", href: "/leads/book-session", icon: User },
       { title: "Ci For Business", href: "/leads/ci-business", icon: User },
-      { title: "Personality Test", href: "/leads/personality-test", icon: MessageSquareText },
+      {
+        title: "Personality Test",
+        href: "/leads/personality-test",
+        icon: MessageSquareText,
+      },
       { title: "Ebook", href: "/leads/ebook", icon: MessageSquareText },
-      { title: "Newsletter", href: "/leads/newsletter", icon: MessageSquareText },
-      { title: "Courses Enquiry", href: "/leads/courses-enquiry", icon: MessageSquareText },
+      {
+        title: "Newsletter",
+        href: "/leads/newsletter",
+        icon: MessageSquareText,
+      },
+      {
+        title: "Courses Enquiry",
+        href: "/leads/courses-enquiry",
+        icon: MessageSquareText,
+      },
       { title: "utm data", href: "/leads/utm-data", icon: MessageSquareText },
-      { title: "Landing Page UTM", href: "/leads/landing-page-utm", icon: MessageSquareText },
-      { title: "course registeration", href: "/leads/course-registration", icon: MessageSquareText },
+      {
+        title: "Landing Page UTM",
+        href: "/leads/landing-page-utm",
+        icon: MessageSquareText,
+      },
+      {
+        title: "course registeration",
+        href: "/leads/course-registration",
+        icon: MessageSquareText,
+      },
       { title: "Ask Question", href: "/leads/ask-question", icon: User },
       { title: "App Data", href: "/leads/app-data", icon: User },
-      { title: "certificate_data", href: "/leads/certificate-data", icon: User },
+      {
+        title: "certificate_data",
+        href: "/leads/certificate-data",
+        icon: User,
+      },
       { title: "leadform data", href: "/leads/leadform-data", icon: User },
-      { title: "Refer Enquiry", href: "/leads/refer-enquiry", icon: MessageSquareText },
+      {
+        title: "Refer Enquiry",
+        href: "/leads/refer-enquiry",
+        icon: MessageSquareText,
+      },
     ],
   },
   {
@@ -95,11 +131,7 @@ const sidebarLinks: SidebarItem[] = [
       { title: "Questions", href: "/personality-test/questions" },
     ],
   },
-  {
-    title: "Profile",
-    href: "/profile",
-    icon: User,
-  },
+
   {
     title: "Settings",
     icon: Settings,
@@ -111,13 +143,22 @@ const sidebarLinks: SidebarItem[] = [
       { title: "Footer Settings", href: "/settings/footer" },
     ],
   },
+  {
+    title: "Profile",
+    href: "/profile",
+    icon: User,
+  },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; role: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState<{
+    name: string;
+    email: string;
+    role: string;
+  } | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -150,8 +191,9 @@ export function AdminSidebar() {
       .filter((item) =>
         item.sublinks?.some(
           (sublink) =>
-            pathname === sublink.href || pathname.startsWith(sublink.href + "/")
-        )
+            pathname === sublink.href ||
+            pathname.startsWith(sublink.href + "/"),
+        ),
       )
       .map((item) => item.title);
   });
@@ -161,8 +203,9 @@ export function AdminSidebar() {
       .filter((item) =>
         item.sublinks?.some(
           (sublink) =>
-            pathname === sublink.href || pathname.startsWith(sublink.href + "/")
-        )
+            pathname === sublink.href ||
+            pathname.startsWith(sublink.href + "/"),
+        ),
       )
       .map((item) => item.title);
 
@@ -179,7 +222,7 @@ export function AdminSidebar() {
 
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) =>
-      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
     );
   };
 
@@ -213,14 +256,15 @@ export function AdminSidebar() {
               item.href === "/"
                 ? pathname === "/"
                 : item.href
-                ? pathname.startsWith(item.href)
-                : false;
+                  ? pathname.startsWith(item.href)
+                  : false;
             const isOpen = openGroups.includes(item.title);
 
             if (item.sublinks) {
               const isGroupActive = item.sublinks.some(
                 (sublink) =>
-                  pathname === sublink.href || pathname.startsWith(sublink.href + "/")
+                  pathname === sublink.href ||
+                  pathname.startsWith(sublink.href + "/"),
               );
 
               return (
@@ -228,9 +272,9 @@ export function AdminSidebar() {
                   <div
                     className={cn(
                       "flex items-center justify-between cursor-pointer group px-3.5 py-2.5 rounded-xl transition-all duration-150",
-                      isGroupActive || item.title === "Enquires/Leads"
+                      isGroupActive
                         ? "bg-[#09A64A]/10 text-[#09A64A]"
-                        : "hover:bg-white/5 text-gray-300"
+                        : "hover:bg-white/5 text-gray-300",
                     )}
                     onClick={() => toggleGroup(item.title)}
                   >
@@ -238,9 +282,9 @@ export function AdminSidebar() {
                       <item.icon
                         className={cn(
                           "w-4 h-4 shrink-0",
-                          isGroupActive || item.title === "Enquires/Leads"
+                          isGroupActive
                             ? "text-[#09A64A]"
-                            : "text-gray-400 group-hover:text-white"
+                            : "text-gray-400 group-hover:text-white",
                         )}
                         strokeWidth={2.4}
                       />
@@ -249,10 +293,10 @@ export function AdminSidebar() {
                     <ChevronDown
                       className={cn(
                         "w-4 h-4 transition-transform shrink-0",
-                        isGroupActive || item.title === "Enquires/Leads"
+                        isGroupActive
                           ? "text-[#09A64A]"
                           : "text-gray-400 group-hover:text-white",
-                        isOpen ? "rotate-180" : ""
+                        isOpen ? "rotate-180" : "",
                       )}
                     />
                   </div>
@@ -271,14 +315,16 @@ export function AdminSidebar() {
                               "flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 whitespace-nowrap",
                               isSubActive
                                 ? "text-[#09A64A] bg-[#09A64A]/15 font-bold shadow-sm"
-                                : "text-gray-300 hover:text-white hover:bg-white/5"
+                                : "text-gray-300 hover:text-white hover:bg-white/5",
                             )}
                           >
                             {SubIcon && (
                               <SubIcon
                                 className={cn(
                                   "w-4 h-4 shrink-0",
-                                  isSubActive ? "text-[#09A64A]" : "text-gray-400"
+                                  isSubActive
+                                    ? "text-[#09A64A]"
+                                    : "text-gray-400",
                                 )}
                                 strokeWidth={isSubActive ? 2.4 : 2}
                               />
@@ -301,14 +347,14 @@ export function AdminSidebar() {
                   "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-150 whitespace-nowrap",
                   isActive
                     ? "bg-[#09A64A] text-white font-bold shadow-md shadow-[#09A64A]/30 transform scale-[1.01]"
-                    : "text-gray-300 hover:bg-white/5 hover:text-white"
+                    : "text-gray-300 hover:bg-white/5 hover:text-white",
                 )}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <item.icon
                     className={cn(
                       "w-4 h-4 shrink-0",
-                      isActive ? "text-white" : "text-gray-400"
+                      isActive ? "text-white" : "text-gray-400",
                     )}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
@@ -320,7 +366,7 @@ export function AdminSidebar() {
                       "flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold shrink-0",
                       isActive
                         ? "bg-white text-[#09A64A]"
-                        : "bg-[#09A64A] text-white"
+                        : "bg-[#09A64A] text-white",
                     )}
                   >
                     {item.badge}

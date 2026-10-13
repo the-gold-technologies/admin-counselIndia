@@ -1,23 +1,19 @@
-import React, { Suspense } from 'react';
-import { Metadata } from 'next';
-import LeadsTable, { ColDef } from '@/components/leads/LeadsTable';
-import { Loader2 } from 'lucide-react';
+import React, { Suspense } from "react";
+import { Metadata } from "next";
+import LeadsTable, { ColDef } from "@/components/leads/LeadsTable";
+import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: 'Landing pages leads | Counsel India Admin',
-  description: 'Marketing landing page leads',
+  title: "Landing pages leads | Counsel India Admin",
+  description: "Marketing landing page leads",
 };
 
 const COLUMNS: ColDef[] = [
-  { key: 'sNo', label: 'S.No', align: 'center' as const },
-  { key: 'courseName', label: 'Course ID' },
-  { key: 'source', label: 'Source' },
-  { key: 'medium', label: 'Medium' },
-  { key: 'content', label: 'Content' },
-  { key: 'name', label: 'Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'mobile', label: 'Phone Number' },
-  { key: 'addedOn', label: 'Updated At', align: 'right' as const },
+  { key: "sNo", label: "S.No", align: "center" as const },
+  { key: "name", label: "Name" },
+  { key: "email", label: "Email" },
+  { key: "mobile", label: "Phone Number" },
+  { key: "addedOn", label: "Updated At", align: "right" as const },
 ];
 
 export default function LandingpagesleadsPage() {
@@ -25,7 +21,10 @@ export default function LandingpagesleadsPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin" style={{ color: '#6366f1' }} />
+          <Loader2
+            className="w-8 h-8 animate-spin"
+            style={{ color: "#6366f1" }}
+          />
         </div>
       }
     >

@@ -311,3 +311,40 @@ model User {
 
   @@index([email])
 }
+
+
+model PersonalityTestInfo {
+  id             String   @id @default(cuid())
+  liveId         String?  @default("1")
+  name           String   @default("Personality Test One")
+  totalQuestions Int      @default(10)
+  subtitle       String?  @default("Test")
+  instruction    String?  @db.Text
+  status         String   @default("Active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model PersonalityQuestion {
+  id        String   @id @default(cuid())
+  liveId    String?
+  question  String   @db.Text
+  answers   Json     // array of { answer: string, value: string }
+  position  Int      @default(1)
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+model PersonalityTabResult {
+  id          String   @id @default(cuid())
+  liveId      String?
+  name        String
+  description String   @db.Text
+  points      String?
+  status      String   @default("Active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

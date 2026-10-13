@@ -69,7 +69,7 @@ export default function AdmissionsPage() {
 
         <button
           onClick={handleExportCSV}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#1f2937] hover:bg-[#111827] text-white rounded-xl text-xs font-bold shadow-xs transition-all cursor-pointer self-start sm:self-auto"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#07a64b] hover:bg-[#068f40] text-white rounded-xl text-xs font-bold shadow-xs transition-all cursor-pointer self-start sm:self-auto"
         >
           <Download className="w-3.5 h-3.5" />
           <span>Export</span>

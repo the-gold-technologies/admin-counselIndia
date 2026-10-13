@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 const COLUMNS: ColDef[] = [
   { key: 'sNo', label: '#ID', align: 'center' as const },
   { key: 'name', label: 'User Details' },
+  { key: 'email', label: 'Email' },
+  { key: 'mobile', label: 'Mobile' },
   { key: 'courseName', label: 'Course' },
   { key: 'addedOn', label: 'Date', align: 'right' as const },
 ];

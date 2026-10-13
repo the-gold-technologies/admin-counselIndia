@@ -43,6 +43,8 @@ export async function GET(request: Request) {
         { message: { contains: search, mode: "insensitive" } },
         { medium: { contains: search, mode: "insensitive" } },
         { source: { contains: search, mode: "insensitive" } },
+        { content: { contains: search, mode: "insensitive" } },
+        { courseName: { contains: search, mode: "insensitive" } },
       ];
     }
 
