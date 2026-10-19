@@ -228,7 +228,10 @@ export default function CreateCoursePage() {
         {/* Global Action Buttons */}
         <div className="flex items-center gap-2 shrink-0">
           {error && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate" title={error}>
+            <span
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate"
+              title={error}
+            >
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span className="truncate">{error}</span>
             </span>
@@ -284,7 +287,8 @@ export default function CreateCoursePage() {
         </div>
         <h1 className="text-2xl font-black text-gray-900 tracking-tight">Create New Course</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus details.
+          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus
+          details.
         </p>
       </div>
 
@@ -295,8 +299,12 @@ export default function CreateCoursePage() {
             1
           </div>
           <div>
-            <h4 className="text-xs font-bold text-gray-900">Step 1: General Details &amp; Pricing (Current)</h4>
-            <p className="text-[11px] text-gray-500">Fill in title, category, pricing, duration, and marketing copy below.</p>
+            <h4 className="text-xs font-bold text-gray-900">
+              Step 1: General Details &amp; Pricing (Current)
+            </h4>
+            <p className="text-[11px] text-gray-500">
+              Fill in title, category, pricing, duration, and marketing copy below.
+            </p>
           </div>
         </div>
 
@@ -309,8 +317,12 @@ export default function CreateCoursePage() {
             2
           </div>
           <div>
-            <h4 className="text-xs font-bold text-gray-700">Step 2: Overview &amp; Curriculum Tabs</h4>
-            <p className="text-[11px] text-gray-500">Overview, Objectives, Credentials &amp; Modules open right after saving!</p>
+            <h4 className="text-xs font-bold text-gray-700">
+              Step 2: Overview &amp; Curriculum Tabs
+            </h4>
+            <p className="text-[11px] text-gray-500">
+              Overview, Objectives, Credentials &amp; Modules open right after saving!
+            </p>
           </div>
         </div>
       </div>

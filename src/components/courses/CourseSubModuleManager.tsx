@@ -676,133 +676,136 @@ export default function CourseSubModuleManager({
       ) : (
         <>
           {/* Top Header matching Live Portal: Title on left, Action buttons on right */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mb-1">
-            <Link
-              href="/courses"
-              className="hover:text-gray-800 transition-colors flex items-center gap-1 font-semibold"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Courses</span>
-            </Link>
-            <span>/</span>
-            <span className="text-gray-600 truncate max-w-[260px] font-medium">{course?.name}</span>
-            <span>/</span>
-            <span className="text-[#09A64A] font-bold">{moduleTitle}</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-            {livePortalHeading}
-          </h1>
-        </div>
-
-        {/* Top Right Action Buttons matching Live Portal: Upload Excel & Add */}
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => {
-              setExcelFile(null);
-              setExcelError("");
-              setIsExcelModalOpen(true);
-            }}
-            className="px-4 py-2.5 rounded-lg bg-[#09A64A] hover:bg-[#07883b] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-2 cursor-pointer active:scale-95"
-          >
-            <Upload className="w-4 h-4" />
-            <span>Upload Excel</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleOpenAdd}
-            className="px-4 py-2.5 rounded-lg bg-[#09A64A] hover:bg-[#07883b] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-2 cursor-pointer active:scale-95"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Add</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Course Context Card & Quick Tabs */}
-      {course && (
-        <div className="bg-white border border-gray-200/90 rounded-2xl p-5 shadow-xs flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-              <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200/80 rounded-md px-2.5 py-0.5">
-                {course.category || "General"}
-              </span>
-              {course.liveId && (
-                <span className="text-xs font-mono font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-md">
-                  ID: #{course.liveId}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mb-1">
+                <Link
+                  href="/courses"
+                  className="hover:text-gray-800 transition-colors flex items-center gap-1 font-semibold"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Courses</span>
+                </Link>
+                <span>/</span>
+                <span className="text-gray-600 truncate max-w-[260px] font-medium">
+                  {course?.name}
                 </span>
-              )}
-              <span className="text-xs text-gray-400 font-mono">slug: {course.slug}</span>
+                <span>/</span>
+                <span className="text-[#09A64A] font-bold">{moduleTitle}</span>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                {livePortalHeading}
+              </h1>
             </div>
-            <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-snug">
-              {course.name}
-            </h2>
-            <p className="text-xs text-gray-500 mt-1 leading-relaxed max-w-2xl">{moduleSubtitle}</p>
-          </div>
 
-          <div className="flex items-center gap-3 shrink-0 flex-wrap">
-            <Link
-              href={`/courses/${courseId}/edit`}
-              className="px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
-            >
-              <Edit2 className="w-3.5 h-3.5" />
-              <span>Edit Course</span>
-            </Link>
+            {/* Top Right Action Buttons matching Live Portal: Upload Excel & Add */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setExcelFile(null);
+                  setExcelError("");
+                  setIsExcelModalOpen(true);
+                }}
+                className="px-4 py-2.5 rounded-lg bg-[#09A64A] hover:bg-[#07883b] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-2 cursor-pointer active:scale-95"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Excel</span>
+              </button>
 
-            {/* Quick Sub-Module Nav Tabs */}
-            <div className="flex items-center gap-1 bg-gray-50 p-1 rounded-xl border border-gray-200 text-xs font-semibold">
-              <Link
-                href={`/courses/${courseId}/overview`}
-                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-                  moduleKey === "overview"
-                    ? "bg-[#09A64A] text-white shadow-xs font-bold"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
-                }`}
+              <button
+                type="button"
+                onClick={handleOpenAdd}
+                className="px-4 py-2.5 rounded-lg bg-[#09A64A] hover:bg-[#07883b] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-2 cursor-pointer active:scale-95"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Overview</span>
-              </Link>
-              <Link
-                href={`/courses/${courseId}/learning-objectives`}
-                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-                  moduleKey === "learning-objectives"
-                    ? "bg-[#09A64A] text-white shadow-xs font-bold"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
-                }`}
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>Objectives</span>
-              </Link>
-              <Link
-                href={`/courses/${courseId}/credentials`}
-                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-                  moduleKey === "credentials"
-                    ? "bg-[#09A64A] text-white shadow-xs font-bold"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
-                }`}
-              >
-                <Award className="w-3.5 h-3.5" />
-                <span>Credentials</span>
-              </Link>
-              <Link
-                href={`/courses/${courseId}/curriculum`}
-                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-                  moduleKey === "curriculum"
-                    ? "bg-[#09A64A] text-white shadow-xs font-bold"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
-                }`}
-              >
-                <ListOrdered className="w-3.5 h-3.5" />
-                <span>Curriculum</span>
-              </Link>
+                <Plus className="w-4 h-4" />
+                <span>+ Add</span>
+              </button>
             </div>
           </div>
-        </div>
-      )}
 
+          {/* Course Context Card & Quick Tabs */}
+          {course && (
+            <div className="bg-white border border-gray-200/90 rounded-2xl p-5 shadow-xs flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200/80 rounded-md px-2.5 py-0.5">
+                    {course.category || "General"}
+                  </span>
+                  {course.liveId && (
+                    <span className="text-xs font-mono font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-md">
+                      ID: #{course.liveId}
+                    </span>
+                  )}
+                  <span className="text-xs text-gray-400 font-mono">slug: {course.slug}</span>
+                </div>
+                <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-snug">
+                  {course.name}
+                </h2>
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed max-w-2xl">
+                  {moduleSubtitle}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 shrink-0 flex-wrap">
+                <Link
+                  href={`/courses/${courseId}/edit`}
+                  className="px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
+                >
+                  <Edit2 className="w-3.5 h-3.5" />
+                  <span>Edit Course</span>
+                </Link>
+
+                {/* Quick Sub-Module Nav Tabs */}
+                <div className="flex items-center gap-1 bg-gray-50 p-1 rounded-xl border border-gray-200 text-xs font-semibold">
+                  <Link
+                    href={`/courses/${courseId}/overview`}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                      moduleKey === "overview"
+                        ? "bg-[#09A64A] text-white shadow-xs font-bold"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-white"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Overview</span>
+                  </Link>
+                  <Link
+                    href={`/courses/${courseId}/learning-objectives`}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                      moduleKey === "learning-objectives"
+                        ? "bg-[#09A64A] text-white shadow-xs font-bold"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-white"
+                    }`}
+                  >
+                    <Layers className="w-3.5 h-3.5" />
+                    <span>Objectives</span>
+                  </Link>
+                  <Link
+                    href={`/courses/${courseId}/credentials`}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                      moduleKey === "credentials"
+                        ? "bg-[#09A64A] text-white shadow-xs font-bold"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-white"
+                    }`}
+                  >
+                    <Award className="w-3.5 h-3.5" />
+                    <span>Credentials</span>
+                  </Link>
+                  <Link
+                    href={`/courses/${courseId}/curriculum`}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                      moduleKey === "curriculum"
+                        ? "bg-[#09A64A] text-white shadow-xs font-bold"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-white"
+                    }`}
+                  >
+                    <ListOrdered className="w-3.5 h-3.5" />
+                    <span>Curriculum</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
 

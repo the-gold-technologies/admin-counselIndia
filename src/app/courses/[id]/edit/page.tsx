@@ -369,7 +369,10 @@ function EditCourseContent() {
           )}
 
           {error && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate" title={error}>
+            <span
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate"
+              title={error}
+            >
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span className="truncate">{error}</span>
             </span>
@@ -417,7 +420,8 @@ function EditCourseContent() {
         </div>
         <h1 className="text-2xl font-black text-gray-900 tracking-tight">Edit Course</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Manage general specifications, pricing, overviews, learning objectives, credentials, and curriculum in one unified workspace.
+          Manage general specifications, pricing, overviews, learning objectives, credentials, and
+          curriculum in one unified workspace.
         </p>
       </div>
 
@@ -512,7 +516,7 @@ function EditCourseContent() {
                   className={`px-2 py-0.5 rounded-full text-[10px] font-black border transition-colors ${
                     isActive
                       ? "bg-white/20 text-white border-white/30"
-                      : (tab.badgeColor || "bg-gray-100 text-gray-600 border-gray-200")
+                      : tab.badgeColor || "bg-gray-100 text-gray-600 border-gray-200"
                   }`}
                 >
                   {tab.count}

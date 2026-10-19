@@ -158,21 +158,10 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
         };
       } else if (tab === "config") {
         payload = {
-          companyName: settings.companyName,
-          websiteLink: settings.websiteLink,
-          address: settings.address,
-          adminEmail: settings.adminEmail,
           supportEmail: settings.supportEmail,
           helplineNumber: settings.helplineNumber,
           whatsNumber: settings.whatsNumber,
           emergencyNumber: settings.emergencyNumber,
-          facebookLink: settings.facebookLink,
-          linkedinLink: settings.linkedinLink,
-          twitterLink: settings.twitterLink,
-          youtubeLink: settings.youtubeLink,
-          pinterestLink: settings.pinterestLink,
-          instaLink: settings.instaLink,
-          gstNumber: settings.gstNumber,
           googlePlayAppLink: settings.googlePlayAppLink,
           iosAppLink: settings.iosAppLink,
         };
@@ -428,88 +417,19 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
       {/* ================= TAB 2: CONFIG SETTINGS ================= */}
       {activeTab === "config" && (
         <div className="space-y-8">
-          {/* Section 1: Company Profile */}
-          <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-xs space-y-6">
-            <div className="border-b border-gray-100 pb-4 flex items-center gap-2.5">
-              <Building className="w-4 h-4 text-[#09A64A]" />
-              <div>
-                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                  1. Corporate Information
-                </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                  Official company details, registration, and URL
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Company Legal Name
-                </label>
-                <input
-                  type="text"
-                  value={settings.companyName}
-                  onChange={(e) => setSettings({ ...settings, companyName: e.target.value })}
-                  placeholder="e.g. counselindiaAdmin"
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Official Website Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.websiteLink}
-                  onChange={(e) => setSettings({ ...settings, websiteLink: e.target.value })}
-                  placeholder="counselindia"
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  GST Identification Number
-                </label>
-                <input
-                  type="text"
-                  value={settings.gstNumber}
-                  onChange={(e) => setSettings({ ...settings, gstNumber: e.target.value })}
-                  placeholder="09AAICC6447N1Z0"
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="md:col-span-3 space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Corporate Registered Address
-                </label>
-                <input
-                  type="text"
-                  value={settings.address}
-                  onChange={(e) => setSettings({ ...settings, address: e.target.value })}
-                  placeholder="counselindia"
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Section 2: Communication & Helpdesks */}
+          {/* Section 1: Communication & Helpdesks */}
           <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-xs space-y-6">
             <div className="border-b border-gray-100 pb-4 flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-[#09A64A]" />
               <div>
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                  2. Communication & Helpdesks
+                  1. Communication & Helpdesks
                 </h3>
                 <p className="text-xs text-gray-400 mt-1">Official emails and telephone numbers</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
                   Support Email
@@ -525,7 +445,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
 
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Inquiry Number
+                  Inquiry / Helpline Number
                 </label>
                 <input
                   type="text"
@@ -569,97 +489,21 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
             </div>
           </div>
 
-          {/* Section 3: Social & Mobile Apps */}
+          {/* Section 2: Mobile Applications */}
           <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-xs space-y-6">
             <div className="border-b border-gray-100 pb-4 flex items-center gap-2.5">
               <Globe className="w-4 h-4 text-[#09A64A]" />
               <div>
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                  3. Social Channels & Mobile Applications
+                  2. Mobile Application Store Links
                 </h3>
-                <p className="text-xs text-gray-400 mt-1">Social profiles and mobile store links</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Google Play and Apple App Store links for public website
+                </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Facebook Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.facebookLink}
-                  onChange={(e) => setSettings({ ...settings, facebookLink: e.target.value })}
-                  placeholder="https://www.facebook.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  LinkedIn Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.linkedinLink}
-                  onChange={(e) => setSettings({ ...settings, linkedinLink: e.target.value })}
-                  placeholder="https://www.linkedin.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Twitter / X Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.twitterLink}
-                  onChange={(e) => setSettings({ ...settings, twitterLink: e.target.value })}
-                  placeholder="https://twitter.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  YouTube Channel
-                </label>
-                <input
-                  type="text"
-                  value={settings.youtubeLink}
-                  onChange={(e) => setSettings({ ...settings, youtubeLink: e.target.value })}
-                  placeholder="https://www.youtube.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Instagram Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.instaLink}
-                  onChange={(e) => setSettings({ ...settings, instaLink: e.target.value })}
-                  placeholder="https://www.instagram.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Pinterest Link
-                </label>
-                <input
-                  type="text"
-                  value={settings.pinterestLink}
-                  onChange={(e) => setSettings({ ...settings, pinterestLink: e.target.value })}
-                  placeholder="https://in.pinterest.com/..."
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
                   Google Play Store App URL
