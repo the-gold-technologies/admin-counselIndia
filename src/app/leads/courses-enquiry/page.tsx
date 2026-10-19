@@ -16,7 +16,7 @@ const COLUMNS: ColDef[] = [
   { key: "mobile", label: "Mobile" },
   { key: "addedOn", label: "Date" },
   { key: "hearFrom", label: "Here From" },
-  { key: "courseName", label: "Ebook Name", align: "right" as const },
+  { key: "courseName", label: "Course Name", align: "right" as const },
 ];
 
 export default function CourseEnquiryListPage() {

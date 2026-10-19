@@ -87,7 +87,7 @@ export async function GET(request: Request) {
     // Fetch data with pagination
     const leads = await prisma.courseLead.findMany({
       where,
-      orderBy: [{ sNo: "asc" }, { createdAt: "desc" }],
+      orderBy: [{ createdAt: "desc" }, { sNo: "desc" }],
       skip: fetchAll ? 0 : (page - 1) * limit,
       take: fetchAll ? undefined : limit,
     });
