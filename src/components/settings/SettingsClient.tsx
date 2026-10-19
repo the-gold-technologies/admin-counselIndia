@@ -512,39 +512,26 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Admin Email
-                </label>
-                <input
-                  type="text"
-                  value={settings.adminEmail}
-                  onChange={(e) => setSettings({ ...settings, adminEmail: e.target.value })}
-                  placeholder="counselindia"
-                  className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
                   Support Email
                 </label>
                 <input
                   type="text"
                   value={settings.supportEmail}
                   onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
-                  placeholder="support@counselindia.co.in"
+                  placeholder="wecare@counselindiaservices.in"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Helpline Number
+                  Inquiry Number
                 </label>
                 <input
                   type="text"
                   value={settings.helplineNumber}
                   onChange={(e) => setSettings({ ...settings, helplineNumber: e.target.value })}
-                  placeholder="8888888888"
+                  placeholder="8031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
@@ -557,7 +544,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                   type="text"
                   value={settings.whatsNumber}
                   onChange={(e) => setSettings({ ...settings, whatsNumber: e.target.value })}
-                  placeholder="8888888888"
+                  placeholder="8448519298"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
@@ -1063,10 +1050,10 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
               <Phone className="w-4 h-4 text-[#09A64A]" />
               <div>
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                  2. Footer Helpline & Support
+                  2. Footer Inquiry & Support
                 </h3>
                 <p className="text-xs text-gray-400 mt-1">
-                  Direct helpline and WhatsApp for footer display
+                  Direct inquiry and WhatsApp for footer display
                 </p>
               </div>
             </div>
@@ -1092,7 +1079,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
 
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Helpline Number
+                  Inquiry Number
                 </label>
                 <input
                   type="text"
@@ -1103,7 +1090,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                       footerHelplineNumber: e.target.value,
                     })
                   }
-                  placeholder="+919518241200"
+                  placeholder="8031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>

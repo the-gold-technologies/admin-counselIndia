@@ -301,13 +301,13 @@ export default function CreateCounsellorPage() {
                 <label className="block font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Education <span className="text-rose-500">*</span>
                 </label>
-                <input
-                  type="text"
+                <textarea
+                  rows={2}
                   required
                   value={formData.education}
                   onChange={(e) => setFormData({ ...formData, education: e.target.value })}
                   placeholder="e.g. Post Graduate, M.Sc Psychology"
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -644,11 +644,11 @@ export default function CreateCounsellorPage() {
                   About
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.about}
                   onChange={(e) => setFormData({ ...formData, about: e.target.value })}
                   placeholder="Professional summary..."
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -657,11 +657,11 @@ export default function CreateCounsellorPage() {
                   Achievements
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.achievements}
                   onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
                   placeholder="Degrees, certifications, notable client milestones..."
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -670,11 +670,11 @@ export default function CreateCounsellorPage() {
                   What Brings You
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.whatBringsYou}
                   onChange={(e) => setFormData({ ...formData, whatBringsYou: e.target.value })}
                   placeholder="Statement of purpose..."
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 

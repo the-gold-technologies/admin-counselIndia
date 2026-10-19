@@ -363,12 +363,12 @@ export default function EditCounsellorPage() {
                 <label className="block font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Education <span className="text-rose-500">*</span>
                 </label>
-                <input
-                  type="text"
+                <textarea
+                  rows={2}
                   required
                   value={formData.education}
                   onChange={(e) => setFormData({ ...formData, education: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl focus:outline-hidden focus:border-[#09A64A] font-medium whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -697,10 +697,10 @@ export default function EditCounsellorPage() {
                   About
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.about}
                   onChange={(e) => setFormData({ ...formData, about: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -709,10 +709,10 @@ export default function EditCounsellorPage() {
                   Achievements
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.achievements}
                   onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 
@@ -721,10 +721,10 @@ export default function EditCounsellorPage() {
                   What Brings You
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={formData.whatBringsYou}
                   onChange={(e) => setFormData({ ...formData, whatBringsYou: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl"
+                  className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                 />
               </div>
 

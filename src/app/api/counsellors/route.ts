@@ -98,10 +98,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const count = await prisma.counselor.count();
+    // Calculate non-colliding liveId and sNo
+    const [maxLiveIdResult, maxSnoResult] = await Promise.all([
+      prisma.$queryRaw<Array<{ max: number | null }>>`
+        SELECT MAX(CAST("liveId" AS INTEGER)) AS max FROM "Counselor" WHERE "liveId" ~ '^[0-9]+$'
+      `,
+      prisma.$queryRaw<Array<{ max: number | null }>>`
+        SELECT MAX("sNo") AS max FROM "Counselor"
+      `,
+    ]);
+    const nextLiveId = String((maxLiveIdResult[0]?.max ?? 682) + 1);
+    const nextSno = (maxSnoResult[0]?.max ?? 682) + 1;
+
     const created = await prisma.counselor.create({
       data: {
-        sNo: count + 1,
+        sNo: nextSno,
+        liveId: body.liveId ? String(body.liveId) : nextLiveId,
         name: body.name,
         email: body.email,
         mobile: body.mobile,
