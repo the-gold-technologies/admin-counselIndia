@@ -2,12 +2,12 @@
   {
     "id": "cmv69nljx0000yllxxtkpfg6b",
     "liveId": "1",
-    "name": "Personality Test One",
+    "name": "Eligibility Test",
     "totalQuestions": 10,
-    "subtitle": "Test",
-    "instruction": "Know yourself better",
+    "subtitle": "This is a simple and easiest way to analyze your interest level in Psychology that helps you to know yourself better.",
+    "instruction": "<p>This is a simple and easiest way to analyze your interest level in Psychology that helps you to know yourself better. Whether you are looking for a job, an internship, or want to kickstart your career in mental health industry, this Personality Test will help you in every possible way.</p><p>You can get your psychology knowledge tested through our free psychology personality test. The test will help you understand your behavioural traits, personality traits and the way you relate to people around you.</p><p>Personality tests provide a model to understand yourself and others by asking questions that probe your thoughts, emotions, and behaviors. The personality test will help you to understand about the multiple dimensions of personality through 10+ validated questions. The results from this test could be used for different purposes such as career development, personal growth or simply just for fun!</p>",
     "status": "Active",
     "createdAt": "2026-10-13T05:54:37.140Z",
-    "updatedAt": "2026-10-13T05:54:37.140Z"
+    "updatedAt": "2026-10-19T13:35:00.000Z"
   }
 ]

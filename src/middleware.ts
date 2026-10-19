@@ -42,8 +42,9 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith("/api/settings") ||
         pathname.startsWith("/api/personality-test/info") ||
         pathname.startsWith("/api/personality-test/questions") ||
-        pathname.startsWith("/api/personality-test/tab-result"))) ||
-    (request.method === "POST" &&
+        pathname.startsWith("/api/personality-test/tab-result") ||
+        pathname.startsWith("/api/personality-test/entries"))) ||
+    ((request.method === "POST" || request.method === "PATCH") &&
       (pathname.startsWith("/api/leads") || pathname.startsWith("/api/personality-test/entries")));
 
   if (isPublicApi) {
