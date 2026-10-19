@@ -208,34 +208,34 @@ model SiteSetting {
   id                      String   @id @default("default")
 
   // Admin Settings
-  title                   String?  @default("Counselindia")
-  footer                  String?  @default("Counselindia")
-  referWallet             String?  @default("100")
-  logo                    String?  @default("https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png")
-  lightLogo               String?  @default("https://res.cloudinary.com/dpa93copz/image/upload/v1791873113/counselindia/brand/counselindia-light-logo.png")
-  favicon                 String?  @default("https://res.cloudinary.com/dpa93copz/image/upload/v1791873100/counselindia/brand/favicon.png")
+  title                   String?
+  footer                  String?
+  referWallet             String?
+  logo                    String?
+  lightLogo               String?
+  favicon                 String?
 
   // Config Settings
-  adminEmail              String?  @default("counselindia")
-  supportEmail            String?  @default("support@counselindiaservices.in")
-  helplineNumber          String?  @default("8888888888")
-  whatsNumber             String?  @default("8888888888")
-  emergencyNumber         String?  @default("9999999999")
-  companyName             String?  @default("counselindiaAdmin")
-  websiteLink             String?  @default("counselindia")
-  address                 String?  @default("counselindia")
-  facebookLink            String?  @default("https://www.facebook.com/profile.php?id=counselindia")
-  linkedinLink            String?  @default("https://www.linkedin.com/company/counselindia")
-  twitterLink             String?  @default("https://twitter.com/counselindia")
-  youtubeLink             String?  @default("https://www.youtube.com/channel/UCPVfFDbCGjHN9DRtkPYkTaQ")
-  pinterestLink           String?  @default("https://in.pinterest.com/counselindia")
-  googlePlayAppLink       String?  @default("")
-  iosAppLink              String?  @default("")
+  adminEmail              String?
+  supportEmail            String?
+  helplineNumber          String?
+  whatsNumber             String?
+  emergencyNumber         String?
+  companyName             String?
+  websiteLink             String?
+  address                 String?
+  facebookLink            String?
+  linkedinLink            String?
+  twitterLink             String?
+  youtubeLink             String?
+  pinterestLink           String?
+  googlePlayAppLink       String?
+  iosAppLink              String?
 
   // Contact Us Settings
-  contactUsMobile         String?  @default("+91-9518241200")
-  contactUsMail           String?  @default("admissions@counselindiaservices.in")
-  contactUsHotline        String?  @default("+91-8930804054")
+  contactUsMobile         String?
+  contactUsMail           String?
+  contactUsHotline        String?
   contactUsHeadOffice     String?  @db.Text
   contactUsBranchOffice   String?  @db.Text
   contactUsHoursOperation String?  @db.Text
@@ -251,18 +251,18 @@ model SiteSetting {
   contactUsContent        String?  @db.Text
 
   // Footer Settings
-  footerTitle             String?  @default("Counsel India is the only practical e-learning platform for psychology and counselling programs in I")
-  footerWhatsappNumber    String?  @default("+918448519298")
-  footerHelplineNumber    String?  @default("+919518241200")
-  footerSupportEmail      String?  @default("wecare@counselindiaservices.in")
-  footerCompanyName       String?  @default("COUNSELINDIA SERVICES PRIVATE LIMITED")
-  footerAddress           String?  @default("12A20, 13th Floor, E-Square , Sector 96, Noida, Uttar Pradesh 201301")
-  gstNumber               String?  @default("09AAICC6447N1Z0")
-  footerTwitterLink       String?  @default("https://twitter.com/counselindia1?lang=en")
-  footerFbLink            String?  @default("https://www.facebook.com/counselindia/")
-  instaLink               String?  @default("https://www.instagram.com/counsel_india_")
-  footerYoutubeLink       String?  @default("https://www.youtube.com/channel/UCWnALe3hLVdGJzVOuEgGoYg")
-  footerLinkedinLink      String?  @default("https://www.linkedin.com/company/28905636/admin/")
+  footerTitle             String?
+  footerWhatsappNumber    String?
+  footerHelplineNumber    String?
+  footerSupportEmail      String?
+  footerCompanyName       String?
+  footerAddress           String?
+  gstNumber               String?
+  footerTwitterLink       String?
+  footerFbLink            String?
+  instaLink               String?
+  footerYoutubeLink       String?
+  footerLinkedinLink      String?
 
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt

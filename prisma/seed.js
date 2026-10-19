@@ -8,18 +8,27 @@ const prisma = new PrismaClient();
 // 1. Seed Site Settings
 async function seedSettings(prismaInstance) {
   const p = prismaInstance || prisma;
-  console.log("--- 1/6 Seeding Site Settings ---");
+  const policiesPath = path.join(__dirname, "site-policies.json");
+  let policies = {};
+  if (fs.existsSync(policiesPath)) {
+    try {
+      policies = JSON.parse(fs.readFileSync(policiesPath, "utf8"));
+    } catch (e) {
+      console.warn("Could not load site-policies.json:", e);
+    }
+  }
 
   const settingsData = {
     id: "default",
     title: "Counselindia",
     footer: "Counselindia",
     referWallet: "100",
-    logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791873114/counselindia/brand/counselindia-logo-icon.png",
+    logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1791876754/counselindia/brand/counselindia-dark-logo.png",
     lightLogo:
-      "https://res.cloudinary.com/dpa93copz/image/upload/v1791873113/counselindia/brand/counselindia-light-logo.png",
+      "https://res.cloudinary.com/dpa93copz/image/upload/v1791876753/counselindia/brand/counselindia-light-logo.png",
     favicon:
       "https://res.cloudinary.com/dpa93copz/image/upload/v1791873100/counselindia/brand/favicon.png",
+    adminEmail: null,
     companyName: "counselindiaAdmin",
     websiteLink: "counselindia",
     address: "counselindia",
@@ -44,11 +53,11 @@ async function seedSettings(prismaInstance) {
       "Monday - Friday: 09:00 - 20:00\r\n<br>\r\nSunday & Saturday: 10:30 - 22:00",
     aboutUs: "<p>about us</p>",
     ourVision: "<p>1</p>",
-    privacy: "<p>Privacy</p>",
-    termsCondition: "<p>Terms Condition</p>",
+    privacy: policies.privacy || "<p>Privacy</p>",
+    termsCondition: policies.termsCondition || "<p>Terms Condition</p>",
     howCanSignup: "<h2>Signup</h2>",
-    refundPolicy: "",
-    academicPolicy: "",
+    refundPolicy: policies.refundPolicy || "",
+    academicPolicy: policies.academicPolicy || "",
     contactUsContent: "<p>&nbsp;</p>\r\n\r\n<p>Contact Us</p>",
     footerTitle:
       "Counsel India is the only practical e-learning platform for psychology and counselling programs in I",

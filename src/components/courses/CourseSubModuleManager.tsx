@@ -38,6 +38,8 @@ interface Props {
   countField: "overviewCount" | "learnCount" | "credentialCount" | "curriculumCount";
   defaultType: string;
   typeOptions?: string[];
+  embedded?: boolean;
+  onCountChange?: (count: number) => void;
 }
 
 export default function CourseSubModuleManager({
@@ -49,6 +51,8 @@ export default function CourseSubModuleManager({
   countField,
   defaultType,
   typeOptions = [],
+  embedded = false,
+  onCountChange,
 }: Props) {
   const [course, setCourse] = useState<Course | null>(null);
   const [items, setItems] = useState<SubModuleItem[]>([]);
@@ -98,6 +102,7 @@ export default function CourseSubModuleManager({
         return posA - posB;
       });
       setItems(sorted);
+      onCountChange?.(sorted.length);
     } catch (err: any) {
       setError(err.message || "Failed to load course");
     } finally {
@@ -242,6 +247,7 @@ export default function CourseSubModuleManager({
 
       if (!res.ok) throw new Error("Failed to save changes");
       setItems(updatedList);
+      onCountChange?.(updatedList.length);
       setSuccess(successMsg);
       setTimeout(() => setSuccess(""), 4000);
     } catch (err: any) {
@@ -631,7 +637,45 @@ export default function CourseSubModuleManager({
 
   return (
     <div className="space-y-6">
-      {/* Top Header matching Live Portal: Title on left, Action buttons on right */}
+      {embedded ? (
+        <div className="bg-white border border-gray-200/90 rounded-2xl p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-snug flex items-center gap-2">
+              <span>{moduleTitle}</span>
+              <span className="px-2 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">
+                {items.length} {items.length === 1 ? "item" : "items"}
+              </span>
+            </h2>
+            <p className="text-xs text-gray-500 mt-1 leading-relaxed max-w-2xl">{moduleSubtitle}</p>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setExcelFile(null);
+                setExcelError("");
+                setIsExcelModalOpen(true);
+              }}
+              className="px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <Upload className="w-3.5 h-3.5" />
+              <span>Upload Excel</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleOpenAdd}
+              className="px-3.5 py-2 rounded-xl bg-[#09A64A] hover:bg-[#07883b] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>+ Add Item</span>
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Top Header matching Live Portal: Title on left, Action buttons on right */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mb-1">
@@ -757,6 +801,9 @@ export default function CourseSubModuleManager({
             </div>
           </div>
         </div>
+      )}
+
+        </>
       )}
 
       {/* Alerts */}

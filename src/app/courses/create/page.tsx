@@ -15,7 +15,8 @@ import {
   AlertCircle,
   CheckCircle2,
   Loader2,
-  HelpCircle,
+  ArrowRight,
+  Check,
 } from "lucide-react";
 import { DynamicHeading } from "@/types/course";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
@@ -129,8 +130,8 @@ export default function CreateCoursePage() {
     setCheadings(cheadings.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent, continueToModules: boolean = true) => {
+    if (e) e.preventDefault();
     if (!name.trim()) {
       setError("Course Name is required");
       return;
@@ -185,10 +186,16 @@ export default function CreateCoursePage() {
         throw new Error(errJson.error || "Failed to create course");
       }
 
+      const newCourse = await res.json();
       setSuccess(true);
+
       setTimeout(() => {
-        router.push("/courses");
-      }, 900);
+        if (continueToModules && newCourse?.id) {
+          router.push(`/courses/${newCourse.id}/edit?tab=overview`);
+        } else {
+          router.push("/courses");
+        }
+      }, 700);
     } catch (err: any) {
       setError(err.message || "An error occurred while creating course");
     } finally {
@@ -197,23 +204,78 @@ export default function CreateCoursePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl pb-16">
-      {/* Top Breadcrumb & Navigation */}
-      <div className="flex items-center justify-between">
-        <Link
-          href="/courses"
-          className="inline-flex items-center gap-2 text-xs font-bold text-gray-600 hover:text-[#09A64A] transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Courses</span>
-        </Link>
-        <div className="text-xs text-gray-400">
-          Content Management &bull;{" "}
-          <span className="text-gray-700 font-semibold">Create Course</span>
+    <div className="space-y-6 max-w-5xl pb-16">
+      {/* Sticky Top Header Navigation & Save Bar */}
+      <div className="sticky top-0 z-30 bg-[#f8fafc]/90 backdrop-blur-md py-3 -mt-3 border-b border-gray-200/80 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors shadow-2xs shrink-0"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Courses</span>
+          </Link>
+          <div className="min-w-0 hidden sm:block">
+            <div className="text-[11px] text-gray-400 font-semibold truncate">
+              Content Management &bull; New Course
+            </div>
+            <div className="text-xs font-bold text-gray-900 truncate max-w-xs md:max-w-md">
+              {name || "Untitled Course"}
+            </div>
+          </div>
+        </div>
+
+        {/* Global Action Buttons */}
+        <div className="flex items-center gap-2 shrink-0">
+          {error && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate" title={error}>
+              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">{error}</span>
+            </span>
+          )}
+
+          {success && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Created! Redirecting...</span>
+            </span>
+          )}
+
+          <button
+            type="button"
+            id="btn-create-course-top"
+            onClick={(e) => handleSubmit(e, true)}
+            disabled={saving}
+            className="px-4 py-2 rounded-xl bg-[#09A64A] hover:bg-[#078a3d] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+            title="Create course and proceed directly to add Overview, Objectives, Credentials & Curriculum"
+          >
+            {saving ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Creating...</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-3.5 h-3.5" />
+                <span>Save &amp; Add Modules</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e, false)}
+            disabled={saving}
+            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
+            title="Create course and return to Course Table"
+          >
+            <span>Save &amp; Exit</span>
+          </button>
         </div>
       </div>
 
-      {/* Header matching live create_course */}
+      {/* Header Info */}
       <div>
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xs font-bold uppercase tracking-wider text-[#09A64A]">
@@ -222,12 +284,38 @@ export default function CreateCoursePage() {
         </div>
         <h1 className="text-2xl font-black text-gray-900 tracking-tight">Create New Course</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus
-          details
+          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus details.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {/* 2-Step Workflow Guide Banner */}
+      <div className="bg-gradient-to-r from-emerald-50/70 via-emerald-50/30 to-blue-50/40 rounded-2xl p-4 border border-emerald-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#09A64A] text-white font-bold flex items-center justify-center text-sm shadow-xs shrink-0">
+            1
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-gray-900">Step 1: General Details &amp; Pricing (Current)</h4>
+            <p className="text-[11px] text-gray-500">Fill in title, category, pricing, duration, and marketing copy below.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 text-gray-400 text-xs font-semibold self-center md:self-auto">
+          <ArrowRight className="w-4 h-4 text-[#09A64A]" />
+        </div>
+
+        <div className="flex items-center gap-3 opacity-90">
+          <div className="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm shrink-0">
+            2
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-gray-700">Step 2: Overview &amp; Curriculum Tabs</h4>
+            <p className="text-[11px] text-gray-500">Overview, Objectives, Credentials &amp; Modules open right after saving!</p>
+          </div>
+        </div>
+      </div>
+
+      <form onSubmit={(e) => handleSubmit(e, true)} className="space-y-6">
         {error && (
           <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
@@ -238,11 +326,11 @@ export default function CreateCoursePage() {
         {success && (
           <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
-            <span>Course created successfully! Redirecting...</span>
+            <span>Course created successfully! Redirecting to add sub-modules...</span>
           </div>
         )}
 
-        {/* Section 1: Basic Course Information */}
+        {/* Section 1: Basic Information */}
         <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
           <div className="border-b border-gray-100 pb-3">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
@@ -261,7 +349,7 @@ export default function CreateCoursePage() {
                 required
                 value={name}
                 onChange={(e) => handleNameChange(e.target.value)}
-                placeholder="e.g. Masters in Psychology"
+                placeholder="e.g. Master's in Clinical Psychology"
                 className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
               />
             </div>
@@ -275,7 +363,7 @@ export default function CreateCoursePage() {
                 required
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                placeholder="masters-in-psychology"
+                placeholder="masters-in-clinical-psychology"
                 className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
               />
             </div>
@@ -284,23 +372,13 @@ export default function CreateCoursePage() {
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Category
               </label>
-              <select
+              <input
+                type="text"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] cursor-pointer transition-colors"
-              >
-                <option value="Diploma Programs">Diploma Programs</option>
-                <option value="Masters Program">Masters Program</option>
-                <option value="PG Diploma Programs">PG Diploma Programs</option>
-                <option value="Master's Program">Master's Program</option>
-                <option value="Entrepreneurship Programs">Entrepreneurship Programs</option>
-                <option value="Internships">Internships</option>
-                <option value="Advanced Certifications">Advanced Certifications</option>
-                <option value="Certificate Programs">Certificate Programs</option>
-                <option value="Counseling Buildup Prog.">Counseling Buildup Prog.</option>
-                <option value="Life Programs">Life Programs</option>
-                <option value="Professional Programs">Professional Programs</option>
-              </select>
+                placeholder="Diploma Programs"
+                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
+              />
             </div>
 
             <div className="space-y-1.5">
@@ -709,14 +787,14 @@ export default function CreateCoursePage() {
               label="Sub Description *"
               value={subdescription}
               onChange={setSubdescription}
-              placeholder="Short summary of program for course cards..."
+              placeholder="Course description and key overview..."
             />
 
             <CmsEditor
               label="About / Program Framework *"
               value={aboutUs}
               onChange={setAboutUs}
-              placeholder="Full program framework and syllabus overview..."
+              placeholder="Detailed HTML or syllabus framework..."
             />
 
             <CmsEditor
@@ -731,14 +809,14 @@ export default function CreateCoursePage() {
                 label="Proficiency: On Job Training (OJT)"
                 value={ojt}
                 onChange={setOjt}
-                placeholder="Hands-on internship details..."
+                placeholder="Hands-on training details..."
               />
 
               <CmsEditor
                 label="Mentorship Guide"
                 value={mentorshipGuide}
                 onChange={setMentorshipGuide}
-                placeholder="Mentorship sessions and guidance..."
+                placeholder="Mentorship guide details..."
               />
             </div>
 
@@ -811,6 +889,14 @@ export default function CreateCoursePage() {
             Cancel
           </Link>
           <button
+            type="button"
+            onClick={(e) => handleSubmit(e, false)}
+            disabled={saving}
+            className="px-5 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
+          >
+            Save &amp; Exit
+          </button>
+          <button
             type="submit"
             disabled={saving}
             className="px-6 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#078a3d] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
@@ -823,7 +909,8 @@ export default function CreateCoursePage() {
             ) : (
               <>
                 <Save className="w-3.5 h-3.5" />
-                <span>Submit form</span>
+                <span>Save &amp; Add Modules</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
           </button>

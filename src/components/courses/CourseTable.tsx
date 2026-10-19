@@ -117,8 +117,8 @@ export const CourseTable: React.FC<CourseTableProps> = ({
           <thead>
             <tr className="bg-[#09A64A] text-white font-semibold text-[13.5px] tracking-wide">
               <th className="py-4 px-3.5 w-14 text-center">#ID</th>
-              <th className="py-4 px-4 w-[38%]">Course Name</th>
-              <th className="py-4 px-4 w-[38%]">Details</th>
+              <th className="py-4 px-4 w-[48%]">Course Name</th>
+              <th className="py-4 px-4 w-[24%]">Category & Date</th>
               <th className="py-4 px-3 text-center w-20">Position</th>
               <th className="py-4 px-3 text-center w-24">Status</th>
               <th className="py-4 px-3 text-center w-24">Action</th>
@@ -207,104 +207,20 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                       </div>
                     </td>
 
-                    {/* Details - Category, Date, & 4 Sub-Module Buttons in 2x2 Grid */}
+                    {/* Category & Date */}
                     <td className="py-3.5 px-4">
-                      <div className="flex flex-col gap-2">
-                        {/* Line 1: Category Badge & Added Date */}
-                        <div className="flex items-center gap-2.5">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
                           <span className="font-bold text-blue-700 bg-blue-50 border border-blue-200/80 rounded-lg px-2.5 py-0.5 text-xs truncate max-w-[200px]">
                             {course.category || "General"}
                           </span>
-                          {course.addedOn && (
-                            <span className="text-xs text-gray-400 flex items-center gap-1 shrink-0">
-                              <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                              <span>{course.addedOn.split(" ")[0]}</span>
-                            </span>
-                          )}
                         </div>
-
-                        {/* Line 2 & 3: 4 Sub-Modules in Clean 2x2 Grid with Original Color Palette */}
-                        <div className="grid grid-cols-2 gap-1.5">
-                          {/* Overview / Key Features */}
-                          <Link
-                            href={`/courses/${course.id}/overview`}
-                            className="px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors flex items-center justify-between gap-1.5 group/btn"
-                            title="View Overview & Key Features"
-                          >
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <Sparkles className="w-3.5 h-3.5 text-[#09A64A] shrink-0" />
-                              <span className="text-xs font-semibold truncate">Overview</span>
-                            </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <span className="px-1.5 py-0.2 rounded-full bg-emerald-200 text-emerald-900 font-bold text-[10px]">
-                                {course.overviewCount || 0}
-                              </span>
-                              <span className="text-[11px] text-[#09A64A] font-bold underline">
-                                View
-                              </span>
-                            </div>
-                          </Link>
-
-                          {/* Learning Objectives */}
-                          <Link
-                            href={`/courses/${course.id}/learning-objectives`}
-                            className="px-2.5 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200/80 transition-colors flex items-center justify-between gap-1.5 group/btn"
-                            title="View Learning Objectives"
-                          >
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <Layers className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Objectives</span>
-                            </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <span className="px-1.5 py-0.2 rounded-full bg-purple-200 text-purple-900 font-bold text-[10px]">
-                                {course.learnCount || 0}
-                              </span>
-                              <span className="text-[11px] text-purple-700 font-bold underline">
-                                View
-                              </span>
-                            </div>
-                          </Link>
-
-                          {/* Credentials */}
-                          <Link
-                            href={`/courses/${course.id}/credentials`}
-                            className="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200/80 transition-colors flex items-center justify-between gap-1.5 group/btn"
-                            title="View Credentials"
-                          >
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <Award className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Credentials</span>
-                            </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <span className="px-1.5 py-0.2 rounded-full bg-indigo-200 text-indigo-900 font-bold text-[10px]">
-                                {course.credentialCount || 0}
-                              </span>
-                              <span className="text-[11px] text-indigo-700 font-bold underline">
-                                View
-                              </span>
-                            </div>
-                          </Link>
-
-                          {/* Curriculum */}
-                          <Link
-                            href={`/courses/${course.id}/curriculum`}
-                            className="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200/80 transition-colors flex items-center justify-between gap-1.5 group/btn"
-                            title="View Curriculum"
-                          >
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <ListOrdered className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                              <span className="text-xs font-semibold truncate">Curriculum</span>
-                            </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <span className="px-1.5 py-0.2 rounded-full bg-blue-200 text-blue-900 font-bold text-[10px]">
-                                {course.curriculumCount || 0}
-                              </span>
-                              <span className="text-[11px] text-blue-700 font-bold underline">
-                                View
-                              </span>
-                            </div>
-                          </Link>
-                        </div>
+                        {course.addedOn && (
+                          <span className="text-xs text-gray-400 flex items-center gap-1 shrink-0">
+                            <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                            <span>{course.addedOn.split(" ")[0]}</span>
+                          </span>
+                        )}
                       </div>
                     </td>
 
