@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
+import { isAdminRequest } from "@/lib/auth";
+import { PUBLIC_ALUMNI_SELECT } from "@/lib/publicFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
 }
 export async function GET(request: Request) {
   try {
+    const isAdmin = await isAdminRequest();
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase() || "";
-    const status = searchParams.get("status") || "";
+    // Public website callers may only see active alumni
+    const status = isAdmin ? searchParams.get("status") || "" : "Active";
 
     const where: any = {};
     if (status && status !== "All") {
@@ -18,10 +22,12 @@ export async function GET(request: Request) {
     if (search) {
       where.OR = [
         { name: { contains: search, mode: "insensitive" } },
-        { email: { contains: search, mode: "insensitive" } },
-        { mobile: { contains: search } },
         { programName: { contains: search, mode: "insensitive" } },
         { certificateNumber: { contains: search } },
+        // Searching by contact details is admin-only (prevents email/phone enumeration)
+        ...(isAdmin
+          ? [{ email: { contains: search, mode: "insensitive" } }, { mobile: { contains: search } }]
+          : []),
       ];
     }
 
@@ -30,6 +36,7 @@ export async function GET(request: Request) {
       alumni = await prisma.alumni.findMany({
         where,
         orderBy: [{ sNo: "asc" }, { createdAt: "desc" }],
+        ...(isAdmin ? {} : { select: PUBLIC_ALUMNI_SELECT }),
       });
     } catch (e) {
       console.error("DB query error in alumni route:", e);

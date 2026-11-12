@@ -34,3 +34,9 @@ next-env.d.ts
 .prettierrc*
 .prettierignore
 
+
+# real personal data exports (PII) — keep local only, never commit
+prisma/admissions-data.json
+prisma/alumni-data.json
+prisma/counselor-data.json
+prisma/course-leads-data.json

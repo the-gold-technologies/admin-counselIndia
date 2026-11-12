@@ -60,6 +60,25 @@ export async function hashPassword(plain: string): Promise<string> {
 }
 
 /**
+ * True when the request carries a valid admin session cookie.
+ * Use in route handlers that are reachable publicly (for the website) but must
+ * return more data / allow more actions to logged-in admins.
+ */
+export async function isAdminRequest(): Promise<boolean> {
+  return (await getServerSessionUser()) !== null;
+}
+
+/**
+ * Hash a password unless it's already a bcrypt hash. Returns undefined for empty input
+ * so callers can skip the field (and never overwrite a stored hash with "").
+ */
+export async function hashPasswordIfNeeded(value: unknown): Promise<string | undefined> {
+  if (typeof value !== "string" || value.trim() === "") return undefined;
+  if (/^\$2[aby]\$\d{2}\$.{53}$/.test(value)) return value;
+  return hashPassword(value);
+}
+
+/**
  * Get current session user from cookies (Server Components or Server Actions)
  */
 export async function getServerSessionUser(): Promise<TokenPayload | null> {

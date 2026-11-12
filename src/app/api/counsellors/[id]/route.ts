@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
+import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
+import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -10,11 +12,17 @@ export async function OPTIONS() {
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const counselor = await prisma.counselor.findFirst({
-      where: {
-        OR: [{ id }, { liveId: id }],
-      },
-    });
+    const isAdmin = await isAdminRequest();
+    const counselor = isAdmin
+      ? await prisma.counselor.findFirst({
+          where: { OR: [{ id }, { liveId: id }] },
+          omit: { password: true },
+        })
+      : // Public: only verified, active profiles, and only public-safe fields
+        await prisma.counselor.findFirst({
+          where: { OR: [{ id }, { liveId: id }], isApproved: true, status: "Active" },
+          select: PUBLIC_COUNSELOR_SELECT,
+        });
 
     if (!counselor) {
       return NextResponse.json({ success: false, error: "Counselor not found" }, { status: 404 });
@@ -29,7 +37,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const body = await request.json();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: _bodyId, createdAt, updatedAt, password, ...body } = await request.json();
+
+    // Only change the password when a new non-empty one is supplied; always store it hashed
+    const hashed = await hashPasswordIfNeeded(password);
+    if (hashed) body.password = hashed;
 
     const existing = await prisma.counselor.findFirst({
       where: {
@@ -50,6 +63,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         ...body,
         updatedOn: new Date().toISOString().replace("T", " ").split(".")[0],
       },
+      omit: { password: true },
     });
 
     return NextResponse.json({ success: true, data: updated }, { headers: corsHeaders });

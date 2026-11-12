@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
+import { isAdminRequest } from "@/lib/auth";
+
+const CATEGORY = "personality-test";
+
+const lookupWhere = (id: string) => ({
+  category: CATEGORY,
+  OR: [{ id }, { liveId: id }, { sNo: isNaN(Number(id)) ? -1 : Number(id) }],
+});
 
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
@@ -8,15 +16,20 @@ export async function OPTIONS() {
 
 export async function GET(request: Request) {
   try {
+    const isAdmin = await isAdminRequest();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
+    // Listing / searching all entries is admin-only
+    if (!id && !isAdmin) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized. Please login to continue." },
+        { status: 401, headers: corsHeaders }
+      );
+    }
+
     if (id) {
-      const lead = await prisma.inquiryLead.findFirst({
-        where: {
-          OR: [{ id }, { liveId: id }, { sNo: isNaN(Number(id)) ? -1 : Number(id) }],
-        },
-      });
+      const lead = await prisma.inquiryLead.findFirst({ where: lookupWhere(id) });
       if (!lead) {
         return NextResponse.json(
           { success: false, error: "Entry not found" },
@@ -24,6 +37,26 @@ export async function GET(request: Request) {
         );
       }
       const extra = (lead.extraData as any) || {};
+
+      // Public website: return only what's needed to resume/display the test,
+      // never contact details or demographic data.
+      if (!isAdmin) {
+        return NextResponse.json(
+          {
+            success: true,
+            data: {
+              id: lead.id,
+              sNo: lead.sNo,
+              liveId: lead.liveId || String(lead.sNo),
+              name: lead.name || "",
+              state: lead.state || "",
+              result: extra.result || "",
+            },
+          },
+          { headers: corsHeaders }
+        );
+      }
+
       return NextResponse.json(
         {
           success: true,
@@ -53,7 +86,7 @@ export async function GET(request: Request) {
     const limit = Math.max(1, parseInt(searchParams.get("limit") || "25"));
     const skip = (page - 1) * limit;
 
-    const where: any = { category: "personality-test" };
+    const where: any = { category: CATEGORY };
 
     if (search) {
       where.OR = [
@@ -117,7 +150,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const category = "personality-test";
+    const category = CATEGORY;
 
     const lastLead = await prisma.inquiryLead.findFirst({
       where: { category },
@@ -174,6 +207,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const isAdmin = await isAdminRequest();
     const body = await request.json();
     const { id, result, resultName, answers } = body;
 
@@ -184,11 +218,15 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const lead = await prisma.inquiryLead.findFirst({
-      where: {
-        OR: [{ id }, { liveId: id }, { sNo: isNaN(Number(id)) ? -1 : Number(id) }],
-      },
-    });
+    if (typeof id !== "string" && typeof id !== "number") {
+      return NextResponse.json(
+        { success: false, error: "Invalid lead ID" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    // Restricted to personality-test entries so this public endpoint can't modify other leads
+    const lead = await prisma.inquiryLead.findFirst({ where: lookupWhere(String(id)) });
 
     if (!lead) {
       return NextResponse.json(
@@ -214,7 +252,13 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json(
-      { success: true, data: updated, message: "Lead test result updated" },
+      {
+        success: true,
+        data: isAdmin
+          ? updated
+          : { id: updated.id, sNo: updated.sNo, liveId: updated.liveId, result: finalResult },
+        message: "Lead test result updated",
+      },
       { headers: corsHeaders }
     );
   } catch (error: any) {

@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/auth/logout") ||
     pathname.startsWith("/uploads") ||
     pathname === "/favicon.ico" ||
-    /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname)
+    (!pathname.startsWith("/api/") && /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname))
   ) {
     return NextResponse.next();
   }
@@ -33,19 +33,31 @@ export async function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 204, headers: corsHeaders });
   }
 
-  // Allow public API access for public website data
+  // Allow public API access for public website data.
+  // Paths are matched EXACTLY (no prefix matching) so that admin-only sub-routes such as
+  // /api/leads/upload or /api/leads/seed can never be reached without a session.
+  // Routes listed here must themselves strip sensitive fields for non-admin callers.
+  const path = pathname.replace(/\/+$/, "") || "/";
+  const PUBLIC_GET: RegExp[] = [
+    /^\/api\/courses$/,
+    /^\/api\/courses\/[^/]+$/,
+    /^\/api\/counsellors$/,
+    /^\/api\/counsellors\/[^/]+$/,
+    /^\/api\/alumni$/,
+    /^\/api\/settings$/,
+    /^\/api\/personality-test\/info$/,
+    /^\/api\/personality-test\/questions$/,
+    /^\/api\/personality-test\/tab-result$/,
+    /^\/api\/personality-test\/entries$/,
+  ];
+  const PUBLIC_POST: RegExp[] = [/^\/api\/leads$/, /^\/api\/personality-test\/entries$/];
+  const PUBLIC_PATCH: RegExp[] = [/^\/api\/personality-test\/entries$/];
+
+  const matches = (list: RegExp[]) => list.some((re) => re.test(path));
   const isPublicApi =
-    (request.method === "GET" &&
-      (pathname.startsWith("/api/courses") ||
-        pathname.startsWith("/api/counsellors") ||
-        pathname.startsWith("/api/alumni") ||
-        pathname.startsWith("/api/settings") ||
-        pathname.startsWith("/api/personality-test/info") ||
-        pathname.startsWith("/api/personality-test/questions") ||
-        pathname.startsWith("/api/personality-test/tab-result") ||
-        pathname.startsWith("/api/personality-test/entries"))) ||
-    ((request.method === "POST" || request.method === "PATCH") &&
-      (pathname.startsWith("/api/leads") || pathname.startsWith("/api/personality-test/entries")));
+    (request.method === "GET" && matches(PUBLIC_GET)) ||
+    (request.method === "POST" && matches(PUBLIC_POST)) ||
+    (request.method === "PATCH" && matches(PUBLIC_PATCH));
 
   if (isPublicApi) {
     const response = NextResponse.next();

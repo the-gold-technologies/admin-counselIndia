@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
+import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
+import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -8,9 +10,11 @@ export async function OPTIONS() {
 
 export async function GET(request: Request) {
   try {
+    const isAdmin = await isAdminRequest();
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase().trim() || "";
-    const status = searchParams.get("status")?.toLowerCase() || "verified";
+    // Public website callers may only ever see verified, active counsellors
+    const status = isAdmin ? searchParams.get("status")?.toLowerCase() || "verified" : "verified";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
     const fetchAll = searchParams.get("all") === "true";
@@ -32,11 +36,13 @@ export async function GET(request: Request) {
     if (search) {
       where.OR = [
         { name: { contains: search, mode: "insensitive" } },
-        { email: { contains: search, mode: "insensitive" } },
-        { mobile: { contains: search } },
         { specialty: { contains: search, mode: "insensitive" } },
         { designation: { contains: search, mode: "insensitive" } },
         { city: { contains: search, mode: "insensitive" } },
+        // Searching by contact details is admin-only (prevents email/phone enumeration)
+        ...(isAdmin
+          ? [{ email: { contains: search, mode: "insensitive" } }, { mobile: { contains: search } }]
+          : []),
       ];
     }
 
@@ -55,6 +61,7 @@ export async function GET(request: Request) {
     const queryOptions: any = {
       where,
       orderBy: [{ sNo: "asc" }, { createdAt: "desc" }],
+      ...(isAdmin ? { omit: { password: true } } : { select: PUBLIC_COUNSELOR_SELECT }),
     };
 
     if (!fetchAll && limit > 0) {
@@ -117,7 +124,7 @@ export async function POST(request: Request) {
         name: body.name,
         email: body.email,
         mobile: body.mobile,
-        password: body.password || null,
+        password: (await hashPasswordIfNeeded(body.password)) ?? null,
         address: body.address || null,
         city: body.city || null,
         country: body.country || "INDIA",
@@ -162,7 +169,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ success: true, data: created });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _pw, ...safeCreated } = created;
+    return NextResponse.json({ success: true, data: safeCreated });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -171,10 +180,15 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { id, ...data } = body;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, createdAt, updatedAt, password, ...data } = body;
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
+
+    // Only change the password when a new non-empty one is supplied; always store it hashed
+    const hashed = await hashPasswordIfNeeded(password);
+    if (hashed) data.password = hashed;
 
     if (data.updatedOn === undefined) {
       data.updatedOn = new Date().toISOString().replace("T", " ").split(".")[0];
@@ -183,6 +197,7 @@ export async function PATCH(request: Request) {
     const updated = await prisma.counselor.update({
       where: { id },
       data,
+      omit: { password: true },
     });
 
     return NextResponse.json({ success: true, data: updated });
