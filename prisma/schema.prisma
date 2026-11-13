@@ -306,6 +306,13 @@ model User {
   phone         String?
   status        String    @default("Active") // Active, Inactive
   lastLoginAt   DateTime?
+
+  // Security: bumping sessionVersion invalidates every JWT issued before it
+  // (logout, password change). failedLoginAttempts/lockedUntil = brute-force lockout.
+  sessionVersion      Int       @default(0)
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

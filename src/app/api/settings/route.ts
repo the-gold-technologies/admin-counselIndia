@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
+import { SITE_SETTING_WRITABLE, pickWritable } from "@/lib/writableFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -32,14 +33,15 @@ export async function GET() {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, createdAt, updatedAt, ...updateData } = body;
+    // Mass-assignment protection: only known, writable columns
+    const updateData = pickWritable(body, SITE_SETTING_WRITABLE);
 
     const existing = await prisma.siteSetting.findUnique({
       where: { id: "default" },
     });
     if (existing) {
-      await cleanupReplacedCloudinaryFiles(existing, updateData);
+      // (compare against the merged record — a partial update must not delete untouched files)
+      await cleanupReplacedCloudinaryFiles(existing, { ...existing, ...updateData });
     }
 
     const settings = await prisma.siteSetting.upsert({

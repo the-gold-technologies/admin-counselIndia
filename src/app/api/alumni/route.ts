@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
 import { isAdminRequest } from "@/lib/auth";
 import { PUBLIC_ALUMNI_SELECT } from "@/lib/publicFields";
+import { ALUMNI_WRITABLE, pickWritable } from "@/lib/writableFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -98,8 +99,10 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { id, ...data } = body;
-    if (!id) {
+    const id = body?.id;
+    // Mass-assignment protection: only known, writable columns
+    const data = pickWritable(body, ALUMNI_WRITABLE);
+    if (!id || typeof id !== "string") {
       return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 

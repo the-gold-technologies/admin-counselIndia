@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
+import { ALUMNI_WRITABLE, pickWritable } from "@/lib/writableFields";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -26,7 +27,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const body = await request.json();
+    // Mass-assignment protection: only known, writable columns
+    const body = pickWritable(await request.json(), ALUMNI_WRITABLE);
 
     const existing = await prisma.alumni.findUnique({
       where: { id },
@@ -37,7 +39,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     }
 
     // Clean up replaced image/certificate files on Cloudinary
-    await cleanupReplacedCloudinaryFiles(existing, body);
+    // (compare against the merged record — a partial update must not delete untouched files)
+    await cleanupReplacedCloudinaryFiles(existing, { ...existing, ...body });
 
     const updated = await prisma.alumni.update({
       where: { id },

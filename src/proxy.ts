@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose";
 import { corsHeaders } from "@/lib/cors";
+import { AUTH_COOKIE_NAME, getActiveSession } from "@/lib/auth";
 
-const AUTH_COOKIE_NAME = "counselindia_admin_token";
-
-const getSecretKey = () => {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET is not defined in environment variables");
-  }
-  return new TextEncoder().encode(secret);
-};
-
-export async function middleware(request: NextRequest) {
+// Next.js 16 "proxy" (formerly middleware) — always runs on the Node.js runtime,
+// which lets us check session revocation / user status in the database.
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Skip static assets, next internal paths, and uploads
@@ -23,7 +15,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/auth/logout") ||
     pathname.startsWith("/uploads") ||
     pathname === "/favicon.ico" ||
-    (!pathname.startsWith("/api/") && /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname))
+    (!pathname.startsWith("/api/") &&
+      /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname))
   ) {
     return NextResponse.next();
   }
@@ -68,18 +61,9 @@ export async function middleware(request: NextRequest) {
   }
 
   // 2. Read auth token cookie
-  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  let isAuthenticated = false;
-
-  if (token) {
-    try {
-      const secret = getSecretKey();
-      await jwtVerify(token, secret);
-      isAuthenticated = true;
-    } catch {
-      isAuthenticated = false;
-    }
-  }
+  // Valid signature + not expired + user still Active + session not revoked
+  const isAuthenticated =
+    (await getActiveSession(request.cookies.get(AUTH_COOKIE_NAME)?.value)) !== null;
 
   // 3. If navigating to /login
   if (pathname === "/login") {

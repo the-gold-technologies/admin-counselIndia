@@ -4,6 +4,7 @@ import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
 import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
 import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
+import { COUNSELOR_WRITABLE, pickWritable } from "@/lib/writableFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -37,11 +38,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id: _bodyId, createdAt, updatedAt, password, ...body } = await request.json();
+    const raw = await request.json();
+    // Mass-assignment protection: only known, writable columns
+    const body = pickWritable(raw, COUNSELOR_WRITABLE);
 
     // Only change the password when a new non-empty one is supplied; always store it hashed
-    const hashed = await hashPasswordIfNeeded(password);
+    const hashed = await hashPasswordIfNeeded(raw?.password);
     if (hashed) body.password = hashed;
 
     const existing = await prisma.counselor.findFirst({
@@ -55,7 +57,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     }
 
     // Clean up replaced files on Cloudinary
-    await cleanupReplacedCloudinaryFiles(existing, body);
+    // (compare against the merged record — a partial update must not delete untouched files)
+    await cleanupReplacedCloudinaryFiles(existing, { ...existing, ...body });
 
     const updated = await prisma.counselor.update({
       where: { id: existing.id },

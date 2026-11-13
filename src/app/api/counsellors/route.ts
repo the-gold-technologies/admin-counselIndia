@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
 import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
 import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
+import { COUNSELOR_WRITABLE, pickWritable } from "@/lib/writableFields";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -180,9 +181,11 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, createdAt, updatedAt, password, ...data } = body;
-    if (!id) {
+    const id = body?.id;
+    // Mass-assignment protection: only known, writable columns
+    const data = pickWritable(body, COUNSELOR_WRITABLE);
+    const password = body?.password;
+    if (!id || typeof id !== "string") {
       return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 

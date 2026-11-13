@@ -1,81 +1,109 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { comparePassword, signToken, AUTH_COOKIE_NAME } from "@/lib/auth";
+import {
+  comparePassword,
+  fakePasswordCheck,
+  signToken,
+  sessionCookieOptions,
+  invalidateSessionCache,
+  SESSION_TTL,
+} from "@/lib/auth";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
+
+const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const MAX_ATTEMPTS_PER_IP = 20; // per window, any email
+const MAX_ATTEMPTS_PER_EMAIL = 5; // per window, any IP (applies to unknown emails too)
+const MAX_FAILURES_BEFORE_LOCK = 5; // persistent per-account lockout
+const LOCK_DURATION_MS = 15 * 60 * 1000;
+
+const INVALID = { error: "Invalid email or password" };
+
+function tooMany(retryAfterSec: number) {
+  const minutes = Math.max(1, Math.ceil(retryAfterSec / 60));
+  return NextResponse.json(
+    { error: `Too many login attempts. Please try again in ${minutes} minute(s).` },
+    { status: 429, headers: { "Retry-After": String(retryAfterSec) } }
+  );
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, password, rememberMe } = body;
+    const body = await req.json().catch(() => ({}));
+    const { email, password, rememberMe } = body ?? {};
 
-    if (!email || !password) {
+    if (typeof email !== "string" || typeof password !== "string" || !email || !password) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
     }
-
-    const normalizedEmail = String(email).trim().toLowerCase();
-
-    // Find user by email (using prisma.user with $queryRaw fallback if client is cached)
-    let user: any = null;
-    if ((prisma as any).user?.findUnique) {
-      user = await (prisma as any).user.findUnique({
-        where: { email: normalizedEmail },
-      });
+    if (email.length > 254 || password.length > 128) {
+      return NextResponse.json(INVALID, { status: 401 });
     }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // 1. Throttle by IP and by email before doing any expensive work
+    const ipLimit = rateLimit(`login:ip:${getClientIp(req)}`, MAX_ATTEMPTS_PER_IP, WINDOW_MS);
+    if (!ipLimit.allowed) return tooMany(ipLimit.retryAfterSec);
+    const emailLimit = rateLimit(
+      `login:email:${normalizedEmail}`,
+      MAX_ATTEMPTS_PER_EMAIL,
+      WINDOW_MS
+    );
+    if (!emailLimit.allowed) return tooMany(emailLimit.retryAfterSec);
+
+    const user = await prisma.user.findFirst({
+      where: { email: { equals: normalizedEmail, mode: "insensitive" } },
+    });
 
     if (!user) {
-      const rows: any = await prisma.$queryRaw`
-        SELECT * FROM "User" WHERE LOWER(email) = ${normalizedEmail} LIMIT 1
-      `;
-      if (rows && rows.length > 0) {
-        user = rows[0];
-      }
+      await fakePasswordCheck(password); // same timing as a real check
+      return NextResponse.json(INVALID, { status: 401 });
     }
 
-    if (!user) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+    // 2. Persistent account lockout (survives restarts / multiple instances)
+    if (user.lockedUntil && user.lockedUntil.getTime() > Date.now()) {
+      await fakePasswordCheck(password);
+      return tooMany(Math.ceil((user.lockedUntil.getTime() - Date.now()) / 1000));
     }
 
-    // Verify password
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+      const failures = user.failedLoginAttempts + 1;
+      const lock = failures >= MAX_FAILURES_BEFORE_LOCK;
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          failedLoginAttempts: lock ? 0 : failures,
+          lockedUntil: lock ? new Date(Date.now() + LOCK_DURATION_MS) : user.lockedUntil,
+        },
+      });
+      if (lock) {
+        console.warn(`[auth] Account locked after repeated failed logins: ${user.id}`);
+        return tooMany(LOCK_DURATION_MS / 1000);
+      }
+      return NextResponse.json(INVALID, { status: 401 });
     }
 
     // Check if user is active
     if (user.status !== "Active") {
       return NextResponse.json(
-        {
-          error: "Your account has been deactivated. Please contact administrator.",
-        },
+        { error: "Your account has been deactivated. Please contact administrator." },
         { status: 403 }
       );
     }
 
-    // Update last login timestamp
-    try {
-      if ((prisma as any).user?.update) {
-        await (prisma as any).user.update({
-          where: { id: user.id },
-          data: { lastLoginAt: new Date() },
-        });
-      } else {
-        await prisma.$executeRaw`
-          UPDATE "User" SET "lastLoginAt" = NOW() WHERE id = ${user.id}
-        `;
-      }
-    } catch (e) {
-      console.warn("Could not update lastLoginAt:", e);
-    }
-
-    // Create JWT Token
-    const token = await signToken({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
+    // 3. Success: reset counters, record login
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { failedLoginAttempts: 0, lockedUntil: null, lastLoginAt: new Date() },
     });
+    invalidateSessionCache(user.id);
 
-    // Configure cookie
-    const maxAge = rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60; // 30 days or 7 days
+    const ttl = rememberMe ? SESSION_TTL.rememberMe : SESSION_TTL.default;
+    const token = await signToken(
+      { id: user.id, email: user.email, name: user.name, role: user.role, sv: user.sessionVersion },
+      ttl
+    );
+
     const response = NextResponse.json({
       success: true,
       message: "Login successful",
@@ -87,22 +115,12 @@ export async function POST(req: NextRequest) {
         avatar: user.avatar,
       },
     });
-
-    response.cookies.set({
-      name: AUTH_COOKIE_NAME,
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: maxAge,
-    });
-
+    response.cookies.set({ ...sessionCookieOptions(ttl), value: token });
     return response;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Login API error:", error);
     return NextResponse.json(
-      { error: error?.message || "An unexpected error occurred during login" },
+      { error: "An unexpected error occurred during login" },
       { status: 500 }
     );
   }

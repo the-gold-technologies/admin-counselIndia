@@ -12,6 +12,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:push": "prisma db push",
+    "db:migrate:prod": "prisma db execute --file prisma/sql/2026-11-13_security_hardening.sql --schema prisma/schema.prisma",
     "seed": "node prisma/seed.js"
   },
   "dependencies": {

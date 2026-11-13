@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
 import { isAdminRequest } from "@/lib/auth";
+import { jsonWithinLimit } from "@/lib/writableFields";
 
 const CATEGORY = "personality-test";
 
@@ -152,6 +153,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     const category = CATEGORY;
 
+    // Public endpoint: cap free-form JSON so it can't be used to bloat the database
+    if (!jsonWithinLimit(body?.extraData, 20_000) || !jsonWithinLimit(body?.answers, 20_000)) {
+      return NextResponse.json(
+        { success: false, error: "Submission is too large" },
+        { status: 413, headers: corsHeaders }
+      );
+    }
+
     const lastLead = await prisma.inquiryLead.findFirst({
       where: { category },
       orderBy: { sNo: "asc" },
@@ -210,6 +219,14 @@ export async function PATCH(request: Request) {
     const isAdmin = await isAdminRequest();
     const body = await request.json();
     const { id, result, resultName, answers } = body;
+
+    // Public endpoint: cap free-form JSON so it can't be used to bloat the database
+    if (!jsonWithinLimit(body?.extraData, 20_000) || !jsonWithinLimit(body?.answers, 20_000)) {
+      return NextResponse.json(
+        { success: false, error: "Submission is too large" },
+        { status: 413, headers: corsHeaders }
+      );
+    }
 
     if (!id) {
       return NextResponse.json(

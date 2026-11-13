@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
+import { jsonWithinLimit } from "@/lib/writableFields";
 
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
@@ -101,7 +102,17 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const category = (body.category || "subscription").trim();
+    const category = String(body.category || "subscription")
+      .trim()
+      .slice(0, 64);
+
+    // Public endpoint: cap free-form JSON so it can't be used to bloat the database
+    if (!jsonWithinLimit(body?.extraData, 20_000) || !jsonWithinLimit(body?.answers, 20_000)) {
+      return NextResponse.json(
+        { success: false, error: "Submission is too large" },
+        { status: 413, headers: corsHeaders }
+      );
+    }
 
     if (!category) {
       return NextResponse.json(

@@ -82,10 +82,10 @@ export default function ProfilePage() {
         });
         return;
       }
-      if (newPassword.length < 6) {
+      if (newPassword.length < 10 || !/[a-zA-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
         setStatusMsg({
           type: "error",
-          text: "New password must be at least 6 characters long.",
+          text: "New password must be at least 10 characters and include letters and numbers.",
         });
         return;
       }
@@ -316,7 +316,7 @@ export default function ProfilePage() {
                   type={showNewPassword ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="At least 6 characters"
+                  placeholder="At least 10 characters, letters + numbers"
                   className="w-full px-4 py-3.5 pr-12 bg-white border border-gray-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] transition shadow-2xs"
                 />
                 <button
