@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
+import { slugify } from "@/lib/utils";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -52,7 +53,20 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
     const updateData: any = {};
     if (body.name !== undefined) updateData.name = body.name;
-    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.slug !== undefined) {
+      // The website routes course pages by slug, so keep it URL-safe and unique.
+      const slug = slugify(String(body.slug)) || existing.slug;
+      if (slug !== existing.slug) {
+        const taken = await prisma.course.findUnique({ where: { slug } });
+        if (taken && taken.id !== existing.id) {
+          return NextResponse.json(
+            { error: `The URL slug "${slug}" is already used by "${taken.name}". Choose another.` },
+            { status: 409, headers: corsHeaders }
+          );
+        }
+      }
+      updateData.slug = slug;
+    }
     if (body.category !== undefined) updateData.category = body.category;
     if (body.position !== undefined)
       updateData.position = parseInt(body.position) || existing.position;

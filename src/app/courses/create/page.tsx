@@ -3,137 +3,29 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft, Save, AlertCircle, CheckCircle2, Loader2, ArrowRight } from "lucide-react";
 import {
-  ArrowLeft,
-  Save,
-  Plus,
-  Trash2,
-  Sparkles,
-  Layers,
-  Award,
-  ListOrdered,
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
-  ArrowRight,
-  Check,
-} from "lucide-react";
-import { DynamicHeading } from "@/types/course";
-import { ImageUploadField } from "@/components/ui/ImageUploadField";
-import { CertificateUploadField } from "@/components/ui/CertificateUploadField";
-import { CmsEditor } from "@/components/ui/CmsEditor";
+  CourseForm,
+  CourseFormValues,
+  CourseWebsiteChecklist,
+  emptyCourseValues,
+  toCoursePayload,
+  validateCourseValues,
+} from "@/components/courses/CourseForm";
 
 export default function CreateCoursePage() {
   const router = useRouter();
+  const [values, setValues] = useState<CourseFormValues>(emptyCourseValues);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Form States matching live create_course
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [category, setCategory] = useState("Diploma Programs");
-  const [position, setPosition] = useState("1");
-  const [status, setStatus] = useState("Active");
-  const [rating, setRating] = useState("5.0");
-  const [nextBatchDate, setNextBatchDate] = useState("");
-  const [listDuration, setListDuration] = useState("");
-  const [duration, setDuration] = useState("");
-  const [lessons, setLessons] = useState("");
-  const [enrolmentSeats, setEnrolmentSeats] = useState("");
-  const [whoCanJoin, setWhoCanJoin] = useState("");
-
-  // Pricing & Commercials
-  const [totalProgramFee, setTotalProgramFee] = useState("");
-  const [totalDiscountFee, setTotalDiscountFee] = useState("");
-  const [totalDiscountPercent, setTotalDiscountPercent] = useState("");
-  const [oneTimeFee, setOneTimeFee] = useState("");
-  const [oneTimeDiscountFee, setOneTimeDiscountFee] = useState("");
-  const [oneTimeDiscountPercent, setOneTimeDiscountPercent] = useState("");
-  const [startRange, setStartRange] = useState("");
-  const [endRange, setEndRange] = useState("");
-  const [paymentLink, setPaymentLink] = useState("");
-
-  // Media & Documents
-  const [coverImage, setCoverImage] = useState("");
-  const [backgroundImage, setBackgroundImage] = useState("");
-  const [coverImageApp, setCoverImageApp] = useState("");
-  const [backgroundImageApp, setBackgroundImageApp] = useState("");
-  const [brochure, setBrochure] = useState("");
-  const [scSchemePdf, setScSchemePdf] = useState("");
-  const [dreamJob, setDreamJob] = useState("");
-
-  // Dynamic Key Features (heading[] & headingvalue[])
-  const [headings, setHeadings] = useState<DynamicHeading[]>([
-    { heading: "Credentials", value: "" },
-    { heading: "Duration", value: "" },
-    { heading: "Eligibility", value: "" },
-    { heading: "Core Modules", value: "" },
-  ]);
-
-  // Dynamic Course Outlines (cheading[] & cheadingvalue[])
-  const [cheadings, setCheadings] = useState<DynamicHeading[]>([
-    { heading: "Months", value: "" },
-    { heading: "Core Modules", value: "" },
-    { heading: "Topics", value: "" },
-    { heading: "Live Sessions", value: "" },
-  ]);
-
-  // Content Textareas
-  const [subdescription, setSubdescription] = useState("");
-  const [aboutUs, setAboutUs] = useState("");
-  const [mepscAbout, setMepscAbout] = useState("");
-  const [universityAdvantage, setUniversityAdvantage] = useState("");
-  const [howWillBenefit, setHowWillBenefit] = useState("");
-  const [ojt, setOjt] = useState("");
-  const [mentorshipGuide, setMentorshipGuide] = useState("");
-
-  // Auto-generate slug from name
-  const handleNameChange = (val: string) => {
-    setName(val);
-    if (
-      !slug ||
-      slug ===
-        name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, "")
-    ) {
-      setSlug(
-        val
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, "")
-      );
-    }
-  };
-
-  // Add / Remove Key Feature
-  const addHeading = () => setHeadings([...headings, { heading: "", value: "" }]);
-  const updateHeading = (index: number, field: "heading" | "value", val: string) => {
-    const next = [...headings];
-    next[index][field] = val;
-    setHeadings(next);
-  };
-  const removeHeading = (index: number) => {
-    setHeadings(headings.filter((_, i) => i !== index));
-  };
-
-  // Add / Remove Outline
-  const addCheading = () => setCheadings([...cheadings, { heading: "", value: "" }]);
-  const updateCheading = (index: number, field: "heading" | "value", val: string) => {
-    const next = [...cheadings];
-    next[index][field] = val;
-    setCheadings(next);
-  };
-  const removeCheading = (index: number) => {
-    setCheadings(cheadings.filter((_, i) => i !== index));
-  };
-
   const handleSubmit = async (e?: React.FormEvent, continueToModules: boolean = true) => {
     if (e) e.preventDefault();
-    if (!name.trim()) {
-      setError("Course Name is required");
+    const problem = validateCourseValues(values);
+    if (problem) {
+      setError(problem);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
@@ -141,48 +33,14 @@ export default function CreateCoursePage() {
       setSaving(true);
       setError("");
 
-      const payload = {
-        name: name.trim(),
-        slug: slug.trim(),
-        category,
-        position: parseInt(position) || 1,
-        status,
-        rating: parseFloat(rating) || 5.0,
-        nextBatchDate,
-        listDuration,
-        duration,
-        lessons,
-        enrolmentSeats,
-        whoCanJoin,
-        totalProgramFee,
-        totalDiscountFee,
-        totalDiscountPercent,
-        oneTimeFee,
-        oneTimeDiscountFee,
-        oneTimeDiscountPercent,
-        startRange,
-        endRange,
-        paymentLink,
-        headings: headings.filter((h) => h.heading.trim() || h.value.trim()),
-        cheadings: cheadings.filter((h) => h.heading.trim() || h.value.trim()),
-        subdescription,
-        aboutUs,
-        mepscAbout,
-        universityAdvantage,
-        howWillBenefit,
-        ojt,
-        mentorshipGuide,
-        dreamJob,
-      };
-
       const res = await fetch("/api/courses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(toCoursePayload(values)),
       });
 
       if (!res.ok) {
-        const errJson = await res.json();
+        const errJson = await res.json().catch(() => ({}));
         throw new Error(errJson.error || "Failed to create course");
       }
 
@@ -191,13 +49,14 @@ export default function CreateCoursePage() {
 
       setTimeout(() => {
         if (continueToModules && newCourse?.id) {
-          router.push(`/courses/${newCourse.id}/edit?tab=overview`);
+          router.push(`/courses/${newCourse.id}/edit?tab=overview&created=1`);
         } else {
           router.push("/courses");
         }
       }, 700);
     } catch (err: any) {
       setError(err.message || "An error occurred while creating course");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setSaving(false);
     }
@@ -205,7 +64,7 @@ export default function CreateCoursePage() {
 
   return (
     <div className="space-y-6 max-w-5xl pb-16">
-      {/* Sticky Top Header Navigation & Save Bar */}
+      {/* Sticky header & save bar */}
       <div className="sticky top-0 z-30 bg-[#f8fafc]/90 backdrop-blur-md py-3 -mt-3 border-b border-gray-200/80 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <Link
@@ -217,40 +76,34 @@ export default function CreateCoursePage() {
           </Link>
           <div className="min-w-0 hidden sm:block">
             <div className="text-[11px] text-gray-400 font-semibold truncate">
-              Content Management &bull; New Course
+              New Course &bull; Step 1 of 2
             </div>
             <div className="text-xs font-bold text-gray-900 truncate max-w-xs md:max-w-md">
-              {name || "Untitled Course"}
+              {values.name || "Untitled Course"}
             </div>
           </div>
         </div>
 
-        {/* Global Action Buttons */}
         <div className="flex items-center gap-2 shrink-0">
-          {error && (
-            <span
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200 max-w-[200px] truncate"
-              title={error}
-            >
-              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{error}</span>
-            </span>
-          )}
-
           {success && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Created! Redirecting...</span>
+              <span>Created!</span>
             </span>
           )}
-
           <button
             type="button"
-            id="btn-create-course-top"
+            onClick={(e) => handleSubmit(e, false)}
+            disabled={saving}
+            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
+          >
+            Save &amp; Exit
+          </button>
+          <button
+            type="button"
             onClick={(e) => handleSubmit(e, true)}
             disabled={saving}
             className="px-4 py-2 rounded-xl bg-[#09A64A] hover:bg-[#078a3d] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
-            title="Create course and proceed directly to add Overview, Objectives, Credentials & Curriculum"
           >
             {saving ? (
               <>
@@ -260,639 +113,63 @@ export default function CreateCoursePage() {
             ) : (
               <>
                 <Save className="w-3.5 h-3.5" />
-                <span>Save &amp; Add Modules</span>
+                <span>Save &amp; Continue</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
           </button>
-
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, false)}
-            disabled={saving}
-            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
-            title="Create course and return to Course Table"
-          >
-            <span>Save &amp; Exit</span>
-          </button>
         </div>
       </div>
 
-      {/* Header Info */}
+      {/* Header */}
       <div>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#09A64A]">
-            Content Management
-          </span>
-        </div>
-        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Create New Course</h1>
+        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Add a New Course</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Add a complete program with curriculum structure, fees, dynamic highlights, and syllabus
-          details.
+          Fields marked <span className="text-rose-500 font-bold">*</span> are required. Each
+          section tells you where it appears on the website.
         </p>
       </div>
 
-      {/* 2-Step Workflow Guide Banner */}
-      <div className="bg-gradient-to-r from-emerald-50/70 via-emerald-50/30 to-blue-50/40 rounded-2xl p-4 border border-emerald-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#09A64A] text-white font-bold flex items-center justify-center text-sm shadow-xs shrink-0">
+      {/* Two-step guide */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="flex items-center gap-3 rounded-2xl p-4 border border-emerald-200/80 bg-emerald-50/50">
+          <div className="w-8 h-8 rounded-xl bg-[#09A64A] text-white font-bold flex items-center justify-center text-sm shrink-0">
             1
           </div>
           <div>
-            <h4 className="text-xs font-bold text-gray-900">
-              Step 1: General Details &amp; Pricing (Current)
-            </h4>
+            <h4 className="text-xs font-bold text-gray-900">Course details (this page)</h4>
             <p className="text-[11px] text-gray-500">
-              Fill in title, category, pricing, duration, and marketing copy below.
+              Name, card, fees, page content and downloads.
             </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-2 text-gray-400 text-xs font-semibold self-center md:self-auto">
-          <ArrowRight className="w-4 h-4 text-[#09A64A]" />
-        </div>
-
-        <div className="flex items-center gap-3 opacity-90">
-          <div className="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm shrink-0">
+        <div className="flex items-center gap-3 rounded-2xl p-4 border border-gray-200 bg-white">
+          <div className="w-8 h-8 rounded-xl bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm shrink-0">
             2
           </div>
           <div>
             <h4 className="text-xs font-bold text-gray-700">
-              Step 2: Overview &amp; Curriculum Tabs
+              Benefits, objectives, certificates &amp; curriculum
             </h4>
             <p className="text-[11px] text-gray-500">
-              Overview, Objectives, Credentials &amp; Modules open right after saving!
+              Opens automatically after you click &ldquo;Save &amp; Continue&rdquo;.
             </p>
           </div>
         </div>
       </div>
 
+      {error && (
+        <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <CourseWebsiteChecklist values={values} />
+
       <form onSubmit={(e) => handleSubmit(e, true)} className="space-y-6">
-        {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
+        <CourseForm values={values} onChange={setValues} autoSlug />
 
-        {success && (
-          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
-            <span>Course created successfully! Redirecting to add sub-modules...</span>
-          </div>
-        )}
-
-        {/* Section 1: Basic Information */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
-          <div className="border-b border-gray-100 pb-3">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-              1. Basic Course Information
-            </h3>
-            <p className="text-xs text-gray-400">Core identity and categorization</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="md:col-span-2 space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Course Name <span className="text-rose-500">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => handleNameChange(e.target.value)}
-                placeholder="e.g. Master's in Clinical Psychology"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Slug <span className="text-rose-500">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="masters-in-clinical-psychology"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Category
-              </label>
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="Diploma Programs"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Position
-              </label>
-              <input
-                type="number"
-                min="1"
-                value={position}
-                onChange={(e) => setPosition(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Status
-              </label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] cursor-pointer transition-colors"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 2: Structure, Durations & Eligibility */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
-          <div className="border-b border-gray-100 pb-3">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-              2. Structure, Schedule &amp; Eligibility
-            </h3>
-            <p className="text-xs text-gray-400">
-              Duration formats, lessons, seats, and target audience
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Duration For List (e.g. 3 Months)
-              </label>
-              <input
-                type="text"
-                value={listDuration}
-                onChange={(e) => setListDuration(e.target.value)}
-                placeholder="e.g. 24 Months"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Duration (Hours)
-              </label>
-              <input
-                type="text"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="e.g. 2160 hr"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Lessons Count
-              </label>
-              <input
-                type="text"
-                value={lessons}
-                onChange={(e) => setLessons(e.target.value)}
-                placeholder="e.g. 320"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Enrollment Seats
-              </label>
-              <input
-                type="text"
-                value={enrolmentSeats}
-                onChange={(e) => setEnrolmentSeats(e.target.value)}
-                placeholder="e.g. 100"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Rating
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                min="1"
-                max="5"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Next Batch Date
-              </label>
-              <input
-                type="date"
-                value={nextBatchDate}
-                onChange={(e) => setNextBatchDate(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5 md:col-span-3">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Who all can join?
-              </label>
-              <input
-                type="text"
-                value={whoCanJoin}
-                onChange={(e) => setWhoCanJoin(e.target.value)}
-                placeholder="e.g. All Manager, All Professionals, Coordinators, VPs, Psychologists..."
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Section 3: Dynamic Key Feature Headings (heading[] & headingvalue[]) */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#09A64A]" />
-                3. Key Feature Headings &amp; Values (heading[])
-              </h3>
-              <p className="text-xs text-gray-400">
-                Dynamic credentials, eligibility, and core highlights shown on course landing
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={addHeading}
-              className="px-3 py-1.5 rounded-lg bg-emerald-50 text-[#09A64A] hover:bg-emerald-100 text-xs font-bold border border-emerald-200 flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Add Heading</span>
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {headings.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80"
-              >
-                <div className="w-1/3">
-                  <input
-                    type="text"
-                    value={item.heading}
-                    onChange={(e) => updateHeading(idx, "heading", e.target.value)}
-                    placeholder="Heading Name (e.g. Credentials)"
-                    className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
-                  />
-                </div>
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={item.value}
-                    onChange={(e) => updateHeading(idx, "value", e.target.value)}
-                    placeholder="Value (e.g. Grade A Certification)"
-                    className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeHeading(idx)}
-                  className="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
-                  title="Remove"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Section 4: Dynamic Course Outlines (cheading[] & cheadingvalue[]) */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2">
-                <ListOrdered className="w-4 h-4 text-blue-600" />
-                4. Course Outline &amp; Highlights (cheading[])
-              </h3>
-              <p className="text-xs text-gray-400">
-                Months, Core Modules, Topics, and Live Sessions statistics
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={addCheading}
-              className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 text-xs font-bold border border-blue-200 flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Add Outline</span>
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {cheadings.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-3 bg-[#f8fafc] p-3 rounded-xl border border-gray-200/80"
-              >
-                <div className="w-1/3">
-                  <input
-                    type="text"
-                    value={item.heading}
-                    onChange={(e) => updateCheading(idx, "heading", e.target.value)}
-                    placeholder="Metric Name (e.g. Months)"
-                    className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
-                  />
-                </div>
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={item.value}
-                    onChange={(e) => updateCheading(idx, "value", e.target.value)}
-                    placeholder="Metric Value (e.g. 3)"
-                    className="w-full h-9 px-3 rounded-lg border border-gray-200 text-xs font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#09A64A]"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeCheading(idx)}
-                  className="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
-                  title="Remove"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Section 5: Pricing, Discounts & Payment Gateways */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
-          <div className="border-b border-gray-100 pb-3">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-              5. Pricing, Discounts &amp; Payments
-            </h3>
-            <p className="text-xs text-gray-400">
-              Total fees, one-time fees, discounts, and payment links
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Total Program Fee (₹)
-              </label>
-              <input
-                type="text"
-                value={totalProgramFee}
-                onChange={(e) => setTotalProgramFee(e.target.value)}
-                placeholder="24775"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Total Discount Fee (₹)
-              </label>
-              <input
-                type="text"
-                value={totalDiscountFee}
-                onChange={(e) => setTotalDiscountFee(e.target.value)}
-                placeholder="14617"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-emerald-700 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Total Discount Percent (%)
-              </label>
-              <input
-                type="text"
-                value={totalDiscountPercent}
-                onChange={(e) => setTotalDiscountPercent(e.target.value)}
-                placeholder="50"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                One Time Fee (₹)
-              </label>
-              <input
-                type="text"
-                value={oneTimeFee}
-                onChange={(e) => setOneTimeFee(e.target.value)}
-                placeholder="13860"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                One Time Discount Fee (₹)
-              </label>
-              <input
-                type="text"
-                value={oneTimeDiscountFee}
-                onChange={(e) => setOneTimeDiscountFee(e.target.value)}
-                placeholder="12474"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                One Time Discount Percent (%)
-              </label>
-              <input
-                type="text"
-                value={oneTimeDiscountPercent}
-                onChange={(e) => setOneTimeDiscountPercent(e.target.value)}
-                placeholder="10"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Placement Start Range (₹)
-              </label>
-              <input
-                type="text"
-                value={startRange}
-                onChange={(e) => setStartRange(e.target.value)}
-                placeholder="4000"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Placement End Range (₹)
-              </label>
-              <input
-                type="text"
-                value={endRange}
-                onChange={(e) => setEndRange(e.target.value)}
-                placeholder="10000"
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Payment Link
-              </label>
-              <input
-                type="text"
-                value={paymentLink}
-                onChange={(e) => setPaymentLink(e.target.value)}
-                placeholder="https://rzp.io/rzp/..."
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] transition-colors"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Section 6: Detailed Content, Syllabus & Frameworks (CMS Rich Text) */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
-          <div className="border-b border-gray-100 pb-3 flex items-center justify-between">
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                6. Descriptions &amp; Marketing Frameworks
-              </h3>
-              <p className="text-xs text-gray-400">
-                Rich CMS formatted text for public marketing copy, program frameworks, and job
-                benefits
-              </p>
-            </div>
-            <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-[#09A64A] text-xs font-bold border border-emerald-200">
-              CMS Editor Enabled
-            </span>
-          </div>
-
-          <div className="space-y-5">
-            <CmsEditor
-              label="Sub Description *"
-              value={subdescription}
-              onChange={setSubdescription}
-              placeholder="Course description and key overview..."
-            />
-
-            <CmsEditor
-              label="About / Program Framework *"
-              value={aboutUs}
-              onChange={setAboutUs}
-              placeholder="Detailed HTML or syllabus framework..."
-            />
-
-            <CmsEditor
-              label="How will this program benefit you?"
-              value={howWillBenefit}
-              onChange={setHowWillBenefit}
-              placeholder="Specific career and learning benefits..."
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <CmsEditor
-                label="Proficiency: On Job Training (OJT)"
-                value={ojt}
-                onChange={setOjt}
-                placeholder="Hands-on training details..."
-              />
-
-              <CmsEditor
-                label="Mentorship Guide"
-                value={mentorshipGuide}
-                onChange={setMentorshipGuide}
-                placeholder="Mentorship guide details..."
-              />
-            </div>
-
-            <CmsEditor
-              label="Get Your Dream Job (Career Support)"
-              value={dreamJob}
-              onChange={setDreamJob}
-              placeholder="Placement assistance, resume building, and job interview support..."
-            />
-          </div>
-        </div>
-
-        {/* Section 7: Course Media & Document Uploads */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
-          <div className="border-b border-gray-100 pb-3">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-              7. Course Media &amp; Documents
-            </h3>
-            <p className="text-xs text-gray-400">
-              Upload cover banners, app responsive graphics, program brochure, and scholarship
-              guidelines
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ImageUploadField
-              label="Cover Image (Desktop Banner)"
-              value={coverImage}
-              onChange={setCoverImage}
-            />
-
-            <ImageUploadField
-              label="Background Image (Desktop)"
-              value={backgroundImage}
-              onChange={setBackgroundImage}
-            />
-
-            <ImageUploadField
-              label="Cover Image (App - 650 x 330)"
-              value={coverImageApp}
-              onChange={setCoverImageApp}
-            />
-
-            <ImageUploadField
-              label="Background Image (App - 750 x 397)"
-              value={backgroundImageApp}
-              onChange={setBackgroundImageApp}
-            />
-
-            <CertificateUploadField
-              label="Course Brochure (PDF / Document)"
-              value={brochure}
-              onChange={setBrochure}
-            />
-
-            <CertificateUploadField
-              label="Scholarship Scheme (PDF)"
-              value={scSchemePdf}
-              onChange={setScSchemePdf}
-            />
-          </div>
-        </div>
-
-        {/* Action Buttons matching Course Leads */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
           <Link
             href="/courses"
@@ -921,7 +198,7 @@ export default function CreateCoursePage() {
             ) : (
               <>
                 <Save className="w-3.5 h-3.5" />
-                <span>Save &amp; Add Modules</span>
+                <span>Save &amp; Continue</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}

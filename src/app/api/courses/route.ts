@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
+import { slugify } from "@/lib/utils";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -113,12 +114,8 @@ export async function POST(request: Request) {
     }
 
     const count = await prisma.course.count();
-    const slugBase =
-      body.slug ||
-      name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+    // The website routes course pages by slug, so it must always be URL-safe.
+    const slugBase = slugify(body.slug || "") || slugify(name) || `course-${Date.now()}`;
     let slug = slugBase;
     let suffix = 1;
     while (await prisma.course.findUnique({ where: { slug } })) {

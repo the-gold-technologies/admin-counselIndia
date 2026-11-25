@@ -15,16 +15,6 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // If an oldUrl was provided during upload/replace, delete it from Cloudinary
-    if (oldUrl && typeof oldUrl === "string" && oldUrl.includes("cloudinary.com")) {
-      try {
-        console.log(`[Upload API] Cleaning up old file replaced during upload: ${oldUrl}`);
-        await deleteCloudinaryFileByUrl(oldUrl);
-      } catch (err) {
-        console.warn(`[Upload API] Could not delete old file: ${oldUrl}`, err);
-      }
-    }
-
     const result = await new Promise<any>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
@@ -38,6 +28,16 @@ export async function POST(request: Request) {
       );
       uploadStream.end(buffer);
     });
+
+    // Only remove the file being replaced once the new one is safely stored, so a failed
+    // upload never leaves the form pointing at a deleted file.
+    if (oldUrl && typeof oldUrl === "string" && oldUrl.includes("cloudinary.com")) {
+      try {
+        await deleteCloudinaryFileByUrl(oldUrl);
+      } catch (err) {
+        console.warn(`[Upload API] Could not delete replaced file: ${oldUrl}`, err);
+      }
+    }
 
     return NextResponse.json({
       success: true,

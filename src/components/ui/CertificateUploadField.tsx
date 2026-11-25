@@ -39,17 +39,20 @@ export const CertificateUploadField: React.FC<CertificateUploadFieldProps> = ({
         body: formData,
       });
 
-      const data = await res.json();
-      if (data.success && data.url) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success && data.url) {
         onChange(data.url);
       } else {
-        const localUrl = URL.createObjectURL(file);
-        onChange(localUrl);
+        // Never fall back to a temporary browser (blob:) link: it would be saved to the
+        // database and appear as a broken file for everyone else. Keep the current value.
+        setUploadError(
+          `File upload failed${data.error ? `: ${data.error}` : ""}. Please try again.`
+        );
       }
     } catch {
-      const localUrl = URL.createObjectURL(file);
-      onChange(localUrl);
+      setUploadError("File upload failed. Check your connection and try again.");
     } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
       setIsUploading(false);
     }
   };
