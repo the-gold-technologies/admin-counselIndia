@@ -27,6 +27,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 import { generateTeamPdf } from "@/lib/generateTeamPdf";
 
 export interface AboutMemberItem {
@@ -698,28 +699,18 @@ function TeamContent() {
         {/* Status Dropdown & Search */}
         <div className="flex items-center gap-3 flex-wrap">
           {/* Status Filter */}
-          <div className="relative">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              aria-label="Filter by Status"
-              className="appearance-none pl-3.5 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A] cursor-pointer"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active Only</option>
-              <option value="inactive">Hidden Only</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
+          <CustomSelect
+            value={statusFilter}
+            onChange={(val) => setStatusFilter(val)}
+            className="w-36"
+            size="sm"
+            ariaLabel="Filter by Status"
+            options={[
+              { value: "all", label: "All Status" },
+              { value: "active", label: "Active Only" },
+              { value: "inactive", label: "Hidden Only" },
+            ]}
+          />
 
           {/* Search Input */}
           <div className="relative w-full sm:w-72">

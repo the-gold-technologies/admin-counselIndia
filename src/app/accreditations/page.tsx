@@ -20,6 +20,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 
 export interface AccreditationItem {
   id: string;
@@ -262,24 +263,29 @@ function AccreditationsContent() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="space-y-7 pb-12 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#09A64A]">
+              Accreditations &amp; Associations Management
+            </span>
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 tracking-tight">
             Accreditations, Associations &amp; UGC Universities
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-0.5">
             Manage UGC approved universities, international associations, and accreditations
             displayed on the website.
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="inline-flex items-center gap-2 bg-[#09A64A] hover:bg-[#07883b] text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition-colors cursor-pointer"
+          className="px-5 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white font-bold text-xs shadow-md shadow-[#09A64A]/20 transition-all cursor-pointer flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          Add Institution
+          <span>+ Add Institution</span>
         </button>
       </div>
 
@@ -375,55 +381,43 @@ function AccreditationsContent() {
           </div>
 
           {/* Category Dropdown */}
-          <div className="relative sm:w-56">
-            <select
-              value={activeTab}
-              onChange={(e) => handleTabChange(e.target.value)}
-              aria-label="Filter by Category"
-              className="w-full appearance-none pl-3 pr-8 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-[#09A64A]/30 focus:border-[#09A64A] cursor-pointer"
-            >
-              <option value="all">All Categories ({counts.all})</option>
-              <option value="ugc_university">
-                UGC Approved Universities ({counts.ugc_university})
-              </option>
-              <option value="international">International ({counts.international})</option>
-              <option value="association">Associations ({counts.association})</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
+          <CustomSelect
+            value={activeTab}
+            onChange={(val) => handleTabChange(val)}
+            className="w-full sm:w-64"
+            ariaLabel="Filter by Category"
+            options={[
+              { value: "all", label: "All Categories", count: counts.all },
+              {
+                value: "ugc_university",
+                label: "UGC Approved Universities",
+                count: counts.ugc_university,
+              },
+              {
+                value: "international",
+                label: "International",
+                count: counts.international,
+              },
+              {
+                value: "association",
+                label: "Associations",
+                count: counts.association,
+              },
+            ]}
+          />
 
           {/* Status Dropdown */}
-          <div className="relative sm:w-40">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              aria-label="Filter by Status"
-              className="w-full appearance-none pl-3 pr-8 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-[#09A64A]/30 focus:border-[#09A64A] cursor-pointer"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active Only</option>
-              <option value="inactive">Hidden Only</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
+          <CustomSelect
+            value={statusFilter}
+            onChange={(val) => setStatusFilter(val)}
+            className="w-full sm:w-44"
+            ariaLabel="Filter by Status"
+            options={[
+              { value: "all", label: "All Status" },
+              { value: "active", label: "Active Only" },
+              { value: "inactive", label: "Hidden Only" },
+            ]}
+          />
         </div>
 
         <div className="text-xs text-gray-500 shrink-0 self-end md:self-center">
@@ -581,15 +575,16 @@ function AccreditationsContent() {
             <form onSubmit={handleSave} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">Category *</label>
-                <select
+                <CustomSelect
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#09A64A]/30 focus:border-[#09A64A]"
-                >
-                  <option value="ugc_university">UGC Approved University</option>
-                  <option value="international">International Body / Partner</option>
-                  <option value="association">Association / Accreditation</option>
-                </select>
+                  onChange={(val) => setFormData({ ...formData, category: val as any })}
+                  className="w-full"
+                  options={[
+                    { value: "ugc_university", label: "UGC Approved University" },
+                    { value: "international", label: "International Body / Partner" },
+                    { value: "association", label: "Association / Accreditation" },
+                  ]}
+                />
               </div>
 
               <div>

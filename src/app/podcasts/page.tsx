@@ -21,6 +21,7 @@ import {
   Radio,
 } from "lucide-react";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 
 export interface PodcastItem {
   id: string;
@@ -229,21 +230,26 @@ function PodcastsContent() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="space-y-7 pb-12 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">YouTube Podcasts</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#09A64A]">
+              Media &amp; Video Management
+            </span>
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 tracking-tight">YouTube Podcasts</h1>
+          <p className="text-xs text-gray-500 mt-0.5">
             Manage Counsel India video podcasts shown on the website homepage.
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="inline-flex items-center gap-2 bg-[#09A64A] hover:bg-[#07883b] text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition-colors cursor-pointer"
+          className="px-5 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white font-bold text-xs shadow-md shadow-[#09A64A]/20 transition-all cursor-pointer flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          Add Podcast
+          <span>+ Add Podcast</span>
         </button>
       </div>
 
@@ -321,28 +327,17 @@ function PodcastsContent() {
             />
           </div>
 
-          <div className="relative sm:w-44">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              aria-label="Filter by Status"
-              className="w-full appearance-none pl-3 pr-8 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-[#09A64A]/30 focus:border-[#09A64A] cursor-pointer"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active Only</option>
-              <option value="inactive">Hidden Only</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
+          <CustomSelect
+            value={statusFilter}
+            onChange={(val) => setStatusFilter(val)}
+            className="w-full sm:w-44"
+            ariaLabel="Filter by Status"
+            options={[
+              { value: "all", label: "All Status" },
+              { value: "active", label: "Active Only" },
+              { value: "inactive", label: "Hidden Only" },
+            ]}
+          />
         </div>
 
         <div className="text-xs text-gray-500 shrink-0 self-end md:self-center">

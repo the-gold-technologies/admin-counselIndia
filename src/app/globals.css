@@ -42,3 +42,56 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* ──────────────────────────────────────────────────────────
+   Universal Modern Select & Option UI
+   Fixes dark OS menus on macOS/Windows and ensures clean styling
+   ────────────────────────────────────────────────────────── */
+select {
+  color-scheme: light !important;
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.5rem 2.25rem 0.5rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+select:hover {
+  border-color: #cbd5e1;
+  background-color: #fafafa;
+}
+
+select:focus {
+  outline: none;
+  border-color: #09a64a;
+  box-shadow: 0 0 0 3px rgba(9, 166, 74, 0.15);
+  background-color: #ffffff;
+}
+
+select option {
+  color-scheme: light !important;
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+  margin: 2px 0 !important;
+}
+
+select option:checked {
+  background-color: #e6f7ee !important;
+  color: #09a64a !important;
+  font-weight: 700 !important;
+}
+
+select option:hover {
+  background-color: #f1f5f9 !important;
+  color: #09a64a !important;
+}
