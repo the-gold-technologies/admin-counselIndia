@@ -86,6 +86,7 @@ model Course {
   nextBatchDate          String?
   position               Int      @default(1)
   category               String?
+  mainCategory           String?  @default("CI Programs") // CI Programs, IPA, AIU, MIT
   status                 String   @default("Active") // Active, Inactive
   isActive               Boolean  @default(true)
   addedOn                String?

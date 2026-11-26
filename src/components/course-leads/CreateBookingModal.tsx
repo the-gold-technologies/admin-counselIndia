@@ -12,6 +12,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { CourseLeadItem } from "@/types/courseLead";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 interface CreateBookingModalProps {
   lead: CourseLeadItem | null;
@@ -153,15 +154,17 @@ export default function CreateBookingModal({
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                 Batch *
               </label>
-              <select
+              <SearchableSelect
                 value={batchName}
-                onChange={(e) => setBatchName(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-              >
-                <option value="Weekend Batch (Batch 24)">Weekend Batch (Batch 24)</option>
-                <option value="Weekday Evening Batch">Weekday Evening Batch</option>
-                <option value="Fast Track Fast-Track">Fast Track Intensive</option>
-              </select>
+                onChange={setBatchName}
+                searchPlaceholder="Search batch..."
+                options={[
+                  { value: "Weekend Batch (Batch 24)", label: "Weekend Batch (Batch 24)" },
+                  { value: "Weekday Evening Batch", label: "Weekday Evening Batch" },
+                  { value: "Fast Track Fast-Track", label: "Fast Track Intensive" },
+                ]}
+                buttonClassName="h-11 bg-white"
+              />
             </div>
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
@@ -195,30 +198,34 @@ export default function CreateBookingModal({
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                 Payment Status
               </label>
-              <select
+              <SearchableSelect
                 value={paymentStatus}
-                onChange={(e) => setPaymentStatus(e.target.value)}
-                className="w-full h-11 px-3 rounded-xl border border-gray-200 bg-white text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-              >
-                <option value="Paid">Full Paid</option>
-                <option value="Partial">Partial (EMI)</option>
-                <option value="Pending">Pending</option>
-              </select>
+                onChange={setPaymentStatus}
+                searchable={false}
+                options={[
+                  { value: "Paid", label: "Full Paid" },
+                  { value: "Partial", label: "Partial (EMI)" },
+                  { value: "Pending", label: "Pending" },
+                ]}
+                buttonClassName="h-11 bg-white"
+              />
             </div>
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                 Payment Mode
               </label>
-              <select
+              <SearchableSelect
                 value={paymentMode}
-                onChange={(e) => setPaymentMode(e.target.value)}
-                className="w-full h-11 px-2.5 rounded-xl border border-gray-200 bg-white text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-              >
-                <option value="Online / UPI">Online / UPI</option>
-                <option value="Credit Card / Debit">Card</option>
-                <option value="Net Banking">Net Banking</option>
-                <option value="Cash / Cheque">Cash / Cheque</option>
-              </select>
+                onChange={setPaymentMode}
+                searchable={false}
+                options={[
+                  { value: "Online / UPI", label: "Online / UPI" },
+                  { value: "Credit Card / Debit", label: "Card" },
+                  { value: "Net Banking", label: "Net Banking" },
+                  { value: "Cash / Cheque", label: "Cash / Cheque" },
+                ]}
+                buttonClassName="h-11 bg-white"
+              />
             </div>
           </div>
 

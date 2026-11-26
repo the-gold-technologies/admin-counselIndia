@@ -15,8 +15,8 @@
     "db:migrate:prod": "prisma db execute --file prisma/sql/2026-11-13_security_hardening.sql --schema prisma/schema.prisma",
     "db:migrate:blogs": "prisma db execute --file prisma/sql/2026-11-26_blogs.sql --schema prisma/schema.prisma",
     "db:migrate:staff-roles": "prisma db execute --file prisma/sql/2026-11-26_staff_roles.sql --schema prisma/schema.prisma",
-    "seed": "node prisma/seed.js",
-    "update": "node prisma/update.js"
+    "db:migrate:course-main-category": "prisma db execute --file prisma/sql/2026-11-26_course_main_category.sql --schema prisma/schema.prisma",
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.2",

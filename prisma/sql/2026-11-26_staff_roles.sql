@@ -17,7 +17,7 @@
 --   npx prisma db execute --file prisma/sql/2026-11-26_staff_roles.sql --schema prisma/schema.prisma
 --
 -- Then load the roles & staff from the old admin:
---   npm run update
+--   npm run seed
 -- =============================================================================
 
 BEGIN;

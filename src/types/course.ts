@@ -55,6 +55,7 @@ export interface Course {
   cheadings?: DynamicHeading[];
   position: number;
   category?: string | null;
+  mainCategory?: string | null;
   status: "Active" | "Inactive" | string;
   isActive: boolean;
   addedOn?: string | null;

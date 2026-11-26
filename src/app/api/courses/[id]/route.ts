@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
 import { slugify } from "@/lib/utils";
+import { normaliseMainCategory } from "@/lib/courseCategories";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -68,6 +69,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       updateData.slug = slug;
     }
     if (body.category !== undefined) updateData.category = body.category;
+    if (body.mainCategory !== undefined)
+      updateData.mainCategory = normaliseMainCategory(body.mainCategory);
     if (body.position !== undefined)
       updateData.position = parseInt(body.position) || existing.position;
     if (body.status !== undefined) {

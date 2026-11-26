@@ -17,7 +17,7 @@
 --   npx prisma db execute --file prisma/sql/2026-11-26_blogs.sql --schema prisma/schema.prisma
 --
 -- Then load the data:
---   npm run update
+--   npm run seed
 --
 -- Take a backup first:
 --   pg_dump "$DATABASE_URL" -Fc -f backup_before_blogs.dump

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
 import { slugify } from "@/lib/utils";
+import { normaliseMainCategory } from "@/lib/courseCategories";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -130,6 +131,7 @@ export async function POST(request: Request) {
         name,
         slug,
         category: category || "Diploma Programs",
+        mainCategory: normaliseMainCategory(body.mainCategory),
         position: parseInt(position) || 1,
         status: status || "Active",
         isActive: (status || "Active").toLowerCase() === "active",

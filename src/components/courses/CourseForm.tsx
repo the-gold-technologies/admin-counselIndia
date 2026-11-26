@@ -16,7 +16,9 @@ import { Course, DynamicHeading } from "@/types/course";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
 import { CertificateUploadField } from "@/components/ui/CertificateUploadField";
 import { CmsEditor } from "@/components/ui/CmsEditor";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 import { slugify } from "@/lib/utils";
+import { DEFAULT_MAIN_CATEGORY, MAIN_CATEGORIES } from "@/lib/courseCategories";
 
 /* -------------------------------------------------------------------------- */
 /*  Form values + helpers (shared by the Create and Edit course pages)        */
@@ -25,6 +27,7 @@ import { slugify } from "@/lib/utils";
 export interface CourseFormValues {
   name: string;
   slug: string;
+  mainCategory: string;
   category: string;
   position: string;
   status: string;
@@ -68,6 +71,7 @@ export const CARD_DESCRIPTION_LIMIT = 175;
 export const emptyCourseValues: CourseFormValues = {
   name: "",
   slug: "",
+  mainCategory: DEFAULT_MAIN_CATEGORY,
   category: "",
   position: "1",
   status: "Active",
@@ -131,6 +135,7 @@ export function courseToFormValues(c: Course): CourseFormValues {
   return {
     name: s(c.name),
     slug: s(c.slug),
+    mainCategory: s(c.mainCategory) || DEFAULT_MAIN_CATEGORY,
     category: s(c.category),
     position: s(c.position || 1),
     status: c.status || "Active",
@@ -186,6 +191,7 @@ export function toCoursePayload(v: CourseFormValues) {
     name: v.name.trim(),
     slug: slugify(v.slug || v.name),
     category: v.category.trim(),
+    mainCategory: v.mainCategory || DEFAULT_MAIN_CATEGORY,
     position: parseInt(v.position) || 1,
     rating: parseFloat(v.rating) || 5.0,
     subdescription: v.subdescription.trim(),
@@ -606,9 +612,23 @@ export function CourseForm({
           </Field>
 
           <Field
-            label="Category"
+            label="Main category"
             required
-            hint="Pick an existing category so the course is grouped and badged correctly on the website."
+            hint="Top-level group in the website's course menu."
+          >
+            <SearchableSelect
+              value={values.mainCategory}
+              onChange={(val) => set("mainCategory", val)}
+              options={MAIN_CATEGORIES.map((c) => ({ value: c, label: c }))}
+              searchPlaceholder="Search main categories..."
+              buttonClassName="py-2.5 text-sm font-medium"
+            />
+          </Field>
+
+          <Field
+            label="Sub-category"
+            required
+            hint="e.g. Masters Programs, PG Diploma Programs, Certification Programs, Entrepreneurship Programs."
           >
             <input
               type="text"

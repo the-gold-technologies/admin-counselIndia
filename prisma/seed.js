@@ -156,6 +156,7 @@ async function seedCourses(prismaInstance) {
         nextBatchDate: c.nextBatchDate || null,
         position: posVal,
         category: c.category || "Diploma Programs",
+        mainCategory: c.mainCategory || "CI Programs",
         status: c.status || "Active",
         isActive: c.status === "Active",
         addedOn: c.addedOn || null,
@@ -520,12 +521,12 @@ async function seedPersonalityTest(prismaInstance) {
 }
 
 // 9. Seed Blogs (from blogs-data.json + blogs-seo-data.json, exported from the old admin)
-// Non-destructive: creates missing blogs (matched by slug). For existing blogs it only fills
-// EMPTY SEO/tag fields, so edits made in the admin are kept. Images are kept exactly as on the
-// old site (original URLs / embedded) — nothing is uploaded.
+// Full reset like the other steps: all blogs are deleted and re-created from the files, with their
+// SEO (meta title/description/keywords, canonical URL) and tags. Images keep their original URLs /
+// embedded form — nothing is uploaded.
 async function seedBlogs(prismaInstance) {
   const p = prismaInstance || prisma;
-  console.log("--- 9/9 Seeding Blogs ---");
+  console.log("--- 9/10 Seeding Blogs ---");
 
   const jsonPath = path.join(__dirname, "blogs-data.json");
   const seoPath = path.join(__dirname, "blogs-seo-data.json");
@@ -543,18 +544,6 @@ async function seedBlogs(prismaInstance) {
         ])
       : []
   );
-
-  const SEO_FIELDS = [
-    "metaTitle",
-    "metaDescription",
-    "metaKeywords",
-    "canonicalUrl",
-    "ogImage",
-    "tags",
-  ];
-  // Image copies an earlier import uploaded to Cloudinary — such posts get their original body back
-  const UPLOADED_COPY_RE =
-    /https:\/\/res\.cloudinary\.com\/[^"'\s)]+\/counselindia\/blog\/[^"'\s)]+-img-\d+/;
   const cleanList = (v) => {
     const seen = new Set();
     const items = String(v || "")
@@ -564,48 +553,16 @@ async function seedBlogs(prismaInstance) {
     return items.length ? items.join(", ") : null;
   };
 
-  const existing = new Map(
-    (
-      await p.blog.findMany({
-        select: {
-          id: true,
-          slug: true,
-          content: true,
-          ...Object.fromEntries(SEO_FIELDS.map((f) => [f, true])),
-        },
-      })
-    ).map((b) => [b.slug, b])
-  );
+  await p.blog.deleteMany({});
 
-  let created = 0,
-    updated = 0;
+  const seen = new Set();
   for (const b of blogs) {
     const slug = (b.slug || "").trim();
-    if (!slug || !b.title) continue;
+    if (!slug || !b.title || seen.has(slug)) continue;
+    seen.add(slug);
 
     const extra = seoMap.get(slug.toLowerCase()) || {};
     const pick = (k) => (extra[k] || b[k] || "").toString().trim() || null;
-    const seo = {
-      metaTitle: pick("metaTitle"),
-      metaDescription: pick("metaDescription"),
-      metaKeywords: cleanList(pick("metaKeywords")),
-      canonicalUrl: pick("canonicalUrl"),
-      ogImage: pick("ogImage"),
-      tags: cleanList(pick("tags")),
-    };
-
-    const row = existing.get(slug);
-    if (row) {
-      const data = Object.fromEntries(
-        SEO_FIELDS.filter((f) => !row[f] && seo[f]).map((f) => [f, seo[f]])
-      );
-      if (UPLOADED_COPY_RE.test(row.content)) data.content = b.content;
-      if (Object.keys(data).length) {
-        await p.blog.update({ where: { id: row.id }, data });
-        updated++;
-      }
-      continue;
-    }
 
     await p.blog.create({
       data: {
@@ -616,22 +573,26 @@ async function seedBlogs(prismaInstance) {
         authorName:
           !b.authorName || b.authorName.trim() === "Author" ? "Counsel India" : b.authorName.trim(),
         category: (b.category || "").trim().replace(/[:\s]+$/, "") || null,
-        ...seo,
+        metaTitle: pick("metaTitle"),
+        metaDescription: pick("metaDescription"),
+        metaKeywords: cleanList(pick("metaKeywords")),
+        canonicalUrl: pick("canonicalUrl"),
+        ogImage: pick("ogImage"),
+        tags: cleanList(pick("tags")),
         status: b.status === "Draft" ? "Draft" : "Published",
         publishedAt: b.publishedAt ? new Date(`${b.publishedAt}T00:00:00+05:30`) : new Date(),
       },
     });
-    created++;
   }
 
   const count = await p.blog.count();
-  console.log(`✓ Blogs: ${created} added, ${updated} updated — ${count} total.`);
+  console.log(`✓ Seeded ${count} Blogs successfully.`);
 }
 
 // 10. Seed Staff Roles & Staff (from staff-roles-data.json, exported from the old admin)
-// Non-destructive: creates missing roles (by name) and missing staff (by email); existing ones are
-// left as they are. New staff are created INACTIVE with no usable password — a Super Admin sets
-// their password and activates them in Admin → Staff & Roles.
+// Roles are reset and re-created from the file. Staff are matched by email: new staff are created
+// INACTIVE with no usable password (a Super Admin sets their password and activates them in
+// Admin → Staff & Roles); existing staff keep their password/status and get the role from the file.
 async function seedStaffAndRoles(prismaInstance) {
   const p = prismaInstance || prisma;
   console.log("--- 10/10 Seeding Staff Roles & Staff ---");
@@ -643,40 +604,44 @@ async function seedStaffAndRoles(prismaInstance) {
   }
   const { roles = [], staff = [] } = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
 
+  await p.role.deleteMany({}); // users' roleId is cleared automatically (ON DELETE SET NULL)
   const roleIds = {};
-  let rolesCreated = 0;
   for (const r of roles) {
-    let role = await p.role.findUnique({ where: { name: r.name } });
-    if (!role) {
-      role = await p.role.create({ data: { name: r.name, permissions: r.permissions || [] } });
-      rolesCreated++;
-    }
+    const role = await p.role.create({ data: { name: r.name, permissions: r.permissions || [] } });
     roleIds[r.name] = role.id;
   }
 
-  let staffCreated = 0;
+  let created = 0;
   for (const s of staff) {
     const email = String(s.email || "")
       .trim()
       .toLowerCase();
-    if (!email || (await p.user.findUnique({ where: { email } }))) continue;
+    if (!email) continue;
+    const roleId = roleIds[s.role] || null;
+    const existing = await p.user.findUnique({ where: { email } });
+    if (existing) {
+      if (existing.role !== "SUPERADMIN") {
+        await p.user.update({ where: { id: existing.id }, data: { role: "STAFF", roleId } });
+      }
+      continue;
+    }
     await p.user.create({
       data: {
         name: s.name || email,
         email,
         phone: s.phone || null,
         role: "STAFF",
-        roleId: roleIds[s.role] || null,
+        roleId,
         status: "Inactive",
         // Random, never shared — the Super Admin sets a real password when activating
         password: bcrypt.hashSync(require("crypto").randomBytes(24).toString("hex"), 10),
       },
     });
-    staffCreated++;
+    created++;
   }
 
   console.log(
-    `✓ Roles: ${rolesCreated} added (${roles.length} total in file). Staff: ${staffCreated} added (inactive until a password is set).`
+    `✓ Seeded ${roles.length} Roles and ${created} new Staff (inactive until a Super Admin sets their password).`
   );
 }
 

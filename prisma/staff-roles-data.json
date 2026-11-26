@@ -1,5 +1,5 @@
 {
-  "_note": "Roles & staff from the old admin (admin.counselindia.com), mapped to the new admin's sections. Loaded by npm run update / npm run seed. Staff are created Inactive with no usable password \u2014 a Super Admin sets their password and activates them in Staff & Roles.",
+  "_note": "Roles & staff from the old admin (admin.counselindia.com), mapped to the new admin's sections. Loaded by npm run seed. Staff are created Inactive with no usable password \u2014 a Super Admin sets their password and activates them in Staff & Roles.",
   "roles": [
     {
       "name": "Alumni Manager",

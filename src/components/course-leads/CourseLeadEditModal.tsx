@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Save, User, Mail, Phone, BookOpen, Clock } from "lucide-react";
 import { CourseLeadItem } from "@/types/courseLead";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 interface CourseLeadEditModalProps {
   lead: CourseLeadItem | null;
@@ -106,17 +107,19 @@ export default function CourseLeadEditModal({
             <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
               Lead Status
             </label>
-            <select
+            <SearchableSelect
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-            >
-              <option value="New">New</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Enrolled">Enrolled</option>
-              <option value="Completed">Completed</option>
-              <option value="Inactive">Inactive</option>
-            </select>
+              onChange={setStatus}
+              searchPlaceholder="Search status..."
+              options={[
+                { value: "New", label: "New" },
+                { value: "Contacted", label: "Contacted" },
+                { value: "Enrolled", label: "Enrolled" },
+                { value: "Completed", label: "Completed" },
+                { value: "Inactive", label: "Inactive" },
+              ]}
+              buttonClassName="h-11 bg-white text-sm font-medium"
+            />
           </div>
 
           {/* Relationship Manager */}

@@ -19,6 +19,7 @@ import {
   Loader2,
 } from "lucide-react";
 import CourseTable from "@/components/courses/CourseTable";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 import { generateCoursesPdf } from "@/lib/generateCoursesPdf";
 import { Course, CourseStats } from "@/types/course";
 
@@ -415,18 +416,20 @@ function CoursesContent() {
       <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Left: Category Dropdown */}
         <div className="w-full sm:w-72">
-          <select
+          <SearchableSelect
             value={selectedCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-            className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] cursor-pointer transition-colors"
-          >
-            <option value="all">All Categories ({stats.categories.length})</option>
-            {stats.categories.map((c) => (
-              <option key={c.name} value={c.name}>
-                {c.name} ({c.count})
-              </option>
-            ))}
-          </select>
+            onChange={handleCategoryChange}
+            options={[
+              { value: "all", label: `All Categories (${stats.categories.length})` },
+              ...stats.categories.map((c) => ({
+                value: c.name,
+                label: `${c.name} (${c.count})`,
+              })),
+            ]}
+            searchPlaceholder="Search categories..."
+            emptyText="No categories found"
+            buttonClassName="h-11"
+          />
         </div>
 
         {/* Right: Search Box + Refresh */}

@@ -16,6 +16,7 @@ import {
   Printer,
 } from "lucide-react";
 import { ADMIN_SECTIONS } from "@/lib/permissions";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 interface RoleOption {
   id: string;
@@ -463,20 +464,20 @@ export default function StaffPage() {
 
               <div>
                 <label className={labelCls}>Role *</label>
-                <select
-                  className={`${inputCls} cursor-pointer`}
+                <SearchableSelect
                   value={form.access}
                   disabled={form.id === meId}
-                  onChange={(e) => setForm({ ...form, access: e.target.value })}
-                >
-                  <option value="">Choose a role…</option>
-                  {meIsSuper && <option value="SUPERADMIN">Super Admin (full access)</option>}
-                  {roles.map((r) => (
-                    <option key={r.id} value={r.id}>
-                      {r.name}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setForm({ ...form, access: val })}
+                  placeholder="Choose a role…"
+                  searchPlaceholder="Search roles..."
+                  options={[
+                    ...(meIsSuper
+                      ? [{ value: "SUPERADMIN", label: "Super Admin (full access)" }]
+                      : []),
+                    ...roles.map((r) => ({ value: r.id, label: r.name })),
+                  ]}
+                  buttonClassName="py-2.5 text-sm font-medium"
+                />
                 {form.id === meId && (
                   <p className="text-[11px] text-gray-400 mt-1">
                     You can&apos;t change your own role.
@@ -513,15 +514,17 @@ export default function StaffPage() {
                 </div>
                 <div>
                   <label className={labelCls}>Status</label>
-                  <select
-                    className={`${inputCls} cursor-pointer`}
+                  <SearchableSelect
                     value={form.status}
                     disabled={form.id === meId}
-                    onChange={(e) => setForm({ ...form, status: e.target.value })}
-                  >
-                    <option value="Active">Active (can log in)</option>
-                    <option value="Inactive">Inactive (blocked)</option>
-                  </select>
+                    onChange={(val) => setForm({ ...form, status: val })}
+                    searchable={false}
+                    options={[
+                      { value: "Active", label: "Active (can log in)" },
+                      { value: "Inactive", label: "Inactive (blocked)" },
+                    ]}
+                    buttonClassName="py-2.5 text-sm font-medium"
+                  />
                 </div>
               </div>
             </div>

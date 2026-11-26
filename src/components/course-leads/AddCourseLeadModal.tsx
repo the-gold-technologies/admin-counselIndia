@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { X, Plus, User, Mail, Phone, BookOpen } from "lucide-react";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 interface AddCourseLeadModalProps {
   isOpen: boolean;
@@ -150,18 +151,14 @@ export default function AddCourseLeadModal({
               Target Course *
             </label>
             <div className="space-y-2">
-              <select
+              <SearchableSelect
                 value={courseName}
-                onChange={(e) => setCourseName(e.target.value)}
-                className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-              >
-                <option value="">-- Select from existing courses or type below --</option>
-                {courses.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+                onChange={setCourseName}
+                placeholder="-- Select from existing courses or type below --"
+                searchPlaceholder="Search courses..."
+                options={courses.map((c) => ({ value: c, label: c }))}
+                buttonClassName="h-11 bg-white text-sm font-medium"
+              />
               <input
                 type="text"
                 value={courseName}

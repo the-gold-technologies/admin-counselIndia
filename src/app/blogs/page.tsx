@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   Newspaper,
@@ -16,12 +16,10 @@ import {
   Edit2,
   Trash2,
   ImageOff,
-  ChevronDown,
-  Check,
-  X,
 } from "lucide-react";
 import { BlogItem, websiteBlogUrl } from "@/components/blogs/BlogForm";
 import { generateBlogsPdf, formatBlogDate } from "@/lib/generateBlogsPdf";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -32,10 +30,6 @@ export default function BlogsPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
-  const [categoryOpen, setCategoryOpen] = useState(false);
-  const [categorySearch, setCategorySearch] = useState("");
-  const categoryRef = useRef<HTMLDivElement>(null);
-  const categorySearchRef = useRef<HTMLInputElement>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -60,35 +54,6 @@ export default function BlogsPage() {
     () => [...new Set(blogs.map((b) => b.category).filter(Boolean) as string[])].sort(),
     [blogs]
   );
-
-  const filteredCategories = useMemo(() => {
-    const q = categorySearch.trim().toLowerCase();
-    if (!q) return categories;
-    return categories.filter((c) => c.toLowerCase().includes(q));
-  }, [categories, categorySearch]);
-
-  useEffect(() => {
-    if (!categoryOpen) return;
-    categorySearchRef.current?.focus();
-    const handleClickOutside = (e: MouseEvent) => {
-      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
-        setCategoryOpen(false);
-        setCategorySearch("");
-      }
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setCategoryOpen(false);
-        setCategorySearch("");
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [categoryOpen]);
 
   // Filtering is done in the browser so search feels instant
   const filtered = useMemo(() => {
@@ -371,106 +336,19 @@ export default function BlogsPage() {
           ))}
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          <div ref={categoryRef} className="relative">
-            <button
-              type="button"
-              onClick={() => {
-                setCategoryOpen((prev) => !prev);
-                if (categoryOpen) setCategorySearch("");
-              }}
-              className={`flex items-center justify-between gap-2.5 min-w-44 max-w-60 px-3.5 py-2 bg-gray-50 border rounded-xl text-xs font-semibold text-gray-700 cursor-pointer transition-all ${
-                categoryOpen
-                  ? "border-[#09A64A] ring-2 ring-[#09A64A]/20 bg-white"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <span className="truncate">
-                {categoryFilter === "All" ? "All categories" : categoryFilter}
-              </span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 text-gray-400 shrink-0 transition-transform duration-150 ${
-                  categoryOpen ? "rotate-180 text-[#09A64A]" : ""
-                }`}
-              />
-            </button>
-
-            {categoryOpen && (
-              <div className="absolute left-0 mt-2 w-64 bg-white rounded-2xl border border-gray-200 shadow-xl z-30 overflow-hidden">
-                <div className="p-2 border-b border-gray-100">
-                  <div className="relative">
-                    <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                    <input
-                      ref={categorySearchRef}
-                      type="text"
-                      value={categorySearch}
-                      onChange={(e) => setCategorySearch(e.target.value)}
-                      placeholder="Search categories..."
-                      className="w-full pl-8 pr-7 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 placeholder:text-gray-400 focus:outline-hidden focus:ring-2 focus:ring-[#09A64A]/20 focus:border-[#09A64A]"
-                    />
-                    {categorySearch && (
-                      <button
-                        type="button"
-                        onClick={() => setCategorySearch("")}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="max-h-60 overflow-y-auto p-1.5 space-y-0.5">
-                  {(!categorySearch.trim() ||
-                    "all categories".includes(categorySearch.trim().toLowerCase())) && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCategoryFilter("All");
-                        setCategoryOpen(false);
-                        setCategorySearch("");
-                      }}
-                      className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs text-left transition-colors cursor-pointer ${
-                        categoryFilter === "All"
-                          ? "bg-emerald-50 text-[#09A64A] font-bold"
-                          : "text-gray-700 font-medium hover:bg-gray-50"
-                      }`}
-                    >
-                      <span>All categories</span>
-                      {categoryFilter === "All" && <Check className="w-3.5 h-3.5 shrink-0" />}
-                    </button>
-                  )}
-
-                  {filteredCategories.map((c) => (
-                    <button
-                      type="button"
-                      key={c}
-                      onClick={() => {
-                        setCategoryFilter(c);
-                        setCategoryOpen(false);
-                        setCategorySearch("");
-                      }}
-                      className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs text-left transition-colors cursor-pointer ${
-                        categoryFilter === c
-                          ? "bg-emerald-50 text-[#09A64A] font-bold"
-                          : "text-gray-700 font-medium hover:bg-gray-50"
-                      }`}
-                    >
-                      <span className="truncate">{c}</span>
-                      {categoryFilter === c && <Check className="w-3.5 h-3.5 shrink-0" />}
-                    </button>
-                  ))}
-
-                  {filteredCategories.length === 0 &&
-                    categorySearch.trim() &&
-                    !"all categories".includes(categorySearch.trim().toLowerCase()) && (
-                      <div className="px-3 py-4 text-center text-xs text-gray-400 font-medium">
-                        No categories found
-                      </div>
-                    )}
-                </div>
-              </div>
-            )}
-          </div>
+          <SearchableSelect
+            value={categoryFilter}
+            onChange={setCategoryFilter}
+            options={[
+              { value: "All", label: "All categories" },
+              ...categories.map((c) => ({ value: c, label: c })),
+            ]}
+            searchPlaceholder="Search categories..."
+            emptyText="No categories found"
+            className="min-w-44 max-w-60"
+            buttonClassName="py-2 bg-gray-50 hover:border-gray-300"
+            dropdownClassName="w-64 right-auto"
+          />
           <div className="relative w-full sm:w-72">
             <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input

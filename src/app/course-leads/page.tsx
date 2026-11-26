@@ -21,6 +21,7 @@ import CourseLeadTable from "@/components/course-leads/CourseLeadTable";
 import CourseLeadEditModal from "@/components/course-leads/CourseLeadEditModal";
 import AddCourseLeadModal from "@/components/course-leads/AddCourseLeadModal";
 import CreateBookingModal from "@/components/course-leads/CreateBookingModal";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 import { generateCourseLeadsPdf } from "@/lib/generateCourseLeadsPdf";
 import { CourseLeadItem } from "@/types/courseLead";
 
@@ -538,21 +539,20 @@ function CourseLeadsContent() {
       <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Left: Course Dropdown */}
         <div className="w-full sm:w-72">
-          <select
+          <SearchableSelect
             value={selectedCourse}
-            onChange={(e) => {
-              setSelectedCourse(e.target.value);
+            onChange={(val) => {
+              setSelectedCourse(val);
               setCurrentPage(1);
             }}
-            className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-800 bg-[#f8fafc] hover:border-[#09A64A] focus:outline-none focus:ring-1 focus:ring-[#09A64A] cursor-pointer transition-colors"
-          >
-            <option value="all">All Courses ({coursesList.length})</option>
-            {coursesList.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+            options={[
+              { value: "all", label: `All Courses (${coursesList.length})` },
+              ...coursesList.map((c) => ({ value: c, label: c })),
+            ]}
+            searchPlaceholder="Search courses..."
+            emptyText="No courses found"
+            buttonClassName="h-11"
+          />
         </div>
 
         {/* Right: Search Box + Refresh */}

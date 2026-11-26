@@ -210,7 +210,10 @@ export const CourseTable: React.FC<CourseTableProps> = ({
                     {/* Category & Date */}
                     <td className="py-3.5 px-4">
                       <div className="flex flex-col gap-1.5">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 rounded-lg px-2.5 py-0.5 text-xs">
+                            {course.mainCategory || "CI Programs"}
+                          </span>
                           <span className="font-bold text-blue-700 bg-blue-50 border border-blue-200/80 rounded-lg px-2.5 py-0.5 text-xs truncate max-w-[200px]">
                             {course.category || "General"}
                           </span>
