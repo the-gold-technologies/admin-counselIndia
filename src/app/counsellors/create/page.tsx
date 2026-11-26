@@ -80,6 +80,7 @@ export default function CreateCounsellorPage() {
     userType: "Counselor",
     isApproved: true,
     isOnline: false,
+    isFeatured: false,
     videoStatus: false,
     videoPrice: 0,
     audioStatus: false,
@@ -689,6 +690,23 @@ export default function CreateCounsellorPage() {
                     className="w-full px-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl whitespace-pre-wrap font-sans"
                   />
                 </div>
+
+                <label className="flex items-start justify-between gap-4 p-4 rounded-xl border border-amber-200 bg-amber-50/60 cursor-pointer">
+                  <span>
+                    <span className="block text-sm font-bold text-gray-900">
+                      ★ Show at top of the website (active trainer)
+                    </span>
+                    <span className="block text-[11px] text-gray-500 mt-0.5 normal-case tracking-normal">
+                      Listed first on the Counsellors Network page, before everyone else.
+                    </span>
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={formData.isFeatured}
+                    onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                    className="mt-1 w-5 h-5 accent-[#09A64A] cursor-pointer shrink-0"
+                  />
+                </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-3">
                   <div>

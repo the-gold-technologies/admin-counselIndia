@@ -22,6 +22,7 @@ export const PUBLIC_COUNSELOR_SELECT = {
   userType: true,
   isApproved: true,
   isOnline: true,
+  isFeatured: true,
   videoStatus: true,
   videoPrice: true,
   audioStatus: true,

@@ -32,6 +32,8 @@ export interface CounselorItem {
   userType?: string | null;
   isApproved: boolean;
   isOnline: boolean;
+  /** "Show at top" — listed first on the website */
+  isFeatured?: boolean;
   videoStatus?: boolean;
   videoPrice?: number;
   audioStatus?: boolean;

@@ -375,10 +375,10 @@ export const EVENT_PAGES: WebsitePage[] = [
   },
   {
     path: "/events/roadmap-to-become-a-successful-counsellor-5x-your-earning",
-    name: "Roadmap to become a successful counsellor, 5x\\u00a0your\\u00a0earning",
+    name: "Roadmap to become a successful counsellor, 5x your earning",
     group: "Event pages",
     builtInTitle:
-      "Roadmap to become a successful counsellor, 5x\\u00a0your\\u00a0earning | Counsel India Events",
+      "Roadmap to become a successful counsellor, 5x your earning | Counsel India Events",
   },
   {
     path: "/events/emotional-wellbeing-and-happiness",
@@ -448,6 +448,13 @@ export const EVENT_PAGES: WebsitePage[] = [
     group: "Event pages",
     builtInTitle:
       "Crack Competitive Exams with a Healthy Mind : Exclusive Bootcamp! | Counsel India Events",
+  },
+  {
+    path: "/events/mega-offline-event-roadmap-to-become-a-successful-counselor-5x-your-earning",
+    name: "MEGA OFFLINE EVENT - Roadmap to Become a Successful Counselor, 5x your Earning",
+    group: "Event pages",
+    builtInTitle:
+      "MEGA OFFLINE EVENT - Roadmap to Become a Successful Counselor, 5x your Earning | Counsel India Events",
   },
 ];
 

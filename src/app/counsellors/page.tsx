@@ -112,6 +112,28 @@ function CounsellorsContent() {
     }
   };
 
+  // Pin / unpin a counsellor at the top of the website (active trainers)
+  const handleToggleFeatured = async (id: string, featured: boolean) => {
+    try {
+      const res = await fetch(`/api/counsellors`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, isFeatured: featured }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setCounsellors((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, isFeatured: featured } : item))
+        );
+        fetchCounsellors();
+      } else {
+        alert(json.error || "Could not update");
+      }
+    } catch (err) {
+      console.error("Failed to toggle show-at-top:", err);
+    }
+  };
+
   // Delete handler
   const handleDelete = async (id: string) => {
     try {
@@ -592,6 +614,7 @@ function CounsellorsContent() {
           }}
           onDelete={handleDelete}
           onToggleStatus={handleToggleStatus}
+          onToggleFeatured={handleToggleFeatured}
         />
       )}
     </div>

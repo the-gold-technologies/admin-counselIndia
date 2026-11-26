@@ -63,7 +63,8 @@ export async function GET(request: Request) {
 
     const queryOptions: any = {
       where,
-      orderBy: [{ sNo: "asc" }, { createdAt: "desc" }],
+      // "Show at top" counsellors (active trainers) first, then the usual order
+      orderBy: [{ isFeatured: "desc" }, { sNo: "asc" }, { createdAt: "desc" }],
       ...(isAdmin ? { omit: { password: true } } : { select: PUBLIC_COUNSELOR_SELECT }),
     };
 
@@ -158,6 +159,7 @@ export async function POST(request: Request) {
         userType: body.userType || "Counselor",
         isApproved: body.isApproved !== undefined ? Boolean(body.isApproved) : true,
         isOnline: Boolean(body.isOnline),
+        isFeatured: Boolean(body.isFeatured),
         videoStatus: Boolean(body.videoStatus),
         videoPrice: Number(body.videoPrice) || 0,
         audioStatus: Boolean(body.audioStatus),

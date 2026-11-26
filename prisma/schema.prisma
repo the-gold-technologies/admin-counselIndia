@@ -139,6 +139,7 @@ model Counselor {
   userType        String? @default("Counselor")
   isApproved      Boolean @default(true)
   isOnline        Boolean @default(false)
+  isFeatured      Boolean @default(false) // "Show at top" — listed first on the website (active trainers)
   videoStatus     Boolean @default(false)
   videoPrice      Float?  @default(0)
   audioStatus     Boolean @default(false)
@@ -165,6 +166,8 @@ model Counselor {
   updatedOn String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([isFeatured, sNo])
 }
 
 model Alumni {

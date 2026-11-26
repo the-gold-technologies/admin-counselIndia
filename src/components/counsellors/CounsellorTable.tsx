@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Eye, Edit2, Trash2, Award } from "lucide-react";
+import { Eye, Edit2, Trash2, Award, Star } from "lucide-react";
 import { CounselorItem } from "@/types/counsellor";
 
 interface CounsellorTableProps {
@@ -14,6 +14,8 @@ interface CounsellorTableProps {
   onPageSizeChange: (size: number) => void;
   onDelete: (id: string) => void;
   onToggleStatus: (id: string, currentStatus: string) => void;
+  /** Pin / unpin "Show at top of the website" */
+  onToggleFeatured?: (id: string, featured: boolean) => void;
 }
 
 function AvatarThumbnail({ image, name }: { image?: string | null; name: string }) {
@@ -57,6 +59,7 @@ export default function CounsellorTable({
   onPageSizeChange,
   onDelete,
   onToggleStatus,
+  onToggleFeatured,
 }: CounsellorTableProps) {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -132,6 +135,12 @@ export default function CounsellorTable({
                           >
                             {item.name}
                           </Link>
+                          {item.isFeatured && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-[10px] font-bold text-amber-700">
+                              <Star className="w-3 h-3 fill-amber-400 text-amber-500" /> Shown at
+                              top
+                            </span>
+                          )}
                           <div className="text-gray-600 text-xs">
                             Email:{" "}
                             <span className="font-medium text-gray-800">{item.email || "-"}</span>
@@ -232,6 +241,25 @@ export default function CounsellorTable({
                         >
                           <Edit2 className="w-4 h-4" />
                         </Link>
+
+                        {/* Show at top of the website (active trainer) */}
+                        {onToggleFeatured && (
+                          <button
+                            onClick={() => onToggleFeatured(item.id, !item.isFeatured)}
+                            title={
+                              item.isFeatured
+                                ? "Shown at top of the website — click to remove"
+                                : "Show at top of the website (active trainer)"
+                            }
+                            className={`w-8 h-8 rounded-xl border transition-all cursor-pointer inline-flex items-center justify-center shadow-xs ${
+                              item.isFeatured
+                                ? "bg-amber-400 border-amber-400 text-white hover:bg-amber-500"
+                                : "bg-white border-gray-200 text-gray-400 hover:text-amber-500 hover:border-amber-300"
+                            }`}
+                          >
+                            <Star className={`w-4 h-4 ${item.isFeatured ? "fill-white" : ""}`} />
+                          </button>
+                        )}
 
                         {/* Delete Button */}
                         <button
