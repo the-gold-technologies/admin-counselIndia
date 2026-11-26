@@ -314,6 +314,7 @@ async function seedCounselors(prismaInstance) {
       accountHolderName: item.accountHolderName || "",
       userType: item.userType || "Counselor",
       isApproved: item.isApproved !== undefined ? Boolean(item.isApproved) : true,
+      isFeatured: Boolean(item.isFeatured),
       isOnline: Boolean(item.isOnline),
       videoStatus: Boolean(item.videoStatus),
       videoPrice: item.videoPrice !== undefined ? Number(item.videoPrice) : 0,

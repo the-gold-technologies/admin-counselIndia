@@ -21,8 +21,11 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
     const fetchAll = searchParams.get("all") === "true";
+    // Only "Show at top" counsellors (active trainers) — used by the website home page
+    const featuredOnly = searchParams.get("featured") === "true";
 
     const where: any = {};
+    if (featuredOnly) where.isFeatured = true;
 
     // Status filtering matching live admin tabs
     if (status === "verified") {

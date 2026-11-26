@@ -133,6 +133,9 @@ ALTER TABLE "Counselor" ADD COLUMN IF NOT EXISTS "isFeatured" BOOLEAN NOT NULL D
 
 CREATE INDEX IF NOT EXISTS "Counselor_isFeatured_sNo_idx" ON "Counselor"("isFeatured", "sNo");
 
+-- Active trainers shown at the top: Sweta A. Gorania (269), Nazima Sayyed (170), Varnica Kotnala (152)
+UPDATE "Counselor" SET "isFeatured" = true WHERE "liveId" IN ('269', '170', '152');
+
 -- -----------------------------------------------------------------------------
 -- 6. Page SEO imported from the old admin (admin.counselindia.com → Page SEO)
 -- Same data as prisma/page-seo-data.json (also loaded by `npm run seed`).
