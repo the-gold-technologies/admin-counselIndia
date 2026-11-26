@@ -23,6 +23,8 @@ export const ALUMNI_WRITABLE = allow(Prisma.AlumniScalarFieldEnum);
 
 export const SITE_SETTING_WRITABLE = allow(Prisma.SiteSettingScalarFieldEnum);
 
+export const BLOG_WRITABLE = allow(Prisma.BlogScalarFieldEnum);
+
 /** Copy only allowlisted keys from an untrusted body. Unknown keys are silently dropped. */
 export function pickWritable(body: unknown, allowed: ReadonlySet<string>): Record<string, unknown> {
   const out: Record<string, unknown> = {};

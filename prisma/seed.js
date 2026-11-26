@@ -519,6 +519,115 @@ async function seedPersonalityTest(prismaInstance) {
   }
 }
 
+// 9. Seed Blogs (from blogs-data.json + blogs-seo-data.json, exported from the old admin)
+// Non-destructive: creates missing blogs (matched by slug). For existing blogs it only fills
+// EMPTY SEO/tag fields, so edits made in the admin are kept. Images are kept exactly as on the
+// old site (original URLs / embedded) — nothing is uploaded.
+async function seedBlogs(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 9/9 Seeding Blogs ---");
+
+  const jsonPath = path.join(__dirname, "blogs-data.json");
+  const seoPath = path.join(__dirname, "blogs-seo-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No blogs-data.json found, skipping.");
+    return;
+  }
+  const blogs = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  // Old SEO entries sometimes use different letter case in the slug → match case-insensitively
+  const seoMap = new Map(
+    fs.existsSync(seoPath)
+      ? Object.entries(JSON.parse(fs.readFileSync(seoPath, "utf8"))).map(([k, v]) => [
+          k.trim().toLowerCase(),
+          v,
+        ])
+      : []
+  );
+
+  const SEO_FIELDS = [
+    "metaTitle",
+    "metaDescription",
+    "metaKeywords",
+    "canonicalUrl",
+    "ogImage",
+    "tags",
+  ];
+  // Image copies an earlier import uploaded to Cloudinary — such posts get their original body back
+  const UPLOADED_COPY_RE =
+    /https:\/\/res\.cloudinary\.com\/[^"'\s)]+\/counselindia\/blog\/[^"'\s)]+-img-\d+/;
+  const cleanList = (v) => {
+    const seen = new Set();
+    const items = String(v || "")
+      .split(",")
+      .map((x) => x.trim())
+      .filter((x) => x && !seen.has(x.toLowerCase()) && seen.add(x.toLowerCase()));
+    return items.length ? items.join(", ") : null;
+  };
+
+  const existing = new Map(
+    (
+      await p.blog.findMany({
+        select: {
+          id: true,
+          slug: true,
+          content: true,
+          ...Object.fromEntries(SEO_FIELDS.map((f) => [f, true])),
+        },
+      })
+    ).map((b) => [b.slug, b])
+  );
+
+  let created = 0,
+    updated = 0;
+  for (const b of blogs) {
+    const slug = (b.slug || "").trim();
+    if (!slug || !b.title) continue;
+
+    const extra = seoMap.get(slug.toLowerCase()) || {};
+    const pick = (k) => (extra[k] || b[k] || "").toString().trim() || null;
+    const seo = {
+      metaTitle: pick("metaTitle"),
+      metaDescription: pick("metaDescription"),
+      metaKeywords: cleanList(pick("metaKeywords")),
+      canonicalUrl: pick("canonicalUrl"),
+      ogImage: pick("ogImage"),
+      tags: cleanList(pick("tags")),
+    };
+
+    const row = existing.get(slug);
+    if (row) {
+      const data = Object.fromEntries(
+        SEO_FIELDS.filter((f) => !row[f] && seo[f]).map((f) => [f, seo[f]])
+      );
+      if (UPLOADED_COPY_RE.test(row.content)) data.content = b.content;
+      if (Object.keys(data).length) {
+        await p.blog.update({ where: { id: row.id }, data });
+        updated++;
+      }
+      continue;
+    }
+
+    await p.blog.create({
+      data: {
+        title: b.title.trim(),
+        slug,
+        content: b.content,
+        coverImage: b.coverImage || null,
+        authorName:
+          !b.authorName || b.authorName.trim() === "Author" ? "Counsel India" : b.authorName.trim(),
+        category: (b.category || "").trim().replace(/[:\s]+$/, "") || null,
+        ...seo,
+        status: b.status === "Draft" ? "Draft" : "Published",
+        publishedAt: b.publishedAt ? new Date(`${b.publishedAt}T00:00:00+05:30`) : new Date(),
+      },
+    });
+    created++;
+  }
+
+  const count = await p.blog.count();
+  console.log(`✓ Blogs: ${created} added, ${updated} updated — ${count} total.`);
+}
+
 async function main() {
   console.log("==================================================");
   console.log("🚀 Starting Counsel India CMS Database Seeder");
@@ -533,6 +642,7 @@ async function main() {
     await seedCounselors(prisma);
     await seedCourseLeads(prisma);
     await seedPersonalityTest(prisma);
+    await seedBlogs(prisma);
 
     console.log("==================================================");
     console.log("✅ All seeds completed successfully!");
@@ -555,6 +665,7 @@ module.exports = {
   seedCounselors,
   seedCourseLeads,
   seedPersonalityTest,
+  seedBlogs,
 };
 
 if (require.main === module) {

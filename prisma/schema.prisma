@@ -355,3 +355,28 @@ model PersonalityTabResult {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+// Blog posts shown on the website. Kept deliberately simple: author and category are
+// plain text (no separate Author / Category tables).
+model Blog {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String?  @db.Text
+  content         String   @db.Text
+  coverImage      String?
+  authorName      String   @default("Counsel India")
+  category        String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text // comma-separated SEO keywords
+  canonicalUrl    String?
+  ogImage         String? // social share image; falls back to coverImage
+  tags            String?  @db.Text // comma-separated tags shown on the post
+  status          String   @default("Published") // Published, Draft
+  publishedAt     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status, publishedAt])
+}

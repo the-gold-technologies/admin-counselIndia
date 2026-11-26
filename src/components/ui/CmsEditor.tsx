@@ -14,6 +14,11 @@ import {
   Eraser,
   Eye,
   Code,
+  ImagePlus,
+  Undo2,
+  Redo2,
+  Pilcrow,
+  Loader2,
 } from "lucide-react";
 
 interface CmsEditorProps {
@@ -22,6 +27,10 @@ interface CmsEditorProps {
   onChange: (val: string) => void;
   placeholder?: string;
   containerClassName?: string;
+  /** Show an "Insert image" button that uploads to Cloudinary and places the image inline. */
+  allowImages?: boolean;
+  /** Taller writing area for long-form content (e.g. blog posts). */
+  tall?: boolean;
 }
 
 export const CmsEditor: React.FC<CmsEditorProps> = ({
@@ -30,9 +39,14 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
   onChange,
   placeholder = "Write content here...",
   containerClassName = "",
+  allowImages = false,
+  tall = false,
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const savedRangeRef = useRef<Range | null>(null);
   const [viewMode, setViewMode] = useState<"visual" | "code">("visual");
+  const [imageUploading, setImageUploading] = useState(false);
 
   // Keep visual content editable div in sync with external value
   useEffect(() => {
@@ -66,6 +80,64 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
     }
   };
 
+  // Remember the cursor position before the file picker steals focus
+  const handleImageButton = () => {
+    if (viewMode === "code" || imageUploading) return;
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode)) {
+      savedRangeRef.current = sel.getRangeAt(0).cloneRange();
+    } else {
+      savedRangeRef.current = null;
+    }
+    imageInputRef.current?.click();
+  };
+
+  const handleImageFile = async (file: File | undefined) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Please choose an image file.");
+      return;
+    }
+    setImageUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "counselindia/blog");
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (!json.success || !json.url) throw new Error(json.error || "Upload failed");
+
+      const editor = editorRef.current;
+      if (!editor) return;
+      editor.focus();
+      const sel = window.getSelection();
+      if (sel) {
+        sel.removeAllRanges();
+        if (savedRangeRef.current) {
+          sel.addRange(savedRangeRef.current);
+        } else {
+          // No saved cursor: append at the end
+          const range = document.createRange();
+          range.selectNodeContents(editor);
+          range.collapse(false);
+          sel.addRange(range);
+        }
+      }
+      const alt = file.name.replace(/\.[^.]+$/, "").replace(/"/g, "");
+      document.execCommand(
+        "insertHTML",
+        false,
+        `<img src="${json.url}" alt="${alt}" style="max-width:100%;height:auto;" />`
+      );
+      handleInput();
+    } catch (err: any) {
+      alert(err?.message || "Image upload failed");
+    } finally {
+      setImageUploading(false);
+      if (imageInputRef.current) imageInputRef.current.value = "";
+    }
+  };
+
   const handleClearFormat = () => {
     if (viewMode === "code") return;
     executeCommand("removeFormat");
@@ -89,6 +161,36 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
         {/* Formatting Toolbar */}
         <div className="flex items-center justify-between px-3 py-2 bg-gray-50/90 border-b border-gray-100 gap-2 flex-wrap text-gray-600">
           <div className="flex items-center gap-1 flex-wrap">
+            {tall && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => executeCommand("undo")}
+                  className="p-1.5 rounded-lg hover:bg-gray-200/70 text-gray-700 transition-colors cursor-pointer"
+                  title="Undo"
+                >
+                  <Undo2 className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => executeCommand("redo")}
+                  className="p-1.5 rounded-lg hover:bg-gray-200/70 text-gray-700 transition-colors cursor-pointer"
+                  title="Redo"
+                >
+                  <Redo2 className="w-3.5 h-3.5" />
+                </button>
+                <div className="h-4 w-px bg-gray-200 mx-1" />
+                <button
+                  type="button"
+                  onClick={() => executeCommand("formatBlock", "<p>")}
+                  className="p-1.5 rounded-lg hover:bg-gray-200/70 text-gray-700 transition-colors cursor-pointer"
+                  title="Normal paragraph"
+                >
+                  <Pilcrow className="w-3.5 h-3.5" />
+                </button>
+              </>
+            )}
+
             {/* Bold */}
             <button
               type="button"
@@ -183,6 +285,31 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
               <LinkIcon className="w-3.5 h-3.5" />
             </button>
 
+            {allowImages && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleImageButton}
+                  disabled={imageUploading}
+                  className="p-1.5 rounded-lg hover:bg-gray-200/70 text-gray-700 transition-colors cursor-pointer disabled:opacity-50"
+                  title="Insert Image"
+                >
+                  {imageUploading ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ImagePlus className="w-3.5 h-3.5" />
+                  )}
+                </button>
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleImageFile(e.target.files?.[0])}
+                />
+              </>
+            )}
+
             {/* Clear Format */}
             <button
               type="button"
@@ -230,14 +357,14 @@ export const CmsEditor: React.FC<CmsEditorProps> = ({
             contentEditable
             onInput={handleInput}
             onBlur={handleInput}
-            className="p-5 min-h-[160px] max-h-[360px] overflow-y-auto text-sm text-gray-800 leading-relaxed focus:outline-none prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_h2]:text-base [&_h2]:font-bold [&_h2]:my-2 [&_h3]:text-sm [&_h3]:font-bold [&_h3]:my-1.5 [&_blockquote]:border-l-4 [&_blockquote]:border-[#09A64A] [&_blockquote]:pl-3 [&_blockquote]:italic [&_a]:text-blue-600 [&_a]:underline"
+            className={`p-5 ${tall ? "min-h-[420px] max-h-[70vh] text-[15px]" : "min-h-[160px] max-h-[360px]"} overflow-y-auto text-sm text-gray-800 leading-relaxed focus:outline-none prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_h2]:text-base [&_h2]:font-bold [&_h2]:my-2 [&_h3]:text-sm [&_h3]:font-bold [&_h3]:my-1.5 [&_blockquote]:border-l-4 [&_blockquote]:border-[#09A64A] [&_blockquote]:pl-3 [&_blockquote]:italic [&_a]:text-blue-600 [&_a]:underline [&_img]:rounded-lg [&_img]:my-3`}
             data-placeholder={placeholder}
           />
         ) : (
           <textarea
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            rows={7}
+            rows={tall ? 20 : 7}
             placeholder="<p>Enter HTML code here...</p>"
             className="w-full p-4 font-mono text-xs text-gray-800 bg-gray-50/60 focus:outline-none resize-y min-h-[160px]"
           />

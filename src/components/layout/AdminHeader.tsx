@@ -14,6 +14,7 @@ import {
   X,
   Bell,
   RefreshCw,
+  Newspaper,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -54,6 +55,12 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
     category: "Academics",
     url: "/courses",
     icon: BookOpen,
+  },
+  {
+    title: "Blogs",
+    category: "Content",
+    url: "/blogs",
+    icon: Newspaper,
   },
   {
     title: "Leads & Enquiries",

@@ -37,6 +37,8 @@ export async function proxy(request: NextRequest) {
     /^\/api\/counsellors$/,
     /^\/api\/counsellors\/[^/]+$/,
     /^\/api\/alumni$/,
+    /^\/api\/blogs$/,
+    /^\/api\/blogs\/[^/]+$/,
     /^\/api\/settings$/,
     /^\/api\/personality-test\/info$/,
     /^\/api\/personality-test\/questions$/,

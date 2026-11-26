@@ -17,6 +17,7 @@ import {
   Settings,
   ChevronDown,
   LogOut,
+  Newspaper,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -62,6 +63,11 @@ const sidebarLinks: SidebarItem[] = [
     title: "Courses",
     href: "/courses",
     icon: BookOpen,
+  },
+  {
+    title: "Blogs",
+    href: "/blogs",
+    icon: Newspaper,
   },
   {
     title: "Enquires/Leads",
