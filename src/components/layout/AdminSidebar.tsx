@@ -79,6 +79,11 @@ const sidebarLinks: SidebarItem[] = [
     icon: SearchCheck,
   },
   {
+    title: "Team & Advisors",
+    href: "/team",
+    icon: UserCheck,
+  },
+  {
     title: "Enquires/Leads",
     icon: Layers,
     sublinks: [

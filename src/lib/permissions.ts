@@ -85,6 +85,13 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     apis: ["/api/settings"],
   },
   {
+    key: "team",
+    label: "Team & Advisors",
+    description: "Manage Core Team, Advisors and Consultants shown on website",
+    pages: ["/team", "/advisors"],
+    apis: ["/api/team", "/api/advisors"],
+  },
+  {
     key: "staff",
     label: "Staff & Roles",
     description: "Add staff and control their access",
@@ -110,6 +117,8 @@ const SHARED_PATHS: { prefix: string; anyOf: string[] }[] = [
       "page-seo",
       "personality-test",
       "settings",
+      "team",
+      "advisors",
     ],
   },
 ];

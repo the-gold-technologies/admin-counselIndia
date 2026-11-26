@@ -283,4 +283,40 @@ FROM (VALUES
 ) AS v(path, page_name, meta_title, meta_description, meta_keywords, og_image)
 ON CONFLICT ("path") DO NOTHING;
 
+-- -----------------------------------------------------------------------------
+-- 7. AboutMember — Core Team, Advisors & Consultants (Admin → Team & Advisors)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS "AboutMember" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "designation" TEXT NOT NULL,
+    "image" TEXT,
+    "category" TEXT NOT NULL DEFAULT 'core',
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "AboutMember_pkey" PRIMARY KEY ("id")
+);
+
+CREATE INDEX IF NOT EXISTS "AboutMember_category_isActive_order_idx" ON "AboutMember"("category", "isActive", "order");
+
+-- Seed default team members if table is empty
+INSERT INTO "AboutMember" ("id", "name", "designation", "image", "category", "order", "isActive", "createdAt", "updatedAt")
+VALUES
+  ('seed-core-1', 'Sapna Singh', 'Finance Associate', 'https://prod-s3.counselindia.com/meet_our_team/sapna%20finance%20photo_1756911088.jpeg', 'core', 1, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-core-2', 'Shubham Sharma', 'Sr. Manager - Business Development & Operations', 'https://prod-s3.counselindia.com/meet_our_team/shubham_1753159155.jpeg', 'core', 2, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-core-3', 'Deepanjali Soni', 'Assistant HR Manager', 'https://prod-s3.counselindia.com/meet_our_team/deepanjali_1753159327.jpeg', 'core', 3, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-core-4', 'Rocky Bhati', 'Compliance Officer', 'https://prod-s3.counselindia.com/meet_our_team/rocky_1753159466.jpeg', 'core', 4, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-core-5', 'Shubham', 'Marketing Manager', 'https://prod-s3.counselindia.com/meet_our_team/shubham.jpg', 'core', 5, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-adv-1', 'Prem sir', 'Strategic Advisor', NULL, 'advisor', 1, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-adv-2', 'Sajal sir', 'Growth & Business Advisor', NULL, 'advisor', 2, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-adv-3', 'Ayush Sir', 'Advisory Board Member', NULL, 'advisor', 3, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-cons-1', 'Nitin Dev Purohit', 'Consultant and Management Lawyer', 'https://prod-s3.counselindia.com/meet_our_team/3_1716458706.jpeg', 'consultant', 4, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-cons-2', 'Nitya Bansal', 'Legal Consultant', 'https://prod-s3.counselindia.com/meet_our_team/1_1716458651.jpg', 'consultant', 5, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-cons-3', 'Gaurav Kochhar', 'Legal Consultant', 'https://prod-s3.counselindia.com/meet_our_team/2_1716458535.jpg', 'consultant', 6, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT ("id") DO NOTHING;
+
 COMMIT;

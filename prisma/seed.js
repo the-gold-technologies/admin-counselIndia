@@ -674,6 +674,48 @@ async function seedPageSeo(prismaInstance) {
   );
 }
 
+// 12. Seed About Members (Core Team, Advisors & Consultants)
+async function seedTeamMembers(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 12/12 Seeding About Team Members (Core, Advisors & Consultants) ---");
+  const jsonPath = path.join(__dirname, "team-members-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No team-members-data.json found, skipping.");
+    return;
+  }
+  const members = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  console.log(`Found ${members.length} team members to seed...`);
+
+  for (const m of members) {
+    const existing = await p.aboutMember.findFirst({
+      where: { name: m.name, category: m.category },
+    });
+    if (existing) {
+      await p.aboutMember.update({
+        where: { id: existing.id },
+        data: {
+          designation: m.designation,
+          image: m.image || null,
+          order: m.order,
+          isActive: m.isActive,
+        },
+      });
+    } else {
+      await p.aboutMember.create({
+        data: {
+          name: m.name,
+          designation: m.designation,
+          image: m.image || null,
+          category: m.category,
+          order: m.order,
+          isActive: m.isActive,
+        },
+      });
+    }
+  }
+  console.log("✓ About team members seeded successfully");
+}
+
 async function main() {
   console.log("==================================================");
   console.log("🚀 Starting Counsel India CMS Database Seeder");
@@ -691,6 +733,7 @@ async function main() {
     await seedBlogs(prisma);
     await seedStaffAndRoles(prisma);
     await seedPageSeo(prisma);
+    await seedTeamMembers(prisma);
 
     console.log("==================================================");
     console.log("✅ All seeds completed successfully!");
@@ -716,6 +759,7 @@ module.exports = {
   seedBlogs,
   seedStaffAndRoles,
   seedPageSeo,
+  seedTeamMembers,
 };
 
 if (require.main === module) {

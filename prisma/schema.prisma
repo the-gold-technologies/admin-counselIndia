@@ -416,3 +416,18 @@ model PageSeo {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+// Team members shown on the website's About Us page (Core Team, Advisors, Consultants)
+model AboutMember {
+  id          String   @id @default(cuid())
+  name        String
+  designation String
+  image       String?
+  category    String   @default("core") // "core" | "advisor" | "consultant"
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, isActive, order])
+}

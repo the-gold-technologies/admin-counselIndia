@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Sapna Singh",
+    "designation": "Finance Associate",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/sapna%20finance%20photo_1756911088.jpeg",
+    "category": "core",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "name": "Shubham Sharma",
+    "designation": "Sr. Manager - Business Development & Operations",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/shubham_1753159155.jpeg",
+    "category": "core",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "name": "Deepanjali Soni",
+    "designation": "Assistant HR Manager",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/deepanjali_1753159327.jpeg",
+    "category": "core",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "name": "Rocky Bhati",
+    "designation": "Compliance Officer",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/rocky_1753159466.jpeg",
+    "category": "core",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "name": "Shubham",
+    "designation": "Marketing Manager",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/shubham.jpg",
+    "category": "core",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "name": "Prem sir",
+    "designation": "Strategic Advisor",
+    "image": "",
+    "category": "advisor",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "name": "Sajal sir",
+    "designation": "Growth & Business Advisor",
+    "image": "",
+    "category": "advisor",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "name": "Ayush Sir",
+    "designation": "Advisory Board Member",
+    "image": "",
+    "category": "advisor",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "name": "Nitin Dev Purohit",
+    "designation": "Consultant and Management Lawyer",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/3_1716458706.jpeg",
+    "category": "consultant",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "name": "Nitya Bansal",
+    "designation": "Legal Consultant",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/1_1716458651.jpg",
+    "category": "consultant",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "name": "Gaurav Kochhar",
+    "designation": "Legal Consultant",
+    "image": "https://prod-s3.counselindia.com/meet_our_team/2_1716458535.jpg",
+    "category": "consultant",
+    "order": 6,
+    "isActive": true
+  }
+]
