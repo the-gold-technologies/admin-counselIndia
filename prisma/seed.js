@@ -716,6 +716,118 @@ async function seedTeamMembers(prismaInstance) {
   console.log("✓ About team members seeded successfully");
 }
 
+// 13. Seed Accreditations, Associations & UGC Universities
+async function seedAccreditations(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 13/14 Seeding Accreditations & UGC Universities ---");
+  const jsonPath = path.join(__dirname, "accreditations-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No accreditations-data.json found, skipping.");
+    return;
+  }
+  const items = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  console.log(`Found ${items.length} accreditations to seed...`);
+
+  for (const item of items) {
+    const existing = await p.accreditation.findFirst({
+      where: { title: item.title },
+    });
+    if (existing) {
+      await p.accreditation.update({
+        where: { id: existing.id },
+        data: {
+          subtitle: item.subtitle || null,
+          description: item.description || null,
+          logo: item.logo || null,
+          link: item.link || null,
+          category: item.category || "association",
+          order: item.order || 0,
+          isActive: item.isActive !== false,
+        },
+      });
+    } else {
+      await p.accreditation.create({
+        data: {
+          title: item.title,
+          subtitle: item.subtitle || null,
+          description: item.description || null,
+          logo: item.logo || null,
+          link: item.link || null,
+          category: item.category || "association",
+          order: item.order || 0,
+          isActive: item.isActive !== false,
+        },
+      });
+    }
+  }
+  console.log("✓ Accreditations seeded successfully");
+}
+
+// 14. Seed Podcasts
+async function seedPodcasts(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 14/14 Seeding YouTube Podcasts ---");
+  const jsonPath = path.join(__dirname, "podcasts-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No podcasts-data.json found, skipping.");
+    return;
+  }
+  const items = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  console.log(`Found ${items.length} podcasts to seed...`);
+
+  // Remove old placeholder podcasts (fake videos/guests) seeded by earlier versions
+  const placeholderTitles = [
+    "The Psychology of Mental Resilience & Overcoming Anxiety",
+    "Why India Needs 1 Million Counsellors | Career in Psychology",
+    "Child Psychology, Parenting & Modern School Dynamics",
+    "Decoding Emotional Intelligence & Workplace Relationships",
+  ];
+  const removed = await p.podcast.deleteMany({
+    where: { title: { in: placeholderTitles } },
+  });
+  if (removed.count) console.log(`Removed ${removed.count} placeholder podcasts`);
+
+  for (const item of items) {
+    const existing = await p.podcast.findFirst({
+      where: { title: item.title },
+    });
+    if (existing) {
+      await p.podcast.update({
+        where: { id: existing.id },
+        data: {
+          youtubeUrl: item.youtubeUrl,
+          youtubeId: item.youtubeId || null,
+          thumbnail: item.thumbnail || null,
+          guest: item.guest || null,
+          host: item.host || "Counsel India",
+          duration: item.duration || null,
+          description: item.description || null,
+          category: item.category || "Mental Health",
+          order: item.order || 0,
+          isActive: item.isActive !== false,
+        },
+      });
+    } else {
+      await p.podcast.create({
+        data: {
+          title: item.title,
+          youtubeUrl: item.youtubeUrl,
+          youtubeId: item.youtubeId || null,
+          thumbnail: item.thumbnail || null,
+          guest: item.guest || null,
+          host: item.host || "Counsel India",
+          duration: item.duration || null,
+          description: item.description || null,
+          category: item.category || "Mental Health",
+          order: item.order || 0,
+          isActive: item.isActive !== false,
+        },
+      });
+    }
+  }
+  console.log("✓ Podcasts seeded successfully");
+}
+
 async function main() {
   console.log("==================================================");
   console.log("🚀 Starting Counsel India CMS Database Seeder");
@@ -734,6 +846,8 @@ async function main() {
     await seedStaffAndRoles(prisma);
     await seedPageSeo(prisma);
     await seedTeamMembers(prisma);
+    await seedAccreditations(prisma);
+    await seedPodcasts(prisma);
 
     console.log("==================================================");
     console.log("✅ All seeds completed successfully!");
@@ -760,6 +874,8 @@ module.exports = {
   seedStaffAndRoles,
   seedPageSeo,
   seedTeamMembers,
+  seedAccreditations,
+  seedPodcasts,
 };
 
 if (require.main === module) {

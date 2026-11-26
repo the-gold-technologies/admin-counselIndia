@@ -92,6 +92,20 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     apis: ["/api/team", "/api/advisors"],
   },
   {
+    key: "accreditations",
+    label: "Accreditations & Associations",
+    description: "Manage UGC Approved Universities, Accreditations & Associations",
+    pages: ["/accreditations"],
+    apis: ["/api/accreditations"],
+  },
+  {
+    key: "podcasts",
+    label: "Podcasts",
+    description: "Manage YouTube podcasts shown on the website home page",
+    pages: ["/podcasts"],
+    apis: ["/api/podcasts"],
+  },
+  {
     key: "staff",
     label: "Staff & Roles",
     description: "Add staff and control their access",
@@ -119,6 +133,8 @@ const SHARED_PATHS: { prefix: string; anyOf: string[] }[] = [
       "settings",
       "team",
       "advisors",
+      "accreditations",
+      "podcasts",
     ],
   },
 ];

@@ -319,4 +319,62 @@ VALUES
   ('seed-cons-3', 'Gaurav Kochhar', 'Legal Consultant', 'https://prod-s3.counselindia.com/meet_our_team/2_1716458535.jpg', 'consultant', 6, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT ("id") DO NOTHING;
 
+-- -----------------------------------------------------------------------------
+-- 8. Accreditation — UGC Universities & Accreditations (Admin → Accreditations)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS "Accreditation" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subtitle" TEXT,
+    "description" TEXT,
+    "logo" TEXT,
+    "link" TEXT,
+    "category" TEXT NOT NULL DEFAULT 'association',
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Accreditation_pkey" PRIMARY KEY ("id")
+);
+
+CREATE INDEX IF NOT EXISTS "Accreditation_category_isActive_order_idx" ON "Accreditation"("category", "isActive", "order");
+
+-- Seed the 6 items shown live on counselindia.com ("Accreditations and Associations by World's Top and Best")
+INSERT INTO "Accreditation" ("id", "title", "subtitle", "description", "logo", "link", "category", "order", "isActive", "createdAt", "updatedAt")
+VALUES
+  ('seed-acc-1', 'MIT University Sikkim', 'UGC Approved University', 'UGC recognized university partnering with Counsel India to offer psychology education and academic accreditation.', 'https://prod-s3.counselindia.com/accredited/f8ab00a6-a4ce-4ba8-a6a3-58a86847a971_1762848459.jpg', 'https://mituniversitysikkim.com/', 'ugc_university', 1, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-acc-2', 'IAOTH Accredited Training Provider', 'International Association of Therapists', 'Counsel India is an accredited training provider with the International Association of Therapists (IAOTH).', 'https://prod-s3.counselindia.com/accredited/gallery_counsel5_1695192209.webp', 'https://iaoth.com/author/counsel-india/', 'accreditation', 2, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-acc-3', 'Vivekananda Global University', 'UGC Approved University', 'UGC approved university partnering with Counsel India for psychology programs and recognized degrees.', 'https://prod-s3.counselindia.com/accredited/VGU_1737096472.png', 'https://vgu.ac.in', 'ugc_university', 3, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-acc-4', 'O.P. Jindal Global University', 'UGC Approved • Institution of Eminence', 'UGC approved Institution of Eminence associated with Counsel India for behavioral sciences learning.', 'https://prod-s3.counselindia.com/accredited/op_1725963696.png', 'https://jgu.edu.in/', 'ugc_university', 4, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-acc-5', 'EIMT Switzerland', 'European Institute of Management and Technology', 'International association with EIMT, Switzerland, integrating psychology with management and technology.', 'https://prod-s3.counselindia.com/accredited/Ei_1726058413.png', 'https://www.eimt.ch/', 'international', 5, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('seed-acc-6', 'American Psychological Association (APA)', 'International Professional Association', 'Association with the American Psychological Association, the leading professional body of psychologists worldwide.', 'https://prod-s3.counselindia.com/accredited/am_1726058496.png', 'https://www.apa.org/', 'association', 6, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT ("id") DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 9. Podcast — YouTube Video Podcasts on Homepage (Admin → Podcasts)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS "Podcast" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "youtubeUrl" TEXT NOT NULL,
+    "youtubeId" TEXT,
+    "thumbnail" TEXT,
+    "guest" TEXT,
+    "host" TEXT DEFAULT 'Counsel India',
+    "duration" TEXT,
+    "description" TEXT,
+    "category" TEXT DEFAULT 'Mental Health',
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Podcast_pkey" PRIMARY KEY ("id")
+);
+
+CREATE INDEX IF NOT EXISTS "Podcast_isActive_order_idx" ON "Podcast"("isActive", "order");
+
 COMMIT;

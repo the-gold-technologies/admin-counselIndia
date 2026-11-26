@@ -21,6 +21,8 @@ import {
   ShieldCheck,
   KeyRound,
   SearchCheck,
+  Award,
+  Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdminAccess } from "@/hooks/useAdminAccess";
@@ -82,6 +84,16 @@ const sidebarLinks: SidebarItem[] = [
     title: "Team & Advisors",
     href: "/team",
     icon: UserCheck,
+  },
+  {
+    title: "Accreditations",
+    href: "/accreditations",
+    icon: Award,
+  },
+  {
+    title: "Podcasts",
+    href: "/podcasts",
+    icon: Video,
   },
   {
     title: "Enquires/Leads",

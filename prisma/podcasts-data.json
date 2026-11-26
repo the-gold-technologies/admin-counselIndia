@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Are Criminals Born or Made? | Criminal Psychology Explained | Shweta Sharma ft. Bobby Thakur",
+    "youtubeUrl": "https://www.youtube.com/watch?v=4WddzXOoj7I",
+    "youtubeId": "4WddzXOoj7I",
+    "thumbnail": "https://i.ytimg.com/vi/4WddzXOoj7I/hqdefault.jpg",
+    "guest": "Mrs. Shweta Sharma (CEO – Real You)",
+    "host": "Mr. Bobby Thakur (CEO – Counsel India)",
+    "duration": null,
+    "description": "Are criminals born or made? Is criminal behaviour influenced by genetics, childhood experiences, trauma, or society? In this episode of the Counsel India Podcast, Mr. Bobby Thakur (CEO – Counsel India) is joined by Mrs. Shweta Sharma (CEO – Real You) to explore what really goes on inside a criminal mind.",
+    "category": "Criminal Psychology",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "title": "Psychology of Aging & Memory Explained | Memory Changes with Age | For Beginners",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ah9nCVQSdFQ",
+    "youtubeId": "ah9nCVQSdFQ",
+    "thumbnail": "https://i.ytimg.com/vi/ah9nCVQSdFQ/hqdefault.jpg",
+    "guest": "Ms. Snigdha Maitra (Psychology Trainer)",
+    "host": "Counsel India",
+    "duration": null,
+    "description": "What happens to memory as we age? In this beginner-friendly psychology class, Ms. Snigdha Maitra, Psychology Trainer at Counsel India, explains the Psychology of Aging & Memory in a simple and easy-to-understand way.",
+    "category": "Psychology Class",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "title": "Psychology of Relationship Dynamics Explained for Beginners | Shreosi Mondal | Counsel India",
+    "youtubeUrl": "https://www.youtube.com/watch?v=DJOemtL8rkk",
+    "youtubeId": "DJOemtL8rkk",
+    "thumbnail": "https://i.ytimg.com/vi/DJOemtL8rkk/hqdefault.jpg",
+    "guest": "Shreosi Mondal",
+    "host": "Counsel India",
+    "duration": null,
+    "description": "Want to understand how relationships really work from a psychological perspective? In this beginner-friendly psychology class, we explain the Psychology of Relationship Dynamics in a simple and practical way.",
+    "category": "Relationships",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "title": "Ecotherapy Explained for Beginners 🌿 | Nature-Based Therapy in Psychology",
+    "youtubeUrl": "https://www.youtube.com/watch?v=a2cRTIMJypk",
+    "youtubeId": "a2cRTIMJypk",
+    "thumbnail": "https://i.ytimg.com/vi/a2cRTIMJypk/hqdefault.jpg",
+    "guest": "Ms. Snigdha Maitra (Psychology Trainer)",
+    "host": "Counsel India",
+    "duration": null,
+    "description": "Can nature help us heal? In this beginner-friendly psychology class by Counsel India, Ms. Snigdha Maitra (Psychology Trainer) introduces Ecotherapy and the psychology behind why time in nature makes us feel calmer and mentally refreshed.",
+    "category": "Therapy Approaches",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "title": "Behaviour Counselling Explained | Meaning, Process & Importance | Ms Snigdha Maitra",
+    "youtubeUrl": "https://www.youtube.com/watch?v=XLFsTTo_h7E",
+    "youtubeId": "XLFsTTo_h7E",
+    "thumbnail": "https://i.ytimg.com/vi/XLFsTTo_h7E/hqdefault.jpg",
+    "guest": "Ms. Snigdha Maitra (Psychology Trainer)",
+    "host": "Counsel India",
+    "duration": null,
+    "description": "Ms. Snigdha Maitra, Psychology Trainer at Counsel India, explains the meaning of behaviour counselling, how it works, and why it plays an important role in understanding thoughts, emotions, and actions.",
+    "category": "Counselling Skills",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "title": "Why Do Feelings Linger? 🧠 | Emotional Inertia Explained | Psychology Class",
+    "youtubeUrl": "https://www.youtube.com/watch?v=pZ2aN98OxCg",
+    "youtubeId": "pZ2aN98OxCg",
+    "thumbnail": "https://i.ytimg.com/vi/pZ2aN98OxCg/hqdefault.jpg",
+    "guest": null,
+    "host": "Counsel India",
+    "duration": null,
+    "description": "Why do some emotions stay with us even after the situation that triggered them has passed? This psychology class explains Emotional Inertia — why a small argument can affect your mood for hours.",
+    "category": "Mental Wellness",
+    "order": 6,
+    "isActive": true
+  }
+]

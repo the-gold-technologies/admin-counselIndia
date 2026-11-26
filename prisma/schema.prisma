@@ -431,3 +431,41 @@ model AboutMember {
 
   @@index([category, isActive, order])
 }
+
+// Accreditations, Associations & UGC Approved Universities
+model Accreditation {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?  // e.g. "UGC Approved", "International Partner", "Professional Association"
+  description String?  @db.Text
+  logo        String?  // Logo / Emblem image URL
+  link        String?  // External official link
+  category    String   @default("association") // "ugc_university" | "association" | "accreditation" | "international"
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, isActive, order])
+}
+
+// YouTube Podcasts shown on website homepage
+model Podcast {
+  id          String   @id @default(cuid())
+  title       String
+  youtubeUrl  String
+  youtubeId   String?  // Extracted YouTube video ID
+  thumbnail   String?  // Custom image or YouTube hqdefault.jpg
+  guest       String?  // Guest or speaker name
+  host        String?  @default("Counsel India")
+  duration    String?  // e.g. "45 mins" or "Episode 12"
+  description String?  @db.Text
+  category    String?  @default("Mental Health")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive, order])
+}
+
