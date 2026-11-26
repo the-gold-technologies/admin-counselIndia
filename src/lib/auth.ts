@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { cleanPermissions, type Access } from "@/lib/permissions";
 
 export const AUTH_COOKIE_NAME = "counselindia_admin_token";
 
@@ -76,10 +77,18 @@ export async function verifyToken(token: string): Promise<TokenPayload | null> {
 // Revocation takes effect within SESSION_CACHE_MS at most (immediately in the
 // process that performed the logout / password change).
 const SESSION_CACHE_MS = 10_000;
-const sessionCache = new Map<string, { status: string; sv: number; expires: number }>();
+const sessionCache = new Map<
+  string,
+  { status: string; sv: number; access: Access; expires: number }
+>();
 
 export function invalidateSessionCache(userId: string) {
   sessionCache.delete(userId);
+}
+
+/** Call after a role's permissions change — affects every user with that role. */
+export function invalidateAllSessionCaches() {
+  sessionCache.clear();
 }
 
 async function loadSessionState(userId: string) {
@@ -88,15 +97,24 @@ async function loadSessionState(userId: string) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { status: true, sessionVersion: true },
+    select: {
+      status: true,
+      sessionVersion: true,
+      role: true,
+      staffRole: { select: { permissions: true } },
+    },
   });
   if (!user) {
     sessionCache.delete(userId);
     return null;
   }
+  // Super Admin = everything; staff = the sections of their role (none if no role assigned)
+  const access: Access =
+    user.role === "SUPERADMIN" ? "*" : cleanPermissions(user.staffRole?.permissions);
   const state = {
     status: user.status,
     sv: user.sessionVersion,
+    access,
     expires: Date.now() + SESSION_CACHE_MS,
   };
   sessionCache.set(userId, state);
@@ -120,6 +138,26 @@ export async function getActiveSession(token: string | undefined): Promise<Token
   } catch (err) {
     // Fail closed: if we can't confirm the session, treat as logged out.
     console.error("[auth] Session check failed (did you run `prisma db push`?):", err);
+    return null;
+  }
+}
+
+/**
+ * Like getActiveSession, but also returns what the user may access
+ * ("*" for Super Admin, otherwise the list of section keys).
+ */
+export async function getSessionAccess(
+  token: string | undefined
+): Promise<{ session: TokenPayload; access: Access } | null> {
+  if (!token) return null;
+  const payload = await verifyToken(token);
+  if (!payload?.id || typeof payload.sv !== "number") return null;
+  try {
+    const state = await loadSessionState(payload.id);
+    if (!state || state.status !== "Active" || state.sv !== payload.sv) return null;
+    return { session: payload, access: state.access };
+  } catch (err) {
+    console.error("[auth] Session check failed:", err);
     return null;
   }
 }

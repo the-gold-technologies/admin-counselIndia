@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AdminShell } from "@/components/layout/AdminShell";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { AUTH_COOKIE_NAME, getSessionAccess } from "@/lib/auth";
 
 export async function generateMetadata(): Promise<Metadata> {
   let favicon =
@@ -44,6 +46,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     // fallback
   }
 
+  // What this admin may open — passed down so the sidebar renders already filtered (no flicker)
+  const auth = await getSessionAccess((await cookies()).get(AUTH_COOKIE_NAME)?.value);
+
   return (
     <html lang="en">
       <head>
@@ -52,7 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="apple-touch-icon" href={favicon} />
       </head>
       <body className="antialiased bg-[#f8f9fa] text-slate-800">
-        <AdminShell>{children}</AdminShell>
+        <AdminShell access={auth?.access ?? null}>{children}</AdminShell>
       </body>
     </html>
   );

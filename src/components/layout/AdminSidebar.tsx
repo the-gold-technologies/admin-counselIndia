@@ -18,8 +18,11 @@ import {
   ChevronDown,
   LogOut,
   Newspaper,
+  ShieldCheck,
+  KeyRound,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAdminAccess } from "@/hooks/useAdminAccess";
 
 interface SidebarItem {
   title: string;
@@ -146,6 +149,14 @@ const sidebarLinks: SidebarItem[] = [
     ],
   },
   {
+    title: "Staff & Roles",
+    icon: ShieldCheck,
+    sublinks: [
+      { title: "Staff Members", href: "/staff", icon: Users },
+      { title: "Roles & Access", href: "/roles", icon: KeyRound },
+    ],
+  },
+  {
     title: "Settings",
     icon: Settings,
     sublinks: [
@@ -167,23 +178,15 @@ export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [currentUser, setCurrentUser] = useState<{
-    name: string;
-    email: string;
-    role: string;
-  } | null>(null);
+  const { canOpen } = useAdminAccess();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/auth/profile")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.authenticated && data?.user) {
-          setCurrentUser(data.user);
-        }
-      })
-      .catch(() => {});
-  }, []);
+  // Only show the sections this user's role allows (Super Admin sees everything)
+  const visibleLinks = sidebarLinks
+    .map((item) =>
+      item.sublinks ? { ...item, sublinks: item.sublinks.filter((l) => canOpen(l.href)) } : item
+    )
+    .filter((item) => (item.sublinks ? item.sublinks.length > 0 : canOpen(item.href || "/")));
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -257,7 +260,7 @@ export function AdminSidebar() {
       {/* Navigation Links */}
       <div className="flex-1 overflow-y-auto py-4 custom-scrollbar">
         <nav className="space-y-1.5 px-4">
-          {sidebarLinks.map((item, index) => {
+          {visibleLinks.map((item, index) => {
             const isActive =
               item.href === "/"
                 ? pathname === "/"
@@ -277,8 +280,8 @@ export function AdminSidebar() {
                     className={cn(
                       "flex items-center justify-between cursor-pointer group px-3.5 py-2.5 rounded-xl transition-all duration-150",
                       isGroupActive
-                        ? "bg-[#09A64A]/10 text-[#09A64A]"
-                        : "hover:bg-white/5 text-gray-300"
+                        ? "bg-white/5 text-white"
+                        : "hover:bg-white/5 text-gray-300 hover:text-white"
                     )}
                     onClick={() => toggleGroup(item.title)}
                   >
@@ -295,13 +298,13 @@ export function AdminSidebar() {
                     <ChevronDown
                       className={cn(
                         "w-4 h-4 transition-transform shrink-0",
-                        isGroupActive ? "text-[#09A64A]" : "text-gray-400 group-hover:text-white",
+                        isGroupActive ? "text-white" : "text-gray-400 group-hover:text-white",
                         isOpen ? "rotate-180" : ""
                       )}
                     />
                   </div>
                   {isOpen && (
-                    <div className="space-y-0.5 pl-3 ml-2 border-l border-white/10 py-1.5 mt-1">
+                    <div className="space-y-1 pl-3 ml-5 border-l border-white/10 py-1 mt-1">
                       {item.sublinks.map((sublink, subIndex) => {
                         const isSubActive =
                           pathname === sublink.href || pathname.startsWith(sublink.href + "/");
@@ -313,15 +316,15 @@ export function AdminSidebar() {
                             className={cn(
                               "flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 whitespace-nowrap",
                               isSubActive
-                                ? "text-[#09A64A] bg-[#09A64A]/15 font-bold shadow-sm"
-                                : "text-gray-300 hover:text-white hover:bg-white/5"
+                                ? "bg-[#09A64A] text-white font-bold shadow-md shadow-[#09A64A]/25"
+                                : "text-gray-400 hover:text-white hover:bg-white/5"
                             )}
                           >
                             {SubIcon && (
                               <SubIcon
                                 className={cn(
                                   "w-4 h-4 shrink-0",
-                                  isSubActive ? "text-[#09A64A]" : "text-gray-400"
+                                  isSubActive ? "text-white" : "text-gray-400"
                                 )}
                                 strokeWidth={isSubActive ? 2.4 : 2}
                               />

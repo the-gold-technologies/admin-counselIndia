@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Newspaper,
 } from "lucide-react";
+import { useAdminAccess } from "@/hooks/useAdminAccess";
 import { useRouter } from "next/navigation";
 
 interface SearchItem {
@@ -61,6 +62,12 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
     category: "Content",
     url: "/blogs",
     icon: Newspaper,
+  },
+  {
+    title: "Staff & Roles",
+    category: "Access",
+    url: "/staff",
+    icon: Users,
   },
   {
     title: "Leads & Enquiries",
@@ -116,6 +123,7 @@ export function AdminHeader({
   const [results, setResults] = useState<SearchItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const { access, canOpen } = useAdminAccess();
 
   const userInitials = (userName || "Admin")
     .split(" ")
@@ -133,10 +141,12 @@ export function AdminHeader({
     const query = searchQuery.toLowerCase();
     const filtered = STATIC_SEARCH_ITEMS.filter(
       (item) =>
-        item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query)
+        canOpen(item.url) &&
+        (item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query))
     );
     setResults(filtered);
-  }, [searchQuery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, access]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

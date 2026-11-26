@@ -628,6 +628,58 @@ async function seedBlogs(prismaInstance) {
   console.log(`✓ Blogs: ${created} added, ${updated} updated — ${count} total.`);
 }
 
+// 10. Seed Staff Roles & Staff (from staff-roles-data.json, exported from the old admin)
+// Non-destructive: creates missing roles (by name) and missing staff (by email); existing ones are
+// left as they are. New staff are created INACTIVE with no usable password — a Super Admin sets
+// their password and activates them in Admin → Staff & Roles.
+async function seedStaffAndRoles(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 10/10 Seeding Staff Roles & Staff ---");
+
+  const jsonPath = path.join(__dirname, "staff-roles-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No staff-roles-data.json found, skipping.");
+    return;
+  }
+  const { roles = [], staff = [] } = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+
+  const roleIds = {};
+  let rolesCreated = 0;
+  for (const r of roles) {
+    let role = await p.role.findUnique({ where: { name: r.name } });
+    if (!role) {
+      role = await p.role.create({ data: { name: r.name, permissions: r.permissions || [] } });
+      rolesCreated++;
+    }
+    roleIds[r.name] = role.id;
+  }
+
+  let staffCreated = 0;
+  for (const s of staff) {
+    const email = String(s.email || "")
+      .trim()
+      .toLowerCase();
+    if (!email || (await p.user.findUnique({ where: { email } }))) continue;
+    await p.user.create({
+      data: {
+        name: s.name || email,
+        email,
+        phone: s.phone || null,
+        role: "STAFF",
+        roleId: roleIds[s.role] || null,
+        status: "Inactive",
+        // Random, never shared — the Super Admin sets a real password when activating
+        password: bcrypt.hashSync(require("crypto").randomBytes(24).toString("hex"), 10),
+      },
+    });
+    staffCreated++;
+  }
+
+  console.log(
+    `✓ Roles: ${rolesCreated} added (${roles.length} total in file). Staff: ${staffCreated} added (inactive until a password is set).`
+  );
+}
+
 async function main() {
   console.log("==================================================");
   console.log("🚀 Starting Counsel India CMS Database Seeder");
@@ -643,6 +695,7 @@ async function main() {
     await seedCourseLeads(prisma);
     await seedPersonalityTest(prisma);
     await seedBlogs(prisma);
+    await seedStaffAndRoles(prisma);
 
     console.log("==================================================");
     console.log("✅ All seeds completed successfully!");
@@ -666,6 +719,7 @@ module.exports = {
   seedCourseLeads,
   seedPersonalityTest,
   seedBlogs,
+  seedStaffAndRoles,
 };
 
 if (require.main === module) {

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import {
   AUTH_COOKIE_NAME,
   getActiveSession,
+  getSessionAccess,
   comparePassword,
   hashPassword,
   signToken,
@@ -23,14 +24,16 @@ const PUBLIC_USER_SELECT = {
   status: true,
   lastLoginAt: true,
   createdAt: true,
+  staffRole: { select: { id: true, name: true } },
 } as const;
 
 export async function GET(req: NextRequest) {
   try {
-    const payload = await getActiveSession(req.cookies.get(AUTH_COOKIE_NAME)?.value);
-    if (!payload) {
+    const auth = await getSessionAccess(req.cookies.get(AUTH_COOKIE_NAME)?.value);
+    if (!auth) {
       return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
     }
+    const payload = auth.session;
 
     const user = await prisma.user.findUnique({
       where: { id: payload.id },
@@ -41,7 +44,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
     }
 
-    return NextResponse.json({ authenticated: true, user });
+    // access: "*" = Super Admin (everything), otherwise the section keys this user may open
+    return NextResponse.json({ authenticated: true, user, access: auth.access });
   } catch (error) {
     console.error("Auth check error:", error);
     return NextResponse.json({ authenticated: false, user: null }, { status: 500 });

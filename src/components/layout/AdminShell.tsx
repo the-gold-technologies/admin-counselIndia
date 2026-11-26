@@ -3,8 +3,16 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "./AdminSidebar";
+import { AdminAccessProvider } from "@/hooks/useAdminAccess";
+import type { Access } from "@/lib/permissions";
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
+export function AdminShell({
+  children,
+  access,
+}: {
+  children: React.ReactNode;
+  access: Access | null;
+}) {
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
 
@@ -13,12 +21,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden font-sans p-[5px] bg-[#f8f9fa]">
-      <AdminSidebar />
-      <main className="flex-1 overflow-y-auto">
-        <div className="px-10 py-8">{children}</div>
-      </main>
-    </div>
+    <AdminAccessProvider access={access}>
+      <div className="flex h-screen overflow-hidden font-sans p-[5px] bg-[#f8f9fa]">
+        <AdminSidebar />
+        <main className="flex-1 overflow-y-auto">
+          <div className="px-10 py-8">{children}</div>
+        </main>
+      </div>
+    </AdminAccessProvider>
   );
 }
 

@@ -9,13 +9,15 @@
  *   2. Settings — WhatsApp / helpline / contact numbers → 8031320449
  *   3. Blogs    — 110 blogs from the old admin with SEO + tags (prisma/blogs-data.json,
  *                 prisma/blogs-seo-data.json)
+ *   4. Staff    — roles & staff from the old admin (prisma/staff-roles-data.json). New staff are
+ *                 inactive until a Super Admin sets their password in Staff & Roles.
  *
- * Run the migration first (separately):  npm run db:migrate:blogs
+ * Run the migrations first (separately):  npm run db:migrate:blogs && npm run db:migrate:staff-roles
  * Then:                                   npm run update
  */
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
-const { seedBlogs } = require("./seed");
+const { seedBlogs, seedStaffAndRoles } = require("./seed");
 
 const prisma = new PrismaClient();
 
@@ -75,7 +77,7 @@ const SETTINGS_UPDATES = {
 
 // 1. Courses
 async function updateCourses() {
-  console.log("--- 1/3 Updating Courses ---");
+  console.log("--- 1/4 Updating Courses ---");
   let updated = 0;
   for (const [slug, data] of Object.entries(COURSE_UPDATES)) {
     const course = await prisma.course.findUnique({ where: { slug } });
@@ -92,7 +94,7 @@ async function updateCourses() {
 
 // 2. Site settings
 async function updateSettings() {
-  console.log("--- 2/3 Updating Site Settings ---");
+  console.log("--- 2/4 Updating Site Settings ---");
   const settings = await prisma.siteSetting.findUnique({ where: { id: "default" } });
   if (!settings) {
     console.log("  ! Site settings not found, skipped.");
@@ -111,6 +113,7 @@ async function main() {
     await updateCourses();
     await updateSettings();
     await seedBlogs(prisma);
+    await seedStaffAndRoles(prisma);
 
     console.log("==================================================");
     console.log("✅ All updates completed successfully!");

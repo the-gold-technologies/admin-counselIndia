@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { AUTH_COOKIE_NAME, getSessionAccess } from "@/lib/auth";
+import { canAccessSection } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    // Recent records (names / emails) are only shown for sections this user can open
+    const auth = await getSessionAccess((await cookies()).get(AUTH_COOKIE_NAME)?.value);
+    const can = (section: string) => canAccessSection(auth?.access, section);
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -35,56 +42,62 @@ export async function GET() {
     ]);
 
     // Fetch real recent admissions from database
-    const recentAdmissions = await prisma.admission
-      .findMany({
-        take: 5,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          courseName: true,
-          status: true,
-          academicCounselor: true,
-          admissionDate: true,
-          createdAt: true,
-        },
-      })
-      .catch(() => []);
+    const recentAdmissions = !can("admissions")
+      ? []
+      : await prisma.admission
+          .findMany({
+            take: 5,
+            orderBy: { createdAt: "desc" },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              courseName: true,
+              status: true,
+              academicCounselor: true,
+              admissionDate: true,
+              createdAt: true,
+            },
+          })
+          .catch(() => []);
 
     // Fetch real recent leads from database
-    const recentLeads = await prisma.inquiryLead
-      .findMany({
-        take: 5,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          category: true,
-          courseName: true,
-          addedOn: true,
-          createdAt: true,
-        },
-      })
-      .catch(() => []);
+    const recentLeads = !can("leads")
+      ? []
+      : await prisma.inquiryLead
+          .findMany({
+            take: 5,
+            orderBy: { createdAt: "desc" },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              category: true,
+              courseName: true,
+              addedOn: true,
+              createdAt: true,
+            },
+          })
+          .catch(() => []);
 
     // Fetch real recent course leads from database
-    const recentCourseLeads = await prisma.courseLead
-      .findMany({
-        take: 5,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          courseName: true,
-          status: true,
-          addedOn: true,
-          createdAt: true,
-        },
-      })
-      .catch(() => []);
+    const recentCourseLeads = !can("course-leads")
+      ? []
+      : await prisma.courseLead
+          .findMany({
+            take: 5,
+            orderBy: { createdAt: "desc" },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              courseName: true,
+              status: true,
+              addedOn: true,
+              createdAt: true,
+            },
+          })
+          .catch(() => []);
 
     // Build real activity stream only from actual database entries
     const activities = [
@@ -189,7 +202,7 @@ export async function GET() {
         users: usersCount,
         todayUsers: todayUsersCount,
         personalityQuestions: personalityQuestionsCount,
-        modulesList,
+        modulesList: modulesList.filter((m) => can(m.id)),
         recentAdmissions,
         recentLeads,
         recentCourseLeads,

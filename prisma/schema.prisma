@@ -33,8 +33,8 @@ model Admission {
   city                  String?
   state                 String?
   pincode               String?
-  courseExpectations    String?  // JSON string
-  educationHistory      String?  // JSON string
+  courseExpectations    String? // JSON string
+  educationHistory      String? // JSON string
   feeAmount             Float?   @default(0)
   paymentStatus         String?  @default("Paid") // Paid, Partial, Pending
   batchName             String?
@@ -43,127 +43,127 @@ model Admission {
 }
 
 model Course {
-  id                      String    @id @default(cuid())
-  sNo                     Int?
-  liveId                  String?   @unique
-  name                    String
-  slug                    String    @unique
-  coverImage              String?
-  backgroundImage         String?
-  coverImageApp           String?
-  backgroundImageApp      String?
-  brochure                String?
-  scSchemePdf             String?
-  duration                String?
-  listDuration            String?
-  enrolmentSeats          String?
-  lessons                 String?
-  description             String?
-  subdescription          String?
-  aboutUs                 String?
-  whoCanJoin              String?
-  badgeText               String?
-  badgeBg                 String?
-  rating                  Float?    @default(5.0)
-  price                   Float?    @default(0)
-  totalProgramFee         String?
-  totalDiscountFee        String?
-  totalDiscountPercent    String?
-  oneTimeFee              String?
-  oneTimeDiscountFee      String?
-  oneTimeDiscountPercent  String?
-  startRange              String?
-  endRange                String?
-  mepscAbout              String?
-  universityAdvantage     String?
-  howWillBenefit          String?
-  ojt                     String?
-  mentorshipGuide         String?
-  dreamJob                String?
-  headings                Json?
-  cheadings               Json?
-  paymentLink             String?
-  nextBatchDate           String?
-  position                Int       @default(1)
-  category                String?
-  status                  String    @default("Active") // Active, Inactive
-  isActive                Boolean   @default(true)
-  addedOn                 String?
-  overviewCount           Int       @default(0)
-  learnCount              Int       @default(0)
-  credentialCount         Int       @default(0)
-  curriculumCount         Int       @default(0)
-  overviewData            Json?
-  learnData               Json?
-  credentialData          Json?
-  curriculumData          Json?
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
+  id                     String   @id @default(cuid())
+  sNo                    Int?
+  liveId                 String?  @unique
+  name                   String
+  slug                   String   @unique
+  coverImage             String?
+  backgroundImage        String?
+  coverImageApp          String?
+  backgroundImageApp     String?
+  brochure               String?
+  scSchemePdf            String?
+  duration               String?
+  listDuration           String?
+  enrolmentSeats         String?
+  lessons                String?
+  description            String?
+  subdescription         String?
+  aboutUs                String?
+  whoCanJoin             String?
+  badgeText              String?
+  badgeBg                String?
+  rating                 Float?   @default(5.0)
+  price                  Float?   @default(0)
+  totalProgramFee        String?
+  totalDiscountFee       String?
+  totalDiscountPercent   String?
+  oneTimeFee             String?
+  oneTimeDiscountFee     String?
+  oneTimeDiscountPercent String?
+  startRange             String?
+  endRange               String?
+  mepscAbout             String?
+  universityAdvantage    String?
+  howWillBenefit         String?
+  ojt                    String?
+  mentorshipGuide        String?
+  dreamJob               String?
+  headings               Json?
+  cheadings              Json?
+  paymentLink            String?
+  nextBatchDate          String?
+  position               Int      @default(1)
+  category               String?
+  status                 String   @default("Active") // Active, Inactive
+  isActive               Boolean  @default(true)
+  addedOn                String?
+  overviewCount          Int      @default(0)
+  learnCount             Int      @default(0)
+  credentialCount        Int      @default(0)
+  curriculumCount        Int      @default(0)
+  overviewData           Json?
+  learnData              Json?
+  credentialData         Json?
+  curriculumData         Json?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 model Counselor {
-  id                    String    @id @default(cuid())
-  sNo                   Int?
-  liveId                String?
-  name                  String
-  email                 String
-  mobile                String
-  password              String?
-  address               String?
-  city                  String?
-  country               String?   @default("INDIA")
-  designation           String?
-  language              String?
-  education             String?
-  experience            String?
-  specialty             String?
-  specialty2            String?
-  expertise             String?
-  rciNumber             String?
-  
+  id          String  @id @default(cuid())
+  sNo         Int?
+  liveId      String?
+  name        String
+  email       String
+  mobile      String
+  password    String?
+  address     String?
+  city        String?
+  country     String? @default("INDIA")
+  designation String?
+  language    String?
+  education   String?
+  experience  String?
+  specialty   String?
+  specialty2  String?
+  expertise   String?
+  rciNumber   String?
+
   // Media & Documents
-  image                 String?
-  identityImage         String?
-  qualificationProof    String?
-  cvUrl                 String?
-  
+  image              String?
+  identityImage      String?
+  qualificationProof String?
+  cvUrl              String?
+
   // Banking Details
-  bankName              String?
-  accountNumber         String?
-  ifscCode              String?
-  accountType           String?
-  accountHolderName     String?
-  
+  bankName          String?
+  accountNumber     String?
+  ifscCode          String?
+  accountType       String?
+  accountHolderName String?
+
   // Session Pricing & Status
-  userType              String?   @default("Counselor")
-  isApproved            Boolean   @default(true)
-  isOnline              Boolean   @default(false)
-  videoStatus           Boolean   @default(false)
-  videoPrice            Float?    @default(0)
-  audioStatus           Boolean   @default(false)
-  audioPrice            Float?    @default(0)
-  chatStatus            Boolean   @default(false)
-  chatPrice             Float?    @default(0)
-  expectedCharges       Float?    @default(0)
-  councellFees          Float?    @default(0)
-  commission            Float?    @default(0)
-  position              Int?      @default(0)
-  
+  userType        String? @default("Counselor")
+  isApproved      Boolean @default(true)
+  isOnline        Boolean @default(false)
+  videoStatus     Boolean @default(false)
+  videoPrice      Float?  @default(0)
+  audioStatus     Boolean @default(false)
+  audioPrice      Float?  @default(0)
+  chatStatus      Boolean @default(false)
+  chatPrice       Float?  @default(0)
+  expectedCharges Float?  @default(0)
+  councellFees    Float?  @default(0)
+  commission      Float?  @default(0)
+  position        Int?    @default(0)
+
   // Rich Text Bios
-  about                 String?   @db.Text
-  achievements          String?   @db.Text
-  whatBringsYou         String?   @db.Text
-  
+  about         String? @db.Text
+  achievements  String? @db.Text
+  whatBringsYou String? @db.Text
+
   // System Flags
-  status                String    @default("Active")
-  forCourse             String?   @default("No")
-  personalCounselling   String?   @default("No")
-  
+  status              String  @default("Active")
+  forCourse           String? @default("No")
+  personalCounselling String? @default("No")
+
   // Dates
-  addedOn               String?
-  updatedOn             String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  addedOn   String?
+  updatedOn String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Alumni {
@@ -186,126 +186,127 @@ model Alumni {
 }
 
 model CourseLead {
-  id                      String    @id @default(cuid())
-  sNo                     Int?
-  liveId                  String?
-  userId                  String?
-  name                    String
-  email                   String
-  mobile                  String
-  courseName              String
-  relationshipManager     String?   @default("")
-  customerSuccessManager String?   @default("")
-  status                  String    @default("New") // New, Contacted, Enrolled, Inactive, Closed, Completed
-  notes                   String?
-  source                  String?   @default("Website")
-  addedOn                 String?
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
+  id                     String   @id @default(cuid())
+  sNo                    Int?
+  liveId                 String?
+  userId                 String?
+  name                   String
+  email                  String
+  mobile                 String
+  courseName             String
+  relationshipManager    String?  @default("")
+  customerSuccessManager String?  @default("")
+  status                 String   @default("New") // New, Contacted, Enrolled, Inactive, Closed, Completed
+  notes                  String?
+  source                 String?  @default("Website")
+  addedOn                String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 model SiteSetting {
-  id                      String   @id @default("default")
+  id String @id @default("default")
 
   // Admin Settings
-  title                   String?
-  footer                  String?
-  referWallet             String?
-  logo                    String?
-  lightLogo               String?
-  favicon                 String?
+  title       String?
+  footer      String?
+  referWallet String?
+  logo        String?
+  lightLogo   String?
+  favicon     String?
 
   // Config Settings
-  adminEmail              String?
-  supportEmail            String?
-  helplineNumber          String?
-  whatsNumber             String?
-  emergencyNumber         String?
-  companyName             String?
-  websiteLink             String?
-  address                 String?
-  facebookLink            String?
-  linkedinLink            String?
-  twitterLink             String?
-  youtubeLink             String?
-  pinterestLink           String?
-  googlePlayAppLink       String?
-  iosAppLink              String?
+  adminEmail        String?
+  supportEmail      String?
+  helplineNumber    String?
+  whatsNumber       String?
+  emergencyNumber   String?
+  companyName       String?
+  websiteLink       String?
+  address           String?
+  facebookLink      String?
+  linkedinLink      String?
+  twitterLink       String?
+  youtubeLink       String?
+  pinterestLink     String?
+  googlePlayAppLink String?
+  iosAppLink        String?
 
   // Contact Us Settings
   contactUsMobile         String?
   contactUsMail           String?
   contactUsHotline        String?
-  contactUsHeadOffice     String?  @db.Text
-  contactUsBranchOffice   String?  @db.Text
-  contactUsHoursOperation String?  @db.Text
+  contactUsHeadOffice     String? @db.Text
+  contactUsBranchOffice   String? @db.Text
+  contactUsHoursOperation String? @db.Text
 
   // Content Settings
-  aboutUs                 String?  @db.Text
-  ourVision               String?  @db.Text
-  privacy                 String?  @db.Text
-  termsCondition          String?  @db.Text
-  howCanSignup            String?  @db.Text
-  refundPolicy            String?  @db.Text
-  academicPolicy          String?  @db.Text
-  contactUsContent        String?  @db.Text
+  aboutUs          String? @db.Text
+  ourVision        String? @db.Text
+  privacy          String? @db.Text
+  termsCondition   String? @db.Text
+  howCanSignup     String? @db.Text
+  refundPolicy     String? @db.Text
+  academicPolicy   String? @db.Text
+  contactUsContent String? @db.Text
 
   // Footer Settings
-  footerTitle             String?
-  footerWhatsappNumber    String?
-  footerHelplineNumber    String?
-  footerSupportEmail      String?
-  footerCompanyName       String?
-  footerAddress           String?
-  gstNumber               String?
-  footerTwitterLink       String?
-  footerFbLink            String?
-  instaLink               String?
-  footerYoutubeLink       String?
-  footerLinkedinLink      String?
+  footerTitle          String?
+  footerWhatsappNumber String?
+  footerHelplineNumber String?
+  footerSupportEmail   String?
+  footerCompanyName    String?
+  footerAddress        String?
+  gstNumber            String?
+  footerTwitterLink    String?
+  footerFbLink         String?
+  instaLink            String?
+  footerYoutubeLink    String?
+  footerLinkedinLink   String?
 
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-
 model InquiryLead {
-  id            String   @id @default(cuid())
-  sNo           Int?
-  liveId        String?
-  category      String   // subscription, landing-page, exit-intent, contact-us, book-session, ci-business, etc.
-  name          String?
-  email         String?
-  mobile        String?
-  countryCode   String?
-  state         String?
-  city          String?
-  medium        String?
-  source        String?
-  content       String?
-  message       String?  @db.Text
-  hearFrom      String?
-  courseType    String?
-  courseName    String?
-  extraData     Json?
-  addedOn       String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String   @id @default(cuid())
+  sNo         Int?
+  liveId      String?
+  category    String // subscription, landing-page, exit-intent, contact-us, book-session, ci-business, etc.
+  name        String?
+  email       String?
+  mobile      String?
+  countryCode String?
+  state       String?
+  city        String?
+  medium      String?
+  source      String?
+  content     String?
+  message     String?  @db.Text
+  hearFrom    String?
+  courseType  String?
+  courseName  String?
+  extraData   Json?
+  addedOn     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([category])
   @@index([createdAt])
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  password      String
-  role          String    @default("SUPERADMIN") // SUPERADMIN, ADMIN, COUNSELOR, STAFF
-  avatar        String?
-  phone         String?
-  status        String    @default("Active") // Active, Inactive
-  lastLoginAt   DateTime?
+  id          String    @id @default(cuid())
+  name        String
+  email       String    @unique
+  password    String
+  role        String    @default("SUPERADMIN") // SUPERADMIN (full access) or STAFF (access from staffRole)
+  roleId      String?
+  staffRole   Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  avatar      String?
+  phone       String?
+  status      String    @default("Active") // Active, Inactive
+  lastLoginAt DateTime?
 
   // Security: bumping sessionVersion invalidates every JWT issued before it
   // (logout, password change). failedLoginAttempts/lockedUntil = brute-force lockout.
@@ -313,12 +314,22 @@ model User {
   failedLoginAttempts Int       @default(0)
   lockedUntil         DateTime?
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([email])
+  @@index([roleId])
 }
 
+// Staff access role: a name + the admin sections it can open (see src/lib/permissions.ts).
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  permissions String[] // section keys, e.g. ["blogs", "leads"]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
 
 model PersonalityTestInfo {
   id             String   @id @default(cuid())
@@ -336,7 +347,7 @@ model PersonalityQuestion {
   id        String   @id @default(cuid())
   liveId    String?
   question  String   @db.Text
-  answers   Json     // array of { answer: string, value: string }
+  answers   Json // array of { answer: string, value: string }
   position  Int      @default(1)
   status    String   @default("Active")
   createdAt DateTime @default(now())

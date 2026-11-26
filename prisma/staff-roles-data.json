@@ -1,0 +1,86 @@
+{
+  "_note": "Roles & staff from the old admin (admin.counselindia.com), mapped to the new admin's sections. Loaded by npm run update / npm run seed. Staff are created Inactive with no usable password \u2014 a Super Admin sets their password and activates them in Staff & Roles.",
+  "roles": [
+    {
+      "name": "Alumni Manager",
+      "permissions": ["alumni", "counsellors"]
+    },
+    {
+      "name": "Alumni List Manage",
+      "permissions": ["alumni"]
+    },
+    {
+      "name": "CRM",
+      "permissions": ["leads"]
+    },
+    {
+      "name": "Adminpower",
+      "permissions": [
+        "counsellors",
+        "course-leads",
+        "courses",
+        "blogs",
+        "leads",
+        "personality-test",
+        "settings"
+      ]
+    },
+    {
+      "name": "Counsellors",
+      "permissions": ["counsellors", "blogs", "leads"]
+    },
+    {
+      "name": "Support",
+      "permissions": ["admissions", "leads"]
+    },
+    {
+      "name": "Marketing",
+      "permissions": ["course-leads", "courses", "blogs", "leads", "personality-test"]
+    },
+    {
+      "name": "Operations",
+      "permissions": ["counsellors", "courses", "leads"]
+    },
+    {
+      "name": "Admin",
+      "permissions": [
+        "admissions",
+        "alumni",
+        "counsellors",
+        "course-leads",
+        "courses",
+        "blogs",
+        "leads",
+        "personality-test",
+        "settings",
+        "staff"
+      ]
+    }
+  ],
+  "staff": [
+    {
+      "name": "Alumni Manager",
+      "email": "alumnimanage@counselindia.com",
+      "phone": "9876543210",
+      "role": "Alumni Manager"
+    },
+    {
+      "name": "Akshay Aggarwal",
+      "email": "akshay.aggarwal@counselindiaservices.in",
+      "phone": "7011379986",
+      "role": "Support"
+    },
+    {
+      "name": "Mansa Kataria",
+      "email": "mansa.kataria@counselindiaservices.in",
+      "phone": "9810425667",
+      "role": "Support"
+    },
+    {
+      "name": "Bobby",
+      "email": "bobby@counselindiaservices.in",
+      "phone": "8930804054",
+      "role": "Admin"
+    }
+  ]
+}

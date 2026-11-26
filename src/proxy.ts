@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { corsHeaders } from "@/lib/cors";
-import { AUTH_COOKIE_NAME, getActiveSession } from "@/lib/auth";
+import { AUTH_COOKIE_NAME, getSessionAccess } from "@/lib/auth";
+import { canAccessPath, sectionForPath } from "@/lib/permissions";
 
 // Next.js 16 "proxy" (formerly middleware) — always runs on the Node.js runtime,
 // which lets us check session revocation / user status in the database.
@@ -15,7 +16,9 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith("/api/auth/logout") ||
     pathname.startsWith("/uploads") ||
     pathname === "/favicon.ico" ||
+    // Static files only — a protected section's address (e.g. /counsellors/x.png) is never skipped
     (!pathname.startsWith("/api/") &&
+      sectionForPath(pathname) === null &&
       /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/.test(pathname))
   ) {
     return NextResponse.next();
@@ -55,7 +58,24 @@ export async function proxy(request: NextRequest) {
     (request.method === "PATCH" && matches(PUBLIC_PATCH));
 
   if (isPublicApi) {
-    const response = NextResponse.next();
+    // Public website data. A logged-in staff member WITHOUT access to this section is served
+    // the public view (their session cookie is not forwarded), so admin-only fields stay hidden.
+    let response = NextResponse.next();
+    const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+    if (token) {
+      const auth = await getSessionAccess(token);
+      if (auth && !canAccessPath(auth.access, path)) {
+        const headers = new Headers(request.headers);
+        const otherCookies = request.cookies
+          .getAll()
+          .filter((c) => c.name !== AUTH_COOKIE_NAME)
+          .map((c) => `${c.name}=${c.value}`)
+          .join("; ");
+        if (otherCookies) headers.set("cookie", otherCookies);
+        else headers.delete("cookie");
+        response = NextResponse.next({ request: { headers } });
+      }
+    }
     Object.entries(corsHeaders).forEach(([key, value]) => {
       response.headers.set(key, value);
     });
@@ -64,8 +84,8 @@ export async function proxy(request: NextRequest) {
 
   // 2. Read auth token cookie
   // Valid signature + not expired + user still Active + session not revoked
-  const isAuthenticated =
-    (await getActiveSession(request.cookies.get(AUTH_COOKIE_NAME)?.value)) !== null;
+  const auth = await getSessionAccess(request.cookies.get(AUTH_COOKIE_NAME)?.value);
+  const isAuthenticated = auth !== null;
 
   // 3. If navigating to /login
   if (pathname === "/login") {
@@ -93,6 +113,21 @@ export async function proxy(request: NextRequest) {
     loginUrl.pathname = "/login";
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // 5. Role-based access: staff may only open the sections of their role
+  if (!canAccessPath(auth.access, path)) {
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json(
+        { success: false, error: "You don't have access to this section." },
+        { status: 403, headers: corsHeaders }
+      );
+    }
+    // Show the "Access denied" page at the same address (HTTP 403) — the restricted page is never rendered
+    const deniedUrl = request.nextUrl.clone();
+    deniedUrl.pathname = "/access-denied";
+    deniedUrl.search = "";
+    return NextResponse.rewrite(deniedUrl, { status: 403 });
   }
 
   return NextResponse.next();

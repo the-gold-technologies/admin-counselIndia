@@ -2,7 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   Lock,
   Mail,
@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/";
 
@@ -59,9 +58,12 @@ function LoginForm() {
 
       setSuccess(true);
       // Seamless redirect
+      // Full page load so the layout renders the menu for this user's access.
+      // Only same-site paths are allowed (blocks redirects to other websites).
+      const safePath =
+        redirectPath.startsWith("/") && !redirectPath.startsWith("//") ? redirectPath : "/";
       setTimeout(() => {
-        router.push(redirectPath);
-        router.refresh();
+        window.location.replace(safePath);
       }, 500);
     } catch (err: any) {
       setError(err.message || "Failed to sign in. Please check your credentials.");
