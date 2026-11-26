@@ -42,6 +42,7 @@ export async function proxy(request: NextRequest) {
     /^\/api\/alumni$/,
     /^\/api\/blogs$/,
     /^\/api\/blogs\/[^/]+$/,
+    /^\/api\/page-seo$/,
     /^\/api\/settings$/,
     /^\/api\/personality-test\/info$/,
     /^\/api\/personality-test\/questions$/,

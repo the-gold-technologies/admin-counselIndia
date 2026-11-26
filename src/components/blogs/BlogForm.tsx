@@ -6,6 +6,8 @@ import { CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
 import { CmsEditor } from "@/components/ui/CmsEditor";
 import { ImageUploadField } from "@/components/ui/ImageUploadField";
 import { slugify } from "@/lib/utils";
+import { LengthMeter } from "@/components/page-seo/PageSeoForm";
+import { DESCRIPTION_RANGE, TITLE_RANGE } from "@/lib/pageSeo";
 
 export interface BlogItem {
   id: string;
@@ -296,7 +298,7 @@ export default function BlogForm({ initialValues, isNew, submitLabel, onSubmit }
           </div>
         </div>
 
-        {/* SEO */}
+        {/* SEO — same layout as the course / counsellor SEO sections */}
         <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-5">
           <div>
             <h3 className="text-sm font-black text-gray-900">SEO (Google search)</h3>
@@ -304,47 +306,58 @@ export default function BlogForm({ initialValues, isNew, submitLabel, onSubmit }
               Optional. Anything left empty falls back to the blog title, summary and cover image.
             </p>
           </div>
-          <div>
-            <label className={labelCls}>Meta title</label>
-            <input
-              type="text"
-              value={values.metaTitle}
-              onChange={(e) => set("metaTitle", e.target.value)}
-              placeholder={values.title || "Title shown in Google results"}
-              className={inputCls}
-            />
-            <p
-              className={`text-[11px] mt-1 ${values.metaTitle.length > 60 ? "text-amber-600" : "text-gray-400"}`}
-            >
-              {values.metaTitle.length}/60 characters recommended
-            </p>
-          </div>
-          <div>
-            <label className={labelCls}>Meta description</label>
-            <textarea
-              rows={3}
-              value={values.metaDescription}
-              onChange={(e) => set("metaDescription", e.target.value)}
-              placeholder="Short description shown under the title in Google results"
-              className={`${inputCls} resize-y`}
-            />
-            <p
-              className={`text-[11px] mt-1 ${values.metaDescription.length > 160 ? "text-amber-600" : "text-gray-400"}`}
-            >
-              {values.metaDescription.length}/160 characters recommended
-            </p>
-          </div>
 
-          <div>
-            <label className={labelCls}>Meta keywords</label>
-            <input
-              type="text"
-              value={values.metaKeywords}
-              onChange={(e) => set("metaKeywords", e.target.value)}
-              placeholder="psychology, career in psychology, counselling"
-              className={inputCls}
-            />
-            <p className="text-[11px] text-gray-400 mt-1">Separate keywords with commas.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="space-y-5">
+              <div>
+                <label className={labelCls}>Meta title</label>
+                <input
+                  type="text"
+                  value={values.metaTitle}
+                  onChange={(e) => set("metaTitle", e.target.value)}
+                  placeholder={
+                    values.title
+                      ? `${values.title} | Counsel India`
+                      : "Title shown in Google results"
+                  }
+                  className={inputCls}
+                />
+                <LengthMeter length={values.metaTitle.trim().length} {...TITLE_RANGE} />
+              </div>
+              <div>
+                <label className={labelCls}>Meta description</label>
+                <textarea
+                  rows={3}
+                  value={values.metaDescription}
+                  onChange={(e) => set("metaDescription", e.target.value)}
+                  placeholder="One or two sentences that make people click"
+                  className={`${inputCls} resize-y`}
+                />
+                <LengthMeter length={values.metaDescription.trim().length} {...DESCRIPTION_RANGE} />
+              </div>
+              <div>
+                <label className={labelCls}>Keywords</label>
+                <input
+                  type="text"
+                  value={values.metaKeywords}
+                  onChange={(e) => set("metaKeywords", e.target.value)}
+                  placeholder="psychology, career in psychology, counselling"
+                  className={inputCls}
+                />
+                <p className="text-[11px] text-gray-400 mt-1">Separate with commas.</p>
+              </div>
+            </div>
+
+            <div className="space-y-5">
+              <ImageUploadField
+                label="Share image (WhatsApp, Facebook, LinkedIn)"
+                value={values.ogImage}
+                onChange={(url) => set("ogImage", url)}
+              />
+              <p className="text-[11px] text-gray-400 -mt-3">
+                Optional. If empty, the cover image is used when the link is shared.
+              </p>
+            </div>
           </div>
 
           <div>
@@ -361,15 +374,6 @@ export default function BlogForm({ initialValues, isNew, submitLabel, onSubmit }
               copy of a page published elsewhere.
             </p>
           </div>
-
-          <ImageUploadField
-            label="Social share image (Facebook, WhatsApp, LinkedIn)"
-            value={values.ogImage}
-            onChange={(url) => set("ogImage", url)}
-          />
-          <p className="text-[11px] text-gray-400 -mt-3">
-            Optional. If empty, the cover image is used when the link is shared.
-          </p>
         </div>
       </div>
 

@@ -17,6 +17,7 @@ import {
   FileText,
   PartyPopper,
   X,
+  SearchCheck,
 } from "lucide-react";
 import { Course } from "@/types/course";
 import CourseSubModuleManager from "@/components/courses/CourseSubModuleManager";
@@ -29,9 +30,18 @@ import {
   toCoursePayload,
   validateCourseValues,
 } from "@/components/courses/CourseForm";
+import { EMPTY_ITEM_SEO, coursePagePath, fetchItemSeo, itemSeoFrom } from "@/lib/itemSeo";
+import { ItemSeoFields } from "@/components/page-seo/ItemSeoFields";
 
-type TabKey = "details" | "overview" | "objectives" | "credentials" | "curriculum";
-const TAB_KEYS: TabKey[] = ["details", "overview", "objectives", "credentials", "curriculum"];
+type TabKey = "details" | "overview" | "objectives" | "credentials" | "curriculum" | "seo";
+const TAB_KEYS: TabKey[] = [
+  "details",
+  "overview",
+  "objectives",
+  "credentials",
+  "curriculum",
+  "seo",
+];
 
 function EditCourseContent() {
   const params = useParams();
@@ -47,6 +57,7 @@ function EditCourseContent() {
 
   const [course, setCourse] = useState<Course | null>(null);
   const [values, setValues] = useState<CourseFormValues>(emptyCourseValues);
+  const [seo, setSeo] = useState(EMPTY_ITEM_SEO);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -81,6 +92,7 @@ function EditCourseContent() {
         const data: Course = await res.json();
         setCourse(data);
         setValues(courseToFormValues(data));
+        setSeo(itemSeoFrom(await fetchItemSeo(coursePagePath(data.slug))));
         setOverviewCount(data.overviewCount || 0);
         setLearnCount(data.learnCount || 0);
         setCredentialCount(data.credentialCount || 0);
@@ -110,7 +122,7 @@ function EditCourseContent() {
       const res = await fetch(`/api/courses/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(toCoursePayload(values)),
+        body: JSON.stringify({ ...toCoursePayload(values), seo }),
       });
 
       if (!res.ok) {
@@ -196,6 +208,7 @@ function EditCourseContent() {
       count: curriculumCount,
       badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
     },
+    { key: "seo", label: "SEO", icon: SearchCheck },
   ];
 
   return (
@@ -221,7 +234,7 @@ function EditCourseContent() {
         </div>
 
         {/* Course details are saved with these buttons; the other tabs save each item instantly. */}
-        {activeTab === "details" && (
+        {(activeTab === "details" || activeTab === "seo") && (
           <div className="flex items-center gap-2 shrink-0">
             {success && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
@@ -302,6 +315,7 @@ function EditCourseContent() {
       <CourseWebsiteChecklist
         values={values}
         savedSlug={course?.slug}
+        seoDone={!!(seo.metaTitle.trim() && seo.metaDescription.trim())}
         counts={{
           overview: overviewCount,
           objectives: learnCount,
@@ -386,6 +400,58 @@ function EditCourseContent() {
                   <span>Save Changes</span>
                 </>
               )}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* TAB: SEO of the course page (saved to Page SEO under /course/<slug>) */}
+      {activeTab === "seo" && (
+        <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-6">
+          {error && (
+            <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
+            <div className="border-b border-gray-100 pb-3">
+              <h3 className="text-sm font-bold text-gray-900">SEO (Google search)</h3>
+              <p className="text-xs text-gray-400 mt-0.5">
+                Title, description and share image of this course&apos;s page on the website
+              </p>
+            </div>
+            <ItemSeoFields
+              value={seo}
+              onChange={setSeo}
+              pagePath={coursePagePath(course?.slug || values.slug)}
+              fallbackTitle={`${values.name || course?.name || "Course"} | Counsel India`}
+              fallbackDescription={(values.subdescription || values.aboutUs)
+                .replace(/<[^>]*>|&nbsp;/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+                .slice(0, 160)}
+            />
+          </div>
+
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+            {success && (
+              <span className="inline-flex items-center gap-1.5 text-emerald-700 text-xs font-bold">
+                <CheckCircle2 className="w-3.5 h-3.5" /> Saved!
+              </span>
+            )}
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-6 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#078a3d] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+            >
+              {saving ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Save className="w-3.5 h-3.5" />
+              )}
+              <span>{saving ? "Saving..." : "Save SEO"}</span>
             </button>
           </div>
         </form>

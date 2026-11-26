@@ -149,7 +149,7 @@ export default function CreateCoursePage() {
           </div>
           <div>
             <h4 className="text-xs font-bold text-gray-700">
-              Benefits, objectives, certificates &amp; curriculum
+              Benefits, objectives, certificates, curriculum &amp; SEO
             </h4>
             <p className="text-[11px] text-gray-500">
               Opens automatically after you click &ldquo;Save &amp; Continue&rdquo;.

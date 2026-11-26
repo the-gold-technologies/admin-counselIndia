@@ -392,3 +392,24 @@ model Blog {
 
   @@index([status, publishedAt])
 }
+
+// SEO for the website's fixed pages (home, about, contact, …), keyed by the page's path.
+// The row with path "*" holds site-wide defaults used when a page leaves a field empty.
+// Blog posts keep their own SEO fields on Blog.
+model PageSeo {
+  id              String   @id @default(cuid())
+  path            String   @unique // "/about", "/" for home, "*" for site-wide defaults
+  pageName        String
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text // comma-separated
+  canonicalUrl    String?
+  ogTitle         String? // social share title; falls back to metaTitle
+  ogDescription   String?  @db.Text // social share description; falls back to metaDescription
+  ogImage         String? // social share image; falls back to the site-wide default
+  noIndex         Boolean  @default(false) // hide this page from Google
+  noFollow        Boolean  @default(false) // ask Google not to follow links on this page
+  updatedBy       String? // name of the admin who last saved it
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

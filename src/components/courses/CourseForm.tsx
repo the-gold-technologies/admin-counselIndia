@@ -362,18 +362,23 @@ export interface SubModuleCounts {
   curriculum: number;
 }
 
+type ChecklistTab = "overview" | "objectives" | "credentials" | "curriculum" | "seo";
+
 export function CourseWebsiteChecklist({
   values,
   counts,
   savedSlug,
   onOpenTab,
+  seoDone,
 }: {
   values: CourseFormValues;
   /** Only known after the course exists (edit page). */
   counts?: SubModuleCounts;
   /** Slug as currently saved in the database, used for the preview link. */
   savedSlug?: string;
-  onOpenTab?: (tab: "overview" | "objectives" | "credentials" | "curriculum") => void;
+  onOpenTab?: (tab: ChecklistTab) => void;
+  /** Course page has its own Google title & description (edit page only). */
+  seoDone?: boolean;
 }) {
   const isLive = values.status.toLowerCase() === "active";
   const required = [
@@ -386,7 +391,7 @@ export function CourseWebsiteChecklist({
   const recommended: {
     label: string;
     done: boolean;
-    tab?: "overview" | "objectives" | "credentials" | "curriculum";
+    tab?: ChecklistTab;
   }[] = [
     { label: "Banner image (course page)", done: !!values.backgroundImage },
     { label: "About the program", done: !!toPlainText(values.aboutUs) },
@@ -398,22 +403,15 @@ export function CourseWebsiteChecklist({
       { label: "Course overview points", done: counts.overview > 0, tab: "overview" },
       { label: "Learning objectives", done: counts.objectives > 0, tab: "objectives" },
       { label: "Certificates", done: counts.credentials > 0, tab: "credentials" },
-      { label: "Curriculum modules", done: counts.curriculum > 0, tab: "curriculum" }
+      { label: "Curriculum modules", done: counts.curriculum > 0, tab: "curriculum" },
+      { label: "SEO (Google title & description)", done: !!seoDone, tab: "seo" }
     );
   }
   const doneCount = [...required, ...recommended].filter((i) => i.done).length;
   const total = required.length + recommended.length;
   const previewUrl = websiteCourseUrl(savedSlug || "");
 
-  const Item = ({
-    label,
-    done,
-    tab,
-  }: {
-    label: string;
-    done: boolean;
-    tab?: "overview" | "objectives" | "credentials" | "curriculum";
-  }) => (
+  const Item = ({ label, done, tab }: { label: string; done: boolean; tab?: ChecklistTab }) => (
     <li className="flex items-center gap-1.5 text-[11px]">
       {done ? (
         <CheckCircle2 className="w-3.5 h-3.5 text-[#09A64A] shrink-0" />

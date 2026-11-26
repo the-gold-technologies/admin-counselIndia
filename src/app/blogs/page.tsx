@@ -31,7 +31,7 @@ export default function BlogsPage() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const pageSize = 10;
 
   const fetchBlogs = useCallback(async () => {
     try {
@@ -69,7 +69,7 @@ export default function BlogsPage() {
     );
   }, [blogs, search, statusFilter, categoryFilter]);
 
-  useEffect(() => setPage(1), [search, statusFilter, categoryFilter, pageSize]);
+  useEffect(() => setPage(1), [search, statusFilter, categoryFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -513,21 +513,6 @@ export default function BlogsPage() {
               to <span className="font-bold text-gray-900">{endIndex}</span> of{" "}
               <span className="font-bold text-gray-900">{filtered.length}</span> entries
             </span>
-
-            <div className="hidden sm:flex items-center gap-2 pl-4 border-l border-gray-200">
-              <span>Show</span>
-              <select
-                value={pageSize}
-                onChange={(e) => setPageSize(Number(e.target.value))}
-                className="bg-white border border-gray-200 rounded-xl px-2.5 py-1 text-xs font-bold text-gray-800 shadow-2xs hover:border-[#09A64A] cursor-pointer"
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-              <span>per page</span>
-            </div>
           </div>
 
           {totalPages > 1 && (

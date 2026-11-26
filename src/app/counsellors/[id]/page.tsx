@@ -121,7 +121,7 @@ export default function CounsellorDetailPage() {
           </h1>
         </div>
 
-        <div>
+        <div className="flex items-center gap-2">
           <Link
             href={`/counsellors/${counsellor.id}/edit`}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#09A64A] hover:bg-[#089341] text-white text-xs font-bold transition-all shadow-md shadow-[#09A64A]/20 cursor-pointer"

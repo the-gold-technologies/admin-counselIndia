@@ -1,0 +1,1220 @@
+{
+  "_note": "Page SEO imported from the old admin (admin.counselindia.com → Main Masters → Page SEO) on 2026-11-26. Old addresses are mapped to the new website (e.g. /faq → /faqs, /course/m-a-in-psychology → the current M.A. in Psychology course). Where a page had several old entries the newest was used. Blog post SEO is in blogs-seo-data.json. Share images keep their original links on the old admin server. Loaded by npm run seed — rows already saved in the new admin are never overwritten.",
+  "rows": [
+    {
+      "path": "/",
+      "pageName": "Home",
+      "metaTitle": "Get Best Psychology and Counselling Courses",
+      "metaDescription": "Psychology courses at Counsel India offer expert-led training in mental health, counseling, and therapy helping you build a successful career in psychology.",
+      "metaKeywords": "psychology courses, RCI Certified trainers",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1697697710.jpeg",
+      "oldAdminIds": [249, 2]
+    },
+    {
+      "path": "/Har-Ghar-Counsellor",
+      "pageName": "Har Ghar Counsellor",
+      "metaTitle": "Har Ghar Counsellor | Mission to Promote Mental Health",
+      "metaDescription": "Join Counsel India's Har Ghar Counsellor initiative and be part of our mission to make mental health support accessible to every home. Learn more today!",
+      "metaKeywords": "har ghar counsellor",
+      "ogImage": null,
+      "oldAdminIds": [255, 235]
+    },
+    {
+      "path": "/about",
+      "pageName": "About Us",
+      "metaTitle": "E- learning platform for psychology & counselling | Counsel India",
+      "metaDescription": "Counsel India is a practical online platform for psychology and counselling programs in India. Read more about Counsel India",
+      "metaKeywords": "careers in psychology, about psychology, counselling psychology, psychology online courses, can you tell me about counsel india",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995135.png",
+      "oldAdminIds": [21]
+    },
+    {
+      "path": "/academic-policy",
+      "pageName": "Academic Policy",
+      "metaTitle": "Your Guide to Academic Policies at Counsel India",
+      "metaDescription": "Our approach is straightforward and transparent, ensuring clarity and understanding for all students. Learn more about our policies today!",
+      "metaKeywords": "counsel india policy, ensuring clarity",
+      "ogImage": null,
+      "oldAdminIds": [213]
+    },
+    {
+      "path": "/all-courses-list",
+      "pageName": "All Courses",
+      "metaTitle": "All Courses List - Find Your Path to Success with Counsel India",
+      "metaDescription": "Counsel India offers Diploma, Certificate, Self-paced courses for Psychology, Counselling and Therapies. Get courses now Online psychology course",
+      "metaKeywords": "Online psychology course, E-learning psychology, Virtual psychology classes, psychology courses, Diploma in psychology, Certificate in psychology, best psychology course",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1697698199.jpeg",
+      "oldAdminIds": [3]
+    },
+    {
+      "path": "/alumni",
+      "pageName": "Alumni",
+      "metaTitle": "Counsel India Alumni | Join the Community of Learners",
+      "metaDescription": "Explore Counsel India's Alumni to reconnect, network, and grow with a community of psychology professionals and graduates.",
+      "metaKeywords": "counsel india alumni",
+      "ogImage": null,
+      "oldAdminIds": [254]
+    },
+    {
+      "path": "/ask-question",
+      "pageName": "Ask a Question",
+      "metaTitle": "Get Answers to Your Questions",
+      "metaDescription": "Have questions about counselling, psychology, or personal growth? Get clarity and guidance on your journey to mental well-being today!",
+      "metaKeywords": "questions about counselling",
+      "ogImage": null,
+      "oldAdminIds": [214]
+    },
+    {
+      "path": "/blog",
+      "pageName": "Blog",
+      "metaTitle": "Counsel India - Insights on Psychology and Counselling | Blog",
+      "metaDescription": "Get informed insights and analysis on Psychology and Counselling with Counsel India blog. Learn about latest news, tutorials, concepts, career insights",
+      "metaKeywords": "Psychology  blogs, Counselling blogs, educational blogs",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995199.png",
+      "oldAdminIds": [23]
+    },
+    {
+      "path": "/career",
+      "pageName": "Career (old address)",
+      "metaTitle": "Explore Exciting Opportunities",
+      "metaDescription": "Explore the latest job vacancies in the field of counselling! Find your dream role in counseling today.",
+      "metaKeywords": "career, vacancies, counselling",
+      "ogImage": null,
+      "oldAdminIds": [86]
+    },
+    {
+      "path": "/careers",
+      "pageName": "Careers",
+      "metaTitle": "Explore Exciting Opportunities",
+      "metaDescription": "Explore the latest job vacancies in the field of counselling! Find your dream role in counseling today.",
+      "metaKeywords": "career, vacancies, counselling",
+      "ogImage": null,
+      "oldAdminIds": [86]
+    },
+    {
+      "path": "/ci-business",
+      "pageName": "CI for Business",
+      "metaTitle": "Expert Mentorship for Your Business",
+      "metaDescription": "Our counselling services provide personalized support for entrepreneurs, offering guidance, and strategies. Start your journey with our expert counselling today!",
+      "metaKeywords": "Expert Mentorship, entrepreneurs, personalized support, Mentorship",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995176.png",
+      "oldAdminIds": [95, 20]
+    },
+    {
+      "path": "/contact-us",
+      "pageName": "Contact Us",
+      "metaTitle": "Contact Us for Expert Psychology and Counseling Courses",
+      "metaDescription": "Get in touch with Counsel India to inquire about our comprehensive psychology and counseling courses. Contact us today",
+      "metaKeywords": "psychology and counseling courses, mental health, Counsel India",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1698662424.png",
+      "oldAdminIds": [62]
+    },
+    {
+      "path": "/counsellors-details/102",
+      "pageName": "Gunjan Sandhani",
+      "metaTitle": "Gunjan Sandhani - Clinical Psychologist and Counsellor in India",
+      "metaDescription": "Meet Gunjan Sandhani, a highly skilled clinical psychologist and counsellor based in India. Schedule a session today.",
+      "metaKeywords": "Gunjan Sandhani, clinical psychologist, counsellor",
+      "ogImage": null,
+      "oldAdminIds": [170, 169]
+    },
+    {
+      "path": "/counsellors-details/13",
+      "pageName": "Michelle Luis",
+      "metaTitle": "Michelle Luis: Experienced Counselling Psychologist",
+      "metaDescription": "Meet Michelle Luis, an experienced counselling psychologist at Counsel India.",
+      "metaKeywords": "Michelle Luis, counselling psychologist",
+      "ogImage": null,
+      "oldAdminIds": [204]
+    },
+    {
+      "path": "/counsellors-details/135",
+      "pageName": "SHWETA NAIR",
+      "metaTitle": "Shweta Nair: Psychologist & Counsellor",
+      "metaDescription": "Discover the expertise of Shweta Nair, a skilled psychologist and counsellor offering professional mental health support.",
+      "metaKeywords": "Shweta Nair, skilled psychologist, professional mental health",
+      "ogImage": null,
+      "oldAdminIds": [182]
+    },
+    {
+      "path": "/counsellors-details/139",
+      "pageName": "Bivek Pradhan",
+      "metaTitle": "Bivek Pradhan: Experienced Psychologist & Counsellor",
+      "metaDescription": "Meet Bivek Pradhan, a skilled psychologist and counsellor offering expert mental health support.",
+      "metaKeywords": "Bivek Pradhan, skilled psychologist, mental health support",
+      "ogImage": null,
+      "oldAdminIds": [187]
+    },
+    {
+      "path": "/counsellors-details/14",
+      "pageName": "Priyancy Goyal",
+      "metaTitle": "Priyancy Goyal: Counselling Psychologist & Counsellor",
+      "metaDescription": "Meet Priyancy Goyal, a seasoned counselling psychologist and counsellor at Counsel India. Schedule a session today.",
+      "metaKeywords": "Priyancy Goyal, counselling psychologist, counsellor at Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [207, 206]
+    },
+    {
+      "path": "/counsellors-details/141",
+      "pageName": "Sana Panagar",
+      "metaTitle": "Sana Panagar: Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor offering professional guidance at Counsel India.",
+      "metaKeywords": "counsellor offering, professional guidance, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [159]
+    },
+    {
+      "path": "/counsellors-details/146",
+      "pageName": "Atul Yadav",
+      "metaTitle": "Atul Yadav: Experienced Counselling Psychologist & Counsellor",
+      "metaDescription": "Discover the expertise of Atul Yadav, a seasoned counselling psychologist and committed counsellor.",
+      "metaKeywords": "Atul Yadav, counselling psychologist, committed counsellor",
+      "ogImage": null,
+      "oldAdminIds": [186]
+    },
+    {
+      "path": "/counsellors-details/15",
+      "pageName": "P Hanumanth Rao",
+      "metaTitle": "P Hanumanth Rao: Career and Skill Counsellor | Counsel India",
+      "metaDescription": "Meet P Hanumanth Rao, a seasoned career and skill counsellor at Counsel India. Book a session today!",
+      "metaKeywords": "P Hanumanth Rao, career and skill counsellor",
+      "ogImage": null,
+      "oldAdminIds": [208, 193, 192]
+    },
+    {
+      "path": "/counsellors-details/152",
+      "pageName": "VARNICA KOTNALA",
+      "metaTitle": "Varnica Kotnala: Experienced Clinical Psychologist & Counsellor",
+      "metaDescription": "Discover expert counseling services with Varnica Kotnala, a seasoned psychologist and counsellor.",
+      "metaKeywords": "Varnica Kotnala, counseling services, psychologist and counsellor",
+      "ogImage": null,
+      "oldAdminIds": [185]
+    },
+    {
+      "path": "/counsellors-details/16",
+      "pageName": "Yashasvini Rathore",
+      "metaTitle": "Yashasvini Rathore: Career Counselor and Skill Trainer",
+      "metaDescription": "Meet Yashasvini Rathore, a seasoned career counselor and skill trainer at Counsel India.",
+      "metaKeywords": null,
+      "ogImage": null,
+      "oldAdminIds": [205]
+    },
+    {
+      "path": "/counsellors-details/166",
+      "pageName": "Aakriti Khosla",
+      "metaTitle": "Aakriti Khosla - Psychologist & Counsellor",
+      "metaDescription": "Aakriti Khosla, a skilled psychologist and counsellor, offers expert mental health services to help you navigate life's challenges.",
+      "metaKeywords": "Aakriti Khosla, skilled psychologist and counsellor, mental health services",
+      "ogImage": null,
+      "oldAdminIds": [183]
+    },
+    {
+      "path": "/counsellors-details/168",
+      "pageName": "Shruti Mittal",
+      "metaTitle": "Shruti Mittal: Art Therapist, Psychologist & Counsellor in India",
+      "metaDescription": "Meet Shruti Mittal, a trusted psychologist and counsellor offering expert guidance and support in India.",
+      "metaKeywords": "Shruti Mittal, psychologist and counsellor, expert guidance",
+      "ogImage": null,
+      "oldAdminIds": [173]
+    },
+    {
+      "path": "/counsellors-details/17",
+      "pageName": "Kavya.C",
+      "metaTitle": "Empower Your Future with Expert Career Counselling | Kavya.C",
+      "metaDescription": "As a trusted career counsellor and psychologist, Kavya.C provides personalized guidance to help you navigate your career path with confidence and clarity.",
+      "metaKeywords": "career counsellor, Kavya.C provides personalized guidance, career path with confidence",
+      "ogImage": null,
+      "oldAdminIds": [177]
+    },
+    {
+      "path": "/counsellors-details/170",
+      "pageName": "Nazima Sayyed",
+      "metaTitle": "Nazima Sayyed: Experienced Psychologist and Counsellor",
+      "metaDescription": "Nazima Sayyed is an experienced psychologist and counsellor offering professional mental health support and guidance.",
+      "metaKeywords": "Nazima Sayyed, psychologist and counsellor, mental health support",
+      "ogImage": null,
+      "oldAdminIds": [180]
+    },
+    {
+      "path": "/counsellors-details/171",
+      "pageName": "Glory Bhatia",
+      "metaTitle": "Glory Bhatia: Experienced Psychologist and Counsellor",
+      "metaDescription": "Discover the expertise of Glory Bhatia, a trusted psychologist and counsellor. Schedule a session now.",
+      "metaKeywords": null,
+      "ogImage": null,
+      "oldAdminIds": [181]
+    },
+    {
+      "path": "/counsellors-details/177",
+      "pageName": "Jeemol.P.Bejoy",
+      "metaTitle": "Jeemol P. Bejoy: Experienced Psychologist and Counselor",
+      "metaDescription": "Meet Jeemol P. Bejoy, offering professional counselling services. With years of experience, she provides personalized support for mental health",
+      "metaKeywords": "Jeemol P. Bejoy, professional counselling services, personalized support",
+      "ogImage": null,
+      "oldAdminIds": [179]
+    },
+    {
+      "path": "/counsellors-details/179",
+      "pageName": "Mohita Aggarwal",
+      "metaTitle": "Mohita Aggarwal: Experienced Psychologist & Counsellor",
+      "metaDescription": "Meet Mohita Aggarwal, a seasoned psychologist and counsellor offering expert therapy services. Contact Mohita today for personalized counselling sessions.",
+      "metaKeywords": "Mohita Aggarwal, psychologist and counsellor, expert therapy services, personalized counselling sessions",
+      "ogImage": null,
+      "oldAdminIds": [174]
+    },
+    {
+      "path": "/counsellors-details/18",
+      "pageName": "Ayushi Madaan",
+      "metaTitle": "Ayushi Madaan: Experienced Clinical Psychologist & Counsellor",
+      "metaDescription": "Explore the expertise of Ayushi Madaan, a seasoned clinical psychologist and skilled counsellor.",
+      "metaKeywords": "Ayushi Madaan, seasoned clinical psychologist, skilled counsellor",
+      "ogImage": null,
+      "oldAdminIds": [189]
+    },
+    {
+      "path": "/counsellors-details/19",
+      "pageName": "Anastasiia Maksymovska",
+      "metaTitle": "Online Psychology Courses & Therapy | Counsel India|",
+      "metaDescription": "Renowned Psychologist, Psychotherapist & Sexologist. Trusted Counsel India expert offering comprehensive counseling services.",
+      "metaKeywords": "psychologist, sexologist, counselling services, Anastasiia counsellor",
+      "ogImage": null,
+      "oldAdminIds": [133]
+    },
+    {
+      "path": "/counsellors-details/191",
+      "pageName": "Sarita Shukla",
+      "metaTitle": "Sarita Shukla | Psychologist Counsellor",
+      "metaDescription": "Meet Sarita Shukla, a dedicated psychologist counsellor specializing in mental wellness.",
+      "metaKeywords": "Sarita Shukla, psychologist counsellor, mental wellness",
+      "ogImage": null,
+      "oldAdminIds": [178]
+    },
+    {
+      "path": "/counsellors-details/199",
+      "pageName": "Tamanna Grewal",
+      "metaTitle": "Experienced Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A dedicated psychologist and counsellor at Counsel India, offering expert guidance for emotional wellness and personal growth",
+      "metaKeywords": "dedicated psychologist, counsellor, guidance for emotional wellness, personal growth, Experienced Psychologist",
+      "ogImage": null,
+      "oldAdminIds": [138]
+    },
+    {
+      "path": "/counsellors-details/20",
+      "pageName": "Darline Gonzalez",
+      "metaTitle": "Darline Gonzalez: Experienced Psychologist & Counsellor",
+      "metaDescription": "Meet Darline Gonzalez, a seasoned psychologist and counsellor providing expert mental health support.",
+      "metaKeywords": "Darline Gonzalez, psychologist and counsellor, mental health support",
+      "ogImage": null,
+      "oldAdminIds": [176]
+    },
+    {
+      "path": "/counsellors-details/202",
+      "pageName": "Arpita Chatterjee",
+      "metaTitle": "Experienced Music Therapist at Counsel India",
+      "metaDescription": "A skilled music therapist at Counsel India. Explore emotional healing and well-being through personalized musical journeys.",
+      "metaKeywords": "skilled music, therapist, Explore emotiona, personalized musical journeys, Therapist at Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [135]
+    },
+    {
+      "path": "/counsellors-details/203",
+      "pageName": "Durga Gupta",
+      "metaTitle": "Experienced Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. Offering expert guidance for emotional well-being and personal growth",
+      "metaKeywords": "psychologist, counsellor at Counsel India, expert guidance, emotional well-being, Experienced Psychologist",
+      "ogImage": null,
+      "oldAdminIds": [136]
+    },
+    {
+      "path": "/counsellors-details/204",
+      "pageName": "Sakshi Makkar",
+      "metaTitle": "Expert Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. Offering compassionate guidance and support for mental well-being",
+      "metaKeywords": "trusted psychologist, counsellor, compassionate guidance, mental well-being, Psychologist",
+      "ogImage": null,
+      "oldAdminIds": [137]
+    },
+    {
+      "path": "/counsellors-details/207",
+      "pageName": "Kriti Kamal",
+      "metaTitle": "Experienced Psychologist & Counsellor in India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. With years of expertise, she offers compassionate guidance for mental wellness",
+      "metaKeywords": "Experienced Psychologist, counsellor, compassionate guidance, mental wellness, emotional healing",
+      "ogImage": null,
+      "oldAdminIds": [139]
+    },
+    {
+      "path": "/counsellors-details/213",
+      "pageName": "Nivedita Sharma",
+      "metaTitle": "Psychologist at Counsel India | Expert Mental Health Services",
+      "metaDescription": "A dedicated psychologist at Counsel India, offering expert mental health services.",
+      "metaKeywords": "Counsel India, dedicated psychologist, health services",
+      "ogImage": null,
+      "oldAdminIds": [147]
+    },
+    {
+      "path": "/counsellors-details/220",
+      "pageName": "Lauren Michelle Colletti",
+      "metaTitle": "Lauren Michelle Colletti - Psychologist & Counsellor",
+      "metaDescription": "Meet Lauren Michelle Colletti, a highly experienced psychologist and counsellor. Connect with Lauren for personalized mental health care today.",
+      "metaKeywords": "Lauren Michelle Colletti, personalized mental health",
+      "ogImage": null,
+      "oldAdminIds": [175]
+    },
+    {
+      "path": "/counsellors-details/227",
+      "pageName": "ADITI GUPTA",
+      "metaTitle": "Psychologist at Counsel India | Mental Health Expert",
+      "metaDescription": "A seasoned psychologist at Counsel India, offering expert guidance and support for mental health challenges.",
+      "metaKeywords": "seasoned psychologist, expert guidance, mental health challenges",
+      "ogImage": null,
+      "oldAdminIds": [148]
+    },
+    {
+      "path": "/counsellors-details/228",
+      "pageName": "Aastha Khatter",
+      "metaTitle": "Expert Psychologist | Transforming Lives Through Therapy",
+      "metaDescription": "A dedicated psychologist offering compassionate therapy to help you overcome challenges and achieve mental well-being. Schedule a session today.",
+      "metaKeywords": "Expert Psychologist, Transforming Lives, psychologist, session, overcome challenges",
+      "ogImage": null,
+      "oldAdminIds": [144]
+    },
+    {
+      "path": "/counsellors-details/229",
+      "pageName": "Komal",
+      "metaTitle": "Expert Psychologist & Counsellor Services | Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. Get personalized support and therapy for your mental well-being. Book your session now!",
+      "metaKeywords": "trusted psychologist, personalized support, mental well-being",
+      "ogImage": null,
+      "oldAdminIds": [156]
+    },
+    {
+      "path": "/counsellors-details/23",
+      "pageName": "Ms. Monica",
+      "metaTitle": "Ms. Monica: Experienced Counselling Psychologist",
+      "metaDescription": "Meet Ms. Monica, a seasoned counselling psychologist at Counsel India.",
+      "metaKeywords": "Ms. Monica, counselling psychologist",
+      "ogImage": null,
+      "oldAdminIds": [200, 78, 77, 70]
+    },
+    {
+      "path": "/counsellors-details/232",
+      "pageName": "Himanshu Malik",
+      "metaTitle": "Experienced Psychologist | Expert Counseling Services | Counsel India",
+      "metaDescription": "A seasoned psychologist offering expert counseling services. He specializes in providing personalized therapy to help you overcome life's challenges",
+      "metaKeywords": "Experienced Psychologist, Expert, Counseling Services",
+      "ogImage": null,
+      "oldAdminIds": [142]
+    },
+    {
+      "path": "/counsellors-details/233",
+      "pageName": "Ananya Dewan",
+      "metaTitle": "Experienced Psychologist at Counsel India",
+      "metaDescription": "A seasoned psychologist at Counsel India. Ananya provides compassionate and effective therapy services to individuals seeking support.",
+      "metaKeywords": "psychologist, compassionate, effective therapy, individuals seeking support",
+      "ogImage": null,
+      "oldAdminIds": [149]
+    },
+    {
+      "path": "/counsellors-details/234",
+      "pageName": "Smriti Jain",
+      "metaTitle": "Smriti Jain | Psychologist & Mental Health Expert | Counsel India",
+      "metaDescription": "A dedicated psychologist specializing in mental health. Smriti helps individuals overcome challenges and achieve emotional well-being.",
+      "metaKeywords": "Smriti Jain, Mental Health Expert, dedicated psychologist, individuals overcome",
+      "ogImage": null,
+      "oldAdminIds": [143]
+    },
+    {
+      "path": "/counsellors-details/238",
+      "pageName": "Shelly Ahuja",
+      "metaTitle": "Experienced Psychologist Offering Expert Mental Health Services",
+      "metaDescription": "A seasoned psychologist dedicated to providing professional mental health services. Shelly offers personalized counselling and therapy.",
+      "metaKeywords": "Expert Mental Health, Experienced Psychologist, personalized counselling",
+      "ogImage": null,
+      "oldAdminIds": [145]
+    },
+    {
+      "path": "/counsellors-details/239",
+      "pageName": "Nida M P",
+      "metaTitle": "Expert Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. With expertise in emotional wellness, she offers compassionate support and guidance.",
+      "metaKeywords": "trusted psychologist, Counsel India, emotional wellness, support and guidance",
+      "ogImage": null,
+      "oldAdminIds": [141]
+    },
+    {
+      "path": "/counsellors-details/24",
+      "pageName": "Medhavi Sood",
+      "metaTitle": "Medhavi Sood: Experienced Clinical Psychologist & Counsellor",
+      "metaDescription": "Meet Medhavi Sood, a skilled clinical psychologist and counsellor at Counsel India.",
+      "metaKeywords": "Medhavi Sood, clinical psychologist",
+      "ogImage": null,
+      "oldAdminIds": [201]
+    },
+    {
+      "path": "/counsellors-details/240",
+      "pageName": "SHAGUN BHARDWAJ",
+      "metaTitle": "Experienced Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. Expert in emotional well-being, she offers compassionate guidance for a brighter tomorrow.",
+      "metaKeywords": "psychologist, counsellor at Counsel India, emotional well-being, guidance, Experienced Psychologist",
+      "ogImage": null,
+      "oldAdminIds": [140]
+    },
+    {
+      "path": "/counsellors-details/241",
+      "pageName": "Vaibhav Jain",
+      "metaTitle": "Experienced Psychologist Offering Expert Mental Health Support",
+      "metaDescription": "A trusted psychologist with years of experience providing compassionate mental health care.",
+      "metaKeywords": "Mental Health Support, personal counselling, compassionate",
+      "ogImage": null,
+      "oldAdminIds": [146]
+    },
+    {
+      "path": "/counsellors-details/25",
+      "pageName": "Rashmi Soin",
+      "metaTitle": "Rashmi Soin: Parent Coach & Counselling Psychologist",
+      "metaDescription": "Meet Rashmi Soin, a seasoned parent coach and counselling psychologist at Counsel India.",
+      "metaKeywords": "Rashmi Soin, parent coach, counselling psychologist",
+      "ogImage": null,
+      "oldAdminIds": [191]
+    },
+    {
+      "path": "/counsellors-details/250",
+      "pageName": "Shivangi Srivastava",
+      "metaTitle": "Experienced Psychologist and Counsellor at Counsel India",
+      "metaDescription": "Meet Shivangi Srivastava, a seasoned psychologist and counsellor offering expert guidance and support.",
+      "metaKeywords": "Shivangi Srivastava, psychologist and counsellor, expert guidance",
+      "ogImage": null,
+      "oldAdminIds": [167]
+    },
+    {
+      "path": "/counsellors-details/258",
+      "pageName": "SHREYA NAYAK",
+      "metaTitle": "Shreya Nayak | Psychologist Counsellor| Mental Health Expert",
+      "metaDescription": "Meet Shreya Nayak, a trusted psychologist counsellor offering expert guidance and support.",
+      "metaKeywords": "Shreya Nayak, psychologist counsellor, guidance and support",
+      "ogImage": null,
+      "oldAdminIds": [196, 166]
+    },
+    {
+      "path": "/counsellors-details/259",
+      "pageName": "Anjali Seth",
+      "metaTitle": "Anjali Seth | Psychologist & Counsellor | Expert in Mental Health",
+      "metaDescription": "Meet Anjali Seth, a dedicated psychologist and counsellor specializing in providing expert mental health support.",
+      "metaKeywords": "Anjali Seth, dedicated psychologist, expert mental health support",
+      "ogImage": null,
+      "oldAdminIds": [165]
+    },
+    {
+      "path": "/counsellors-details/26",
+      "pageName": "Jyoti S Sharma",
+      "metaTitle": "Jyoti S Sharma: Experienced Music Therapist & Counselor",
+      "metaDescription": "Meet Jyoti S Sharma, an accomplished music therapist and counsellor at Counsel India.",
+      "metaKeywords": "Jyoti S Sharma, music therapist, counsellor at Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [197]
+    },
+    {
+      "path": "/counsellors-details/263",
+      "pageName": "Aqsa Qayyum",
+      "metaTitle": "Expert Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor at Counsel India, offering compassionate guidance and professional therapy services tailored to your needs.",
+      "metaKeywords": "Counsel India, compassionate guidance, professional",
+      "ogImage": null,
+      "oldAdminIds": [155]
+    },
+    {
+      "path": "/counsellors-details/265",
+      "pageName": "Capt Purba Panchbhai (Retd)",
+      "metaTitle": "Psychologist & Counsellor | Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor at Counsel India. Capt Purba offers expert guidance and support for mental well-being. Book a session today.",
+      "metaKeywords": "Capt Purba, guidance and support, mental well-being",
+      "ogImage": null,
+      "oldAdminIds": [154]
+    },
+    {
+      "path": "/counsellors-details/266",
+      "pageName": "Apurva Sharma",
+      "metaTitle": "Experienced Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor at Counsel India. Apurva provides compassionate therapy and guidance to help with challenges effectively.",
+      "metaKeywords": "counsellor at Counsel India, Apurva provides compassionate therapy, challenges effectively",
+      "ogImage": null,
+      "oldAdminIds": [153]
+    },
+    {
+      "path": "/counsellors-details/267",
+      "pageName": "Tanya Bansal",
+      "metaTitle": "Expert Psychologist & Counsellor | Counsel India",
+      "metaDescription": "A seasoned psychologist and skilled counsellor at Counsel India. Get support for mental well-being with Tanya's compassionate approach.",
+      "metaKeywords": "seasoned psychologist, skilled counsellor, mental well-being, compassionate approach",
+      "ogImage": null,
+      "oldAdminIds": [152]
+    },
+    {
+      "path": "/counsellors-details/269",
+      "pageName": "Sweta A. Gorania",
+      "metaTitle": "Sweta A. Gorania - Psychologist and Counsellor|Expert Guidance",
+      "metaDescription": "Sweta provides personalized support to help you navigate life's challenges effectively. Schedule a consultation today.",
+      "metaKeywords": "Sweta, personalized support, life's challenges",
+      "ogImage": null,
+      "oldAdminIds": [168]
+    },
+    {
+      "path": "/counsellors-details/27",
+      "pageName": "Radhika Gulati",
+      "metaTitle": "Radhika Gulati: Experienced Clinical Psychologist & Counsellor",
+      "metaDescription": "Meet Radhika Gulati, a seasoned clinical psychologist and counsellor at Counsel India.",
+      "metaKeywords": "Radhika Gulati, clinical psychologist",
+      "ogImage": null,
+      "oldAdminIds": [203, 202]
+    },
+    {
+      "path": "/counsellors-details/270",
+      "pageName": "Tanya Chadha",
+      "metaTitle": "Experienced Psychologist and Counsellor at Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor at Counsel India. Tanya offers compassionate guidance and support to individuals seeking mental health services.",
+      "metaKeywords": "Tanya offers, individuals seeking, seeking mental health services, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [151]
+    },
+    {
+      "path": "/counsellors-details/272",
+      "pageName": "Simran Parekh",
+      "metaTitle": "Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A skilled psychologist and counsellor at Counsel India, offering expert mental health services.",
+      "metaKeywords": "psychologist, Counsel India, mental health",
+      "ogImage": null,
+      "oldAdminIds": [150]
+    },
+    {
+      "path": "/counsellors-details/278",
+      "pageName": "Sneha Gulati",
+      "metaTitle": "Experienced Psychologist & Counsellor| Counsel India",
+      "metaDescription": "Meet Sneha Gulati, a highly skilled psychologist and counsellor providing expert mental health support. Schedule a session today!",
+      "metaKeywords": "Sneha Gulati, skilled psychologist and counsellor, expert mental health support",
+      "ogImage": null,
+      "oldAdminIds": [172]
+    },
+    {
+      "path": "/counsellors-details/279",
+      "pageName": "Pragya Singh",
+      "metaTitle": "Pragya Singh | Psychologist & Counsellor | Expert Guidance",
+      "metaDescription": "Meet Pragya Singh, a trusted psychologist and counsellor providing expert guidance for individuals seeking support.",
+      "metaKeywords": "Pragya Singh, psychologist and counsellor, seeking support",
+      "ogImage": null,
+      "oldAdminIds": [171]
+    },
+    {
+      "path": "/counsellors-details/281",
+      "pageName": "Akshaya Devi",
+      "metaTitle": "Akshaya Devi - Psychologist and Counsellor",
+      "metaDescription": "Meet Akshaya Devi, a dedicated psychologist. Schedule a session today!",
+      "metaKeywords": "Akshaya Devi, dedicated psychologist",
+      "ogImage": null,
+      "oldAdminIds": [164]
+    },
+    {
+      "path": "/counsellors-details/282",
+      "pageName": "Priyanka pathak",
+      "metaTitle": "Priyanka Pathak: Psychologist & Counsellor in India",
+      "metaDescription": "Meet Priyanka Pathak, a trusted psychologist and counsellor offering expert mental health support in India.",
+      "metaKeywords": "Priyanka Pathak, trusted psychologist, expert mental health",
+      "ogImage": null,
+      "oldAdminIds": [163]
+    },
+    {
+      "path": "/counsellors-details/289",
+      "pageName": "Deepshikha Mishra",
+      "metaTitle": "Experienced Psychologist & Counsellor | Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor offering expert guidance at Counsel India. Book a session today!",
+      "metaKeywords": "counsellor offering, guidance at Counsel India, seasoned psychologist",
+      "ogImage": null,
+      "oldAdminIds": [160]
+    },
+    {
+      "path": "/counsellors-details/290",
+      "pageName": "Kanishka Agrawal",
+      "metaTitle": "Experienced Psychologist & Counsellor at Counsel India",
+      "metaDescription": "A seasoned psychologist and compassionate counsellor at Counsel India. Book a session today.",
+      "metaKeywords": "seasoned psychologist, counsellor at Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [161]
+    },
+    {
+      "path": "/counsellors-details/292",
+      "pageName": "Rishabh Singh Sengar",
+      "metaTitle": "Rishabh Singh Sengar: Expert Psychologist & Counsellor in India",
+      "metaDescription": "Meet Rishabh Singh Sengar, a trusted psychologist and counsellor offering professional services in India.",
+      "metaKeywords": "Rishabh Singh Sengar, psychologist and counsellor, professional services",
+      "ogImage": null,
+      "oldAdminIds": [162]
+    },
+    {
+      "path": "/counsellors-details/30",
+      "pageName": "Pooja S. Naragachche",
+      "metaTitle": "Pooja S. Naragachche - Experienced Counselling Therapist",
+      "metaDescription": "Meet Pooja S. Naragachche, a skilled and compassionate therapist specializing in counselling therapy at Counsel India.",
+      "metaKeywords": "Pooja S. Naragachche, therapist specializing",
+      "ogImage": null,
+      "oldAdminIds": [199, 198]
+    },
+    {
+      "path": "/counsellors-details/300",
+      "pageName": "Soumitri Bag Majumder",
+      "metaTitle": "Expert Psychologist & Counsellor | Counsel India",
+      "metaDescription": "A trusted psychologist and counsellor at Counsel India. Get expert support and guidance for your mental health journey.",
+      "metaKeywords": "trusted psychologist, Counsel India, support and guidance, mental health journey",
+      "ogImage": null,
+      "oldAdminIds": [158]
+    },
+    {
+      "path": "/counsellors-details/31",
+      "pageName": "Nupur Gupta",
+      "metaTitle": "Nupur Gupta: Experienced Clinical Psychologist & Counsellor",
+      "metaDescription": "Meet Nupur Gupta, a seasoned clinical psychologist and counsellor, offering expert guidance and support for mental health challenges.",
+      "metaKeywords": "Nupur Gupta, clinical psychologist, mental health challenges",
+      "ogImage": null,
+      "oldAdminIds": [188]
+    },
+    {
+      "path": "/counsellors-details/315",
+      "pageName": "Dr.Niharika Ghosh",
+      "metaTitle": "Experienced Psychologist & Counsellor | Counsel India",
+      "metaDescription": "A seasoned psychologist and counsellor offering compassionate guidance and support.",
+      "metaKeywords": "counsellor, compassionate guidance",
+      "ogImage": null,
+      "oldAdminIds": [157]
+    },
+    {
+      "path": "/counsellors-details/33",
+      "pageName": "Aanchal Harjai",
+      "metaTitle": "Aanchal Harjai: Clinical Psychologist and Counsellor",
+      "metaDescription": "Meet Aanchal Harjai, a seasoned clinical psychologist and counsellor at Counsel India. Schedule a session today.",
+      "metaKeywords": "Aanchal Harjai, clinical psychologist, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [190]
+    },
+    {
+      "path": "/counsellors-details/76",
+      "pageName": "Gunjan Joshi",
+      "metaTitle": "Gunjan Joshi | Psychologist and Counsellor",
+      "metaDescription": "Meet Gunjan Joshi, a skilled psychologist and counsellor dedicated to providing effective mental health support. Explore her expertise and services today.",
+      "metaKeywords": "Gunjan Joshi, killed psychologist, mental health support",
+      "ogImage": null,
+      "oldAdminIds": [184]
+    },
+    {
+      "path": "/counsellors-network",
+      "pageName": "Counsellors Network",
+      "metaTitle": "India Best Counsellors | Counsel India",
+      "metaDescription": "Get the best counsellors in India at Counsel India.",
+      "metaKeywords": "Best Counsellors",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995068.png",
+      "oldAdminIds": [132, 90, 16]
+    },
+    {
+      "path": "/course/advance-certification-in-industrial-organizational-psychology",
+      "pageName": "Advance Certification in Industrial Organizational Psychology",
+      "metaTitle": "Advance Certification in Industrial-Organizational Psychology | Counsel India",
+      "metaDescription": "Boost your career with Counsel India's advanced certification in industrial-organizational psychology. Learn about the interactions between people at work, human behavior, and organizational efficiency. Join Now",
+      "metaKeywords": "ounsel India, advanced certification, industrial-organizational, psychology, organizational efficiency, human behavior",
+      "ogImage": null,
+      "oldAdminIds": [52]
+    },
+    {
+      "path": "/course/advanced-certificate-in-career-counselling",
+      "pageName": "Advanced Certificate in Career Counselling",
+      "metaTitle": "Advanced Certificate in Career Counselling Programs",
+      "metaDescription": "Earn your Advanced Certificate in Career Counselling with CounselIndia's comprehensive program. Equip yourself with the skills",
+      "metaKeywords": "Career, Counselling, CounselIndia, Advanced Certificate",
+      "ogImage": null,
+      "oldAdminIds": [113]
+    },
+    {
+      "path": "/course/advanced-certificate-in-child-psychology",
+      "pageName": "Advanced Certificate in Child Psychology",
+      "metaTitle": "Advanced Certificate in Child Psychology | Counsel India",
+      "metaDescription": "Explore the dynamics of child psychology with our Advanced Certificate in Child Psychology course.",
+      "metaKeywords": "child psychology, Advanced, Certificate, Child Psychology course",
+      "ogImage": null,
+      "oldAdminIds": [118]
+    },
+    {
+      "path": "/course/advanced-certificate-in-counselling-psychotherapy",
+      "pageName": "Advanced Certificate in Counselling & Psychotherapy",
+      "metaTitle": "Advanced Certificate in Counselling & Psychotherapy",
+      "metaDescription": "Earn your Advanced Certificate in Counselling & Psychotherapy with Counsel India.",
+      "metaKeywords": "Advanced Certificate, Counselling, Psychotherapy, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [116]
+    },
+    {
+      "path": "/course/advanced-certificate-in-industrial-organizational-psychology",
+      "pageName": "Advanced Certificate in Industrial-Organizational Psychology",
+      "metaTitle": "Advanced Certificate in Industrial-Organizational Psychology",
+      "metaDescription": "Enhance your professional journey with our Advanced Certificate in Industrial-Organizational Psychology. Gain valuable skills to thrive in the workplace.",
+      "metaKeywords": "Industrial-Organizational, Psychology, Advanced Certificate, professional journey",
+      "ogImage": null,
+      "oldAdminIds": [115, 114]
+    },
+    {
+      "path": "/course/advanced-certificate-in-life-coaching",
+      "pageName": "Advanced Certificate in Life Coaching",
+      "metaTitle": "Advanced Certificate in Life Coaching Course | Counsel India",
+      "metaDescription": "Earn your Advanced Certificate in Advanced Certificate in Life Coaching with Counsel India.",
+      "metaKeywords": "Advanced Certificate, Life Coaching, Coaching, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [117]
+    },
+    {
+      "path": "/course/business-growth-master-course",
+      "pageName": "Business Growth Master Course",
+      "metaTitle": "Accelerate Your Success with Business Growth Master Course",
+      "metaDescription": "Learn essential strategies, innovative techniques, and gain insights to drive sustainable growth. Enroll today to take your business to the next level!",
+      "metaKeywords": "business, business growth, psychology, master course",
+      "ogImage": null,
+      "oldAdminIds": [231]
+    },
+    {
+      "path": "/course/certificate-in-career-counselling",
+      "pageName": "Certificate in Career Counselling",
+      "metaTitle": "Certificate in Career Counselling Course | Counsel India",
+      "metaDescription": "Begin your career with our comprehensive Certificate in Career Counselling Program at Counsel India. Gain valuable skills and insights to guide individuals",
+      "metaKeywords": "Certificate in Career Counselling, career, Counselling Program, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [122]
+    },
+    {
+      "path": "/course/certificate-in-child-psychology",
+      "pageName": "Certificate in Child Psychology",
+      "metaTitle": "Certificate in Child Psychology Program | Enroll Today",
+      "metaDescription": "Explore our Certificate in Child Psychology course to deepen your insights into child development and behavior.",
+      "metaKeywords": "Certificate in Child Psychology, Child, child development and behavior",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994444.jpg",
+      "oldAdminIds": [120, 13]
+    },
+    {
+      "path": "/course/certificate-in-counselling-psychology",
+      "pageName": "Certificate in Counselling Psychology",
+      "metaTitle": "Certificate in Counselling Psychology | Counsel India",
+      "metaDescription": "Onboard a transformative journey with our Certificate in Counselling Psychology Program at Counsel India.",
+      "metaKeywords": "Certificate in Counselling Psychology Program, Counselling Psychology, transformative journey",
+      "ogImage": null,
+      "oldAdminIds": [123]
+    },
+    {
+      "path": "/course/certificate-in-mindful-living",
+      "pageName": "Certificate in Mindful Living",
+      "metaTitle": "Certificate in Mindful Living Course | Counsel India",
+      "metaDescription": "Join Counsel India for our Certificate in Mindful Living course. Enhance your life with mindfulness techniques for inner peace and balance. Enroll now",
+      "metaKeywords": "Certificate, Mindful Living course, mindfulnes, Certificate in Mindful Living Course",
+      "ogImage": null,
+      "oldAdminIds": [119]
+    },
+    {
+      "path": "/course/counselling-master-course-advanced",
+      "pageName": "Counselling Master Course – Advanced",
+      "metaTitle": "Master Advanced Counselling Techniques with Counsel India",
+      "metaDescription": "Understand specialized methodologies, enhance your skills, and empower yourself to support clients effectively.",
+      "metaKeywords": "counselling techniques, counselling, counselling course, psychology",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994681.jpg",
+      "oldAdminIds": [230, 9]
+    },
+    {
+      "path": "/course/counselling-master-course-foundation",
+      "pageName": "Counselling Master Course – Foundation",
+      "metaTitle": "Counsel India | Master Course in Counselling: Foundation Level",
+      "metaDescription": "Join Counsel India for a transformative Master Course in Counselling at the Foundation Level.",
+      "metaKeywords": "counselling, career in counselling, Counselling - Foundation Level, Master Course in Counselling, Counsel India",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1698907302.jpeg",
+      "oldAdminIds": [64, 11]
+    },
+    {
+      "path": "/course/counselling-master-course-intermediate",
+      "pageName": "Counselling Master Course – Intermediate",
+      "metaTitle": "Intermediate Counselling Master Course",
+      "metaDescription": "Explore key concepts, practical techniques, and gain confidence in supporting individuals through their challenges.",
+      "metaKeywords": "counselling, counselling master course, psychology, psychology courses",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1698918875.jpg",
+      "oldAdminIds": [229, 65]
+    },
+    {
+      "path": "/course/counsellor-entrepreneurship-program",
+      "pageName": "Counsellor Entrepreneurship Program",
+      "metaTitle": "Counsellor's Entrepreneurship Program",
+      "metaDescription": "Gain essential skills in marketing, client management, and financial strategies. Enroll now to turn your passion into a successful venture!",
+      "metaKeywords": "entrepreneurship, business, psychology, mental health, client management",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994802.jpg",
+      "oldAdminIds": [232, 221, 8]
+    },
+    {
+      "path": "/course/diploma-in-child-psychology-parenting",
+      "pageName": "Diploma in Child Psychology and Parenting",
+      "metaTitle": "Diploma in Child Psychology & Parenting | Counsel India",
+      "metaDescription": "This program gives you the essential skills to support child development and effective parenting. Enroll now to make a positive impact!",
+      "metaKeywords": "Child Psychology, Parenting, Diploma in Child Psychology, Psychlogy, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [224]
+    },
+    {
+      "path": "/course/diploma-in-industrial-organizational-psychology",
+      "pageName": "Diploma in Industrial-Organizational Psychology",
+      "metaTitle": "Diploma in Industrial-Organizational Psychology | Counsel India",
+      "metaDescription": "This program offers comprehensive training in workplace behavior and organizational development. Gain valuable skills for the modern workforce.",
+      "metaKeywords": "Industrial-organizational psychology, diploma in industrial-organizational psychology, counsel india, psychology",
+      "ogImage": null,
+      "oldAdminIds": [225]
+    },
+    {
+      "path": "/course/masters-in-child-psychology-work-integrated-skill-based-program)",
+      "pageName": "M.A. in Child Psychology and Developmental Psychology",
+      "metaTitle": "Earn an MA in Child Psychology | UGC-Recognized Course",
+      "metaDescription": "Pursue an MA in Child Psychology with Counsel India in partnership with Galgotias University.",
+      "metaKeywords": "MA in Child Psychology, UGC apporoved course, child psychology, MA in psychology, galgotia university",
+      "ogImage": null,
+      "oldAdminIds": [247, 124, 101]
+    },
+    {
+      "path": "/course/masters-in-industrial-organizational-psychology",
+      "pageName": "Masters in Industrial & Organizational Psychology",
+      "metaTitle": "Master's in Industrial-Organizational Psychology | Counsel India",
+      "metaDescription": "Pursue a Master's in Industrial-Organizational Psychology with Counsel India. Develop expertise in the growing field of organizational behavior.",
+      "metaKeywords": "Industrial-Organizational Psychology, Counsel India, organizational, behavior, psychology, Master's in Industrial-Organizational Psychology",
+      "ogImage": null,
+      "oldAdminIds": [102]
+    },
+    {
+      "path": "/course/masters-in-psychology-work-integrated-skill-based-program",
+      "pageName": "M.A. in Psychology",
+      "metaTitle": "MA in Psychology | Explore Human Behavior",
+      "metaDescription": "Prepare for a rewarding career in counselling, organizational behavior, and more.",
+      "metaKeywords": "MA in Psychology, Explore Human Behavior",
+      "ogImage": null,
+      "oldAdminIds": [250]
+    },
+    {
+      "path": "/course/mba-in-entrepreneurial-psychology",
+      "pageName": "MBA in Entrepreneurial Psychology",
+      "metaTitle": "MBA in Entrepreneurial Psychology | Counsel India",
+      "metaDescription": "Combine business strategy with human behavior with our MBA in Entrepreneurial Psychology program for a unique mix of insight and innovation.",
+      "metaKeywords": "Entrepreneurial Psychology, business strategy, MBA",
+      "ogImage": null,
+      "oldAdminIds": [105]
+    },
+    {
+      "path": "/course/pg-diploma-in-counselling-psychology-clinical-skills",
+      "pageName": "PG Diploma in Counselling Psychology and Clinical Skills",
+      "metaTitle": "PG Diploma in Counselling Psychology & Clinical Skills",
+      "metaDescription": "This program offers comprehensive training in therapeutic techniques and clinical practice. Enroll now to upskill in your career in counselling psychology.",
+      "metaKeywords": "counselling psychology, clinical skills",
+      "ogImage": null,
+      "oldAdminIds": [222, 130, 106]
+    },
+    {
+      "path": "/course/pg-diploma-in-guidance-and-counselling",
+      "pageName": "PG Diploma in Guidance and Counselling",
+      "metaTitle": "PG Diploma in Guidance and Counselling - Counsel India",
+      "metaDescription": "PG Diploma in Guidance and Counselling with Counsel India. Our program is designed to provide you skills and knowledge to become a successful counsellor.",
+      "metaKeywords": "guidance and counselling, PG Diplom, Counselling knowledge, Counselling skills, diploma in counselling psychology, diploma in guidance and counselling, pg diploma in guidance and counselling, best pg diploma course, best pg diploma course in india",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994917.jpg",
+      "oldAdminIds": [7]
+    },
+    {
+      "path": "/course/pg-diploma-in-guidance-counselling",
+      "pageName": "PG Diploma in Guidance & Counselling",
+      "metaTitle": "PG Diploma in Guidance & Counselling | Counsel India",
+      "metaDescription": "This program provides intensive training to excel in educational and personal counselling. Become a skilled counsellor today!",
+      "metaKeywords": "PG Diploma, Guidance & Counselling, Psychology, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [223]
+    },
+    {
+      "path": "/course/post-graduate-diploma-in-child-psychology-development",
+      "pageName": "Post Graduate Diploma in Child Psychology & Development",
+      "metaTitle": "PG Diploma in Child Psychology & Development | Counsel India",
+      "metaDescription": "Develop the skills for understanding young minds with our PG Diploma in Child Psychology & Development.",
+      "metaKeywords": "PG Diploma, Counselling Psychology, Clinical Skills",
+      "ogImage": null,
+      "oldAdminIds": [107]
+    },
+    {
+      "path": "/course/post-graduate-diploma-in-counselling-and-psychotherapy",
+      "pageName": "Post Graduate Diploma in Counselling and Psychotherapy",
+      "metaTitle": "PG Diploma in Counselling and Psychotherapy | Counsel India",
+      "metaDescription": "Redefine success with our specialized PG Diploma in Counselling & Psychotherapy. Become a changemaker with the right skills.",
+      "metaKeywords": "PG, Diploma, Counselling, Psychotherapy, PG Diploma, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [109]
+    },
+    {
+      "path": "/course/post-graduate-diploma-in-guidance-counselling",
+      "pageName": "Post Graduate Diploma in Guidance & Counselling",
+      "metaTitle": "PG Diploma in Guidance & Counselling | Counsel India",
+      "metaDescription": "Build the right skills to make an impact in people's lives with our specialized PG Diploma in Guidance & Counselling.",
+      "metaKeywords": "PG Diploma, Guidance, Counselling, necessary skills, counselindia",
+      "ogImage": null,
+      "oldAdminIds": [108]
+    },
+    {
+      "path": "/course/post-graduate-diploma-in-industrial-and-organisational-psychology",
+      "pageName": "Post Graduate Diploma in Industrial and Organisational Psychology",
+      "metaTitle": "PG Diploma in Industrial and Organizational Psychology",
+      "metaDescription": "Grow your career with our PG Diploma in Industrial & Organizational Psychology.",
+      "metaKeywords": "PG, Diploma, Industrial & Organizational, Psychology, PG Diploma",
+      "ogImage": null,
+      "oldAdminIds": [110]
+    },
+    {
+      "path": "/course/post-graduate-diploma-in-life-coaching",
+      "pageName": "Post Graduate Diploma in Life Coaching",
+      "metaTitle": "Post Graduate Diploma in Life Coaching | Counsel India",
+      "metaDescription": "Boost your career trajectory with our specialized Post Graduate Diploma in Life Coaching at Counsel India.",
+      "metaKeywords": "career, Post Graduate, Diploma in Life Coaching, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [111]
+    },
+    {
+      "path": "/course/professional-diploma-in-career-counselling",
+      "pageName": "Professional Diploma in Career Counselling",
+      "metaTitle": "Professional Diploma in Career Counselling | Counsel India",
+      "metaDescription": "Explore our comprehensive Professional Diploma in Career Counselling at Counsel India. Gain expertise in guiding individuals towards fulfilling careers.",
+      "metaKeywords": "Career, Counselling, Counsel India, Professional Diploma",
+      "ogImage": null,
+      "oldAdminIds": [112]
+    },
+    {
+      "path": "/course/psychology-for-everyday-life",
+      "pageName": "Psychology for Everyday Life",
+      "metaTitle": "Psychology for Everyday Life | Online Course by Counsel India",
+      "metaDescription": "Explore the fascinating world of psychology in everyday life with Counsel India's online course. Enhance your understanding of human behavior. Join now",
+      "metaKeywords": "psychology, everyday life, online course, human behavior, emotions, cognition, mental well-being, interpersonal relationships, self-discovery, personal growth",
+      "ogImage": null,
+      "oldAdminIds": [42]
+    },
+    {
+      "path": "/course/psychology-for-professional-success",
+      "pageName": "Certification in Psychology for Professional Success",
+      "metaTitle": "Psychology for Professional Success - Counsel India",
+      "metaDescription": "Tap into your strengths with Counsel India's Certification in Psychology for Professional Success. Enroll now and take the first step towards a brighter future!",
+      "metaKeywords": "Certification in Psychology",
+      "ogImage": null,
+      "oldAdminIds": [195]
+    },
+    {
+      "path": "/course/psychology-internship-clinical-psychology",
+      "pageName": "Psychology Internship (Clinical Psychology)",
+      "metaTitle": "Psychology Internship | Clinical Psychology | Counsel India",
+      "metaDescription": "Gain hands-on experience in clinical psychology with our psychology internship program.",
+      "metaKeywords": "psychology internship, clinical psychology internship, treatment",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994633.jpg",
+      "oldAdminIds": [15]
+    },
+    {
+      "path": "/course/psychology-internship-industrial-psychology",
+      "pageName": "Psychology Internship (Industrial Psychology)",
+      "metaTitle": "Psychology Internship in Industrial Psychology | Counsel India",
+      "metaDescription": "Join our psychology internship program in industrial psychology to gain practical experience and enhance your skills. Explore more with our expert mentors",
+      "metaKeywords": "psychology internship, industrial psychology, practical experience, skill enhancement, industrial psychology program, expert mentors, online internship",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994878.jpg",
+      "oldAdminIds": [37]
+    },
+    {
+      "path": "/course/therapy-master-course",
+      "pageName": "Therapy Master Course",
+      "metaTitle": "Therapy Master Course | Transform Lives with Counsel India",
+      "metaDescription": "Enroll in Counsel India’s Therapy Master Course and gain the skills to become a certified therapist.",
+      "metaKeywords": "Therapy Master Course",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994940.jpg",
+      "oldAdminIds": [248, 12]
+    },
+    {
+      "path": "/ebook",
+      "pageName": "E-book",
+      "metaTitle": "Counsel India | Free Counselling and Psychology eBooks",
+      "metaDescription": "Explore our library of free eBooks on counselling and psychology subjects. Counsel India provides eBooks on anxiety, depression and other topics.",
+      "metaKeywords": "eBooks, psychology ebooks, counseling ebooks, psychology subjects, anxiety, depression, depression ebooks",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684994960.jpg",
+      "oldAdminIds": [34]
+    },
+    {
+      "path": "/eligibility-test",
+      "pageName": "Eligibility Test",
+      "metaTitle": "Take a Free Personality Test Online | Counsel India",
+      "metaDescription": "Discover your true self with our free online personality test. Get detailed analysis into your personality traits, strengths, and weaknesses.",
+      "metaKeywords": "personality test quiz, personality test, online personality test, free personality test, personality traits, self-discovery, my personality test, personality test for career",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995223.png",
+      "oldAdminIds": [17]
+    },
+    {
+      "path": "/events",
+      "pageName": "Events & Workshops",
+      "metaTitle": "Discover Exciting Mental-Health Events for Personal Growth",
+      "metaDescription": "Join us for insightful workshops, supportive gatherings, and transformative sessions focused on guiding you towards a happier, healthier life.",
+      "metaKeywords": "transformative, supportive, happier, workshop, events",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995243.png",
+      "oldAdminIds": [87, 19]
+    },
+    {
+      "path": "/events/emotional-wellbeing-and-happiness",
+      "pageName": "Unlocking Emotional Wellbeing and Finding Happiness",
+      "metaTitle": "Unlocking Emotional Wellbeing and Finding Happiness | Join our Bootcamp",
+      "metaDescription": "Join our insightful event on emotional wellbeing and happiness, hosted by Counsel India. Explore expert advice and practical tips to enhance your mental health and lead a happier, more fulfilling life",
+      "metaKeywords": "bootcamp, events, workshop, counsel india workshop, counselindia event, counselindia bootcamp",
+      "ogImage": null,
+      "oldAdminIds": [51]
+    },
+    {
+      "path": "/events/how-to-grow-as-a-counsellor-and-earn-50k-month",
+      "pageName": "Grow as a Counsellor & Earn 50k Monthly!",
+      "metaTitle": "Grow as a Counsellor & Earn 50k Monthly!",
+      "metaDescription": "Learn how to develop your skills, attract clients, and increase your income to reach 50k a month as a successful counsellor.",
+      "metaKeywords": "successfull",
+      "ogImage": null,
+      "oldAdminIds": [99]
+    },
+    {
+      "path": "/events/manage-your-day-to-day-life",
+      "pageName": "Work-Life Balance Workshop",
+      "metaTitle": "Work-Life Balance Workshop",
+      "metaDescription": "Join our workshop focused on achieving balance between work and life.",
+      "metaKeywords": "workshop, work life balance",
+      "ogImage": null,
+      "oldAdminIds": [97]
+    },
+    {
+      "path": "/events/mega-offline-event-roadmap-to-become-a-successful-counselor-5x-your-earning",
+      "pageName": "Expert Counselling Roadmap for 5x Earnings",
+      "metaTitle": "Expert Counselling Roadmap for 5x Earnings",
+      "metaDescription": "Our expert-guided roadmap equips you with the skills and strategies to become a highly successful counsellor, boosting your earnings fivefold.",
+      "metaKeywords": "roadmap, successful counsellor, equips",
+      "ogImage": null,
+      "oldAdminIds": [96]
+    },
+    {
+      "path": "/events/start-your-career-in-psychology-5x-your-growth",
+      "pageName": "Start Your Psychology Career and Multiply Your Growth",
+      "metaTitle": "Start Your Psychology Career and Multiply Your Growth",
+      "metaDescription": "Achieve 5x growth potential with expert guidance, practical skills, and personalized mentorship. Explore Counsel India for a thriving career ahead.",
+      "metaKeywords": "potential, mentorship, giudance, practical skills",
+      "ogImage": null,
+      "oldAdminIds": [98]
+    },
+    {
+      "path": "/events/step-by-step-process-to-become-counsellor-and-earn-at-least-7-lpa",
+      "pageName": "Learn How to Become a Counselor and Earn 7 LPA!",
+      "metaTitle": "Learn How to Become a Counselor and Earn 7 LPA!",
+      "metaDescription": "Discover the step-by-step guide to becoming a counsellor, build a rewarding career while earning up to 7 LPA.",
+      "metaKeywords": "workshop, step by step, counsellor",
+      "ogImage": null,
+      "oldAdminIds": [88]
+    },
+    {
+      "path": "/faqs",
+      "pageName": "FAQs",
+      "metaTitle": "Ask Anything! Your Questions Answered Here at Counsel India",
+      "metaDescription": "Got questions? Explore a range of topics and ask anything on Counsel India's 'Ask a Question' section. Expert responses await!",
+      "metaKeywords": "FAQ, questions, ask a question",
+      "ogImage": null,
+      "oldAdminIds": [91, 81, 73]
+    },
+    {
+      "path": "/membership",
+      "pageName": "Membership",
+      "metaTitle": "Join Our Family: Explore Membership Benefits Today!",
+      "metaDescription": "Discover exclusive perks, community support, and exciting resources with our membership.",
+      "metaKeywords": "membership, community support",
+      "ogImage": "https://admin.counselindia.com/project/public/seo/1684995161.png",
+      "oldAdminIds": [93, 18]
+    },
+    {
+      "path": "/mentalhealthtest",
+      "pageName": "Mental Health Tests",
+      "metaTitle": "Mental Health Test - Assess Your Well-being with Counsel India",
+      "metaDescription": "Counsel India's test helps you understand your mental state and offers guidance for better mental health. Start your journey towards mental wellness today!",
+      "metaKeywords": "Mental health test, personality test",
+      "ogImage": null,
+      "oldAdminIds": [253, 252]
+    },
+    {
+      "path": "/mentor-registration",
+      "pageName": "Mentor Registration",
+      "metaTitle": "Join Our Mentor Network - Register as a Mentor | Counsel India",
+      "metaDescription": "Become a part of our compassionate counselling team. Register as a counsellor today and make a difference in the lives of many.",
+      "metaKeywords": "register, counsellor, part",
+      "ogImage": null,
+      "oldAdminIds": [75, 68]
+    },
+    {
+      "path": "/news",
+      "pageName": "News & Media",
+      "metaTitle": "Stay Updated with Latest News and Media Coverage!",
+      "metaDescription": "Explore the latest news, updates, and media coverage of Counsel India's initiatives, programs, and events.",
+      "metaKeywords": "latest news, media coverage of Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [210]
+    },
+    {
+      "path": "/newsletter",
+      "pageName": "Newsletter",
+      "metaTitle": "Stay Informed with Counsel India's Newsletter",
+      "metaDescription": "Sign up for Counsel India's newsletter to receive valuable insights, tips, and updates straight to your inbox.",
+      "metaKeywords": "Counsel India's newsletter, valuable insights, straight to your inbox",
+      "ogImage": null,
+      "oldAdminIds": [209]
+    },
+    {
+      "path": "/privacy-policy",
+      "pageName": "Privacy Policy",
+      "metaTitle": "Privacy Policy: Your Data, Your Trust.",
+      "metaDescription": "Our Privacy Policy outlines how we safeguard your data and maintain your trust.",
+      "metaKeywords": "privacy policy, data, safeguard",
+      "ogImage": null,
+      "oldAdminIds": [82]
+    },
+    {
+      "path": "/refer-and-earn",
+      "pageName": "Refer and Earn",
+      "metaTitle": "Refer and Earn | Get Rewarded for Referring Friends to Counsel India",
+      "metaDescription": "Join Counsel India's Refer and Earn program and earn rewards for every friend you refer. Get started now and share the benefits of our courses with your friends",
+      "metaKeywords": "Referring Friends, courses, Counsel India, program and earn rewards",
+      "ogImage": null,
+      "oldAdminIds": [35]
+    },
+    {
+      "path": "/refund-policy",
+      "pageName": "Refund Policy",
+      "metaTitle": "Our Refund Policy: our commitment to transparency",
+      "metaDescription": "We're committed to providing a hassle-free experience when it comes to refunds.",
+      "metaKeywords": null,
+      "ogImage": null,
+      "oldAdminIds": [85]
+    },
+    {
+      "path": "/success-stories",
+      "pageName": "Success Stories",
+      "metaTitle": "Success Stories: True Stories, Real Inspirations",
+      "metaDescription": "Explore our collection of inspiring success stories from individuals who have thrived with our services.",
+      "metaKeywords": "Success Stories, inspiring, services",
+      "ogImage": null,
+      "oldAdminIds": [71]
+    },
+    {
+      "path": "/support",
+      "pageName": "Support",
+      "metaTitle": "Counsel India Learner Support",
+      "metaDescription": "Welcome to the top-tier support services provided by Counsel India. Our expert team is here to assist you with a range of solutions to meet your needs.",
+      "metaKeywords": "support, solution",
+      "ogImage": null,
+      "oldAdminIds": [74, 67]
+    },
+    {
+      "path": "/terms-and-conditions",
+      "pageName": "Terms & Conditions",
+      "metaTitle": "Understand Your Rights: Counsel India's Terms and Conditions",
+      "metaDescription": "Discover the rules and guidelines governing your use of Counsel India's services in plain, easy-to-understand language.",
+      "metaKeywords": "terms and condition, Counsel India",
+      "ogImage": null,
+      "oldAdminIds": [22]
+    }
+  ]
+}

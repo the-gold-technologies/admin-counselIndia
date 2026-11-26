@@ -16,7 +16,9 @@
     "db:migrate:blogs": "prisma db execute --file prisma/sql/2026-11-26_blogs.sql --schema prisma/schema.prisma",
     "db:migrate:staff-roles": "prisma db execute --file prisma/sql/2026-11-26_staff_roles.sql --schema prisma/schema.prisma",
     "db:migrate:course-main-category": "prisma db execute --file prisma/sql/2026-11-26_course_main_category.sql --schema prisma/schema.prisma",
-    "seed": "node prisma/seed.js"
+    "db:migrate:page-seo": "prisma db execute --file prisma/sql/2026-11-26_page_seo.sql --schema prisma/schema.prisma",
+    "seed": "node prisma/seed.js",
+    "seed:page-seo": "node -e \"const s=require('./prisma/seed.js');s.seedPageSeo().finally(()=>process.exit(0))\""
   },
   "dependencies": {
     "@prisma/client": "^6.19.2",

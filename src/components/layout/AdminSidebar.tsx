@@ -20,6 +20,7 @@ import {
   Newspaper,
   ShieldCheck,
   KeyRound,
+  SearchCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdminAccess } from "@/hooks/useAdminAccess";
@@ -71,6 +72,11 @@ const sidebarLinks: SidebarItem[] = [
     title: "Blogs",
     href: "/blogs",
     icon: Newspaper,
+  },
+  {
+    title: "Page SEO",
+    href: "/page-seo",
+    icon: SearchCheck,
   },
   {
     title: "Enquires/Leads",

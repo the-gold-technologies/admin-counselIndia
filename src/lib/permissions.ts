@@ -57,6 +57,13 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     apis: ["/api/blogs"],
   },
   {
+    key: "page-seo",
+    label: "Page SEO",
+    description: "Google & social share details for every website page",
+    pages: ["/page-seo"],
+    apis: ["/api/page-seo"],
+  },
+  {
     key: "leads",
     label: "Enquiries / Leads",
     description: "All enquiry & lead forms",
@@ -95,7 +102,15 @@ export const SECTION_KEYS = ADMIN_SECTIONS.map((s) => s.key);
 const SHARED_PATHS: { prefix: string; anyOf: string[] }[] = [
   {
     prefix: "/api/upload",
-    anyOf: ["alumni", "counsellors", "courses", "blogs", "personality-test", "settings"],
+    anyOf: [
+      "alumni",
+      "counsellors",
+      "courses",
+      "blogs",
+      "page-seo",
+      "personality-test",
+      "settings",
+    ],
   },
 ];
 

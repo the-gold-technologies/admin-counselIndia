@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
-import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
+import { isAdminRequest, hashPasswordIfNeeded, getServerSessionUser } from "@/lib/auth";
 import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
 import { COUNSELOR_WRITABLE, pickWritable } from "@/lib/writableFields";
+import { counsellorPagePath } from "@/lib/itemSeo";
+import { deleteItemSeo, readItemSeo, saveItemSeo, validateItemSeo } from "@/lib/itemSeoServer";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -41,6 +43,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     const raw = await request.json();
     // Mass-assignment protection: only known, writable columns
     const body = pickWritable(raw, COUNSELOR_WRITABLE);
+    // Optional SEO block from the form (saved to Page SEO under /counsellors-details/<liveId>)
+    const seo = readItemSeo(raw);
+    const seoError = validateItemSeo(seo);
+    if (seoError) {
+      return NextResponse.json({ success: false, error: seoError }, { status: 400 });
+    }
 
     // Only change the password when a new non-empty one is supplied; always store it hashed
     const hashed = await hashPasswordIfNeeded(raw?.password);
@@ -69,6 +77,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       omit: { password: true },
     });
 
+    await saveItemSeo({
+      path: counsellorPagePath(updated.liveId || updated.id),
+      pageName: updated.name,
+      seo,
+      updatedBy: (await getServerSessionUser())?.name,
+    });
+
     return NextResponse.json({ success: true, data: updated }, { headers: corsHeaders });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -94,6 +109,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await prisma.counselor.delete({
       where: { id: existing.id },
     });
+    await deleteItemSeo(counsellorPagePath(existing.liveId || existing.id));
 
     return NextResponse.json(
       { success: true, message: "Counselor deleted successfully" },

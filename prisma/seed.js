@@ -526,7 +526,7 @@ async function seedPersonalityTest(prismaInstance) {
 // embedded form — nothing is uploaded.
 async function seedBlogs(prismaInstance) {
   const p = prismaInstance || prisma;
-  console.log("--- 9/10 Seeding Blogs ---");
+  console.log("--- 9/11 Seeding Blogs ---");
 
   const jsonPath = path.join(__dirname, "blogs-data.json");
   const seoPath = path.join(__dirname, "blogs-seo-data.json");
@@ -595,7 +595,7 @@ async function seedBlogs(prismaInstance) {
 // Admin → Staff & Roles); existing staff keep their password/status and get the role from the file.
 async function seedStaffAndRoles(prismaInstance) {
   const p = prismaInstance || prisma;
-  console.log("--- 10/10 Seeding Staff Roles & Staff ---");
+  console.log("--- 10/11 Seeding Staff Roles & Staff ---");
 
   const jsonPath = path.join(__dirname, "staff-roles-data.json");
   if (!fs.existsSync(jsonPath)) {
@@ -645,6 +645,35 @@ async function seedStaffAndRoles(prismaInstance) {
   );
 }
 
+// 11. Seed Page SEO (from page-seo-data.json, imported from the old admin's Page SEO list)
+// Only ADDS pages that have no SEO yet — anything already saved in Admin → Page SEO is kept.
+async function seedPageSeo(prismaInstance) {
+  const p = prismaInstance || prisma;
+  console.log("--- 11/11 Seeding Page SEO ---");
+
+  const jsonPath = path.join(__dirname, "page-seo-data.json");
+  if (!fs.existsSync(jsonPath)) {
+    console.log("No page-seo-data.json found, skipping.");
+    return;
+  }
+  const { rows = [] } = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  const result = await p.pageSeo.createMany({
+    data: rows.map((r) => ({
+      path: r.path,
+      pageName: r.pageName || r.path,
+      metaTitle: r.metaTitle || null,
+      metaDescription: r.metaDescription || null,
+      metaKeywords: r.metaKeywords || null,
+      ogImage: r.ogImage || null,
+      updatedBy: "Imported from old admin",
+    })),
+    skipDuplicates: true, // path is unique → existing pages are left untouched
+  });
+  console.log(
+    `✓ Seeded ${result.count} Page SEO entries (${rows.length - result.count} already existed and were kept).`
+  );
+}
+
 async function main() {
   console.log("==================================================");
   console.log("🚀 Starting Counsel India CMS Database Seeder");
@@ -661,6 +690,7 @@ async function main() {
     await seedPersonalityTest(prisma);
     await seedBlogs(prisma);
     await seedStaffAndRoles(prisma);
+    await seedPageSeo(prisma);
 
     console.log("==================================================");
     console.log("✅ All seeds completed successfully!");
@@ -685,6 +715,7 @@ module.exports = {
   seedPersonalityTest,
   seedBlogs,
   seedStaffAndRoles,
+  seedPageSeo,
 };
 
 if (require.main === module) {

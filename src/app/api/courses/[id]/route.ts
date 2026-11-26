@@ -4,6 +4,9 @@ import { cleanupReplacedCloudinaryFiles } from "@/lib/cloudinary";
 import { corsHeaders } from "@/lib/cors";
 import { slugify } from "@/lib/utils";
 import { normaliseMainCategory } from "@/lib/courseCategories";
+import { getServerSessionUser } from "@/lib/auth";
+import { coursePagePath } from "@/lib/itemSeo";
+import { deleteItemSeo, readItemSeo, saveItemSeo, validateItemSeo } from "@/lib/itemSeoServer";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -50,6 +53,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         { error: "Course not found" },
         { status: 404, headers: corsHeaders }
       );
+    }
+
+    // Optional SEO block from the course form (saved to Page SEO under /course/<slug>)
+    const seo = readItemSeo(body);
+    const seoError = validateItemSeo(seo);
+    if (seoError) {
+      return NextResponse.json({ error: seoError }, { status: 400, headers: corsHeaders });
     }
 
     const updateData: any = {};
@@ -143,6 +153,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       data: updateData,
     });
 
+    // Keep the page's SEO with the course (moves with it when the web address changes)
+    await saveItemSeo({
+      path: coursePagePath(updated.slug),
+      oldPath: coursePagePath(existing.slug),
+      pageName: updated.name,
+      seo,
+      updatedBy: (await getServerSessionUser())?.name,
+    });
+
     return NextResponse.json(updated, { headers: corsHeaders });
   } catch (error: any) {
     return NextResponse.json(
@@ -174,6 +193,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await prisma.course.delete({
       where: { id: existing.id },
     });
+    await deleteItemSeo(coursePagePath(existing.slug));
 
     return NextResponse.json(
       { success: true, message: "Course deleted successfully" },

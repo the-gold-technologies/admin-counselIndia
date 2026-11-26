@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
 import { slugify } from "@/lib/utils";
 import { normaliseMainCategory } from "@/lib/courseCategories";
+import { getServerSessionUser } from "@/lib/auth";
+import { coursePagePath } from "@/lib/itemSeo";
+import { readItemSeo, saveItemSeo, validateItemSeo } from "@/lib/itemSeoServer";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -114,6 +117,12 @@ export async function POST(request: Request) {
       );
     }
 
+    const seo = readItemSeo(body);
+    const seoError = validateItemSeo(seo);
+    if (seoError) {
+      return NextResponse.json({ error: seoError }, { status: 400, headers: corsHeaders });
+    }
+
     const count = await prisma.course.count();
     // The website routes course pages by slug, so it must always be URL-safe.
     const slugBase = slugify(body.slug || "") || slugify(name) || `course-${Date.now()}`;
@@ -179,6 +188,15 @@ export async function POST(request: Request) {
         curriculumData: [],
       },
     });
+
+    if (seo) {
+      await saveItemSeo({
+        path: coursePagePath(newCourse.slug),
+        pageName: newCourse.name,
+        seo,
+        updatedBy: (await getServerSessionUser())?.name,
+      });
+    }
 
     return NextResponse.json(newCourse, { status: 201, headers: corsHeaders });
   } catch (error: any) {

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { corsHeaders } from "@/lib/cors";
-import { isAdminRequest, hashPasswordIfNeeded } from "@/lib/auth";
+import { isAdminRequest, hashPasswordIfNeeded, getServerSessionUser } from "@/lib/auth";
 import { PUBLIC_COUNSELOR_SELECT } from "@/lib/publicFields";
 import { COUNSELOR_WRITABLE, pickWritable } from "@/lib/writableFields";
+import { counsellorPagePath } from "@/lib/itemSeo";
+import { deleteItemSeo, readItemSeo, saveItemSeo, validateItemSeo } from "@/lib/itemSeoServer";
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200, headers: corsHeaders });
@@ -106,6 +108,13 @@ export async function POST(request: Request) {
       );
     }
 
+    // Optional SEO block from the form (saved to Page SEO under /counsellors-details/<liveId>)
+    const seo = readItemSeo(body);
+    const seoError = validateItemSeo(seo);
+    if (seoError) {
+      return NextResponse.json({ success: false, error: seoError }, { status: 400 });
+    }
+
     // Calculate non-colliding liveId and sNo
     const [maxLiveIdResult, maxSnoResult] = await Promise.all([
       prisma.$queryRaw<Array<{ max: number | null }>>`
@@ -170,6 +179,15 @@ export async function POST(request: Request) {
       },
     });
 
+    if (seo) {
+      await saveItemSeo({
+        path: counsellorPagePath(created.liveId || created.id),
+        pageName: created.name,
+        seo,
+        updatedBy: (await getServerSessionUser())?.name,
+      });
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _pw, ...safeCreated } = created;
     return NextResponse.json({ success: true, data: safeCreated });
@@ -217,9 +235,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, error: "Missing ID" }, { status: 400 });
     }
 
-    await prisma.counselor.delete({
+    const removed = await prisma.counselor.delete({
       where: { id },
     });
+    await deleteItemSeo(counsellorPagePath(removed.liveId || removed.id));
 
     return NextResponse.json({
       success: true,

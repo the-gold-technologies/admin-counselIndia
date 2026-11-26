@@ -20,6 +20,7 @@
         "course-leads",
         "courses",
         "blogs",
+        "page-seo",
         "leads",
         "personality-test",
         "settings"
@@ -35,7 +36,7 @@
     },
     {
       "name": "Marketing",
-      "permissions": ["course-leads", "courses", "blogs", "leads", "personality-test"]
+      "permissions": ["course-leads", "courses", "blogs", "page-seo", "leads", "personality-test"]
     },
     {
       "name": "Operations",
@@ -50,6 +51,7 @@
         "course-leads",
         "courses",
         "blogs",
+        "page-seo",
         "leads",
         "personality-test",
         "settings",
