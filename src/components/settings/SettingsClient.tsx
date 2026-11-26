@@ -464,7 +464,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                   type="text"
                   value={settings.whatsNumber}
                   onChange={(e) => setSettings({ ...settings, whatsNumber: e.target.value })}
-                  placeholder="8448519298"
+                  placeholder="8031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
@@ -587,7 +587,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                       contactUsMobile: e.target.value,
                     })
                   }
-                  placeholder="+91-9518241200"
+                  placeholder="+91-8031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
@@ -618,7 +618,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                       contactUsHotline: e.target.value,
                     })
                   }
-                  placeholder="+91-8930804054"
+                  placeholder="+91-8031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
@@ -952,7 +952,7 @@ export function SettingsClient({ initialTab = "admin" }: SettingsClientProps) {
                       footerWhatsappNumber: e.target.value,
                     })
                   }
-                  placeholder="+918448519298"
+                  placeholder="+918031320449"
                   className="w-full h-12 px-4 rounded-2xl border border-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-[#f8fafc]/80 hover:border-[#09A64A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#09A64A]/10 focus:border-[#09A64A] transition-all"
                 />
               </div>
