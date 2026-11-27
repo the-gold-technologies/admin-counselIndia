@@ -4,9 +4,19 @@
     "subtitle": "UGC Approved University",
     "description": "UGC recognized university partnering with Counsel India to offer psychology education and academic accreditation.",
     "logo": "https://prod-s3.counselindia.com/accredited/f8ab00a6-a4ce-4ba8-a6a3-58a86847a971_1762848459.jpg",
-    "link": "https://mituniversitysikkim.com/",
+    "link": "https://www.mituniversitysikkim.com/",
     "category": "ugc_university",
     "order": 1,
+    "isActive": true
+  },
+  {
+    "title": "Asian International University (AIU)",
+    "subtitle": "UGC Approved University",
+    "description": "UGC approved university partnering with Counsel India to offer psychology programs and recognized degrees.",
+    "logo": "",
+    "link": "https://aiu.edu.in/",
+    "category": "ugc_university",
+    "order": 2,
     "isActive": true
   },
   {
@@ -16,7 +26,7 @@
     "logo": "https://prod-s3.counselindia.com/accredited/gallery_counsel5_1695192209.webp",
     "link": "https://iaoth.com/author/counsel-india/",
     "category": "accreditation",
-    "order": 2,
+    "order": 3,
     "isActive": true
   },
   {
@@ -26,7 +36,7 @@
     "logo": "https://prod-s3.counselindia.com/accredited/VGU_1737096472.png",
     "link": "https://vgu.ac.in",
     "category": "ugc_university",
-    "order": 3,
+    "order": 4,
     "isActive": true
   },
   {
@@ -36,7 +46,7 @@
     "logo": "https://prod-s3.counselindia.com/accredited/op_1725963696.png",
     "link": "https://jgu.edu.in/",
     "category": "ugc_university",
-    "order": 4,
+    "order": 5,
     "isActive": true
   },
   {
@@ -46,7 +56,7 @@
     "logo": "https://prod-s3.counselindia.com/accredited/Ei_1726058413.png",
     "link": "https://www.eimt.ch/",
     "category": "international",
-    "order": 5,
+    "order": 6,
     "isActive": true
   },
   {
@@ -56,7 +66,7 @@
     "logo": "https://prod-s3.counselindia.com/accredited/am_1726058496.png",
     "link": "https://www.apa.org/",
     "category": "association",
-    "order": 6,
+    "order": 7,
     "isActive": true
   },
   {
@@ -66,7 +76,7 @@
     "logo": "/assets/images/partners-logo/partner10.jpg",
     "link": "https://www.cuchd.in",
     "category": "ugc_university",
-    "order": 7,
+    "order": 8,
     "isActive": false
   },
   {
@@ -76,7 +86,7 @@
     "logo": "/assets/images/partners-logo/partner12.jpg",
     "link": "https://www.amity.edu",
     "category": "ugc_university",
-    "order": 8,
+    "order": 9,
     "isActive": false
   },
   {
@@ -86,7 +96,7 @@
     "logo": "/assets/images/mou-signed/1.png",
     "link": "https://www.galgotiasuniversity.edu.in",
     "category": "ugc_university",
-    "order": 9,
+    "order": 10,
     "isActive": false
   }
 ]
